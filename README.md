@@ -15,12 +15,14 @@ The New MOO Programming Guide is an updated and expanded version of the LambdaMO
 ## TODO
 1. Finish full HTML5 conversion
 2. Finish applying proper styles to elements
-3. Create an index page
+3. Create an index / TOC
 4. Link to relevant GitHub Repositories for LambdaMOO DBs
 5. Add more advanced programming examples
 6. Add a section on benchmarking
 7. Add a section on LambdaMOO plugins / extensions
 8. Current editing progress: Line 3,351
+9. Confirm all function-is-member id's are set to function names
+10. Confirm all Hx elements are properly set
 
 ## Contributing
 Please feel free to fork the repo and contribute.  This is a labor of love.  I've been using LambdaMOO since 2003 and I wanted to give back to the community.  Text based gaming is an important part of our history and our future.  No game is more accessible to those with handicaps, for example.

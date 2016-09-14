@@ -3349,7 +3349,7 @@ valid(#-1)   =>   0
     and does not apply if you are using the <span class="cmd">$recycler</span> to create objects.</div>
 </article>
 <h5 id="object-movement">Object Movement</h5>
-<article class="well bg-info text-info" id="function-is-member">
+<article class="well bg-info text-info" id="function-move">
     <strong><u>Function:</u> <span class="cmd">none <b>move</span> (obj <var>what</var>, obj <var>where</var>)</div>
 
 Changes <var>what</var>'s location to be <var>where</var>.  This is a complex process
@@ -3388,12 +3388,8 @@ does not define a verb named <span class="cmd">exitfunc</span>.  Finally, if <va
 <p>is performed and its result is ignored; again, it is not an error if
 <var>where</var> does not define a verb named <span class="cmd">enterfunc</span>.
 </dl>
-
-<h4><a name="SEC49" href="ProgrammersManual_toc.html#TOC49">Operations on Properties</a></h4>
-
-</p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
+<h5 id="operations-on-properties">Operations on Properties</h5>
+<article class="well bg-info text-info" id="function-properties">
     <strong><u>Function:</u> <span class="cmd">list <b>properties</span> (obj <var>object</var>)</div>
 
 Returns a list of the names of the properties defined directly on the given
@@ -3402,10 +3398,10 @@ then <span class="cmd">E_INVARG</span> is raised.  If the programmer does not ha
 permission on <var>object</var>, then <span class="cmd">E_PERM</span> is raised.
 </dl></p>
 <p><dl>
-<article class="well bg-info text-info" id="function-is-member">
+<article class="well bg-info text-info" id="function-property-info">
     <strong><u>Function:</u> <span class="cmd">list <b>property_info</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
 
-<article class="well bg-info text-info" id="function-is-member">
+<article class="well bg-info text-info" id="function-set-property-info">
     <strong><u>Function:</u> <span class="cmd">none <b>set_property_info</span> (obj <var>object</var>, str <var>prop-name</var>, list <var>info</var>)</div>
 
 These two functions get and set (respectively) the owner and permission bits
@@ -3431,7 +3427,7 @@ when <var>new-name</var> is given, if <var>prop-name</var> is not defined direct
 <var>object</var> or any of its ancestors or descendants.
 </dl></p>
 <p><dl>
-<article class="well bg-info text-info" id="function-is-member">
+<article class="well bg-info text-info" id="function-add-property">
     <strong><u>Function:</u> <span class="cmd">none <b>add_property</span> (obj <var>object</var>, str <var>prop-name</var>, <var>value</var>, list <var>info</var>)</div>
 
 Defines a new property on the given <var>object</var>, inherited by all of its
@@ -3446,7 +3442,7 @@ if the owner specified by <var>info</var> is not the programmer and the programm
 is not a wizard, then <span class="cmd">E_PERM</span> is raised.
 </dl></p>
 <p><dl>
-<article class="well bg-info text-info" id="function-is-member">
+<article class="well bg-info text-info" id="function-delete-property">
     <strong><u>Function:</u> <span class="cmd">none <b>delete_property</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
 
 Removes the property named <var>prop-name</var> from the given <var>object</var> and all
@@ -3457,10 +3453,10 @@ property named <var>prop-name</var> (as opposed to inheriting one from its paren
 then <span class="cmd">E_PROPNF</span> is raised.
 </dl></p>
 <p><dl>
-<article class="well bg-info text-info" id="function-is-member">
+<article class="well bg-info text-info" id="function-is-clear-property">
     <strong><u>Function:</u> <span class="cmd">int <b>is_clear_property</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
 
-<article class="well bg-info text-info" id="function-is-member">
+<article class="well bg-info text-info" id="function-clear-property">
     <strong><u>Function:</u> <span class="cmd">none <b>clear_property</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
 
 These two functions test for clear and set to clear, respectively, the property
@@ -3477,11 +3473,8 @@ an inheritor of the property, then <span class="cmd">clear_property()</span> rai
 <span class="cmd">E_INVARG</span>.
 </dl>
 
-<h4><a name="SEC50" href="ProgrammersManual_toc.html#TOC50">Operations on Verbs</a></h4>
-
-</p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
+<h5 id="operations-on-verbs">Operations on Verbs</h5>
+<article class="well bg-info text-info" id="function-verbs">
     <strong><u>Function:</u> <span class="cmd">list <b>verbs</span> (obj <var>object</var>)</div>
 
 Returns a list of the names of the verbs defined directly on the given
@@ -3538,10 +3531,10 @@ strings should be modified not to do so.
 
 </p>
 <p><dl>
-<article class="well bg-info text-info" id="function-is-member">
+<article class="well bg-info text-info" id="function-verb-info">
     <strong><u>Function:</u> <span class="cmd">list <b>verb_info</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
 
-<article class="well bg-info text-info" id="function-is-member">
+<article class="well bg-info text-info" id="function-set-verb-info">
     <strong><u>Function:</u> <span class="cmd">none <b>set_verb_info</span> (obj <var>object</var>, str <var>verb-desc</var>, list <var>info</var>)</div>
 
 These two functions get and set (respectively) the owner, permission bits, and
@@ -3565,10 +3558,10 @@ characters from the set <span class="cmd">r</span>, <span class="cmd">w</span>, 
 wizard.
 </dl></p>
 <p><dl>
-<article class="well bg-info text-info" id="function-is-member">
+<article class="well bg-info text-info" id="function-verb-args">
     <strong><u>Function:</u> <span class="cmd">list <b>verb_args</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
 
-<article class="well bg-info text-info" id="function-is-member">
+<article class="well bg-info text-info" id="function-set-verb-args">
     <strong><u>Function:</u> <span class="cmd">none <b>set_verb_args</span> (obj <var>object</var>, str <var>verb-desc</var>, list <var>args</var>)</div>
 
 These two functions get and set (respectively) the direct-object, preposition,
@@ -5189,231 +5182,6 @@ the description of the <span class="cmd">move()</span> function.
 and has a true value, then the server supports a obsolete mechanism for less
 ambiguously referring to specific verbs in various built-in functions.  For
 more details, see the discussion given just following the description of the
-<span class="cmd">verbs()</span> function.
-
-<h1><a name="SEC77" href="ProgrammersManual_toc.html#TOC77">Function Index</a></h1>
-</p>
-<p>Jump to:
-<a href="ProgrammersManual.html#findex_a">a</a>
--
-<a href="ProgrammersManual.html#findex_b">b</a>
--
-<a href="ProgrammersManual.html#findex_c">c</a>
--
-<a href="ProgrammersManual.html#findex_d">d</a>
--
-<a href="ProgrammersManual.html#findex_e">e</a>
--
-<a href="ProgrammersManual.html#findex_f">f</a>
--
-<a href="ProgrammersManual.html#findex_i">i</a>
--
-<a href="ProgrammersManual.html#findex_k">k</a>
--
-<a href="ProgrammersManual.html#findex_l">l</a>
--
-<a href="ProgrammersManual.html#findex_m">m</a>
--
-<a href="ProgrammersManual.html#findex_n">n</a>
--
-<a href="ProgrammersManual.html#findex_o">o</a>
--
-<a href="ProgrammersManual.html#findex_p">p</a>
--
-<a href="ProgrammersManual.html#findex_q">q</a>
--
-<a href="ProgrammersManual.html#findex_r">r</a>
--
-<a href="ProgrammersManual.html#findex_s">s</a>
--
-<a href="ProgrammersManual.html#findex_t">t</a>
--
-<a href="ProgrammersManual.html#findex_u">u</a>
--
-<a href="ProgrammersManual.html#findex_v">v</a>
-</p>
-<p><h2><a name="findex_a">a</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX15">abs</a>
-<li><a href="ProgrammersManual.html#IDX22">acos</a>
-<li><a href="ProgrammersManual.html#IDX66">add_property</a>
-<li><a href="ProgrammersManual.html#IDX75">add_verb</a>
-<li><a href="ProgrammersManual.html#IDX21">asin</a>
-<li><a href="ProgrammersManual.html#IDX23">atan</a>
-</dir>
-<h2><a name="findex_b">b</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX45">binary_hash</a>
-<li><a href="ProgrammersManual.html#IDX92">boot_player</a>
-<li><a href="ProgrammersManual.html#IDX87">buffered_output_length</a>
-</dir>
-<h2><a name="findex_c">c</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX104">call_function</a>
-<li><a href="ProgrammersManual.html#IDX108">caller_perms</a>
-<li><a href="ProgrammersManual.html#IDX117">callers</a>
-<li><a href="ProgrammersManual.html#IDX30">ceil</a>
-<li><a href="ProgrammersManual.html#IDX58">children</a>
-<li><a href="ProgrammersManual.html#IDX55">chparent</a>
-<li><a href="ProgrammersManual.html#IDX69">clear_property</a>
-<li><a href="ProgrammersManual.html#IDX83">connected_players</a>
-<li><a href="ProgrammersManual.html#IDX84">connected_seconds</a>
-<li><a href="ProgrammersManual.html#IDX93">connection_name</a>
-<li><a href="ProgrammersManual.html#IDX96">connection_option</a>
-<li><a href="ProgrammersManual.html#IDX95">connection_options</a>
-<li><a href="ProgrammersManual.html#IDX19">cos</a>
-<li><a href="ProgrammersManual.html#IDX25">cosh</a>
-<li><a href="ProgrammersManual.html#IDX54">create</a>
-<li><a href="ProgrammersManual.html#IDX43">crypt</a>
-<li><a href="ProgrammersManual.html#IDX102">ctime</a>
-</dir>
-<h2><a name="findex_d">d</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX125">db_disk_size</a>
-<li><a href="ProgrammersManual.html#IDX38">decode_binary</a>
-<li><a href="ProgrammersManual.html#IDX67">delete_property</a>
-<li><a href="ProgrammersManual.html#IDX76">delete_verb</a>
-<li><a href="ProgrammersManual.html#IDX79">disassemble</a>
-<li><a href="ProgrammersManual.html#IDX124">dump_database</a>
-</dir>
-<h2><a name="findex_e">e</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX39">encode_binary</a>
-<li><a href="ProgrammersManual.html#IDX9">equal</a>
-<li><a href="ProgrammersManual.html#IDX106">eval</a>
-<li><a href="ProgrammersManual.html#IDX27">exp</a>
-</dir>
-<h2><a name="findex_f">f</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX16">floatstr(float</a>
-<li><a href="ProgrammersManual.html#IDX31">floor</a>
-<li><a href="ProgrammersManual.html#IDX90">flush_input</a>
-<li><a href="ProgrammersManual.html#IDX89">force_input</a>
-<li><a href="ProgrammersManual.html#IDX105">function_info</a>
-</dir>
-<h2><a name="findex_i">i</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX85">idle_seconds</a>
-<li><a href="ProgrammersManual.html#IDX35">index</a>
-<li><a href="ProgrammersManual.html#IDX68">is_clear_property</a>
-<li><a href="ProgrammersManual.html#IDX47">is_member</a>
-<li><a href="ProgrammersManual.html#IDX81">is_player</a>
-</dir>
-<h2><a name="findex_k">k</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX116">kill_task</a>
-</dir>
-<h2><a name="findex_l">l</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX33">length</a>, <a href="ProgrammersManual.html#IDX46">length</a>
-<li><a href="ProgrammersManual.html#IDX49">listappend</a>
-<li><a href="ProgrammersManual.html#IDX50">listdelete</a>
-<li><a href="ProgrammersManual.html#IDX98">listen</a>
-<li><a href="ProgrammersManual.html#IDX100">listeners</a>
-<li><a href="ProgrammersManual.html#IDX48">listinsert</a>
-<li><a href="ProgrammersManual.html#IDX51">listset</a>
-<li><a href="ProgrammersManual.html#IDX28">log</a>
-<li><a href="ProgrammersManual.html#IDX29">log10</a>
-</dir>
-<h2><a name="findex_m">m</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX40">match</a>
-<li><a href="ProgrammersManual.html#IDX14">max</a>
-<li><a href="ProgrammersManual.html#IDX61">max_object</a>
-<li><a href="ProgrammersManual.html#IDX123">memory_usage</a>
-<li><a href="ProgrammersManual.html#IDX13">min</a>
-<li><a href="ProgrammersManual.html#IDX62">move</a>
-</dir>
-<h2><a name="findex_n">n</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX86">notify</a>
-</dir>
-<h2><a name="findex_o">o</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX60">object_bytes</a>
-<li><a href="ProgrammersManual.html#IDX97">open_network_connection</a>
-<li><a href="ProgrammersManual.html#IDX91">output_delimiters</a>
-</dir>
-<h2><a name="findex_p">p</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX57">parent</a>
-<li><a href="ProgrammersManual.html#IDX1">pass</a>
-<li><a href="ProgrammersManual.html#IDX80">players</a>
-<li><a href="ProgrammersManual.html#IDX63">properties</a>
-<li><a href="ProgrammersManual.html#IDX64">property_info</a>
-</dir>
-<h2><a name="findex_q">q</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX114">queue_info</a>
-<li><a href="ProgrammersManual.html#IDX115">queued_tasks</a>
-</dir>
-<h2><a name="findex_r">r</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX103">raise</a>
-<li><a href="ProgrammersManual.html#IDX12">random</a>
-<li><a href="ProgrammersManual.html#IDX88">read</a>
-<li><a href="ProgrammersManual.html#IDX59">recycle</a>
-<li><a href="ProgrammersManual.html#IDX121">renumber</a>
-<li><a href="ProgrammersManual.html#IDX122">reset_max_object</a>
-<li><a href="ProgrammersManual.html#IDX113">resume</a>
-<li><a href="ProgrammersManual.html#IDX36">rindex</a>
-<li><a href="ProgrammersManual.html#IDX41">rmatch</a>
-</dir>
-<h2><a name="findex_s">s</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX110">seconds_left</a>
-<li><a href="ProgrammersManual.html#IDX120">server_log</a>
-<li><a href="ProgrammersManual.html#IDX119">server_version</a>
-<li><a href="ProgrammersManual.html#IDX94">set_connection_option</a>
-<li><a href="ProgrammersManual.html#IDX82">set_player_flag</a>
-<li><a href="ProgrammersManual.html#IDX65">set_property_info</a>
-<li><a href="ProgrammersManual.html#IDX107">set_task_perms</a>
-<li><a href="ProgrammersManual.html#IDX74">set_verb_args</a>
-<li><a href="ProgrammersManual.html#IDX78">set_verb_code</a>
-<li><a href="ProgrammersManual.html#IDX72">set_verb_info</a>
-<li><a href="ProgrammersManual.html#IDX52">setadd</a>
-<li><a href="ProgrammersManual.html#IDX53">setremove</a>
-<li><a href="ProgrammersManual.html#IDX126">shutdown</a>
-<li><a href="ProgrammersManual.html#IDX18">sin</a>
-<li><a href="ProgrammersManual.html#IDX24">sinh</a>
-<li><a href="ProgrammersManual.html#IDX17">sqrt</a>
-<li><a href="ProgrammersManual.html#IDX37">strcmp</a>
-<li><a href="ProgrammersManual.html#IDX44">string_hash</a>
-<li><a href="ProgrammersManual.html#IDX34">strsub</a>
-<li><a href="ProgrammersManual.html#IDX42">substitute</a>
-<li><a href="ProgrammersManual.html#IDX112">suspend</a>
-</dir>
-<h2><a name="findex_t">t</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX20">tan</a>
-<li><a href="ProgrammersManual.html#IDX26">tanh</a>
-<li><a href="ProgrammersManual.html#IDX111">task_id</a>
-<li><a href="ProgrammersManual.html#IDX118">task_stack</a>
-<li><a href="ProgrammersManual.html#IDX109">ticks_left</a>
-<li><a href="ProgrammersManual.html#IDX101">time</a>
-<li><a href="ProgrammersManual.html#IDX8">tofloat</a>
-<li><a href="ProgrammersManual.html#IDX5">toint</a>
-<li><a href="ProgrammersManual.html#IDX4">toliteral</a>
-<li><a href="ProgrammersManual.html#IDX6">tonum</a>
-<li><a href="ProgrammersManual.html#IDX7">toobj</a>
-<li><a href="ProgrammersManual.html#IDX3">tostr</a>
-<li><a href="ProgrammersManual.html#IDX32">trunc</a>
-<li><a href="ProgrammersManual.html#IDX2">typeof</a>
-</dir>
-<h2><a name="findex_u">u</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX99">unlisten</a>
-</dir>
-<h2><a name="findex_v">v</a></h2>
-<dir>
-<li><a href="ProgrammersManual.html#IDX56">valid</a>
-<li><a href="ProgrammersManual.html#IDX10">value_bytes</a>
-<li><a href="ProgrammersManual.html#IDX11">value_hash</a>
-<li><a href="ProgrammersManual.html#IDX73">verb_args</a>
-<li><a href="ProgrammersManual.html#IDX77">verb_code</a>
-<li><a href="ProgrammersManual.html#IDX71">verb_info</a>
-<li><a href="ProgrammersManual.html#IDX70">verbs</a>
-</dir></p>
-<p><hr></p>
-<p></body>
+<span class="cmd">verbs()</span> function.</p>
+</body>
 </html>
