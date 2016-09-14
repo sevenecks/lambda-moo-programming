@@ -3107,42 +3107,42 @@ length({1, 2, 3})   =>   3
 length({})          =>   0
 </pre>
 </article>
-<dt><u>Function:</u> int <b>is_member</b> <i>(<var>value</var>, list <var>list</var>)</i>
-<dd><a name="IDX47"></a>
-Returns true if there is an element of <var>list</var> that is completely
-indistinguishable from <var>value</var>.  This is much the same operation as
-"<span class="cmd"><var>value</var> in <var>list</var></span>" except that, unlike <span class="cmd">in</span>, the
-<span class="cmd">is_member()</span> function does not treat upper- and lower-case characters in
-strings as equal.</p>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">is_member</span></strong>
+    <p>is_member -- Returns true if there is an element of <var>list</var> that is completely indistinguishable from <var>value</var>.</p>
+    <div class="well bg-info"><var>int</var> <span class="cmd">is_member</span> (<var>value</var>, list <var>list</var>)</div>
+    <p>This is much the same operation as "<span class="cmd"><var>value</var> in <var>list</var></span>" except that, unlike 
+    <span class="cmd">in</span>, the <span class="cmd">is_member()</span> function does not treat upper- and lower-case characters in
+    strings as equal.</p>
 <pre>
 "Foo" in {1, "foo", #24}            =>   2
 is_member("Foo", {1, "foo", #24})   =>   0
 is_member("Foo", {1, "Foo", #24})   =>   2
 </pre>
-
-</dl>
-
-</p>
-<p><dl>
-<dt><u>Function:</u> list <b>listinsert</b> <i>(list <var>list</var>, <var>value</var> [, int <var>index</var>])</i>
-<dd><a name="IDX48"></a>
-<dt><u>Function:</u> list <b>listappend</b> <i>(list <var>list</var>, <var>value</var> [, int <var>index</var>])</i>
-<dd><a name="IDX49"></a>
-These functions return a copy of <var>list</var> with <var>value</var> added as a new
-element.  <span class="cmd">listinsert()</span> and <span class="cmd">listappend()</span> add <var>value</var> before
-and after (respectively) the existing element with the given <var>index</var>, if
-provided.</p>
-<p>The following three expressions always have the same value:</p>
+</article>
+<article class="well bg-info text-info" id="function-listinsert-listdelete">
+    <strong><u>Function:</u> <span class="cmd">listinsert</span></strong><br />
+    <strong><u>Function:</u> <span class="cmd">listappend</span></strong>
+    <p>listinsert -- This functions return a copy of <var>list</var> with <var>value</var> added as a new
+    element.<p>
+    <p>listappend -- This functions return a copy of <var>list</var> with <var>value</var> added as a new
+    element.</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">listinsert</span> (list <var>list</var>, <var>value</var> [, int <var>index</var>])</div>
+    <div class="well bg-info"><var>list</var> <span class="cmd">listappend</span> (list <var>list</var>, <var>value</var> [, int <var>index</var>])</div>
+    <span class="cmd">listinsert()</span> and <span class="cmd">listappend()</span> add <var>value</var> before
+    and after (respectively) the existing element with the given <var>index</var>, if
+    provided.</p>
+    <p>The following three expressions always have the same value:</p>
 <pre>
 listinsert(<var>list</var>, <var>element</var>, <var>index</var>)
 listappend(<var>list</var>, <var>element</var>, <var>index</var> - 1)
 {@<var>list</var>[1..<var>index</var> - 1], <var>element</var>, @<var>list</var>[<var>index</var>..length(<var>list</var>)]}
 </pre>
-<p>If <var>index</var> is not provided, then <span class="cmd">listappend()</span> adds the <var>value</var>
-at the end of the list and <span class="cmd">listinsert()</span> adds it at the beginning; this
-usage is discouraged, however, since the same intent can be more clearly
-expressed using the list-construction expression, as shown in the examples
-below.</p>
+    <p>If <var>index</var> is not provided, then <span class="cmd">listappend()</span> adds the <var>value</var>
+    at the end of the list and <span class="cmd">listinsert()</span> adds it at the beginning; this
+    usage is discouraged, however, since the same intent can be more clearly
+    expressed using the list-construction expression, as shown in the examples
+    below.</p>
 <pre>
 x = {1, 2, 3};
 listappend(x, 4, 2)   =>   {1, 2, 4, 3}
@@ -3152,51 +3152,46 @@ listinsert(x, 4)      =>   {4, 1, 2, 3}
 {@x, 4}               =>   {1, 2, 3, 4}
 {4, @x}               =>   {4, 1, 2, 3}
 </pre>
-
-</dl>
-
-</p>
-<p><dl>
-<dt><u>Function:</u> list <b>listdelete</b> <i>(list <var>list</var>, int <var>index</var>)</i>
-<dd><a name="IDX50"></a>
-Returns a copy of <var>list</var> with the <var>index</var>th element removed.  If
-<var>index</var> is not in the range <span class="cmd">[1..length(<var>list</var>)]</span>, then
-<span class="cmd">E_RANGE</span> is raised.</p>
+</article>
+<article class="well bg-info text-info" id="function-listdelete">
+    <strong><u>Function:</u> <span class="cmd">listdelete</span></strong>
+    <p>listdelete -- Returns a copy of <var>list</var> with the <var>index</var>th element removed.</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">listdelete</span> (list <var>list</var>, int <var>index</var>)</div>
+    
+    <p>If <var>index</var> is not in the range <span class="cmd">[1..length(<var>list</var>)]</span>, then
+    <span class="cmd">E_RANGE</span> is raised.</p>
 <pre>
 x = {"foo", "bar", "baz"};
 listdelete(x, 2)   =>   {"foo", "baz"}
 </pre>
-
-</dl>
-
-</p>
-<p><dl>
-<dt><u>Function:</u> list <b>listset</b> <i>(list <var>list</var>, <var>value</var>, int <var>index</var>)</i>
-<dd><a name="IDX51"></a>
-Returns a copy of <var>list</var> with the <var>index</var>th element replaced by
-<var>value</var>.  If <var>index</var> is not in the range
-<span class="cmd">[1..length(<var>list</var>)]</span>, then <span class="cmd">E_RANGE</span> is raised.</p>
+</article>
+<article class="well bg-info text-info" id="function-is-listset">
+    <strong><u>Function:</u> <span class="cmd">listset</span></strong>
+    <p>listset -- Returns a copy of <var>list</var> with the <var>index</var>th element replaced by <var>value</var>.</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">listset</span> (list <var>list</var>, <var>value</var>, int <var>index</var>)</div>
+    <p>If <var>index</var> is not in the range <span class="cmd">[1..length(<var>list</var>)]</span>, then 
+    <span class="cmd">E_RANGE</span> is raised.</p>
 <pre>
 x = {"foo", "bar", "baz"};
 listset(x, "mumble", 2)   =>   {"foo", "mumble", "baz"}
 </pre>
-<p>This function exists primarily for historical reasons; it was used heavily
-before the server supported indexed assignments like <span class="cmd">x[i] = v</span>.  New code
-should always use indexed assignment instead of <span class="cmd">listset()</span> wherever
-possible.
-</dl></p>
-<p><dl>
-<dt><u>Function:</u> list <b>setadd</b> <i>(list <var>list</var>, <var>value</var>)</i>
-<dd><a name="IDX52"></a>
-<dt><u>Function:</u> list <b>setremove</b> <i>(list <var>list</var>, <var>value</var>)</i>
-<dd><a name="IDX53"></a>
-Returns a copy of <var>list</var> with the given <var>value</var> added or removed, as
-appropriate.  <span class="cmd">setadd()</span> only adds <var>value</var> if it is not already an
-element of <var>list</var>; <var>list</var> is thus treated as a mathematical set.
-<var>value</var> is added at the end of the resulting list, if at all.  Similarly,
-<span class="cmd">setremove()</span> returns a list identical to <var>list</var> if <var>value</var> is not
-an element.  If <var>value</var> appears more than once in <var>list</var>, only the
-first occurrence is removed in the returned copy.</p>
+    <p>This function exists primarily for historical reasons; it was used heavily
+    before the server supported indexed assignments like <span class="cmd">x[i] = v</span>.  New code
+    should always use indexed assignment instead of <span class="cmd">listset()</span> wherever
+    possible.</p>
+</article>
+<article class="well bg-info text-info" id="function-setadd-setremote">
+    <strong><u>Function:</u> <span class="cmd">setadd</span></strong><br>
+    <strong><u>Function:</u> <span class="cmd">setremove</span></strong>
+    <p>setadd -- Returns a copy of <var>list</var> with the given <var>value</var> added.</p>
+    <p>setremove -- Returns a copy of <var>list</var> with the given <var>value</var> removed.</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">setadd</span> (list <var>list</var>, <var>value</var>)</div>
+    <div class="well bg-info"><var>list</var> <span class="cmd">setremove</span> (list <var>list</var>, <var>value</var>)</div>
+    <p><span class="cmd">setadd()</span> only adds <var>value</var> if it is not already an element of <var>list</var>; 
+    <var>list</var> is thus treated as a mathematical set. <var>value</var> is added at the end of the resulting list, if at all.  
+    Similarly, <span class="cmd">setremove()</span> returns a list identical to <var>list</var> if <var>value</var> is not
+    an element.  If <var>value</var> appears more than once in <var>list</var>, only the first occurrence is removed in the 
+    returned copy.</p>
 <pre>
 setadd({1, 2, 3}, 3)         =>   {1, 2, 3}
 setadd({1, 2, 3}, 4)         =>   {1, 2, 3, 4}
@@ -3204,36 +3199,35 @@ setremove({1, 2, 3}, 3)      =>   {1, 2}
 setremove({1, 2, 3}, 4)      =>   {1, 2, 3}
 setremove({1, 2, 3, 2}, 2)   =>   {1, 3, 2}
 </pre>
-
-</dl>
-<h3><a name="SEC46" href="ProgrammersManual_toc.html#TOC46">Manipulating Objects</a></h3>
-
-</p>
+</article>
+<h4 id="manipulating-objects">Manipulating Objects</h4>
 <p>Objects are, of course, the main focus of most MOO programming and, largely due
-to that, there are a lot of built-in functions for manipulating them.
-
-<h4><a name="SEC47" href="ProgrammersManual_toc.html#TOC47">Fundamental Operations on Objects</a></h4>
-
-</p>
-<p><dl>
-<dt><u>Function:</u> obj <b>create</b> <i>(obj <var>parent</var> [, obj <var>owner</var>])</i>
-<dd><a name="IDX54"></a>
-Creates and returns a new object whose parent is <var>parent</var> and whose owner
-is as described below.  Either the given <var>parent</var> object must be <span class="cmd">#-1</span>
-or valid and fertile (i.e., its <span class="cmd">f</span> bit must be set) or else the
-programmer must own <var>parent</var> or be a wizard; otherwise <span class="cmd">E_PERM</span> is
-raised.  <span class="cmd">E_PERM</span> is also raised if <var>owner</var> is provided and not
-the same as the programmer, unless the programmer is a wizard.  After the new
-object is created, its <span class="cmd">initialize</span> verb, if any, is called with no
-arguments.</p>
-<p>The new object is assigned the least non-negative object number that has not
-yet been used for a created object.  Note that no object number is ever reused,
-even if the object with that number is recycled.</p>
-<p>The owner of the new object is either the programmer (if <var>owner</var> is not
-provided), the new object itself (if <var>owner</var> was given as <span class="cmd">#-1</span>), or
-<var>owner</var> (otherwise).</p>
-<p>The other built-in properties of the new object are initialized as follows:
-</p>
+to that, there are a lot of built-in functions for manipulating them.</p>
+<h5 id="fundamental-operations-on-objects">Fundamental Operations on Objects</h5>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">create</span></strong>
+    <p>create -- Creates and returns a new object whose parent is <var>parent</var> and whose owner 
+    is as described below.</p>
+    <div class="well bg-info"><var>obj</var> <span class="cmd">create</span> (obj <var>parent</var> [, obj <var>owner</var>])</div>
+    <p>Either the given <var>parent</var> object must be <span class="cmd">#-1</span>
+    or valid and fertile (i.e., its <span class="cmd">f</span> bit must be set) or else the
+    programmer must own <var>parent</var> or be a wizard; otherwise <span class="cmd">E_PERM</span> is
+    raised.  <span class="cmd">E_PERM</span> is also raised if <var>owner</var> is provided and not
+    the same as the programmer, unless the programmer is a wizard.  After the new
+    object is created, its <span class="cmd">initialize</span> verb, if any, is called with no
+    arguments.</p>
+    <p>The new object is assigned the least non-negative object number that has not
+    yet been used for a created object.  Note that no object number is ever reused,
+    even if the object with that number is recycled.</p>
+    <div class="alert alert-warning">This is not strictly true, especially if you are using LambdaCore and the <span class="cmd">$recycler</span>, which is a great idea.  
+    If you don't, you end up with extremely high object numbers.  However, if you plan on reusing object numbers you need to consider this carefully in your code.  You
+    do not want to include object numbers in your code if this is the case, as object numbers could change.  Use corified references instead (IE: <span class="cmd">
+    @prop #0.my_object #objnum</span> allows you to use $my_object in your code.  If the object number ever changes, you can change the reference without updating 
+    all of your code.)</span></div>
+    <p>The owner of the new object is either the programmer (if <var>owner</var> is not
+    provided), the new object itself (if <var>owner</var> was given as <span class="cmd">#-1</span>), or
+    <var>owner</var> (otherwise).</p>
+    <p>The other built-in properties of the new object are initialized as follows:</p>
 <pre>
 name         ""
 location     #-1
@@ -3244,60 +3238,60 @@ r            0
 w            0
 f            0
 </pre>
-<p>The function <span class="cmd">is_player()</span> returns false for newly created objects.</p>
-<p>In addition, the new object inherits all of the other properties on
-<var>parent</var>.  These properties have the same permission bits as on
-<var>parent</var>.  If the <span class="cmd">c</span> permissions bit is set, then the owner of the
-property on the new object is the same as the owner of the new object itself;
-otherwise, the owner of the property on the new object is the same as that on
-<var>parent</var>.  The initial value of every inherited property is <em>clear</em>;
-see the description of the built-in function <span class="cmd">clear_property()</span> for
-details.</p>
-<p>If the intended owner of the new object has a property named
-<span class="cmd">ownership_quota</span> and the value of that property is an integer, then
-<span class="cmd">create()</span> treats that value as a <em>quota</em>.  If the quota is less than
-or equal to zero, then the quota is considered to be exhausted and
-<span class="cmd">create()</span> raises <span class="cmd">E_QUOTA</span> instead of creating an object.
-Otherwise, the quota is decremented and stored back into the
-<span class="cmd">ownership_quota</span> property as a part of the creation of the new object.
-</dl></p>
-<p><dl>
-<dt><u>Function:</u> none <b>chparent</b> <i>(obj <var>object</var>, obj <var>new-parent</var>)</i>
-<dd><a name="IDX55"></a>
-Changes the parent of <var>object</var> to be <var>new-parent</var>.  If <var>object</var> is
-not valid, or if <var>new-parent</var> is neither valid nor equal to <span class="cmd">#-1</span>,
-then <span class="cmd">E_INVARG</span> is raised.  If the programmer is neither a wizard or the
-owner of <var>object</var>, or if <var>new-parent</var> is not fertile (i.e., its
-<span class="cmd">f</span> bit is not set) and the programmer is neither the owner of
-<var>new-parent</var> nor a wizard, then <span class="cmd">E_PERM</span> is raised.  If
-<var>new-parent</var> is equal to <span class="cmd">object</span> or one of its current ancestors,
-<span class="cmd">E_RECMOVE</span> is raised.  If <var>object</var> or one of its descendants
-defines a property with the same name as one defined either on <var>new-parent</var>
-or on one of its ancestors, then <span class="cmd">E_INVARG</span> is raised.</p>
-<p>Changing an object's parent can have the effect of removing some properties
-from and adding some other properties to that object and all of its descendants
-(i.e., its children and its children's children, etc.).  Let <var>common</var> be
-the nearest ancestor that <var>object</var> and <var>new-parent</var> have in common
-before the parent of <var>object</var> is changed.  Then all properties defined by
-ancestors of <var>object</var> under <var>common</var> (that is, those ancestors of
-<var>object</var> that are in turn descendants of <var>common</var>) are removed from
-<var>object</var> and all of its descendants.  All properties defined by
-<var>new-parent</var> or its ancestors under <var>common</var> are added to <var>object</var>
-and all of its descendants.  As with <span class="cmd">create()</span>, the newly-added
-properties are given the same permission bits as they have on <var>new-parent</var>,
-the owner of each added property is either the owner of the object it's added
-to (if the <span class="cmd">c</span> permissions bit is set) or the owner of that property on
-<var>new-parent</var>, and the value of each added property is <em>clear</em>; see the
-description of the built-in function <span class="cmd">clear_property()</span> for details.  All
-properties that are not removed or added in the reparenting process are
-completely unchanged.</p>
-<p>If <var>new-parent</var> is equal to <span class="cmd">#-1</span>, then <var>object</var> is given no
-parent at all; it becomes a new root of the parent/child hierarchy.  In this
-case, all formerly inherited properties on <var>object</var> are simply removed.
-</dl></p>
-<p><dl>
-<dt><u>Function:</u> int <b>valid</b> <i>(obj <var>object</var>)</i>
-<dd><a name="IDX56"></a>
+    <p>The function <span class="cmd">is_player()</span> returns false for newly created objects.</p>
+    <p>In addition, the new object inherits all of the other properties on
+    <var>parent</var>.  These properties have the same permission bits as on
+    <var>parent</var>.  If the <span class="cmd">c</span> permissions bit is set, then the owner of the
+    property on the new object is the same as the owner of the new object itself;
+    otherwise, the owner of the property on the new object is the same as that on
+    <var>parent</var>.  The initial value of every inherited property is <em>clear</em>;
+    see the description of the built-in function <span class="cmd">clear_property()</span> for
+    details.</p>
+    <p>If the intended owner of the new object has a property named
+    <span class="cmd">ownership_quota</span> and the value of that property is an integer, then
+    <span class="cmd">create()</span> treats that value as a <em>quota</em>.  If the quota is less than
+    or equal to zero, then the quota is considered to be exhausted and
+    <span class="cmd">create()</span> raises <span class="cmd">E_QUOTA</span> instead of creating an object.
+    Otherwise, the quota is decremented and stored back into the
+    <span class="cmd">ownership_quota</span> property as a part of the creation of the new object.</p>
+</article>
+<article class="well bg-info text-info" id="function-chparent">
+    <strong><u>Function:</u> <span class="cmd">chparent</span></strong>
+    <p>chparent -- Changes the parent of <var>object</var> to be <var>new-parent</var>.</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">chparent</span> (obj <var>object</var>, obj <var>new-parent</var>)</div>
+    <p>If <var>object</var> is not valid, or if <var>new-parent</var> is neither valid nor equal to <span class="cmd">#-1</span>,
+    then <span class="cmd">E_INVARG</span> is raised.  If the programmer is neither a wizard or the
+    owner of <var>object</var>, or if <var>new-parent</var> is not fertile (i.e., its
+    <span class="cmd">f</span> bit is not set) and the programmer is neither the owner of
+    <var>new-parent</var> nor a wizard, then <span class="cmd">E_PERM</span> is raised.  If
+    <var>new-parent</var> is equal to <span class="cmd">object</span> or one of its current ancestors,
+    <span class="cmd">E_RECMOVE</span> is raised.  If <var>object</var> or one of its descendants
+    defines a property with the same name as one defined either on <var>new-parent</var>
+    or on one of its ancestors, then <span class="cmd">E_INVARG</span> is raised.</p>
+    <p>Changing an object's parent can have the effect of removing some properties
+    from and adding some other properties to that object and all of its descendants
+    (i.e., its children and its children's children, etc.).  Let <var>common</var> be
+    the nearest ancestor that <var>object</var> and <var>new-parent</var> have in common
+    before the parent of <var>object</var> is changed.  Then all properties defined by
+    ancestors of <var>object</var> under <var>common</var> (that is, those ancestors of
+    <var>object</var> that are in turn descendants of <var>common</var>) are removed from
+    <var>object</var> and all of its descendants.  All properties defined by
+    <var>new-parent</var> or its ancestors under <var>common</var> are added to <var>object</var>
+    and all of its descendants.  As with <span class="cmd">create()</span>, the newly-added
+    properties are given the same permission bits as they have on <var>new-parent</var>,
+    the owner of each added property is either the owner of the object it's added
+    to (if the <span class="cmd">c</span> permissions bit is set) or the owner of that property on
+    <var>new-parent</var>, and the value of each added property is <em>clear</em>; see the
+    description of the built-in function <span class="cmd">clear_property()</span> for details.  All
+    properties that are not removed or added in the reparenting process are
+    completely unchanged.</p>
+    <p>If <var>new-parent</var> is equal to <span class="cmd">#-1</span>, then <var>object</var> is given no
+    parent at all; it becomes a new root of the parent/child hierarchy.  In this
+    case, all formerly inherited properties on <var>object</var> are simply removed.</p>
+</article>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">int <b>valid</span> (obj <var>object</var>)</span>
+
 Returns a non-zero integer (i.e., a true value) if <var>object</var> is a valid
 object (one that has been created and not yet recycled) and zero (i.e., a false
 value) otherwise.</p>
@@ -3310,16 +3304,19 @@ valid(#-1)   =>   0
 
 </p>
 <p><dl>
-<dt><u>Function:</u> obj <b>parent</b> <i>(obj <var>object</var>)</i>
-<dd><a name="IDX57"></a>
-<dt><u>Function:</u> list <b>children</b> <i>(obj <var>object</var>)</i>
-<dd><a name="IDX58"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">obj <b>parent</span> (obj <var>object</var>)</span>
+
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>children</span> (obj <var>object</var>)</span>
+
 These functions return the parent and a list of the children of <var>object</var>,
 respectively.  If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>recycle</b> <i>(obj <var>object</var>)</i>
-<dd><a name="IDX59"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>recycle</span> (obj <var>object</var>)</span>
+
 The given <var>object</var> is destroyed, irrevocably.  The programmer must either
 own <var>object</var> or be a wizard; otherwise, <span class="cmd">E_PERM</span> is raised.  If
 <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised.  The children of
@@ -3333,8 +3330,9 @@ integer, then <span class="cmd">recycle()</span> treats that value as a <em>quot
 it by one, storing the result back into the <span class="cmd">ownership_quota</span> property.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> int <b>object_bytes</b> <i>(obj <var>object</var>)</i>
-<dd><a name="IDX60"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">int <b>object_bytes</span> (obj <var>object</var>)</div>
+
 Returns the number of bytes of the server's memory required to store the given
 <var>object</var>, including the space used by the values of all of its non-clear
 properties and by the verbs and properties defined directly on the object.
@@ -3342,8 +3340,9 @@ Raised <span class="cmd">E_INVARG</span> if <var>object</var> is not a valid obj
 if the programmer is not a wizard.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> obj <b>max_object</b> <i>()</i>
-<dd><a name="IDX61"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">obj <b>max_object</span> ()</span>
+
 Returns the largest object number yet assigned to a created object.  Note that
 the object with this number may no longer exist; it may have been recycled.
 The next object created will be assigned the object number one larger than the
@@ -3354,8 +3353,9 @@ value of <span class="cmd">max_object()</span>.
 
 </p>
 <p><dl>
-<dt><u>Function:</u> none <b>move</b> <i>(obj <var>what</var>, obj <var>where</var>)</i>
-<dd><a name="IDX62"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>move</span> (obj <var>what</var>, obj <var>where</var>)</div>
+
 Changes <var>what</var>'s location to be <var>where</var>.  This is a complex process
 because a number of permissions checks and notifications must be performed.
 The actual movement takes place as described in the following paragraphs.</p>
@@ -3397,18 +3397,21 @@ does not define a verb named <span class="cmd">exitfunc</span>.  Finally, if <va
 
 </p>
 <p><dl>
-<dt><u>Function:</u> list <b>properties</b> <i>(obj <var>object</var>)</i>
-<dd><a name="IDX63"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>properties</span> (obj <var>object</var>)</div>
+
 Returns a list of the names of the properties defined directly on the given
 <var>object</var>, not inherited from its parent.  If <var>object</var> is not valid,
 then <span class="cmd">E_INVARG</span> is raised.  If the programmer does not have read
 permission on <var>object</var>, then <span class="cmd">E_PERM</span> is raised.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> list <b>property_info</b> <i>(obj <var>object</var>, str <var>prop-name</var>)</i>
-<dd><a name="IDX64"></a>
-<dt><u>Function:</u> none <b>set_property_info</b> <i>(obj <var>object</var>, str <var>prop-name</var>, list <var>info</var>)</i>
-<dd><a name="IDX65"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>property_info</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
+
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>set_property_info</span> (obj <var>object</var>, str <var>prop-name</var>, list <var>info</var>)</div>
+
 These two functions get and set (respectively) the owner and permission bits
 for the property named <var>prop-name</var> on the given <var>object</var>.  If
 <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised.  If <var>object</var>
@@ -3432,8 +3435,9 @@ when <var>new-name</var> is given, if <var>prop-name</var> is not defined direct
 <var>object</var> or any of its ancestors or descendants.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>add_property</b> <i>(obj <var>object</var>, str <var>prop-name</var>, <var>value</var>, list <var>info</var>)</i>
-<dd><a name="IDX66"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>add_property</span> (obj <var>object</var>, str <var>prop-name</var>, <var>value</var>, list <var>info</var>)</div>
+
 Defines a new property on the given <var>object</var>, inherited by all of its
 descendants; the property is named <var>prop-name</var>, its initial value is
 <var>value</var>, and its owner and initial permission bits are given by <var>info</var>
@@ -3446,8 +3450,9 @@ if the owner specified by <var>info</var> is not the programmer and the programm
 is not a wizard, then <span class="cmd">E_PERM</span> is raised.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>delete_property</b> <i>(obj <var>object</var>, str <var>prop-name</var>)</i>
-<dd><a name="IDX67"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>delete_property</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
+
 Removes the property named <var>prop-name</var> from the given <var>object</var> and all
 of its descendants.  If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is
 raised.  If the programmer does not have write permission on <var>object</var>,
@@ -3456,10 +3461,12 @@ property named <var>prop-name</var> (as opposed to inheriting one from its paren
 then <span class="cmd">E_PROPNF</span> is raised.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> int <b>is_clear_property</b> <i>(obj <var>object</var>, str <var>prop-name</var>)</i>
-<dd><a name="IDX68"></a>
-<dt><u>Function:</u> none <b>clear_property</b> <i>(obj <var>object</var>, str <var>prop-name</var>)</i>
-<dd><a name="IDX69"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">int <b>is_clear_property</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
+
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>clear_property</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
+
 These two functions test for clear and set to clear, respectively, the property
 named <var>prop-name</var> on the given <var>object</var>.  If <var>object</var> is not valid,
 then <span class="cmd">E_INVARG</span> is raised.  If <var>object</var> has no non-built-in property
@@ -3478,8 +3485,9 @@ an inheritor of the property, then <span class="cmd">clear_property()</span> rai
 
 </p>
 <p><dl>
-<dt><u>Function:</u> list <b>verbs</b> <i>(obj <var>object</var>)</i>
-<dd><a name="IDX70"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>verbs</span> (obj <var>object</var>)</div>
+
 Returns a list of the names of the verbs defined directly on the given
 <var>object</var>, not inherited from its parent.  If <var>object</var> is not valid,
 then <span class="cmd">E_INVARG</span> is raised.  If the programmer does not have read
@@ -3534,10 +3542,12 @@ strings should be modified not to do so.
 
 </p>
 <p><dl>
-<dt><u>Function:</u> list <b>verb_info</b> <i>(obj <var>object</var>, str <var>verb-desc</var>)</i>
-<dd><a name="IDX71"></a>
-<dt><u>Function:</u> none <b>set_verb_info</b> <i>(obj <var>object</var>, str <var>verb-desc</var>, list <var>info</var>)</i>
-<dd><a name="IDX72"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>verb_info</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
+
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>set_verb_info</span> (obj <var>object</var>, str <var>verb-desc</var>, list <var>info</var>)</div>
+
 These two functions get and set (respectively) the owner, permission bits, and
 name(s) for the verb as specified by <var>verb-desc</var> on the given <var>object</var>.
 If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised.  If <var>object</var>
@@ -3559,10 +3569,12 @@ characters from the set <span class="cmd">r</span>, <span class="cmd">w</span>, 
 wizard.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> list <b>verb_args</b> <i>(obj <var>object</var>, str <var>verb-desc</var>)</i>
-<dd><a name="IDX73"></a>
-<dt><u>Function:</u> none <b>set_verb_args</b> <i>(obj <var>object</var>, str <var>verb-desc</var>, list <var>args</var>)</i>
-<dd><a name="IDX74"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>verb_args</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
+
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>set_verb_args</span> (obj <var>object</var>, str <var>verb-desc</var>, list <var>args</var>)</div>
+
 These two functions get and set (respectively) the direct-object, preposition,
 and indirect-object specifications for the verb as specified by <var>verb-desc</var>
 on the given <var>object</var>.  If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span>
@@ -3594,8 +3606,9 @@ set_verb_args($container, "take", {"any", "from", "this"})
 
 </p>
 <p><dl>
-<dt><u>Function:</u> none <b>add_verb</b> <i>(obj <var>object</var>, list <var>info</var>, list <var>args</var>)</i>
-<dd><a name="IDX75"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>add_verb</span> (obj <var>object</var>, list <var>info</var>, list <var>args</var>)</div>
+
 Defines a new verb on the given <var>object</var>.  The new verb's owner, permission
 bits and name(s) are given by <var>info</var> in the same format as is returned by
 <span class="cmd">verb_info()</span>, described above.  The new verb's direct-object,
@@ -3611,8 +3624,9 @@ not have write permission on <var>object</var> or if the owner specified by
 <span class="cmd">E_PERM</span> is raised.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>delete_verb</b> <i>(obj <var>object</var>, str <var>verb-desc</var>)</i>
-<dd><a name="IDX76"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>delete_verb</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
+
 Removes the verb as specified by <var>verb-desc</var> from the given <var>object</var>.
 If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised.  If the
 programmer does not have write permission on <var>object</var>, then <span class="cmd">E_PERM</span>
@@ -3620,10 +3634,12 @@ is raised.  If <var>object</var> does not define a verb as specified by
 <var>verb-desc</var>, then <span class="cmd">E_VERBNF</span> is raised.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> list <b>verb_code</b> <i>(obj <var>object</var>, str <var>verb-desc</var> [, <var>fully-paren</var> [, <var>indent</var>]])</i>
-<dd><a name="IDX77"></a>
-<dt><u>Function:</u> list <b>set_verb_code</b> <i>(obj <var>object</var>, str <var>verb-desc</var>, list <var>code</var>)</i>
-<dd><a name="IDX78"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>verb_code</span> (obj <var>object</var>, str <var>verb-desc</var> [, <var>fully-paren</var> [, <var>indent</var>]])</div>
+
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>set_verb_code</span> (obj <var>object</var>, str <var>verb-desc</var>, list <var>code</var>)</div>
+
 These functions get and set (respectively) the MOO-code program associated with
 the verb as specified by <var>verb-desc</var> on <var>object</var>.  The program is
 represented as a list of strings, one for each line of the program; this is the
@@ -3646,8 +3662,9 @@ list is non-empty, then <span class="cmd">set_verb_code()</span> did not install
 program associated with the verb in question is unchanged.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> list <b>disassemble</b> <i>(obj <var>object</var>, str <var>verb-desc</var>)</i>
-<dd><a name="IDX79"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>disassemble</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
+
 Returns a (longish) list of strings giving a listing of the server's internal
 "compiled" form of the verb as specified by <var>verb-desc</var> on <var>object</var>.
 This format is not documented and may indeed change from release to release,
@@ -3664,19 +3681,22 @@ question, then <span class="cmd">disassemble()</span> raises <span class="cmd">E
 
 </p>
 <p><dl>
-<dt><u>Function:</u> list <b>players</b> <i>()</i>
-<dd><a name="IDX80"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>players</span> ()</span>
+
 Returns a list of the object numbers of all player objects in the database.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> int <b>is_player</b> <i>(obj <var>object</var>)</i>
-<dd><a name="IDX81"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">int <b>is_player</span> (obj <var>object</var>)</div>
+
 Returns a true value if the given <var>object</var> is a player object and a false
 value otherwise.  If <var>object</var> is not valid, <span class="cmd">E_INVARG</span> is raised.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>set_player_flag</b> <i>(obj <var>object</var>, <var>value</var>)</i>
-<dd><a name="IDX82"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>set_player_flag</span> (obj <var>object</var>, <var>value</var>)</div>
+
 Confers or removes the "player object" status of the given <var>object</var>,
 depending upon the truth value of <var>value</var>.  If <var>object</var> is not valid,
 <span class="cmd">E_INVARG</span> is raised.  If the programmer is not a wizard, then
@@ -3700,26 +3720,30 @@ description of <span class="cmd">boot_player()</span> below).
 
 </p>
 <p><dl>
-<dt><u>Function:</u> list <b>connected_players</b> <i>([<var>include-all</var>])</i>
-<dd><a name="IDX83"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>connected_players</span> ([<var>include-all</var>])</div>
+
 Returns a list of the object numbers of those player objects with
 currently-active connections.  If <var>include-all</var> is provided and true, then
 the list includes the object numbers associated with <em>all</em> current
 connections, including ones that are outbound and/or not yet logged-in.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> int <b>connected_seconds</b> <i>(obj <var>player</var>)</i>
-<dd><a name="IDX84"></a>
-<dt><u>Function:</u> int <b>idle_seconds</b> <i>(obj <var>player</var>)</i>
-<dd><a name="IDX85"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">int <b>connected_seconds</span> (obj <var>player</var>)</div>
+
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">int <b>idle_seconds</span> (obj <var>player</var>)</div>
+
 These functions return the number of seconds that the currently-active
 connection to <var>player</var> has existed and been idle, respectively.  If
 <var>player</var> is not the object number of a player object with a
 currently-active connection, then <span class="cmd">E_INVARG</span> is raised.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>notify</b> <i>(obj <var>conn</var>, str <var>string</var> [, <var>no-flush</var>])</i>
-<dd><a name="IDX86"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>notify</span> (obj <var>conn</var>, str <var>string</var> [, <var>no-flush</var>])</div>
+
 Enqueues <var>string</var> for output (on a line by itself) on the connection
 <var>conn</var>.  If the programmer is not <var>conn</var> or a wizard, then
 <span class="cmd">E_PERM</span> is raised.  If <var>conn</var> is not a currently-active connection,
@@ -3741,15 +3765,17 @@ output from the queue; instead it immediately returns false.  <span class="cmd">
 otherwise always returns true.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> int <b>buffered_output_length</b> <i>([obj <var>conn</var>])</i>
-<dd><a name="IDX87"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">int <b>buffered_output_length</span> ([obj <var>conn</var>])</div>
+
 Returns the number of bytes currently buffered for output to the connection
 <var>conn</var>.  If <var>conn</var> is not provided, returns the maximum number of bytes
 that will be buffered up for output on any connection.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> str <b>read</b> <i>([obj <var>conn</var> [, <var>non-blocking</var>]])</i>
-<dd><a name="IDX88"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">str <b>read</span> ([obj <var>conn</var> [, <var>non-blocking</var>]])</div>
+
 Reads and returns a line of input from the connection <var>conn</var> (or, if not
 provided, from the player that typed the command that initiated the current
 task).  If <var>non-blocking</var> is false or not provided, this function suspends
@@ -3785,8 +3811,9 @@ set_connection_option(player, "hold-input", 0)
 <p>to allow commands once again to be read and interpreted normally.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>force_input</b> <i>(obj <var>conn</var>, str <var>line</var> [, <var>at-front</var>])</i>
-<dd><a name="IDX89"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>force_input</span> (obj <var>conn</var>, str <var>line</var> [, <var>at-front</var>])</div>
+
 Inserts the string <var>line</var> as an input task in the queue for the connection
 <var>conn</var>, just as if it had arrived as input over the network.  If
 <var>at_front</var> is provided and true, then the new line of input is put at the
@@ -3796,8 +3823,9 @@ processed even if there is already some other input in that queue.  Raises
 <span class="cmd">E_PERM</span> if the programmer is neither <var>conn</var> nor a wizard.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>flush_input</b> <i>(obj <var>conn</var> [<var>show-messages</var>])</i>
-<dd><a name="IDX90"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>flush_input</span> (obj <var>conn</var> [<var>show-messages</var>])</div>
+
 Performs the same actions as if the connection <var>conn</var>'s defined flush
 command had been received on that connection, i.e., removes all pending lines
 of input from <var>conn</var>'s queue and, if <var>show-messages</var> is provided and
@@ -3806,8 +3834,9 @@ the chapter on server assumptions about the database for more information about
 a connection's defined flush command.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> list <b>output_delimiters</b> <i>(obj <var>player</var>)</i>
-<dd><a name="IDX91"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>output_delimiters</span> (obj <var>player</var>)</div>
+
 Returns a list of two strings, the current <em>output prefix</em> and <em>output
 suffix</em> for <var>player</var>.  If <var>player</var> does not have an active network
 connection, then <span class="cmd">E_INVARG</span> is raised.  If either string is currently
@@ -3816,8 +3845,9 @@ undefined, the value <span class="cmd">""</span> is used instead.  See the discu
 information about the output prefix and suffix.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>boot_player</b> <i>(obj <var>player</var>)</i>
-<dd><a name="IDX92"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>boot_player</span> (obj <var>player</var>)</div>
+
 Marks for disconnection any currently-active connection to the given
 <var>player</var>.  The connection will not actually be closed until the
 currently-running task returns or suspends, but all MOO functions (such as
@@ -3834,8 +3864,9 @@ $user_disconnected(<var>player</var>)
 <p>It is not an error if this verb does not exist; the call is simply skipped.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> str <b>connection_name</b> <i>(obj <var>player</var>)</i>
-<dd><a name="IDX93"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">str <b>connection_name</span> (obj <var>player</var>)</div>
+
 Returns a network-specific string identifying the connection being used by the
 given player.  If the programmer is not a wizard and not <var>player</var>, then
 <span class="cmd">E_PERM</span> is raised.  If <var>player</var> is not currently connected, then
@@ -3871,8 +3902,9 @@ form
 connections and, thus, useless.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>set_connection_option</b> <i>(obj <var>conn</var>, str <var>option</var>, <var>value</var>)</i>
-<dd><a name="IDX94"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>set_connection_option</span> (obj <var>conn</var>, str <var>option</var>, <var>value</var>)</div>
+
 Controls a number of optional behaviors associated the connection <var>conn</var>.
 Raises <span class="cmd">E_INVARG</span> if <var>conn</var> does not specify a current connection and
 <span class="cmd">E_PERM</span> if the programmer is neither <var>conn</var> nor a wizard.  The
@@ -3918,24 +3950,27 @@ assumptions about the database for details.
 
 </p>
 <p><dl>
-<dt><u>Function:</u> list <b>connection_options</b> <i>(obj <var>conn</var>)</i>
-<dd><a name="IDX95"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>connection_options</span> (obj <var>conn</var>)</div>
+
 Returns a list of <span class="cmd">{<var>name</var>, <var>value</var>}</span> pairs describing the
 current settings of all of the allowed options for the connection <var>conn</var>.
 Raises <span class="cmd">E_INVARG</span> if <var>conn</var> does not specify a current connection and
 <span class="cmd">E_PERM</span> if the programmer is neither <var>conn</var> nor a wizard.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> value <b>connection_option</b> <i>(obj <var>conn</var>, str <var>name</var>)</i>
-<dd><a name="IDX96"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">value <b>connection_option</span> (obj <var>conn</var>, str <var>name</var>)</div>
+
 Returns the current setting of the option <var>name</var> for the connection
 <var>conn</var>.  Raises <span class="cmd">E_INVARG</span> if <var>conn</var> does not specify a current
 connection and <span class="cmd">E_PERM</span> if the programmer is neither <var>conn</var> nor a
 wizard.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> obj <b>open_network_connection</b> <i>(<var>value</var>, ...)</i>
-<dd><a name="IDX97"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">obj <b>open_network_connection</span> (<var>value</var>, ...)</span>
+
 Establishes a network connection to the place specified by the arguments and
 more-or-less pretends that a new, normal player connection has been established
 from there.  The new connection, as usual, will not be logged in initially and
@@ -3966,8 +4001,9 @@ commands in the usual way.  To prevent this treatment, you should use
 the connection.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> value <b>listen</b> <i>(obj <var>object</var>, <var>point</var> [, <var>print-messages</var>])</i>
-<dd><a name="IDX98"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">value <b>listen</span> (obj <var>object</var>, <var>point</var> [, <var>print-messages</var>])</div>
+
 Create a new point at which the server will listen for network connections,
 just as it does normally.  <var>Object</var> is the object whose verbs
 <span class="cmd">do_login_command</span>, <span class="cmd">do_command</span>, <span class="cmd">do_out_of_band_command</span>,
@@ -3996,15 +4032,17 @@ be used as the connection point and <var>canon</var> is always equal to <var>poi
 time; <var>point</var> can be any value at all and <var>canon</var> is always zero.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>unlisten</b> <i>(<var>canon</var>)</i>
-<dd><a name="IDX99"></a>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>unlisten</span> (<var>canon</var>)</div>
+
 Stop listening for connections on the point described by <var>canon</var>, which
 should be the second element of some element of the list returned by
 <span class="cmd">listeners()</span>.  Raises <span class="cmd">E_PERM</span> if the programmer is not a wizard and
 <span class="cmd">E_INVARG</span> if there does not exist a listener with that description.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> list <b>listeners</b> <i>()</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>listeners</span> ()</span>
 <dd><a name="IDX100"></a>
 Returns a list describing all existing listening points, including the default
 one set up automatically by the server when it was started (unless that one has
@@ -4034,13 +4072,15 @@ unlisten(12345); listen(#0, 7777, 1)
 
 </p>
 <p><dl>
-<dt><u>Function:</u> int <b>time</b> <i>()</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">int <b>time</span> ()</span>
 <dd><a name="IDX101"></a>
 Returns the current time, represented as the number of seconds that have
 elapsed since midnight on 1 January 1970, Greenwich Mean Time.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> str <b>ctime</b> <i>([int <var>time</var>])</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">str <b>ctime</span> ([int <var>time</var>])</div>
 <dd><a name="IDX102"></a>
 Interprets <var>time</var> as a time, using the same representation as given in the
 description of <span class="cmd">time()</span>, above, and converts it into a 28-character,
@@ -4062,7 +4102,8 @@ computer on which the MOO server is running.
 
 </p>
 <p><dl>
-<dt><u>Function:</u> none <b>raise</b> <i>(<var>code</var> [, str <var>message</var> [, <var>value</var>]])</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>raise</span> (<var>code</var> [, str <var>message</var> [, <var>value</var>]])</div>
 <dd><a name="IDX103"></a>
 Raises <var>code</var> as an error in the same way as other MOO expressions,
 statements, and functions do.  <var>Message</var>, which defaults to the value of
@@ -4072,7 +4113,8 @@ the error is not caught, then <var>message</var> will appear on the first line o
 the traceback printed to the user.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> value <b>call_function</b> <i>(str <var>func-name</var>, <var>arg</var>, ...)</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">value <b>call_function</span> (str <var>func-name</var>, <var>arg</var>, ...)</span>
 <dd><a name="IDX104"></a>
 Calls the built-in function named <var>func-name</var>, passing the given arguments,
 and returns whatever that function returns.  Raises <span class="cmd">E_INVARG</span> if
@@ -4082,7 +4124,8 @@ allows you to write a call to a built-in function that may or may not exist in
 the particular version of the server you're using.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> list <b>function_info</b> <i>([str <var>name</var>])</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>function_info</span> ([str <var>name</var>])</div>
 <dd><a name="IDX105"></a>
 Returns descriptions of the built-in functions available on the server.  If
 <var>name</var> is provided, only the description of the function with that name is
@@ -4124,7 +4167,8 @@ arguments at all, but it can't be determined from this description which
 argument types would be acceptable in which positions.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> list <b>eval</b> <i>(str <var>string</var>)</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>eval</span> (str <var>string</var>)</div>
 <dd><a name="IDX106"></a>
 The MOO-code compiler processes <var>string</var> as if it were to be the program
 associated with some verb and, if no errors are found, that fictional verb is
@@ -4161,7 +4205,8 @@ eval("return 3 + 4;")   =>   {1, 7}
 
 </p>
 <p><dl>
-<dt><u>Function:</u> none <b>set_task_perms</b> <i>(obj <var>who</var>)</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>set_task_perms</span> (obj <var>who</var>)</div>
 <dd><a name="IDX107"></a>
 Changes the permissions with which the currently-executing verb is running to
 be those of <var>who</var>.  If the programmer is neither <var>who</var> nor a wizard,
@@ -4177,7 +4222,8 @@ by wizards to make themselves run with lesser (usually non-wizard) permissions.
 
 </p>
 <p><dl>
-<dt><u>Function:</u> obj <b>caller_perms</b> <i>()</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">obj <b>caller_perms</span> ()</span>
 <dd><a name="IDX108"></a>
 Returns the permissions in use by the verb that called the currently-executing
 verb.  If the currently-executing verb was not called by another verb (i.e., it
@@ -4185,9 +4231,11 @@ is the first verb called in a command or server task), then
 <span class="cmd">caller_perms()</span> returns <span class="cmd">#-1</span>.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> int <b>ticks_left</b> <i>()</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">int <b>ticks_left</span> ()</span>
 <dd><a name="IDX109"></a>
-<dt><u>Function:</u> int <b>seconds_left</b> <i>()</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">int <b>seconds_left</span> ()</span>
 <dd><a name="IDX110"></a>
 These two functions return the number of ticks or seconds (respectively) left
 to the current task before it will be forcibly terminated.  These are useful,
@@ -4195,7 +4243,8 @@ for example, in deciding when to call <span class="cmd">suspend()</span> to cont
 computation.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> int <b>task_id</b> <i>()</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">int <b>task_id</span> ()</span>
 <dd><a name="IDX111"></a>
 Returns the non-zero, non-negative integer identifier for the
 currently-executing task.  Such integers are randomly selected for each task and
@@ -4203,7 +4252,8 @@ can therefore safely be used in circumstances where unpredictability is
 required.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> value <b>suspend</b> <i>([int <var>seconds</var>])</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">value <b>suspend</span> ([int <var>seconds</var>])</div>
 <dd><a name="IDX112"></a>
 Suspends the current task, and resumes it after at least <var>seconds</var> seconds.
 (If <var>seconds</var> is not provided, the task is suspended indefinitely; such a
@@ -4266,7 +4316,8 @@ but such a limit can be imposed from within the database.  See the chapter on
 server assumptions about the database for details.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>resume</b> <i>(int <var>task-id</var> [, <var>value</var>])</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>resume</span> (int <var>task-id</var> [, <var>value</var>])</div>
 <dd><a name="IDX113"></a>
 Immediately ends the suspension of the suspended task with the given
 <var>task-id</var>; that task's call to <span class="cmd">suspend()</span> will return <var>value</var>,
@@ -4277,7 +4328,8 @@ and <span class="cmd">E_PERM</span> if the programmer is neither a wizard nor th
 specified task.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> list <b>queue_info</b> <i>([obj <var>player</var>])</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>queue_info</span> ([obj <var>player</var>])</div>
 <dd><a name="IDX114"></a>
 If <var>player</var> is omitted, returns a list of object numbers naming all players
 that currently have active task queues inside the server.  If <var>player</var> is
@@ -4286,7 +4338,8 @@ user.  It is guaranteed that <span class="cmd">queue_info(<var>X</var>)</span> w
 any <var>X</var> not in the result of <span class="cmd">queue_info()</span>.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> list <b>queued_tasks</b> <i>()</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>queued_tasks</span> ()</span>
 <dd><a name="IDX115"></a>
 Returns information on each of the background tasks (i.e., forked, suspended or
 reading) owned by the programmer (or, if the programmer is a wizard, all queued
@@ -4311,7 +4364,8 @@ backward-compatibility reasons.  They may be reused for new purposes in some
 future version of the server.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>kill_task</b> <i>(int <var>task-id</var>)</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>kill_task</span> (int <var>task-id</var>)</div>
 <dd><a name="IDX116"></a>
 Removes the task with the given <var>task-id</var> from the queue of waiting tasks.
 If the programmer is not the owner of that task and not a wizard, then
@@ -4319,7 +4373,8 @@ If the programmer is not the owner of that task and not a wizard, then
 <var>task-id</var>, then <span class="cmd">E_INVARG</span> is raised.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> list <b>callers</b> <i>([<var>include-line-numbers</var>])</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>callers</span> ([<var>include-line-numbers</var>])</div>
 <dd><a name="IDX117"></a>
 Returns information on each of the verbs and built-in functions currently
 waiting to resume execution in the current task.  When one verb or function
@@ -4352,7 +4407,8 @@ the verb that called that one, and so on.  The last element of the list
 describes the first verb called in this task.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> list <b>task_stack</b> <i>(int <var>task-id</var> [, <var>include-line-numbers</var>])</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>task_stack</span> (int <var>task-id</var> [, <var>include-line-numbers</var>])</div>
 <dd><a name="IDX118"></a>
 Returns information like that returned by the <span class="cmd">callers()</span> function, but
 for the suspended task with the given <var>task-id</var>; the
@@ -4366,12 +4422,14 @@ nor the owner of the specified task.
 
 </p>
 <p><dl>
-<dt><u>Function:</u> str <b>server_version</b> <i>()</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">str <b>server_version</span> ()</span>
 <dd><a name="IDX119"></a>
 Returns a string giving the version number of the running MOO server.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>server_log</b> <i>(str <var>message</var> [, <var>is-error</var>])</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>server_log</span> (str <var>message</var> [, <var>is-error</var>])</div>
 <dd><a name="IDX120"></a>
 The text in <var>message</var> is sent to the server log with a distinctive prefix
 (so that it can be distinguished from server-generated messages).  If the
@@ -4380,7 +4438,8 @@ is provided and true, then <var>message</var> is marked in the server log as an
 error.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> obj <b>renumber</b> <i>(obj <var>object</var>)</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">obj <b>renumber</span> (obj <var>object</var>)</div>
 <dd><a name="IDX121"></a>
 The object number of the object currently numbered <var>object</var> is changed to
 be the least nonnegative object number not currently in use and the new object
@@ -4399,7 +4458,8 @@ database from the then-current LambdaMOO database, and other similar
 situations.  Its use requires great care.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>reset_max_object</b> <i>()</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>reset_max_object</span> ()</span>
 <dd><a name="IDX122"></a>
 The server's idea of the highest object number ever used is changed to be the
 highest object number of a currently-existing object, thus allowing reuse of
@@ -4410,7 +4470,8 @@ database from the then-current LambdaMOO database, and other similar
 situations.  Its use requires great care.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> list <b>memory_usage</b> <i>()</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">list <b>memory_usage</span> ()</span>
 <dd><a name="IDX123"></a>
 On some versions of the server, this returns statistics concerning the server
 consumption of system memory.  The result is a list of lists, each in the
@@ -4428,7 +4489,8 @@ whether or not statistics are available; if the option is not provided,
 statistics are not available.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>dump_database</b> <i>()</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>dump_database</span> ()</span>
 <dd><a name="IDX124"></a>
 Requests that the server checkpoint the database at its next opportunity.  It
 is not normally necessary to call this function; the server automatically
@@ -4437,14 +4499,16 @@ assumptions about the database for details.  If the programmer is not a wizard,
 then <span class="cmd">E_PERM</span> is raised.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> int <b>db_disk_size</b> <i>()</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">int <b>db_disk_size</span> ()</span>
 <dd><a name="IDX125"></a>
 Returns the total size, in bytes, of the most recent full representation of the
 database as one or more disk files.  Raises <span class="cmd">E_QUOTA</span> if, for some reason,
 no such on-disk representation is currently available.
 </dl></p>
 <p><dl>
-<dt><u>Function:</u> none <b>shutdown</b> <i>([str <var>message</var>])</i>
+<article class="well bg-info text-info" id="function-is-member">
+    <strong><u>Function:</u> <span class="cmd">none <b>shutdown</span> ([str <var>message</var>])</div>
 <dd><a name="IDX126"></a>
 Requests that the server shut itself down at its next opportunity.  Before
 doing so, a notice (incorporating <var>message</var>, if provided) is printed to all
