@@ -3289,70 +3289,66 @@ f            0
     parent at all; it becomes a new root of the parent/child hierarchy.  In this
     case, all formerly inherited properties on <var>object</var> are simply removed.</p>
 </article>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">int <b>valid</span> (obj <var>object</var>)</span>
-
-Returns a non-zero integer (i.e., a true value) if <var>object</var> is a valid
-object (one that has been created and not yet recycled) and zero (i.e., a false
-value) otherwise.</p>
+<article class="well bg-info text-info" id="function-valid">
+    <strong><u>Function:</u> <span class="cmd">valid</span></strong>
+    <p>valid -- Return a non-zero integer if object is valid and not yet recycled.</p>
+    <div class="well bg-info"><var>int</var> <span class="cmd">valid</span> (obj <var>object</var>)</div>
+    <p>Returns a non-zero integer (i.e., a true value) if <var>object</var> is a valid
+    object (one that has been created and not yet recycled) and zero (i.e., a false
+    value) otherwise.</p>
 <pre>
 valid(#0)    =>   1
 valid(#-1)   =>   0
 </pre>
-
-</dl>
-
-</p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">obj <b>parent</span> (obj <var>object</var>)</span>
-
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>children</span> (obj <var>object</var>)</span>
-
-These functions return the parent and a list of the children of <var>object</var>,
-respectively.  If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>recycle</span> (obj <var>object</var>)</span>
-
-The given <var>object</var> is destroyed, irrevocably.  The programmer must either
-own <var>object</var> or be a wizard; otherwise, <span class="cmd">E_PERM</span> is raised.  If
-<var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised.  The children of
-<var>object</var> are reparented to the parent of <var>object</var>.  Before <var>object</var>
-is recycled, each object in its contents is moved to <span class="cmd">#-1</span> (implying a
-call to <var>object</var>'s <span class="cmd">exitfunc</span> verb, if any) and then <var>object</var>'s
-<span class="cmd">recycle</span> verb, if any, is called with no arguments.</p>
-<p>After <var>object</var> is recycled, if the owner of the former object has a
-property named <span class="cmd">ownership_quota</span> and the value of that property is a
-integer, then <span class="cmd">recycle()</span> treats that value as a <em>quota</em> and increments
-it by one, storing the result back into the <span class="cmd">ownership_quota</span> property.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">int <b>object_bytes</span> (obj <var>object</var>)</div>
-
-Returns the number of bytes of the server's memory required to store the given
-<var>object</var>, including the space used by the values of all of its non-clear
-properties and by the verbs and properties defined directly on the object.
-Raised <span class="cmd">E_INVARG</span> if <var>object</var> is not a valid object and <span class="cmd">E_PERM</span>
-if the programmer is not a wizard.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">obj <b>max_object</span> ()</span>
-
-Returns the largest object number yet assigned to a created object.  Note that
-the object with this number may no longer exist; it may have been recycled.
-The next object created will be assigned the object number one larger than the
-value of <span class="cmd">max_object()</span>.
-</dl>
-
-<h4><a name="SEC48" href="ProgrammersManual_toc.html#TOC48">Object Movement</a></h4>
-
-</p>
-<p><dl>
+</article>
+<article class="well bg-info text-info" id="function-parent">
+    <strong><u>Function:</u> <span class="cmd">parent</span></strong>
+    <p>parent -- return the parent of <var>object</var></p>
+    <div class="well bg-info"><var>obj</var> <span class="cmd">parent</span> (obj <var>object</var>)</div>
+</article>
+<article class="well bg-info text-info" id="function-children">
+    <strong><u>Function:</u> <span class="cmd">children</span></strong>
+    <p>children -- return a list of the children of <var>object</var>.
+    <div class="well bg-info"><var>list</var> <span class="cmd">children</span> (obj <var>object</var>)</div>
+</article>
+<article class="well bg-info text-info" id="function-recycle">
+    <strong><u>Function:</u> <span class="cmd">recycle</span></strong>
+    <p>recycle -- destroy <var>object</var> irrevocably.</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">recycle</span> (obj <var>object</var>)</div>
+    <p>The given <var>object</var> is destroyed, irrevocably.  The programmer must either
+    own <var>object</var> or be a wizard; otherwise, <span class="cmd">E_PERM</span> is raised.  If
+    <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised.  The children of
+    <var>object</var> are reparented to the parent of <var>object</var>.  Before <var>object</var>
+    is recycled, each object in its contents is moved to <span class="cmd">#-1</span> (implying a
+    call to <var>object</var>'s <span class="cmd">exitfunc</span> verb, if any) and then <var>object</var>'s
+    <span class="cmd">recycle</span> verb, if any, is called with no arguments.</p>
+    <p>After <var>object</var> is recycled, if the owner of the former object has a
+    property named <span class="cmd">ownership_quota</span> and the value of that property is a
+    integer, then <span class="cmd">recycle()</span> treats that value as a <em>quota</em> and increments
+    it by one, storing the result back into the <span class="cmd">ownership_quota</span> property.></p>
+</article>
+<article class="well bg-info text-info" id="function-object-bytes">
+    <strong><u>Function:</u> <span class="cmd">object_bytes</span></strong>
+    <p>object_bytes -- Returns the number of bytes of the server's memory required to store the given
+    <var>object</var>.</p>
+    <div class="well bg-info"><var>int</var> <span class="cmd">object_bytes</span> (obj <var>object</var>)</div>
+    <p>The space calculation includes the space used by the values of all of the objects non-clear
+    properties and by the verbs and properties defined directly on the object.</p>
+    <p>Raises <span class="cmd">E_INVARG</span> if <var>object</var> is not a valid object and <span class="cmd">E_PERM</span>
+    if the programmer is not a wizard.</p>
+</article>
+<article class="well bg-info text-info" id="function-max-object">
+    <strong><u>Function:</u> <span class="cmd">max_object</span></strong>
+    <p>max_object -- Returns the largest object number ever assigned to a created object.</p>
+    <div class="well bg-info"><var>obj</var> <span class="cmd">max_object</span> ()</div>
+    <p>Note that the object with this number may no longer exist; it may have been recycled.
+    The next object created will be assigned the object number one larger than the
+    value of <span class="cmd">max_object()</span>.</p>
+    <div class="alert alert-warning">The next object getting the number one larger than <span class="cmd">max_object()</span>
+    only applies if you are using built-in functions for creating objects
+    and does not apply if you are using the <span class="cmd">$recycler</span> to create objects.</div>
+</article>
+<h5 id="object-movement">Object Movement</h5>
 <article class="well bg-info text-info" id="function-is-member">
     <strong><u>Function:</u> <span class="cmd">none <b>move</span> (obj <var>what</var>, obj <var>where</var>)</div>
 
