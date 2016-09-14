@@ -20,6 +20,7 @@ The New MOO Programming Guide is an updated and expanded version of the LambdaMO
 5. Add more advanced programming examples
 6. Add a section on benchmarking
 7. Add a section on LambdaMOO plugins / extensions
+8. Current editing progress: Line 3,351
 
 ## Contributing
 Please feel free to fork the repo and contribute.  This is a labor of love.  I've been using LambdaMOO since 2003 and I wanted to give back to the community.  Text based gaming is an important part of our history and our future.  No game is more accessible to those with handicaps, for example.
