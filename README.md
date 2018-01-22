@@ -2,10 +2,7 @@
 The New MOO Programming Guide is an updated and expanded version of the LambdaMOO Programming Guide originally written by Pavel Curtis.
 
 # Changes
-1. Converted (in progress) to HTML5 and optimized for the web with bootstrap
-2. Included links to various MOO related websites and repositories
-3. Added further clarification on numerous items
-4. Added best practices
+See Change Log
 
 ## Notes
 1. This is a work in progress
