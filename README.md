@@ -8,7 +8,7 @@ To use this guide you simply need clone it and open [moo.html](moo.html) in your
 
 ```bash
 git clone git@github.com:SevenEcks/the-new-moo-programming-guide.git
-```bash
+```
 
 # Changes
 See [CHANGELOG.md](CHANGELOG.md)
