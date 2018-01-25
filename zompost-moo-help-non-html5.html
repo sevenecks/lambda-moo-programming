@@ -1,0 +1,280 @@
+<HTML>
+<HEAD><TITLE>Some tips on SpinnMoo programming</TITLE></HEAD>
+
+<BODY>
+    <h1>The sourcecode for this file was taken from <a href="http://www.zompist.com/moohelp.htm">http://www.zompist.com/moohelp.htm</a> and is included in this repository for posterity. It is non-HTML5.</h1>
+
+<img src="smlogo.jpg" align=right alt="SpinnMoo">
+<h2><font color="#0000C0">Some tips on SpinnMoo programming</font></h2>
+
+<P>I’m still trying to get the hang of the LambdaMoo programming language.  I thought I’d share some of what I’ve figured out, for both people who can program and for those who can’t (yet).
+
+<P>This page isn’t by any means complete.  For that, see the documents on <a href="http://moo.collapsar.cx/">Shawn’s page</a>: the <I>LambdaCore User's Manual</I>, the <I>LambdaMOO Programmer's Manual, </I>and the <I>LambdaCore Database Programing Manual.
+
+<P>--Zompist</I>
+
+
+<p><a href="default.html"><img src="home.gif" alt="Home"></a>  <a href="spinn.html">[ Page o' SpinnStuff ]</a>
+
+<hr>
+
+<h3><font color="#0000C0">Basic objects</font></h3>
+
+<P>Most of you have figured out how to make objects; in case you haven’t, the basic command looks like this:
+
+<blockquote>
+<tt><font color="#008080"><P>@create $thing named Maxwell’s Silver Hammer,hammer 
+</font></tt></blockquote>
+
+<P>The new item will have a full name of <tt><font color="#008080">Maxwell’s Silver Hammer</font></tt>, but can be referred to as <tt><font color="#008080">hammer</font></tt> for short.  An item can have multiple <B><I>aliases</B></I>, separated by commas; you can also add aliases later with the <tt><font color="#008080">@addalias </font></tt>command.
+
+<P>If you want a container instead, say <tt><font color="#008080">$container</font></tt> instead of <tt><font color="#008080">$thing</font></tt>.  
+
+<P>You probably want to add a description that the user will see if she uses the <tt><font color="#008080">look</font></tt> command:
+
+<blockquote>
+<tt><font color="#008080"><P>@describe hammer as &quot;It’s silver, and small, and really really dangerous.&quot;
+</font></tt></blockquote>
+
+<P>Now, you want it to do something!  How?
+
+<h3><font color="#0000C0">Basic verbs</font></h3>
+
+The simplest thing you might want to do is nudge the object and have it respond.  This is easy enough, though at first the statements will seem cryptic.  First, we <B>define the verb</B>:
+
+<blockquote>
+<tt><font color="#008080"><P>@verb rabbit:nudge this none none
+</font></tt></blockquote>
+
+<P>That tells the moo to create a new verb <tt><font color="#008080">nudge</font></tt> for the rabbit, and that the usage will be <tt><font color="#008080">nudge rabbit</font></tt>.  (Moo stupidly doesn’t understand articles, tho’ I suppose you could define an alias <tt><font color="#008080">the rabbit</font></tt> for your rabbit.)  If you’re an accurate typist, you can go on to <B>program the verb</B> like this:
+
+<blockquote>
+<tt><font color="#008080"><P>@program rabbit:nudge
+<br>player:tell( &quot;You nudge the rabbit.  It squeaks in dismay.&quot; );
+<br>player.location:announce( player.name, &quot; nudges the rabbit.  It squeaks in dismay.&quot; );
+<br>.</font></tt>
+</blockquote>
+
+<h3><font color="#0000C0">Editing</font></h3>
+
+With any luck the moo will tell you that it successfully compiled the verb, and you’re in business—you can test your program by typing <tt><font color="#008080">nudge rabbit</font></tt>.  More likely, though, you typed something wrong and the damn moo will bleat unhelpfully.  If you’ve never programmed at all, you’ll be amazed at the anality of the computer; it cannot make the simplest corrections (e.g. you typed <tt><font color="#008080">player:location.announce</font></tt> instead of <tt><font color="#008080">player.location:announce</font></tt>; or you spelled <tt><font color="#008080">name</font></tt> as <tt><font color="#008080">nmae</font></tt>).  
+
+<P>So, I edit my verbs with the <B>editor</B>, which you enter like this:
+
+<blockquote>
+<tt><font color="#008080"><P>@edit rabbit:nudge
+</font></tt></blockquote>
+
+<P>This will take you into a vintage-1970s line editor.  You can type the program in the same way, but preceding each line with a quote mark, and omitting the final period:
+
+<blockquote>
+<tt><font color="#008080"><P>&quot;player:tell( &quot;You nudge the rabbit.  It squeaks in dismay.&quot; );
+<br>&quot;player.location:announce( player.name, &quot; nudges the rabbit.  It squeaks in dismay.&quot; );
+</font></tt></blockquote>
+
+<P>Type <tt><font color="#008080">list</font></tt> to list the program so far.  Type <tt><font color="#008080">list 3</font></tt> to list just line 3; <tt><font color="#008080">del 3</font></tt> to delete it; <tt><font color="#008080">s/fred/joe/3</font></tt> to replace <tt><font color="#008080">fred</font></tt> with <tt><font color="#008080">joe</font></tt> on line 3.  For more commands, see the <I>Programming Manual</I>.
+
+<P>You type save to attempt to compile it.  The moo may well bleat again; but the big advantage of <tt><font color="#008080">@edit</font></tt> over <tt><font color="#008080">@program</font></tt> is that you don’t have to retype your program (an amusement which quickly gets old), just correct it.
+
+
+<h3><font color="#0000C0">What was that masked command?</font></h3>
+
+It’s worth understanding those <tt><font color="#008080">player</font></tt> commands, because you’ll be using them over and over.  <tt><font color="#008080">player:tell</font></tt> prints a message to the <I>player</I>, which is the character that entered the command. <tt><font color="#008080">Player.location:announce</font></tt> prints a message to everyone in the player’s room <I>except </I>the player.  
+
+<P>As in the example, you often want these two messages to differ. The message to others should include the player’s name, not ‘you’; you get at it with <tt><font color="#008080">player.name</font></tt>.  
+
+<P>What is printed appears in parentheses.  You can print several things at once, including numbers, text, variables, and more exotic things.  You just include them all in the parentheses, separated by commas.  
+
+<P>Text appears in quotes: <tt><font color="#008080">&quot;This object rocks.&quot;</font></tt>  If you’re not a programmer, it’s very easy to leave out the quotes, or just one of them.  Don’t do that; the moo will complain.
+
+<P>Like most statements, the command ends in a semicolon. 
+
+
+<h3><font color="#0000C0">Remembering values</font></h3>
+
+The first step to making the verb more interesting is usually to make the object remember certain values between iterations.  For instance, the Glass Dildo remembers whether it’s on or off.  Remembered things are called <B>properties</B>, and you define them like this:
+
+<blockquote>
+<tt><font color="#008080"><P>@property dildo:on 1
+<br>@property radio:lastuser #233
+<br>@property topiary:form &quot;a giant fish&quot;
+</font></tt></blockquote>
+
+<P>Unlike ‘real’ programming languages, moo doesn’t require variables to be typed or declared; it just figures out what they are from what you put in them: in the example, respectively, a number, an object (object references are always preceded by <tt><font color="#008080">#</font></tt> in moo), and a string (that’s programmerese for ‘text’).
+
+<P>Now, <B>within a verb’s code</B>, you refer to the object’s properties with <tt><font color="#008080">this</font></tt>: e.g.
+
+<blockquote><tt><font color="#008080"><P>&#9;this.on = 1;<BR>
+&#9;this.lastuser = player;<BR>
+&#9;this.form = iobjstr;
+</font></tt></blockquote>
+
+<P>From this you can figure out that <tt><font color="#008080">player.name</font></tt> is a property—all players have a <tt><font color="#008080">name</font></tt>—and <tt><font color="#008080">player.location</font></tt> is another property, one that points to the room that currently contains the player.  The <I>Database Manual</I> gives a full listing of all the properties that various canned objects (like players, rooms, containers, and exits) have.
+
+
+<h3><font color="#0000C0">Varying the description</font></h3>
+
+Very possibly your property is so important you want it to be part of the object’s description—you want it to be included when the player looks at your object.  (Note that this is the only thing you <I>can</I> do with my Slow Glass object!)  This is not hard to do, though it will seem cryptic.  First, you <tt><font color="#008080">@describe</font></tt> the object as usual—this should provide the invariant part of the description.  Then you tell the moo that the object has a variable description:
+
+<blockquote>
+<tt><font color="#008080"><P>@verb glass:description this none this
+</font></tt></blockquote>
+
+<P>Now you edit the <tt><font color="#008080">:description</font></tt> verb.  An example might be a <tt><font color="#008080">radio:description</font></tt> verb:
+
+<blockquote>
+<tt><font color="#008080"><P>basic = pass(@args);
+<br>if (this.on == 1)
+<br>&nbsp;&nbsp;basic = basic + &quot;  The radio is on.&quot; ;
+<br>else
+<br>&nbsp;&nbsp;basic = basic + &quot;  The radio is off.&quot; ;
+<br>endif
+<br>return basic;
+</font></tt></blockquote>
+
+<P>We are overriding the default action of the <tt><font color="#008080">description</font></tt> command, normally done by the parent object (the generic thing, generic container, or whatever).  The first line executes the default routine—<tt><font color="#008080">pass</font></tt> passes the parameters of our call to the parent—in this case returning the default description to us, the one we set using <tt><font color="#008080">@describe</font></tt>.  
+
+<P>Now we add to this description. The <tt><font color="#008080">+</font></tt> operator of course adds two strings together into a longer string.  Note that we’re testing our property, <tt><font color="#008080">this.on</font></tt>.  Don’t forget the semicolons.
+
+<P>Finally, we <tt><font color="#008080">return </font></tt>the completed string, <tt><font color="#008080">basic</font></tt>, because <tt><font color="#008080">description</font></tt> expects a string value to be returned (passed back for printing).  
+
+<P>Note that <tt><font color="#008080">description</font></tt> doesn’t use <tt><font color="#008080">player:tell</font></tt>; this will be done for us somewhere else.
+<B>
+<P>Verb parameters
+</B>
+<P>If you’re used to programming, moo verbs are frustratingly <B>limited in parameter handling</B>.  (Actually the limitation is on the parser rather than the verbs themselves.)  Basically you can only write verbs on the following models:
+
+<blockquote>
+<tt><font color="#008080"><P>Eat pill<BR>
+Turn radio on<BR>
+Give hernia to zompist<BR>
+Poke k-man with sharp stick
+</font></tt></blockquote>
+
+<P>In effect all verbs have <B>three parameters</B> (called <I>direct object, preposition, </I>and <I>indirect object</I>).  One of the objects must refer to the object, and the preposition is limited to a short list of predefined words. 
+
+<P>When you define a verb, you do it <B>backwards</B>.  You’re going to <I>say</I> &quot;<tt><font color="#008080">eat pill</font></tt>&quot;, but you <I>define</I> it as &quot;<tt><font color="#008080">pill:eat</font></tt>&quot;.   
+
+<P>When you create the verb, you always have to specify all three parameters.  An unused parameter is <tt><font color="#008080"><b>none</B></font></tt>; one that refers to the object itself is <tt><font color="#008080"><B>this</B></font></tt>; one that refers to something else is <tt><font color="#008080"><B>any</B></font></tt>.  The above verbs would be defined this way:
+
+<tt><font color="#008080"><blockquote>
+<P>@verb pill:eat this none none<BR>
+@verb radio:turn this on none<BR>
+@verb hernia:give this to any<BR>
+@verb stick:poke any with this
+</blockquote>
+</font></tt><P>Each definition has <B>one <tt><font color="#008080">this</font></tt> parameter</B>.  You may be tempted to leave it out <tt><font color="#008080">(@verb pill:eat none none none</font></tt>), but then the parser will never be able to call your verb! Think about the commands again, e.g. <tt><font color="#008080">Eat pill</font></tt>.  If it’s a command for the pill object, the word <tt><font color="#008080">pill</font></tt> has to occur somewhere in the command--  otherwise, the parser simply does not have any reason to pass the command to the pill at all.   
+
+<P>For the <B>simplest commands</B>, then, the parameter list should read <tt><font color="#008080">this none none</font></tt>.
+
+<b><p>What if I defined it wrong?  </B>You can use <tt><font color="#008080">@rmverb</font></tt>.  I tend to forget the parameters at first, then have to user <tt><font color="#008080">@rmverb</font></tt> to get rid of the uncallable verb, as in this session:
+
+<blockquote>
+<tt><font color="#008080"><P>@verb pill:eat
+<br>&quot;D’oh!
+<br>@rmverb pill:eat
+<br>@verb pill:eat this none none
+</font></tt></blockquote>
+
+<P>Some verbs, like <I>turn on </I>or <I>act up</I>, sound better with an <B>objectless preposition</B>.  (Linguistically it’s a particle, but moo calls it a preposition, so there.)  You want to say <tt><font color="#008080">Turn radio on</font></tt>, not <tt><font color="#008080">Turn radio</font></tt>.  You do this with the <tt><font color="#008080">this (preposition) none</font></tt> parameter list.  Note that the parser is not smart enough to let you say <tt><font color="#008080">Turn on radio</font></tt>.
+
+<P>Often you want <B>two objects</B>—normally because you want your object to act on some other object.  In this case you <B>must</B> define a preposition in between (from the list in the <I>Programming Manual</I>). You can’t have a command that reads <tt><font color="#008080">Give zompist money</font></tt>; it has to be <tt><font color="#008080">Give money to zompist</font></tt>.  That’s why I had to define odd syntax like <tt><font color="#008080">Play piano with &quot;Greensleeves&quot;</font></tt> or <tt><font color="#008080">Drive bus to east</font></tt>.
+
+<P>In this case you can either specify the exact preposition in the verb (<tt><font color="#008080">this on any</font></tt>), or allow any preposition (<tt><font color="#008080">this any any</font></tt>).
+
+<P>You can put the other object (the <tt><font color="#008080">any</font></tt> parameter) either as <B>direct or indirect object</B>.  It’s just a matter of what command sounds better.  Compare the following verbs for the Sharp Stick:
+
+<blockquote>
+<tt><font color="#008080"><P>@verb stick:poke any with this -&gt; &quot;Poke zompist with stick.&quot;<BR>
+@verb stick:poke this at any -&gt; &quot;Poke stick at zompist.&quot;
+</font></tt></blockquote>
+
+<P>When you <B>edit</B> a verb, you don’t have to repeat the parameters, which is a blessing.  You can <tt><font color="#008080">@define</font></tt> a verb as <tt><font color="#008080">shed:get any off this</font></tt> (quick quiz!  What command will you use with that?), but to edit the code all you need to say is <tt><font color="#008080">@edit shed:get</font></tt>.
+
+<B><P>Can I have multiple variations of a verb</B>?  Sure—just in case you really really want to be able to say <B>both</B> &quot;<tt><font color="#008080">poke zompist with stick</font></tt>&quot; and &quot;<tt><font color="#008080">poke stick at zompist</font></tt>&quot;.  Just <tt><font color="#008080">@define</font></tt> each variation, with its own parameter list.  Now you’ll have to specify the parameter list when you edit.  A warning, though: I don’t think it’s worth it.  It’s no use trying to pretend to the user that she’s typing ordinary English; and you’re just likely to confuse or frustrate yourself with the extra parameters and verb versions.
+
+<B><P>Can I have more parameters?  </B>Sort of.  What you do is parse the third argument (the indirect object, available inside the program as the string <tt><font color="#008080"><B>iobjstr</B></font></tt>) yourself.  For instance, maybe you want to say <tt><font color="#008080">listplayers game from 1 to 10</font></tt>.  You have to define this as <tt><font color="#008080">@verb game:listplayers this from any</font></tt>.  You’ll get &quot;<tt><font color="#008080">1 to 10</font></tt>&quot; as the <tt><font color="#008080">iobjstr</font></tt>, which you can then parse yourself. There are functions to help you do this.  It’s a bit of a hassle, though, and your life will be easier if you define separate verbs or something.
+
+<B><P>I want a string as the third parameter.  </B>No problem; the parser takes care of this for you.  The piano uses this: I defined ‘<tt><font color="#008080">play’</font></tt> as <tt><font color="#008080">@verb piano this with any</font></tt>.  If the player types <tt><font color="#008080">Play piano with the music of Burt Bacharach</font></tt>, the parser takes the entire rest of the sentence<tt><font color="#008080">,</font></tt> <tt><font color="#008080">&quot;the music of Burt Bacharach&quot;,</font></tt> as the indirect object, and places it in <tt><font color="#008080">iobjstr</font></tt>.  Since I simply want to treat it as a string, I don’t need to do anything special.
+
+
+<h3><font color="#0000C0">Error handling</font></h3>
+
+It’s not terribly difficult to write a program that handles correct input.  The mark of a professional program, however, is how it handles incorrect input.  If you don’t think about this, your verb will sometimes crash embarrassingly, or produce silly results, or even corrupt your objects.
+
+<P>The parser will handle some errors for you: misspelling required words (such as the names of your objects or verbs), leaving parameters out; referring to objects that aren’t there.
+
+<P>Some error conditions to think about:
+
+<UL>
+<LI>The state you’re setting is already set.  E.g. you turn the dildo on, and it’s already on.</LI>
+<LI>The property you’re checking is empty.  E.g. the topiary doesn’t have a form right now.</LI>
+<LI>You wanted an object as a parameter but got garbage.  You can test this with (say) <tt><font color="#008080">iobj == #0</font></tt> for this.</LI>
+<LI>You wanted a player and got an object.  You can test this with <tt><font color="#008080">is_player(iobj)</font></tt>.</LI>
+<LI>The property you’re remembering no longer applies.  For instance, the piano remembers who’s hiding under it.  But if that person has left the room, we have to consider the property to be null.</LI>
+<LI>You want the object (e.g. the sharp stick) to act on another object; what if the object supplied is yourself, or the object itself?</LI>
+</UL>
+
+
+<P>In general these conditions are handled by if statements.  For instance, a <tt><font color="#008080">radio:on</font></tt> verb might look like this:
+
+<blockquote>
+<tt><font color="#008080"><P>if (this.on == 1)
+<br>&nbsp;&nbsp;player:tell( &quot;The radio is already on!&quot; );
+<br>else
+<br>&nbsp;&nbsp;player:tell( &quot;You turn on the radio.&quot; );
+<br>&nbsp;&nbsp;this.on = 1;
+<br>endif
+</blockquote>
+</font></tt><P>As usual, you can’t deviate from the exact syntax the moo wants.  The condition has to be in parentheses; there’s no semicolon after the <tt><font color="#008080">if</font></tt>, <tt><font color="#008080">else</font></tt>, or <tt><font color="#008080">endif</font></tt>; the <tt><font color="#008080">endif</font></tt> must exist, even for a one-line statement.  
+
+<P>Very confusing if you’re not a C/C++ programmer: <B>testing</B> a value requires a <B>double</B> equals sign (<tt><font color="#008080">this.on == 1</font></tt>); <B>setting</B> one requires a <B>single</B> equals (<tt><font color="#008080">this.on = 1</font></tt>).  You can look at a misbehaving verb for minutes on end without noticing an error like this.  (Not-equals is <tt><font color="#008080">!=</font></tt>, by the way.)
+
+<P>The <tt><font color="#008080">else</font></tt> part is optional.  You can also have any number of  <tt><font color="#008080">elseif (another condition</font></tt>) blocks before the <tt><font color="#008080">else</font></tt>.
+
+
+<h3><font color="#0000C0">Some notes for C++ programmers</font></h3>
+
+You’ll see a strong C influence on the moo language.  Compound statements, such as if/endif, however, look more like Basic.  
+
+<P>The language is object-oriented, with inheritance.  Note that the <tt><font color="#008080">@create</font></tt> command specifies the base class of the newly created object.  Verbs correspond to methods (but you use <tt><font color="#008080">object:method</font></tt>, not <tt><font color="#008080">object::method</font></tt>), and properties to data members (using the same <tt><font color="#008080">.</font></tt> as in C/C++).  
+
+<P>Can you define a verb that’s not called by a player, but only by other verbs?  Sure.  It uses a special parameter list: <tt><font color="#008080">this none this</font></tt>, which the player cannot enter (if there’s no preposition the parser just quits).  The dartboard’s <tt><font color="#008080">hit</font></tt> command works like this. It’s defined by <tt><font color="#008080">@verb dartboard:hit this none this</font></tt> and called by the <tt><font color="#008080">dart:toss</font></tt> routine with the line
+
+<blockquote><tt><font color="#008080"><P>&#9;#278:hit();
+</font></tt></blockquote>
+
+<tt><font color="#008080">#278</font></tt> is the object number of the dartboard (object numbers are a special data type; think of them as pointers to objects).  You can use this anywhere, to make sure the moo understands you whether or not the dartboard is around.  It’s better programming practice, of course, to avoid using the same number all over—it means you couldn’t use the object in another moo, for instance.  If we needed to refer to it often, it’d be better to put the dartboard number in a property of the darts, for instance.
+
+<P>There’s fairly nice list (array) support, and lists can include any other type, including other lists, as members.
+
+<P>One little gotcha: the C construction <tt><font color="#008080">cond ? texpr : fexpr</font></tt> morphs in moo into <tt><font color="#008080">cond ? texpr | fexpr</font></tt>.
+
+<P>Most things the player can do on the command line can also be done by the programmer within a verb--  sometimes with a slightly different verb or syntax.  For a full exploration of this, see the <I>Database Manual</I>.
+
+<p>Don't worry about prettyprinting your program.  Moo stores it in an interpreted form, and supplies its own indents and spacing when you next edit it.
+
+
+<h3><font color="#0000C0">A few examples</font></h3>
+
+You may be interested in how I got some of the effects in the existing SpinnMoo toys.  You can inspect the program code with <tt><font color="#008080">@edit</font></tt> to see exactly how something was done.
+
+<B><P>Dildo</B>.  The dildo remembers its state in an <tt><font color="#008080">on</font></tt> property.  It also remembers the last user; I defined a <tt><font color="#008080">lastuser</font></tt> property pointing to an object, and set it to <tt><font color="#008080">player</font></tt> when appropriate.  The delayed action is accomplished using a <tt><font color="#008080">fork</font></tt> command; see the <I>Programming Manual</I>. 
+
+<B><P>Piano</B>.  The piano isn’t really a container; it just remembers who is hiding under it (using a <tt><font color="#008080">hider</font></tt> property). The <tt><font color="#008080">description</font></tt> is modified to make this seem more real.  Note the error handling in the <tt><font color="#008080">hide</font></tt> command: there can only be one <tt><font color="#008080">hider</font></tt> at a time, so the previous <tt><font color="#008080">hider</font></tt> (if it’s not the player!) must be ejected.  We cannot prevent the hider from leaving the room, so the description and other commands must check to see that the hider is really still there.  We do this by checking if <tt><font color="#008080">hider.location == this.location</font></tt>--  if the hider is in the same room as the piano.  The play command uses <tt><font color="#008080">random</font></tt> to determine the player’s style and the onlookers’ reaction. 
+
+<B><P>Slow glass</B>.  This is mostly implemented in a huge <tt><font color="#008080">description</font></tt> command.  There are three properties that increment (at different speeds, so they don’t overlap) on each call: location, weather, and time of day.  There’s also a direction, 1 or –1, which determines whether location is incremented or decremented.
+
+<B><P>Readme</B>.  The readme object simply contains couple of list properties, <tt><font color="#008080">items</font></tt> and <tt><font color="#008080">signed</font></tt>.  The first contains the items added to the bulletin board; the second contains the players’ names.
+
+<B><P>Dartboard</B>.  This was the most complicated programming task.  The dartboard remembers the current scores (as pair of lists, the players and their scores) and contains verbs to reset the scores, set the target, print out the scores, or retrieve the darts, which may have wandered to another room.  There is also a hidden verb, <tt><font color="#008080">hit</font></tt>, which is called by the darts when you toss them.  This verb makes heavy use of the <tt><font color="#008080">random</font></tt> function to vary the results.  It throws three darts, totals them up, adjusts the scores, determines winners, and on the second and higher rounds passes the darts to the next player.
+
+<B><P>VW Microbus</B>.  This required wizard status to fully implement; but the actual coding is straightforward.  The bus is actually a separate room which stays in one place; the &quot;bus&quot; object you can pick up and carry around (and which moves around the moo as the bus is driven) is not even a container, and its <tt><font color="#008080">enter</font></tt> verb just teleports the player to the separate room.  The room has a single exit, whose destination point is reset as the player drives.  The bus room itself is, of course, not inside another room at all; we just remember where it is as a property.  The <tt><font color="#008080">ways()</font></tt> function tells us what exits a room has; the <I>Database Manual</I> can be ransacked for tidbits like this.  The difficulty here was not so much writing the code, as in being careful about what needed to be done.  For instance, as the bus moves, the bus object not only has to be moved, but messages have to be printed in the previous and new locations so users see the bus coming through.
+
+<hr>
+
+<p><a href="default.html"><img src="home.gif" alt="Home"></a>  <a href="spinn.html">[ Page o' SpinnStuff ]</a>
+
+
+</BODY>
+</HTML>

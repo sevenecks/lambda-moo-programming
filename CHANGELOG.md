@@ -1,5 +1,18 @@
 # Changelog for The New MOO Programming Guide
 
+## [0.3] - 2017.01.25 1:56PM
+
+### Fixed
+### Added
+* Added dark-sleep tutorial
+* Added hacking lambda moo server tutorial
+* Added LambdaMOO Background doc
+* Added Way Easy MOO Programming Guide
+* Added Winding Duck tutorial
+* Added Yib's pet rock tutorial
+* Added Zompost moo help doc
+* Updated README
+
 ## [0.2] - 2018.01.22 5:00PM
 
 ### Fixed
