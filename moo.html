@@ -1,11 +1,9 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>LambdaMOO Programmer's Manual</title>
-    <link rel="apple-touch-icon" href="/img/touch-icon-iphone.png" />
-    <link rel="apple-touch-icon" sizes="72x72" href="/img/touch-icon-iphone4.png" />
-    <link rel="apple-touch-icon" sizes="114x114" href="/img/touch-icon-iphone4.png" />
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro|Quantico:400,400italic,700" />
-    <link rel="stylesheet" href="http://www.sindome.org/css/dome.css?z207b40e0f477a5360a7ada2195a0f744d62868db" />
+    <link rel="stylesheet" href="http://www.sindome.org/css/dome.css" />
 </head>
 <body>
 <h1>LambdaMOO Programmer's Manual</h1>
@@ -19,7 +17,7 @@
 <ul>
     <li><a href="http://www.lisdude.com/moo/" target="_blank">lisdude MOO resources</a></li>
     <li><a href="http://www.hayseed.net/MOO/manuals/ProgrammersManual.html" target="_blank">Unedited MOO Programmers Manual</a></li>
-    <li><a href="http://www2.iath.virginia.edu/courses/moo/ProgrammersManual.texinfo_toc.html" target="_blank">Older Unedited MOO Programmers Mnaual</a>
+    <li><a href="http://www2.iath.virginia.edu/courses/moo/ProgrammersManual.texinfo_toc.html" target="_blank">Older Unedited MOO Programmers Mnaual</a></li>
     <li><a href="https://github.com/SevenEcks/LambdaMOO" target="_blank">LambdaMOO Source (github)</a></li>
     <li><a href="http://lambda.moo.mud.org/pub/MOO/" target="_blank">LambdaMOO Databases (and other resources)</a></li>
     <li><a href="https://groups.google.com/forum/#!forum/MOO-talk" target="_blank">MOO Talk Mailing List</a></li>
@@ -53,7 +51,7 @@ Characters are the embodiment of players in the virtual reality that is
 LambdaMOO.</p>
 <div class="well">
     <span class="label label-info">Note:</span> No one really connects to a MOO over telnet these days. MOO Clients and MUD Clients are 
-    relatively common. See the resources section for more information on these. There are even some web based clients (dome-client) out there that use websockets to connect to a MOO directly from the browser.</span>
+    relatively common. See the resources section for more information on these. There are even some web based clients (dome-client) out there that use websockets to connect to a MOO directly from the browser.
 </div>
 <p>Having connected to a character, players then give one-line commands that are
 parsed and interpreted by LambdaMOO as appropriate. Such commands may cause
@@ -102,7 +100,7 @@ is one particular LambdaMOO database, created every so often by extracting the
     The above information may be out of date, but the most recent dump of the <em>LambdaCore</em> 
     can be found <a href="http://lambda.moo.mud.org/pub/MOO/" target="_blank">here</a>.
 </div>
-<h3>MOO Value Types</a></h3>
+<h3>MOO Value Types</h3>
 <p>There are only a few kinds of values that MOO programs can manipulate:
 <ul>
     <li>integers (in a specific, large range)</li>
@@ -290,8 +288,8 @@ that are common to all rooms; other rooms specialize that behavior for their
 own purposes. The notion of classes and specialization is the very essence of
 what is meant by <em>object-oriented</em> programming. Only the functions
 <span class="cmd">create()</span>, <span class="cmd">recycle()</span>, 
-<span class="cmd">chparent()</span>, and <span class="cmd">renumber()</cmd> can
-change the parent and children attributes.</span>
+<span class="cmd">chparent()</span>, and <span class="cmd">renumber()</span> can
+change the parent and children attributes.</p>
 
 <h4>Properties on Objects</h4>
 <p>A <em>property</em> is a named "slot" in an object that can hold an arbitrary
@@ -532,14 +530,14 @@ generally used in MOO commands; the parser does not know that they are not impor
 command.</p>
 <p>First, the server checks whether or not the first non-blank character in the command is one of the following:
 <ul>
-    <li><span class="cmd"><var>"</var></li>
+    <li><span class="cmd"><var>"</var></span></li>
     <li><span class="cmd"><var>:</var></span></li>
     <li><span class="cmd"><var>;</var></span></li>
 </ul>
 <p>If so, that character is replaced by the corresponding command below, followed
 by a space:</p>
 <ul>
-    <li><span class="cmd"><var>say</var></li>
+    <li><span class="cmd"><var>say</var></span></li>
     <li><span class="cmd"><var>emote</var></span></li>
     <li><span class="cmd"><var>eval</var></span></li>
 </ul>
@@ -733,8 +731,6 @@ built-in variables will have the indicated values:</p>
 <p>The value returned by the program, if any, is ignored by the server.</p>
 
 <h2 id="the-moo-programming-language">The MOO Programming Language</h2>
-
-</p>
 <p>MOO stands for "MUD, Object Oriented."  MUD, in turn, has been said to stand
 for many different things, but I tend to think of it as "Multi-User Dungeon"
 in the spirit of those ancient precursors to MUDs, Adventure and Zork.</p>
@@ -1031,9 +1027,8 @@ for ordering purposes using the following operators:</p>
     <dd>"greater than or equal"</dd>
     <dt>&#62;</dt>
     <dd>"greater than"</dd>
-</ul>
-<p>As with the equality
-operators, these return 1 when their operands are in the appropriate relation and 0 otherwise:</p>
+</dl>
+<p>As with the equality operators, these return 1 when their operands are in the appropriate relation and 0 otherwise:</p>
 <pre>
 3 &#60; 4           =>  1
 3 &#60; 4.0         =>  E_TYPE (an error)
@@ -1246,7 +1241,6 @@ s                 =>   "fuobaz"
 <div class="alert alert-info">
     <span class="label label-info">Note:</span> (error) is only used for formatting and identification purposes in these examples and is not present
     in an actual raised error on the MOO.
-</div>
 </div>
 <div class="alert alert-info">
     <span class="label label-info">Note:</span> The <span class="cmd">$</span> expression may also be used in indexed assignments with
@@ -2078,10 +2072,7 @@ for obj in (list_of_objects)
     endif
 endfor
 </pre>
-<p>The verb above could be called with <span class="cmd"><var>obj_with_verb</var>:<var>has_object</var>(<var>#18657</var>, 
-<var>{#1, #3, #4, #3000}</span>)</span> 
-and it would return <span class="cmd">false</span> (0) if the object was 
-not found in the list. It would return <span class="cmd">true</span> (1) if the object was found in the list.</p>
+<p>The verb above could be called with <span class="cmd"><var>obj_with_verb</var>:<var>has_object</var>(<var>#18657</var>, <var>{#1, #3, #4, #3000}</var>)</span> and it would return <span class="cmd">false</span> (0) if the object was not found in the list. It would return <span class="cmd">true</span> (1) if the object was found in the list.</p>
 <p>Of course we could write this much simplier (and get the index of the object in the list at the same time):</p>
 <pre>
 {seek_obj, list_of_objects} = args;
@@ -2670,7 +2661,7 @@ equal("Foo", "Foo")    =>   1
     equivalent to <span class="cmd">floor()</span>.</p>
 </article>
 <h5 id="regular-expressions">Regular Expressions</h5>
-<p<em>Regular expression</em> matching allows you to test whether a string fits into
+<p><em>Regular expression</em> matching allows you to test whether a string fits into
 a specific syntactic shape. You can also search a string for a substring that
 fits a pattern.</p>
 <p>A regular expression describes a set of strings. The simplest case is one that
@@ -2959,7 +2950,7 @@ encode_binary("foo", 10, "bar", 13)       =>   "foo~0Abar~0D"
 </article>
 <article class="well bg-info text-info" id="function-match">
     <strong><u>Function:</u> <span class="cmd">match</span></strong>
-    <p>match --  Searches for the first occurrence of the regular expression <var>pattern</var> in the string <var>subject</p>
+    <p>match --  Searches for the first occurrence of the regular expression <var>pattern</var> in the string <var>subject</var></p>
     <div class="well bg-info"><var>list</var> <span class="cmd">match</span> (str <var>subject</var>, str <var>pattern</var> 
     [, int <var>case-matters</var>])</div>
     <p>If <var>pattern</var> is syntactically malformed, then <span class="cmd">E_INVARG</span> is raised.
@@ -2998,7 +2989,7 @@ match("foobar", "f%(o*%)b")
 </article>
 <article class="well bg-info text-info" id="function-rmatch">
     <strong><u>Function:</u> <span class="cmd">rmatch</span></strong>
-    <p>rmatch --  Searches for the last occurrence of the regular expression <var>pattern</var> in the string <var>subject</p>
+    <p>rmatch --  Searches for the last occurrence of the regular expression <var>pattern</var> in the string <var>subject</var></p>2
     <div class="well bg-info"><var>list</var> <span class="cmd">rmatch</span> (str <var>subject</var>, str <var>pattern</var> 
     [, int <var>case-matters</var>])</div>
     <p>If <var>pattern</var> is syntactically malformed, then <span class="cmd">E_INVARG</span> is raised.
@@ -3133,7 +3124,7 @@ is_member("Foo", {1, "Foo", #24})   =>   2
     element.</p>
     <div class="well bg-info"><var>list</var> <span class="cmd">listinsert</span> (list <var>list</var>, <var>value</var> [, int <var>index</var>])</div>
     <div class="well bg-info"><var>list</var> <span class="cmd">listappend</span> (list <var>list</var>, <var>value</var> [, int <var>index</var>])</div>
-    <span class="cmd">listinsert()</span> and <span class="cmd">listappend()</span> add <var>value</var> before
+    <p><span class="cmd">listinsert()</span> and <span class="cmd">listappend()</span> add <var>value</var> before
     and after (respectively) the existing element with the given <var>index</var>, if
     provided.</p>
     <p>The following three expressions always have the same value:</p>
@@ -3208,7 +3199,7 @@ setremove({1, 2, 3, 2}, 2)   =>   {1, 3, 2}
 <p>Objects are, of course, the main focus of most MOO programming and, largely due
 to that, there are a lot of built-in functions for manipulating them.</p>
 <h5 id="fundamental-operations-on-objects">Fundamental Operations on Objects</h5>
-<article class="well bg-info text-info" id="function-is-member">
+<article class="well bg-info text-info" id="function-create">
     <strong><u>Function:</u> <span class="cmd">create</span></strong>
     <p>create -- Creates and returns a new object whose parent is <var>parent</var> and whose owner 
     is as described below.</p>
@@ -3223,11 +3214,7 @@ to that, there are a lot of built-in functions for manipulating them.</p>
     <p>The new object is assigned the least non-negative object number that has not
     yet been used for a created object. Note that no object number is ever reused,
     even if the object with that number is recycled.</p>
-    <div class="alert alert-warning">This is not strictly true, especially if you are using LambdaCore and the <span class="cmd">$recycler</span>, which is a great idea. 
-    If you don't, you end up with extremely high object numbers. However, if you plan on reusing object numbers you need to consider this carefully in your code. You
-    do not want to include object numbers in your code if this is the case, as object numbers could change. Use corified references instead (IE: <span class="cmd">
-    @prop #0.my_object #objnum</span> allows you to use $my_object in your code. If the object number ever changes, you can change the reference without updating 
-    all of your code.)</span></div>
+    <div class="alert alert-warning">This is not strictly true, especially if you are using LambdaCore and the <span class="cmd">$recycler</span>, which is a great idea.  If you don't, you end up with extremely high object numbers. However, if you plan on reusing object numbers you need to consider this carefully in your code. You do not want to include object numbers in your code if this is the case, as object numbers could change. Use corified references instead (IE: <span class="cmd"> @prop #0.my_object #objnum</span> allows you to use $my_object in your code. If the object number ever changes, you can change the reference without updating all of your code.)</div>
     <p>The owner of the new object is either the programmer (if <var>owner</var> is not
     provided), the new object itself (if <var>owner</var> was given as <span class="cmd">#-1</span>), or
     <var>owner</var> (otherwise).</p>
@@ -3353,548 +3340,287 @@ valid(#-1)   =>   0
     and does not apply if you are using the <span class="cmd">$recycler</span> to create objects.</div>
 </article>
 <h5 id="object-movement">Object Movement</h5>
+<!-- updated to here -->
 <article class="well bg-info text-info" id="function-move">
-    <strong><u>Function:</u> <span class="cmd">none <b>move</span> (obj <var>what</var>, obj <var>where</var>)</div>
-
-Changes <var>what</var>'s location to be <var>where</var>. This is a complex process
-because a number of permissions checks and notifications must be performed.
-The actual movement takes place as described in the following paragraphs.</p>
-<p><var>what</var> should be a valid object and <var>where</var> should be either a valid
-object or <span class="cmd">#-1</span> (denoting a location of `nowhere'); otherwise
-<span class="cmd">E_INVARG</span> is raised. The programmer must be either the owner of
-<var>what</var> or a wizard; otherwise, <span class="cmd">E_PERM</span> is raised.</p>
-<p>If <var>where</var> is a valid object, then the verb-call</p>
+    <strong><u>Function:</u> <span class="cmd">move</span></strong>
+    <p>move -- Changes <var>what</var>'s location to be <var>where</var>.</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">move</span> (obj <var>what</var>, obj <var>where</var>)</div>
+    <p>This is a complex process because a number of permissions checks and notifications must be performed.  The actual movement takes place as described in the following paragraphs.</p>
+    <p><var>what</var> should be a valid object and <var>where</var> should be either a valid
+    object or <span class="cmd">#-1</span> (denoting a location of `nowhere'); otherwise
+    <span class="cmd">E_INVARG</span> is raised. The programmer must be either the owner of
+    <var>what</var> or a wizard; otherwise, <span class="cmd">E_PERM</span> is raised.</p>
+    <p>If <var>where</var> is a valid object, then the verb-call</p>
 <pre>
 <var>where</var>:accept(<var>what</var>)
 </pre>
-<p>is performed before any movement takes place. If the verb returns a
-false value and the programmer is not a wizard, then <var>where</var> is
-considered to have refused entrance to <var>what</var>; <span class="cmd">move()</span> raises
-<span class="cmd">E_NACC</span>. If <var>where</var> does not define an <span class="cmd">accept</span> verb, then it
-is treated as if it defined one that always returned false.</p>
-<p>If moving <var>what</var> into <var>where</var> would create a loop in the containment
-hierarchy (i.e., <var>what</var> would contain itself, even indirectly), then
-<span class="cmd">E_RECMOVE</span> is raised instead.</p>
-<p>The <span class="cmd">location</span> property of <var>what</var> is changed to be <var>where</var>, and
-the <span class="cmd">contents</span> properties of the old and new locations are modified
-appropriately. Let <var>old-where</var> be the location of <var>what</var> before it was
-moved. If <var>old-where</var> is a valid object, then the verb-call</p>
+    <p>is performed before any movement takes place. If the verb returns a false value and the programmer is not a wizard, then <var>where</var> is considered to have refused entrance to <var>what</var>; <span class="cmd">move()</span> raises <span class="cmd">E_NACC</span>. If <var>where</var> does not define an <span class="cmd">accept</span> verb, then it is treated as if it defined one that always returned false.</p>
+    <p>If moving <var>what</var> into <var>where</var> would create a loop in the containment hierarchy (i.e., <var>what</var> would contain itself, even indirectly), then <span class="cmd">E_RECMOVE</span> is raised instead.</p>
+    <p>The <span class="cmd">location</span> property of <var>what</var> is changed to be <var>where</var>, and the <span class="cmd">contents</span> properties of the old and new locations are modified appropriately. Let <var>old-where</var> be the location of <var>what</var> before it was moved. If <var>old-where</var> is a valid object, then the verb-call</p>
 <pre>
 <var>old-where</var>:exitfunc(<var>what</var>)
 </pre>
-<p>is performed and its result is ignored; it is not an error if <var>old-where</var>
-does not define a verb named <span class="cmd">exitfunc</span>. Finally, if <var>where</var> and
-<var>what</var> are still valid objects, and <var>where</var> is still the location of
-<var>what</var>, then the verb-call</p>
+    <p>is performed and its result is ignored; it is not an error if <var>old-where</var> does not define a verb named <span class="cmd">exitfunc</span>. Finally, if <var>where</var> and <var>what</var> are still valid objects, and <var>where</var> is still the location of <var>what</var>, then the verb-call</p>
 <pre>
 <var>where</var>:enterfunc(<var>what</var>)
 </pre>
-<p>is performed and its result is ignored; again, it is not an error if
-<var>where</var> does not define a verb named <span class="cmd">enterfunc</span>.
-</dl>
+    <p>is performed and its result is ignored; again, it is not an error if <var>where</var> does not define a verb named <span class="cmd">enterfunc</span>.</p>
+</article>
 <h5 id="operations-on-properties">Operations on Properties</h5>
 <article class="well bg-info text-info" id="function-properties">
-    <strong><u>Function:</u> <span class="cmd">list <b>properties</span> (obj <var>object</var>)</div>
-
-Returns a list of the names of the properties defined directly on the given
-<var>object</var>, not inherited from its parent. If <var>object</var> is not valid,
-then <span class="cmd">E_INVARG</span> is raised. If the programmer does not have read
-permission on <var>object</var>, then <span class="cmd">E_PERM</span> is raised.
-</dl></p>
-<p><dl>
+    <strong><u>Function:</u> <span class="cmd">properties</span></strong>
+    <p>properties -- Returns a list of the names of the properties defined directly on the given <var>object</var>, not inherited from its parent.</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">properties</span> (obj <var>object</var>)</div>
+    <p>If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If the programmer does not have read permission on <var>object</var>, then <span class="cmd">E_PERM</span> is raised.</p>
+</article>
 <article class="well bg-info text-info" id="function-property-info">
-    <strong><u>Function:</u> <span class="cmd">list <b>property_info</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
-
+    <strong><u>Function:</u> <span class="cmd">property_info</span></strong>
+    <p>property_info -- Get the owner and permission bits for the property named prop-name on the given object</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">property_info</cmd> (obj <var>object</var>, str <var>prop-name</var>)</div>
+    <p>If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If <var>object</var> has no non-built-in property named <var>prop-name</var>, then <span class="cmd">E_PROPNF</span> is raised. If the programmer does not have read (write) permission on the property in question, then <span class="cmd">property_info()</span> raises <span class="cmd">E_PERM</span>.</p>
+</article>
 <article class="well bg-info text-info" id="function-set-property-info">
-    <strong><u>Function:</u> <span class="cmd">none <b>set_property_info</span> (obj <var>object</var>, str <var>prop-name</var>, list <var>info</var>)</div>
-
-These two functions get and set (respectively) the owner and permission bits
-for the property named <var>prop-name</var> on the given <var>object</var>. If
-<var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If <var>object</var>
-has no non-built-in property named <var>prop-name</var>, then <span class="cmd">E_PROPNF</span> is
-raised. If the programmer does not have read (write) permission on the
-property in question, then <span class="cmd">property_info()</span> (<span class="cmd">set_property_info()</span>)
-raises <span class="cmd">E_PERM</span>. Property info has the following form:</p>
+    <strong><u>Function:</u> <span class="cmd">set_property_info</span></strong>
+    <p>set_property_info -- Set the owner and permission bits for the property named prop-name on the given object</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">set_property_info</span> (obj <var>object</var>, str <var>prop-name</var>, list <var>info</var>)</div>
+    <p>If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If <var>object</var> has no non-built-in property named <var>prop-name</var>, then <span class="cmd">E_PROPNF</span> is raised. If the programmer does not have read (write) permission on the property in question, then <span class="cmd">set_property_info()</span> raises <span class="cmd">E_PERM</span>. Property info has the following form:</p>
 <pre>
 {<var>owner</var>, <var>perms</var> [, <var>new-name</var>]}
 </pre>
-<p>where <var>owner</var> is an object, <var>perms</var> is a string containing only
-characters from the set <span class="cmd">r</span>, <span class="cmd">w</span>, and <span class="cmd">c</span>, and <var>new-name</var> is
-a string; <var>new-name</var> is never part of the value returned by
-<span class="cmd">property_info()</span>, but it may optionally be given as part of the value
-provided to <span class="cmd">set_property_info()</span>. This list is the kind of value
-returned by <span class="cmd">property_info()</span> and expected as the third argument to
-<span class="cmd">set_property_info()</span>; the latter function raises <span class="cmd">E_INVARG</span> if
-<var>owner</var> is not valid, if <var>perms</var> contains any illegal characters, or,
-when <var>new-name</var> is given, if <var>prop-name</var> is not defined directly on
-<var>object</var> or <var>new-name</var> names an existing property defined on
-<var>object</var> or any of its ancestors or descendants.
-</dl></p>
-<p><dl>
+<p>where <var>owner</var> is an object, <var>perms</var> is a string containing only characters from the set <span class="cmd">r</span>, <span class="cmd">w</span>, and <span class="cmd">c</span>, and <var>new-name</var> is a string; <var>new-name</var> is never part of the value returned by <span class="cmd">property_info()</span>, but it may optionally be given as part of the value provided to <span class="cmd">set_property_info()</span>. This list is the kind of value returned by <span
+    class="cmd">property_info()</span> and expected as the third argument to <span class="cmd">set_property_info()</span>; the latter function raises <span class="cmd">E_INVARG</span> if <var>owner</var> is not valid, if <var>perms</var> contains any illegal characters, or, when <var>new-name</var> is given, if <var>prop-name</var> is not defined directly on <var>object</var> or <var>new-name</var> names an existing property defined on <var>object</var> or any of its ancestors or
+descendants.</p>
+</article>
 <article class="well bg-info text-info" id="function-add-property">
-    <strong><u>Function:</u> <span class="cmd">none <b>add_property</span> (obj <var>object</var>, str <var>prop-name</var>, <var>value</var>, list <var>info</var>)</div>
-
-Defines a new property on the given <var>object</var>, inherited by all of its
-descendants; the property is named <var>prop-name</var>, its initial value is
-<var>value</var>, and its owner and initial permission bits are given by <var>info</var>
-in the same format as is returned by <span class="cmd">property_info()</span>, described above.
-If <var>object</var> is not valid or <var>info</var> does not specify a valid owner and
-well-formed permission bits or <var>object</var> or its ancestors or descendants
-already defines a property named <var>prop-name</var>, then <span class="cmd">E_INVARG</span> is
-raised. If the programmer does not have write permission on <var>object</var> or
-if the owner specified by <var>info</var> is not the programmer and the programmer
-is not a wizard, then <span class="cmd">E_PERM</span> is raised.
-</dl></p>
-<p><dl>
+    <strong><u>Function:</u> <span class="cmd">add_property</span></strong>
+    <p>add_property -- Defines a new property on the given <var>object</var></p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">add_property</span> (obj <var>object</var>, str <var>prop-name</var>, <var>value</var>, list <var>info</var>)</div>
+    <p>The property is inherited by all of its descendants; the property is named <var>prop-name</var>, its initial value is
+    <var>value</var>, and its owner and initial permission bits are given by <var>info</var> in the same format as is returned by <span class="cmd">property_info()</span>, described above.</p>
+    <p>If <var>object</var> is not valid or <var>info</var> does not specify a valid owner and well-formed permission bits or <var>object</var> or its ancestors or descendants already defines a property named <var>prop-name</var>, then <span class="cmd">E_INVARG</span> is
+    raised. If the programmer does not have write permission on <var>object</var> or if the owner specified by <var>info</var> is not the programmer and the programmer is not a wizard, then <span class="cmd">E_PERM</span> is raised.</p>
+</article>
 <article class="well bg-info text-info" id="function-delete-property">
-    <strong><u>Function:</u> <span class="cmd">none <b>delete_property</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
-
-Removes the property named <var>prop-name</var> from the given <var>object</var> and all
-of its descendants. If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is
-raised. If the programmer does not have write permission on <var>object</var>,
-then <span class="cmd">E_PERM</span> is raised. If <var>object</var> does not directly define a
-property named <var>prop-name</var> (as opposed to inheriting one from its parent),
-then <span class="cmd">E_PROPNF</span> is raised.
-</dl></p>
-<p><dl>
+    <strong><u>Function:</u> <span class="cmd">delete_property</span></strong>
+    <p>delete_property -- Removes the property named <var>prop-name</var> from the given <var>object</var> and all
+    of its descendants.</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">>delete_property</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
+    <p> If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If the programmer does not have write permission on <var>object</var>, then <span class="cmd">E_PERM</span> is raised. If <var>object</var> does not directly define a property named <var>prop-name</var> (as opposed to inheriting one from its parent), then <span class="cmd">E_PROPNF</span> is raised.</p>
+</article>
 <article class="well bg-info text-info" id="function-is-clear-property">
-    <strong><u>Function:</u> <span class="cmd">int <b>is_clear_property</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
-
-<article class="well bg-info text-info" id="function-clear-property">
-    <strong><u>Function:</u> <span class="cmd">none <b>clear_property</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
-
-These two functions test for clear and set to clear, respectively, the property
-named <var>prop-name</var> on the given <var>object</var>. If <var>object</var> is not valid,
-then <span class="cmd">E_INVARG</span> is raised. If <var>object</var> has no non-built-in property
-named <var>prop-name</var>, then <span class="cmd">E_PROPNF</span> is raised. If the programmer
-does not have read (write) permission on the property in question, then
-<span class="cmd">is_clear_property()</span> (<span class="cmd">clear_property()</span>) raises <span class="cmd">E_PERM</span>.
-If a property is clear, then when the value of that property is queried the
-value of the parent's property of the same name is returned. If the parent's
-property is clear, then the parent's parent's value is examined, and so on.
-If <var>object</var> is the definer of the property <var>prop-name</var>, as opposed to
-an inheritor of the property, then <span class="cmd">clear_property()</span> raises
-<span class="cmd">E_INVARG</span>.
-</dl>
-
+    <strong><u>Function:</u> <span class="cmd">is_clear_property</cmd></strong>
+    <p>is_clear_property -- Test the specified property for clear</p>
+    <div class="well bg-info"><var>int</var> <span class="cmd">is_clear_property</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
+    <strong><u>Function:</u> <span class="cmd">clear_property</span></strong>
+    <p>clear_property -- Set the specified property to clear</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">clear_property</span> (obj <var>object</var>, str <var>prop-name</var>)</div>
+    <p> These two functions test for clear and set to clear, respectively, the property named <var>prop-name</var> on the given <var>object</var>. If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If <var>object</var> has no non-built-in property named <var>prop-name</var>, then <span class="cmd">E_PROPNF</span> is raised. If the programmer does not have read (write) permission on the property in question, then <span class="cmd">is_clear_property()</span>
+    (<span class="cmd">clear_property()</span>) raises <span class="cmd">E_PERM</span>.</p>
+    <p>If a property is clear, then when the value of that property is queried the value of the parent's property of the same name is returned. If the parent's property is clear, then the parent's parent's value is examined, and so on.  If <var>object</var> is the definer of the property <var>prop-name</var>, as opposed to an inheritor of the property, then <span class="cmd">clear_property()</span> raises <span class="cmd">E_INVARG</span>.</p>
+</article>
 <h5 id="operations-on-verbs">Operations on Verbs</h5>
 <article class="well bg-info text-info" id="function-verbs">
-    <strong><u>Function:</u> <span class="cmd">list <b>verbs</span> (obj <var>object</var>)</div>
-
-Returns a list of the names of the verbs defined directly on the given
-<var>object</var>, not inherited from its parent. If <var>object</var> is not valid,
-then <span class="cmd">E_INVARG</span> is raised. If the programmer does not have read
-permission on <var>object</var>, then <span class="cmd">E_PERM</span> is raised.
-</dl></p>
-<p>Most of the remaining operations on verbs accept a string containing the verb's
-name to identify the verb in question. Because verbs can have multiple names
-and because an object can have multiple verbs with the same name, this practice
-can lead to difficulties. To most unambiguously refer to a particular verb,
-one can instead use a positive integer, the index of the verb in the list
-returned by <span class="cmd">verbs()</span>, described above.</p>
-<p>For example, suppose that <span class="cmd">verbs(#34)</span> returns this list:</p>
+    <strong><u>Function:</u> <span class="cmd">verbs</span></strong>
+    <p>verbs -- Returns a list of the names of the verbs defined directly on the given <var>object</var>, not inherited from its parent</p>
+    <div class="well bg-info"><var>list</var> verbs</span> (obj <var>object</var>)</div>
+    <p>If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If the programmer does not have read permission on <var>object</var>, then <span class="cmd">E_PERM</span> is raised.</p>
+    <p>Most of the remaining operations on verbs accept a string containing the verb's name to identify the verb in question. Because verbs can have multiple names and because an object can have multiple verbs with the same name, this practice can lead to difficulties. To most unambiguously refer to a particular verb, one can instead use a positive integer, the index of the verb in the list returned by <span class="cmd">verbs()</span>, described above.</p>
+    <p>For example, suppose that <span class="cmd">verbs(#34)</span> returns this list:</p>
 <pre>
 {"foo", "bar", "baz", "foo"}
 </pre>
-<p>Object <span class="cmd">#34</span> has two verbs named <span class="cmd">foo</span> defined on it (this may not be
-an error, if the two verbs have different command syntaxes). To refer
-unambiguously to the first one in the list, one uses the integer 1; to refer to
-the other one, one uses 4.</p>
-<p>In the function descriptions below, an argument named <var>verb-desc</var> is either
-a string containing the name of a verb or else a positive integer giving the
-index of that verb in its defining object's <span class="cmd">verbs()</span> list.
-<blockquote>
-</p>
-<p>For historical reasons, there is also a second, inferior mechanism for
-referring to verbs with numbers, but its use is strongly discouraged. If the
-property <span class="cmd">$server_options.support_numeric_verbname_strings</span> exists with a
-true value, then functions on verbs will also accept a numeric string (e.g.,
-<span class="cmd">"4"</span>) as a verb descriptor. The decimal integer in the string works
-more-or-less like the positive integers described above, but with two
-significant differences:
-<ol>
-<li>
-
-The numeric string is a <em>zero-based</em> index into <span class="cmd">verbs()</span>; that is,
-in the string case, you would use the number one less than what you would use
-in the positive integer case.
-
-<li>
-
-When there exists a verb whose actual name looks like a decimal integer, this
-numeric-string notation is ambiguous; the server will in all cases assume that
-the reference is to the first verb in the list for which the given string could
-be a name, either in the normal sense or as a numeric index.
-</ol>
-
-</p>
-<p>Clearly, this older mechanism is more difficult and risky to use; new code
-should only be written to use the current mechanism, and old code using numeric
-strings should be modified not to do so.
-</blockquote>
-
-</p>
-<p><dl>
+    <p>Object <span class="cmd">#34</span> has two verbs named <span class="cmd">foo</span> defined on it (this may not be an error, if the two verbs have different command syntaxes). To refer unambiguously to the first one in the list, one uses the integer 1; to refer to the other one, one uses 4.</p>
+    <p>In the function descriptions below, an argument named <var>verb-desc</var> is either a string containing the name of a verb or else a positive integer giving the index of that verb in its defining object's <span class="cmd">verbs()</span> list.</p>
+    <div class="well bg-warn">For historical reasons, there is also a second, inferior mechanism for referring to verbs with numbers, but its use is strongly discouraged. If the property <span class="cmd">$server_options.support_numeric_verbname_strings</span> exists with a true value, then functions on verbs will also accept a numeric string (e.g., <span class="cmd">"4"</span>) as a verb descriptor. The decimal integer in the string works more-or-less like the positive integers described above, but with two significant differences:
+        <p>The numeric string is a <em>zero-based</em> index into <span class="cmd">verbs()</span>; that is, in the string case, you would use the number one less than what you would use in the positive integer case.</p>
+        <p>When there exists a verb whose actual name looks like a decimal integer, this numeric-string notation is ambiguous; the server will in all cases assume that the reference is to the first verb in the list for which the given string could be a name, either in the normal sense or as a numeric index.</p>
+        <p>Clearly, this older mechanism is more difficult and risky to use; new code should only be written to use the current mechanism, and old code using numeric strings should be modified not to do so.</p>
+    </div>
+</article>
 <article class="well bg-info text-info" id="function-verb-info">
-    <strong><u>Function:</u> <span class="cmd">list <b>verb_info</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
-
-<article class="well bg-info text-info" id="function-set-verb-info">
-    <strong><u>Function:</u> <span class="cmd">none <b>set_verb_info</span> (obj <var>object</var>, str <var>verb-desc</var>, list <var>info</var>)</div>
-
-These two functions get and set (respectively) the owner, permission bits, and
-name(s) for the verb as specified by <var>verb-desc</var> on the given <var>object</var>.
-If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If <var>object</var>
-does not define a verb as specified by <var>verb-desc</var>, then <span class="cmd">E_VERBNF</span> is
-raised. If the programmer does not have read (write) permission on the verb in
-question, then <span class="cmd">verb_info()</span> (<span class="cmd">set_verb_info()</span>) raises
-<span class="cmd">E_PERM</span>. Verb info has the following form:</p>
+    <strong><u>Function:</u> <span class="cmd">verb_info</span></strong>
+    <p>verb_info -- Get the owner, permission bits, and name(s) for the verb as specified by <var>verb-desc</var> on the given <var>object</var></p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">verb_info</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
+    <strong><u>Function:</u> <span class="cmd">set_verb_info</span></strong>
+    <p>set_verb_info -- Set the owner, permissions bits, and names(s) for the verb as <var>verb-desc</var> on the given <var>object</var></p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">set_verb_info</span> (obj <var>object</var>, str <var>verb-desc</var>, list <var>info</var>)</div>
+    <p>If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If <var>object</var> does not define a verb as specified by <var>verb-desc</var>, then <span class="cmd">E_VERBNF</span> is raised. If the programmer does not have read (write) permission on the verb in question, then <span class="cmd">verb_info()</span> (<span class="cmd">set_verb_info()</span>) raises <span class="cmd">E_PERM</span>.</p>
+    <p>Verb info has the following form:</p>
 <pre>
 {<var>owner</var>, <var>perms</var>, <var>names</var>}
 </pre>
-<p>where <var>owner</var> is an object, <var>perms</var> is a string containing only
-characters from the set <span class="cmd">r</span>, <span class="cmd">w</span>, <span class="cmd">x</span>, and <span class="cmd">d</span>, and
-<var>names</var> is a string. This is the kind of value returned by
-<span class="cmd">verb_info()</span> and expected as the third argument to
-<span class="cmd">set_verb_info()</span>. <span class="cmd">set_verb_info()</span> raises <span class="cmd">E_INVARG</span> if
-<var>owner</var> is not valid, if <var>perms</var> contains any illegal characters, or if
-<var>names</var> is the empty string or consists entirely of spaces; it raises
-<span class="cmd">E_PERM</span> if <var>owner</var> is not the programmer and the programmer is not a
-wizard.
-</dl></p>
-<p><dl>
+    <p>where <var>owner</var> is an object, <var>perms</var> is a string containing only characters from the set <span class="cmd">r</span>, <span class="cmd">w</span>, <span class="cmd">x</span>, and <span class="cmd">d</span>, and <var>names</var> is a string. This is the kind of value returned by <span class="cmd">verb_info()</span> and expected as the third argument to <span class="cmd">set_verb_info()</span>. <span class="cmd">set_verb_info()</span> raises <span class="cmd">E_INVARG</span> if <var>owner</var> is not valid, if <var>perms</var> contains any illegal characters, or if <var>names</var> is the empty string or consists entirely of spaces; it raises <span class="cmd">E_PERM</span> if <var>owner</var> is not the programmer and the programmer is not a wizard.</p>
+</article>
 <article class="well bg-info text-info" id="function-verb-args">
-    <strong><u>Function:</u> <span class="cmd">list <b>verb_args</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
-
-<article class="well bg-info text-info" id="function-set-verb-args">
-    <strong><u>Function:</u> <span class="cmd">none <b>set_verb_args</span> (obj <var>object</var>, str <var>verb-desc</var>, list <var>args</var>)</div>
-
-These two functions get and set (respectively) the direct-object, preposition,
-and indirect-object specifications for the verb as specified by <var>verb-desc</var>
-on the given <var>object</var>. If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span>
-is raised. If <var>object</var> does not define a verb as specified by
-<var>verb-desc</var>, then <span class="cmd">E_VERBNF</span> is raised. If the programmer does not
-have read (write) permission on the verb in question, then <span class="cmd">verb_args()</span>
-(<span class="cmd">set_verb_args()</span>) raises <span class="cmd">E_PERM</span>. Verb args specifications have
-the following form:</p>
+    <strong><u>Function:</u> <span class="cmd">verb_args</span></strong>
+    <p>verb_args -- get the direct-object, preposition, and indirect-object specifications for the verb as specified by <var>verb-desc</var> on the given <var>object</var>.</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">verb_args</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
+    <strong><u>Function:</u> <span class="cmd">set_verb_args</span></strong>
+    <p>verb_args -- set the direct-object, preposition, and indirect-object specifications for the verb as specified by <var>verb-desc</var> on the given <var>object</var>.</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">set_verb_args</span> (obj <var>object</var>, str <var>verb-desc</var>, list <var>args</var>)</div>
+    <p>If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If <var>object</var> does not define a verb as specified by <var>verb-desc</var>, then <span class="cmd">E_VERBNF</span> is raised. If the programmer does not have read (write) permission on the verb in question, then the function raises <span class="cmd">E_PERM</span>.</p>
+    <p>Verb args specifications have the following form:</p>
 <pre>
 {<var>dobj</var>, <var>prep</var>, <var>iobj</var>}
 </pre>
-<p>where <var>dobj</var> and <var>iobj</var> are strings drawn from the set <span class="cmd">"this"</span>,
-<span class="cmd">"none"</span>, and <span class="cmd">"any"</span>, and <var>prep</var> is a string that is either
-<span class="cmd">"none"</span>, <span class="cmd">"any"</span>, or one of the prepositional phrases listed much
-earlier in the description of verbs in the first chapter. This is the kind of
-value returned by <span class="cmd">verb_args()</span> and expected as the third argument to
-<span class="cmd">set_verb_args()</span>. Note that for <span class="cmd">set_verb_args()</span>, <var>prep</var> must
-be only one of the prepositional phrases, not (as is shown in that table) a set
-of such phrases separated by <span class="cmd">/</span> characters. <span class="cmd">set_verb_args</span> raises
-<span class="cmd">E_INVARG</span> if any of the <var>dobj</var>, <var>prep</var>, or <var>iobj</var> strings is
-illegal.</p>
+    <p>where <var>dobj</var> and <var>iobj</var> are strings drawn from the set <span class="cmd">"this"</span>, <span class="cmd">"none"</span>, and <span class="cmd">"any"</span>, and <var>prep</var> is a string that is either <span class="cmd">"none"</span>, <span class="cmd">"any"</span>, or one of the prepositional phrases listed much earlier in the description of verbs in the first chapter. This is the kind of value returned by <span class="cmd">verb_args()</span> and expected as the third argument to <span class="cmd">set_verb_args()</span>. Note that for <span class="cmd">set_verb_args()</span>, <var>prep</var> must be only one of the prepositional phrases, not (as is shown in that table) a set of such phrases separated by <span class="cmd">/</span> characters. <span class="cmd">set_verb_args</span> raises <span class="cmd">E_INVARG</span> if any of the <var>dobj</var>, <var>prep</var>, or <var>iobj</var> strings is illegal.</p>
 <pre>
 verb_args($container, "take")
                     =>   {"any", "out of/from inside/from", "this"}
 set_verb_args($container, "take", {"any", "from", "this"})
 </pre>
+</article>
+<article class="well bg-info text-info" id="function-add-verb">
+    <strong><u>Function:</u> <span class="cmd">add_verb</span></strong>
+    <p>add_verb -- defines a new verb on the given <var>object</var></p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">add_verb</span> (obj <var>object</var>, list <var>info</var>, list <var>args</var>)</div>
+    <p> The new verb's owner, permission bits and name(s) are given by <var>info</var> in the same format as is returned by <span class="cmd">verb_info()</span>, described above. The new verb's direct-object, preposition, and indirect-object specifications are given by <var>args</var> in the same format as is returned by <span class="cmd">verb_args</span>, described above. The new verb initially has the empty program associated with it; this program does nothing but return an unspecified value.</p>
+    <p>If <var>object</var> is not valid, or <var>info</var> does not specify a valid owner and well-formed permission bits and verb names, or <var>args</var> is not a legitimate syntax specification, then <span class="cmd">E_INVARG</span> is raised. If the programmer does not have write permission on <var>object</var> or if the owner specified by <var>info</var> is not the programmer and the programmer is not a wizard, then <span class="cmd">E_PERM</span> is raised.</p>
+</article>
+<article class="well bg-info text-info" id="function-delete-verb">
+    <strong><u>Function:</u> <span class="cmd">delete_verb</span></strong>
+    <p>delete_verb -- removes the verb as specified by <var>verb-desc</var> from the given <var>object</var></p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">delete_verb</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
+    <p>If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If the programmer does not have write permission on <var>object</var>, then <span class="cmd">E_PERM</span> is raised. If <var>object</var> does not define a verb as specified by <var>verb-desc</var>, then <span class="cmd">E_VERBNF</span> is raised.</p>
+</article>
+<article class="well bg-info text-info" id="function-verb-code">
+    <strong><u>Function:</u> <span class="cmd">verb_code</span></strong>
+    <p>verb_code -- get the MOO-code program associated with the verb as specified by <var>verb-desc</var> on <var>object</var></p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">verb_code</span> (obj <var>object</var>, str <var>verb-desc</var> [, <var>fully-paren</var> [, <var>indent</var>]])</div>
+    <strong><u>Function:</u> <span class="cmd">set_verb_code</span></strong>
+    <p>set_verb_code -- set the MOO-code program associated with the verb as specified by <var>verb-desc</var> on <var>object</var></p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">set_verb_code</span> (obj <var>object</var>, str <var>verb-desc</var>, list <var>code</var>)</div>
+    <p>The program is represented as a list of strings, one for each line of the program; this is the kind of value returned by <span class="cmd">verb_code()</span> and expected as the third argument to <span class="cmd">set_verb_code()</span>. For <span class="cmd">verb_code()</span>, the expressions in the returned code are usually written with the minimum-necessary parenthesization; if <var>full-paren</var> is true, then all expressions are fully parenthesized.</p>
+    <p>Also for <span class="cmd">verb_code()</span>, the lines in the returned code are usually not indented at all; if <var>indent</var> is true, each line is indented to better show the nesting of statements.</p>
+    <p>If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If <var>object</var> does not define a verb as specified by <var>verb-desc</var>, then <span class="cmd">E_VERBNF</span> is raised. If the programmer does not have read (write) permission on the verb in question, then <span class="cmd">verb_code()</span> (<span class="cmd">set_verb_code()</span>) raises <span class="cmd">E_PERM</span>. If the programmer is not, in fact. a programmer, then <span class="cmd">E_PERM</span> is raised.</p>
+    <p>For <span class="cmd">set_verb_code()</span>, the result is a list of strings, the error messages generated by the MOO-code compiler during processing of <var>code</var>. If the list is non-empty, then <span class="cmd">set_verb_code()</span> did not install <var>code</var>; the program associated with the verb in question is unchanged.</p>
+</article>
+<article class="well bg-info text-info" id="function-is-disassemble">
+    <strong><u>Function:</u> <span class="cmd">disassemble</span></strong>
+    <p>disassemble -- returns a (longish) list of strings giving a listing of the server's internal "compiled" form of the verb as specified by <var>verb-desc</var> on <var>object</var></p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">disassemble</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
+    <p>This format is not documented and may indeed change from release to release, but some programmers may nonetheless find the output of <span class="cmd">disassemble()</span> interesting to peruse as a way to gain a deeper appreciation of how the server works.</p>
+    <p>If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If <var>object</var> does not define a verb as specified by <var>verb-desc</var>, then <span class="cmd">E_VERBNF</span> is raised. If the programmer does not have read permission on the verb in question, then <span class="cmd">disassemble()</span> raises <span class="cmd">E_PERM</span>.<p>
+</article>
 
-</dl>
+<h5 id="operations-on-player-objects">Operations on Player Objects</h5>
+<article class="well bg-info text-info" id="function-players">
+    <strong><u>Function:</u> <span class="cmd">players</span></strong>
+    <p>players -- returns a list of the object numbers of all player objects in the database</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">players</span> ()</span></div>
+</article>
+<article class="well bg-info text-info" id="function-is-player">
+    <strong><u>Function:</u> <span class="cmd">is_player</span></strong>
+    <p>is_player -- returns a true value if the given <var>object</var> is a player object and a false value otherwise.</p>
+    <div class="well bg-info"><var>int</var> <span class="cmd">is_player</span> (obj <var>object</var>)</div>
+    <p>If <var>object</var> is not valid, <span class="cmd">E_INVARG</span> is raised.</p>
+</article>
+<article class="well bg-info text-info" id="function-set-player-flag">
+    <strong><u>Function:</u> <span class="cmd">set_player_flag</span></strong>
+    <p>set_player_flag -- confers or removes the "player object" status of the given <var>object</var>, depending upon the truth value of <var>value</var></p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">set_player_flag</span> (obj <var>object</var>, <var>value</var>)</div>
+    <p>If <var>object</var> is not valid, <span class="cmd">E_INVARG</span> is raised. If the programmer is not a wizard, then <span class="cmd">E_PERM</span> is raised.</p>
+    <p>If <var>value</var> is true, then <var>object</var> gains (or keeps) "player object" status: it will be an element of the list returned by <span class="cmd">players()</span>, the expression <span class="cmd">is_player(<var>object</var>)</span> will return true, and the server will treat a call to <span class="cmd">$do_login_command()</span> that returns <var>object</var> as logging in the current connection.</p>
+    <p>If <var>value</var> is false, the <var>object</var> loses (or continues to lack) "player object" status: it will not be an element of the list returned by <span class="cmd">players()</span>, the expression <span class="cmd">is_player(<var>object</var>)</span> will return false, and users cannot connect to <var>object</var> by name when they log into the server. In addition, if a user is connected to <var>object</var> at the time that it loses "player object" status, then that connection is immediately broken, just as if <span class="cmd">boot_player(<var>object</var>)</span> had been called (see the description of <span class="cmd">boot_player()</span> below).</p>
+</article>
 
-</p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>add_verb</span> (obj <var>object</var>, list <var>info</var>, list <var>args</var>)</div>
-
-Defines a new verb on the given <var>object</var>. The new verb's owner, permission
-bits and name(s) are given by <var>info</var> in the same format as is returned by
-<span class="cmd">verb_info()</span>, described above. The new verb's direct-object,
-preposition, and indirect-object specifications are given by <var>args</var> in the
-same format as is returned by <span class="cmd">verb_args</span>, described above. The new verb
-initially has the empty program associated with it; this program does nothing
-but return an unspecified value.</p>
-<p>If <var>object</var> is not valid, or <var>info</var> does not specify a valid owner and
-well-formed permission bits and verb names, or <var>args</var> is not a legitimate
-syntax specification, then <span class="cmd">E_INVARG</span> is raised. If the programmer does
-not have write permission on <var>object</var> or if the owner specified by
-<var>info</var> is not the programmer and the programmer is not a wizard, then
-<span class="cmd">E_PERM</span> is raised.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>delete_verb</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
-
-Removes the verb as specified by <var>verb-desc</var> from the given <var>object</var>.
-If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If the
-programmer does not have write permission on <var>object</var>, then <span class="cmd">E_PERM</span>
-is raised. If <var>object</var> does not define a verb as specified by
-<var>verb-desc</var>, then <span class="cmd">E_VERBNF</span> is raised.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>verb_code</span> (obj <var>object</var>, str <var>verb-desc</var> [, <var>fully-paren</var> [, <var>indent</var>]])</div>
-
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>set_verb_code</span> (obj <var>object</var>, str <var>verb-desc</var>, list <var>code</var>)</div>
-
-These functions get and set (respectively) the MOO-code program associated with
-the verb as specified by <var>verb-desc</var> on <var>object</var>. The program is
-represented as a list of strings, one for each line of the program; this is the
-kind of value returned by <span class="cmd">verb_code()</span> and expected as the third argument
-to <span class="cmd">set_verb_code()</span>. For <span class="cmd">verb_code()</span>, the expressions in the
-returned code are usually written with the minimum-necessary parenthesization;
-if <var>full-paren</var> is true, then all expressions are fully parenthesized.
-Also for <span class="cmd">verb_code()</span>, the lines in the returned code are usually not
-indented at all; if <var>indent</var> is true, each line is indented to better show
-the nesting of statements.</p>
-<p>If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If <var>object</var>
-does not define a verb as specified by <var>verb-desc</var>, then <span class="cmd">E_VERBNF</span> is
-raised. If the programmer does not have read (write) permission on the verb in
-question, then <span class="cmd">verb_code()</span> (<span class="cmd">set_verb_code()</span>) raises
-<span class="cmd">E_PERM</span>. If the programmer is not, in fact. a programmer, then
-<span class="cmd">E_PERM</span> is raised.</p>
-<p>For <span class="cmd">set_verb_code()</span>, the result is a list of strings, the error messages
-generated by the MOO-code compiler during processing of <var>code</var>. If the
-list is non-empty, then <span class="cmd">set_verb_code()</span> did not install <var>code</var>; the
-program associated with the verb in question is unchanged.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>disassemble</span> (obj <var>object</var>, str <var>verb-desc</var>)</div>
-
-Returns a (longish) list of strings giving a listing of the server's internal
-"compiled" form of the verb as specified by <var>verb-desc</var> on <var>object</var>.
-This format is not documented and may indeed change from release to release,
-but some programmers may nonetheless find the output of <span class="cmd">disassemble()</span>
-interesting to peruse as a way to gain a deeper appreciation of how the server
-works.</p>
-<p>If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If <var>object</var>
-does not define a verb as specified by <var>verb-desc</var>, then <span class="cmd">E_VERBNF</span> is
-raised. If the programmer does not have read permission on the verb in
-question, then <span class="cmd">disassemble()</span> raises <span class="cmd">E_PERM</span>.
-</dl>
-
-<h4><a name="SEC51" href="ProgrammersManual_toc.html#TOC51">Operations on Player Objects</a></h4>
-
-</p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>players</span> ()</span>
-
-Returns a list of the object numbers of all player objects in the database.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">int <b>is_player</span> (obj <var>object</var>)</div>
-
-Returns a true value if the given <var>object</var> is a player object and a false
-value otherwise. If <var>object</var> is not valid, <span class="cmd">E_INVARG</span> is raised.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>set_player_flag</span> (obj <var>object</var>, <var>value</var>)</div>
-
-Confers or removes the "player object" status of the given <var>object</var>,
-depending upon the truth value of <var>value</var>. If <var>object</var> is not valid,
-<span class="cmd">E_INVARG</span> is raised. If the programmer is not a wizard, then
-<span class="cmd">E_PERM</span> is raised.</p>
-<p>If <var>value</var> is true, then <var>object</var> gains (or keeps) "player object"
-status: it will be an element of the list returned by <span class="cmd">players()</span>, the
-expression <span class="cmd">is_player(<var>object</var>)</span> will return true, and the server will
-treat a call to <span class="cmd">$do_login_command()</span> that returns <var>object</var> as
-logging in the current connection.</p>
-<p>If <var>value</var> is false, the <var>object</var> loses (or continues to lack) "player
-object" status: it will not be an element of the list returned by
-<span class="cmd">players()</span>, the expression <span class="cmd">is_player(<var>object</var>)</span> will return
-false, and users cannot connect to <var>object</var> by name when they log into the
-server. In addition, if a user is connected to <var>object</var> at the time that
-it loses "player object" status, then that connection is immediately broken,
-just as if <span class="cmd">boot_player(<var>object</var>)</span> had been called (see the
-description of <span class="cmd">boot_player()</span> below).
-</dl>
-
-<h3><a name="SEC52" href="ProgrammersManual_toc.html#TOC52">Operations on Network Connections</a></h3>
-
-</p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>connected_players</span> ([<var>include-all</var>])</div>
-
-Returns a list of the object numbers of those player objects with
-currently-active connections. If <var>include-all</var> is provided and true, then
-the list includes the object numbers associated with <em>all</em> current
-connections, including ones that are outbound and/or not yet logged-in.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">int <b>connected_seconds</span> (obj <var>player</var>)</div>
-
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">int <b>idle_seconds</span> (obj <var>player</var>)</div>
-
-These functions return the number of seconds that the currently-active
-connection to <var>player</var> has existed and been idle, respectively. If
-<var>player</var> is not the object number of a player object with a
-currently-active connection, then <span class="cmd">E_INVARG</span> is raised.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>notify</span> (obj <var>conn</var>, str <var>string</var> [, <var>no-flush</var>])</div>
-
-Enqueues <var>string</var> for output (on a line by itself) on the connection
-<var>conn</var>. If the programmer is not <var>conn</var> or a wizard, then
-<span class="cmd">E_PERM</span> is raised. If <var>conn</var> is not a currently-active connection,
-then this function does nothing. Output is normally written to connections
-only between tasks, not during execution.</p>
-<p>The server will not queue an arbitrary amount of output for a connection; the
-<span class="cmd">MAX_QUEUED_OUTPUT</span> compilation option (in <span class="cmd">options.h</span>) controls the
-limit. When an attempt is made to enqueue output that would take the server
-over its limit, it first tries to write as much output as possible to the
-connection without having to wait for the other end. If that doesn't result in
-the new output being able to fit in the queue, the server starts throwing away
-the oldest lines in the queue until the new ouput will fit. The server
-remembers how many lines of output it has `flushed' in this way and, when next
-it can succeed in writing anything to the connection, it first writes a line
-like <span class="cmd">&#62;&#62; Network buffer overflow: <var>X</var> lines of output to you have been
-lost &#60;&#60;</span> where <var>X</var> is the number of flushed lines.</p>
-<p>If <var>no-flush</var> is provided and true, then <span class="cmd">notify()</span> never flushes any
-output from the queue; instead it immediately returns false. <span class="cmd">Notify()</span>
-otherwise always returns true.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">int <b>buffered_output_length</span> ([obj <var>conn</var>])</div>
-
-Returns the number of bytes currently buffered for output to the connection
-<var>conn</var>. If <var>conn</var> is not provided, returns the maximum number of bytes
-that will be buffered up for output on any connection.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">str <b>read</span> ([obj <var>conn</var> [, <var>non-blocking</var>]])</div>
-
-Reads and returns a line of input from the connection <var>conn</var> (or, if not
-provided, from the player that typed the command that initiated the current
-task). If <var>non-blocking</var> is false or not provided, this function suspends
-the current task, resuming it when there is input available to be read. If
-<var>non-blocking</var> is provided and true, this function never suspends the
-calling task; if there is no input currently available for input, <span class="cmd">read()</span>
-simply returns 0 immediately.</p>
-<p>If <var>player</var> is provided, then the programmer must either be a wizard or the
-owner of <span class="cmd">player</span>; if <span class="cmd">player</span> is not provided, then <span class="cmd">read()</span>
-may only be called by a wizard and only in the task that was last spawned by a
-command from the connection in question. Otherwise, <span class="cmd">E_PERM</span> is raised.
-If the given <span class="cmd">player</span> is not currently connected and has no pending lines
-of input, or if the connection is closed while a task is waiting for input but
-before any lines of input are received, then <span class="cmd">read()</span> raises
-<span class="cmd">E_INVARG</span>.</p>
-<p>The restriction on the use of <span class="cmd">read()</span> without any arguments preserves the
-following simple invariant: if input is being read from a player, it is for the
-task started by the last command that player typed. This invariant adds
-responsibility to the programmer, however. If your program calls another verb
-before doing a <span class="cmd">read()</span>, then either that verb must not suspend or else
-you must arrange that no commands will be read from the connection in the
-meantime. The most straightforward way to do this is to call
-</p>
+<h5 id="operations-on-network-connections">Operations on Network Connections</h5>
+<article class="well bg-info text-info" id="function-connected-players">
+    <strong><u>Function:</u> <span class="cmd">connected_players</span></strong>
+    <p>connected_players -- returns a list of the object numbers of those player objects with currently-active connections</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">connected_players</span> ([<var>include-all</var>])</div>
+    <p>If <var>include-all</var> is provided and true, then the list includes the object numbers associated with <em>all</em> current connections, including ones that are outbound and/or not yet logged-in.</p>
+</article>
+<article class="well bg-info text-info" id="function-connected-seconds">
+    <strong><u>Function:</u> <span class="cmd">connected_seconds</span></strong>
+    <p>connected_seconds -- return the number of seconds that the currently-active connection to <var>player</var> has existed</p>
+    <div class="well bg-info"><var>int</var> <span class="cmd">connected_seconds</span> (obj <var>player</var>)</div>
+    <strong><u>Function:</u> <span class="cmd">idle_seconds</span></strong>
+    <p>idle_seconds -- return the number of seconds that the currently-active connection to <var>player</var> has been idle</p>
+    <div class="well bg-info"><var>int</var> <span class="cmd">idle_seconds</span> (obj <var>player</var>)</div>
+    <p>If <var>player</var> is not the object number of a player object with a currently-active connection, then <span class="cmd">E_INVARG</span> is raised.</p>
+</article>
+<article class="well bg-info text-info" id="function-notify">
+    <strong><u>Function:</u> <span class="cmd">notify</span></strong>
+    <p>notify -- enqueues <var>string</var> for output (on a line by itself) on the connection <var>conn</var></p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">notify</span> (obj <var>conn</var>, str <var>string</var> [, <var>no-flush</var>])</div>
+    <p>If the programmer is not <var>conn</var> or a wizard, then <span class="cmd">E_PERM</span> is raised. If <var>conn</var> is not a currently-active connection, then this function does nothing. Output is normally written to connections only between tasks, not during execution.</p>
+    <p>The server will not queue an arbitrary amount of output for a connection; the <span class="cmd">MAX_QUEUED_OUTPUT</span> compilation option (in <span class="cmd">options.h</span>) controls the limit. When an attempt is made to enqueue output that would take the server over its limit, it first tries to write as much output as possible to the connection without having to wait for the other end. If that doesn't result in the new output being able to fit in the queue, the server starts throwing away the oldest lines in the queue until the new ouput will fit. The server remembers how many lines of output it has `flushed' in this way and, when next it can succeed in writing anything to the connection, it first writes a line like <span class="cmd">&#62;&#62; Network buffer overflow: <var>X</var> lines of output to you have been lost &#60;&#60;</span> where <var>X</var> is the number of flushed lines.</p>
+    <p>If <var>no-flush</var> is provided and true, then <span class="cmd">notify()</span> never flushes any output from the queue; instead it immediately returns false. <span class="cmd">Notify()</span> otherwise always returns true.</p>
+</article>
+<article class="well bg-info text-info" id="function-buffered-output-length">
+    <strong><u>Function:</u> <span class="cmd">buffered_output_length</span></strong>
+    <p>buffered_output_length -- returns the number of bytes currently buffered for output to the connection <var>conn</var></p>
+    <div class="well bg-info"><var>int</var> <span class="cmd">buffered_output_length</span> ([obj <var>conn</var>])</div>
+    <p>If <var>conn</var> is not provided, returns the maximum number of bytes that will be buffered up for output on any connection.</p>
+</article>
+<article class="well bg-info text-info" id="function-read">
+    <strong><u>Function:</u> <span class="cmd">read</span></strong>
+    <p>read -- reads and returns a line of input from the connection <var>conn</var> (or, if not provided, from the player that typed the command that initiated the current task)</p>
+    <div class="well bg-info"><var>str</var> <span class="cmd">read</span> ([obj <var>conn</var> [, <var>non-blocking</var>]])</div>
+    <p>If <var>non-blocking</var> is false or not provided, this function suspends the current task, resuming it when there is input available to be read. If <var>non-blocking</var> is provided and true, this function never suspends the calling task; if there is no input currently available for input, <span class="cmd">read()</span> simply returns 0 immediately.</p>
+    <p>If <var>player</var> is provided, then the programmer must either be a wizard or the owner of <span class="cmd">player</span>; if <span class="cmd">player</span> is not provided, then <span class="cmd">read()</span> may only be called by a wizard and only in the task that was last spawned by a command from the connection in question. Otherwise, <span class="cmd">E_PERM</span> is raised.</p>
+    <p>If the given <span class="cmd">player</span> is not currently connected and has no pending lines of input, or if the connection is closed while a task is waiting for input but before any lines of input are received, then <span class="cmd">read()</span> raises <span class="cmd">E_INVARG</span>.</p>
+    <p>The restriction on the use of <span class="cmd">read()</span> without any arguments preserves the following simple invariant: if input is being read from a player, it is for the task started by the last command that player typed. This invariant adds responsibility to the programmer, however. If your program calls another verb before doing a <span class="cmd">read()</span>, then either that verb must not suspend or else you must arrange that no commands will be read from the connection in the meantime. The most straightforward way to do this is to call </p>
 <pre>
 set_connection_option(player, "hold-input", 1)
 </pre>
-<p>before any task suspension could happen, then make all of your calls to
-<span class="cmd">read()</span> and other code that might suspend, and finally call
-</p>
+    <p>before any task suspension could happen, then make all of your calls to <span class="cmd">read()</span> and other code that might suspend, and finally call</p>
 <pre>
 set_connection_option(player, "hold-input", 0)
 </pre>
-<p>to allow commands once again to be read and interpreted normally.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>force_input</span> (obj <var>conn</var>, str <var>line</var> [, <var>at-front</var>])</div>
-
-Inserts the string <var>line</var> as an input task in the queue for the connection
-<var>conn</var>, just as if it had arrived as input over the network. If
-<var>at_front</var> is provided and true, then the new line of input is put at the
-front of <var>conn</var>'s queue, so that it will be the very next line of input
-processed even if there is already some other input in that queue. Raises
-<span class="cmd">E_INVARG</span> if <var>conn</var> does not specify a current connection and
-<span class="cmd">E_PERM</span> if the programmer is neither <var>conn</var> nor a wizard.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>flush_input</span> (obj <var>conn</var> [<var>show-messages</var>])</div>
-
-Performs the same actions as if the connection <var>conn</var>'s defined flush
-command had been received on that connection, i.e., removes all pending lines
-of input from <var>conn</var>'s queue and, if <var>show-messages</var> is provided and
-true, prints a message to <var>conn</var> listing the flushed lines, if any. See
-the chapter on server assumptions about the database for more information about
-a connection's defined flush command.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>output_delimiters</span> (obj <var>player</var>)</div>
-
-Returns a list of two strings, the current <em>output prefix</em> and <em>output
-suffix</em> for <var>player</var>. If <var>player</var> does not have an active network
-connection, then <span class="cmd">E_INVARG</span> is raised. If either string is currently
-undefined, the value <span class="cmd">""</span> is used instead. See the discussion of the
-<span class="cmd">PREFIX</span> and <span class="cmd">SUFFIX</span> commands in the next chapter for more
-information about the output prefix and suffix.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>boot_player</span> (obj <var>player</var>)</div>
-
-Marks for disconnection any currently-active connection to the given
-<var>player</var>. The connection will not actually be closed until the
-currently-running task returns or suspends, but all MOO functions (such as
-<span class="cmd">notify()</span>, <span class="cmd">connected_players()</span>, and the like) immediately behave
-as if the connection no longer exists. If the programmer is not either a
-wizard or the same as <var>player</var>, then <span class="cmd">E_PERM</span> is raised. If there
-is no currently-active connection to <var>player</var>, then this function does
-nothing.</p>
-<p>If there was a currently-active connection, then the following verb call is
-made when the connection is actually closed:</p>
+    <p>to allow commands once again to be read and interpreted normally.</p>
+</article>
+<article class="well bg-info text-info" id="function-force-input">
+    <strong><u>Function:</u> <span class="cmd">force_input</span></strong>
+    <p>force_input -- inserts the string <var>line</var> as an input task in the queue for the connection <var>conn</var>, just as if it had arrived as input over the network</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">force_input</span> (obj <var>conn</var>, str <var>line</var> [, <var>at-front</var>])</div>
+    <p>If <var>at_front</var> is provided and true, then the new line of input is put at the front of <var>conn</var>'s queue, so that it will be the very next line of input processed even if there is already some other input in that queue. Raises <span class="cmd">E_INVARG</span> if <var>conn</var> does not specify a current connection and <span class="cmd">E_PERM</span> if the programmer is neither <var>conn</var> nor a wizard.</p>
+</article>
+<article class="well bg-info text-info" id="function-flush-input">
+    <strong><u>Function:</u> <span class="cmd">flush_input</span></strong>
+    <p>flush_input -- performs the same actions as if the connection <var>conn</var>'s defined flush command had been received on that connection</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">flush_input</span> (obj <var>conn</var> [<var>show-messages</var>])</div>
+    <p>I.E., removes all pending lines of input from <var>conn</var>'s queue and, if <var>show-messages</var> is provided and true, prints a message to <var>conn</var> listing the flushed lines, if any. See the chapter on server assumptions about the database for more information about a connection's defined flush command.</p>
+</article>
+<article class="well bg-info text-info" id="function-output-delimiters">
+    <strong><u>Function:</u> <span class="cmd">output_delimiters</span></strong>
+    <p>output_delimiters -- returns a list of two strings, the current <em>output prefix</em> and <em>output suffix</em> for <var>player</var>. </p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">output_delimiters</span> (obj <var>player</var>)</div>
+    <p>If <var>player</var> does not have an active network connection, then <span class="cmd">E_INVARG</span> is raised. If either string is currently undefined, the value <span class="cmd">""</span> is used instead. See the discussion of the <span class="cmd">PREFIX</span> and <span class="cmd">SUFFIX</span> commands in the next chapter for more information about the output prefix and suffix.</p>
+</article>
+<article class="well bg-info text-info" id="function-boot-player">
+    <strong><u>Function:</u> <span class="cmd">boot_player</span></strong>
+    <p>boot_player -- marks for disconnection any currently-active connection to the given <var>player</var></p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">boot_player</span> (obj <var>player</var>)</div>
+    <p>The connection will not actually be closed until the currently-running task returns or suspends, but all MOO functions (such as <span class="cmd">notify()</span>, <span class="cmd">connected_players()</span>, and the like) immediately behave as if the connection no longer exists. If the programmer is not either a wizard or the same as <var>player</var>, then <span class="cmd">E_PERM</span> is raised. If there is no currently-active connection to <var>player</var>, then this function does nothing.</p>
+    <p>If there was a currently-active connection, then the following verb call is made when the connection is actually closed:</p>
 <pre>
 $user_disconnected(<var>player</var>)
 </pre>
-<p>It is not an error if this verb does not exist; the call is simply skipped.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">str <b>connection_name</span> (obj <var>player</var>)</div>
-
-Returns a network-specific string identifying the connection being used by the
-given player. If the programmer is not a wizard and not <var>player</var>, then
-<span class="cmd">E_PERM</span> is raised. If <var>player</var> is not currently connected, then
-<span class="cmd">E_INVARG</span> is raised.</p>
-<p>For the TCP/IP networking configurations, for in-bound connections, the string
-has the form
-</p>
+    <p>It is not an error if this verb does not exist; the call is simply skipped.</p>
+</article>
+<article class="well bg-info text-info" id="function-connection-name">
+    <strong><u>Function:</u> <span class="cmd">connection_name</span></strong>
+    <p>connection_name -- returns a network-specific string identifying the connection being used by the given player</p>
+    <div class="well bg-info"><var>str</var> <span class="cmd">connection_name</span> (obj <var>player</var>)</div>
+    <p>If the programmer is not a wizard and not <var>player</var>, then <span class="cmd">E_PERM</span> is raised. If <var>player</var> is not currently connected, then <span class="cmd">E_INVARG</span> is raised.</p> <p>For the TCP/IP networking configurations, for in-bound connections, the string has the form:</p>
 <pre>
 "port <var>lport</var> from <var>host</var>, port <var>port</var>"
 </pre>
-<p>where <var>lport</var> is the decimal TCP listening port on which the connection
-arrived, <var>host</var> is either the name or decimal TCP address of the host from
-which the player is connected, and <var>port</var> is the decimal TCP port of the
-connection on that host.</p>
-<p>For outbound TCP/IP connections, the string has the form
-</p>
+    <p>where <var>lport</var> is the decimal TCP listening port on which the connection arrived, <var>host</var> is either the name or decimal TCP address of the host from which the player is connected, and <var>port</var> is the decimal TCP port of the connection on that host.</p>
+    <p>For outbound TCP/IP connections, the string has the form </p>
 <pre>
 "port <var>lport</var> to <var>host</var>, port <var>port</var>"
 </pre>
-<p>where <var>lport</var> is the decimal local TCP port number from which the
-connection originated, <var>host</var> is either the name or decimal TCP address of
-the host to which the connection was opened, and <var>port</var> is the decimal TCP
-port of the connection on that host.</p>
-<p>For the System V `local' networking configuration, the string is the UNIX login
-name of the connecting user or, if no such name can be found, something of the
-form
-</p>
+    <p>where <var>lport</var> is the decimal local TCP port number from which the connection originated, <var>host</var> is either the name or decimal TCP address of the host to which the connection was opened, and <var>port</var> is the decimal TCP port of the connection on that host.</p>
+    <p>For the System V `local' networking configuration, the string is the UNIX login name of the connecting user or, if no such name can be found, something of the form:</p>
 <pre>
 "User #<var>number</var>"
 </pre>
-<p>where <var>number</var> is a UNIX numeric user ID.</p>
-<p>For the other networking configurations, the string is the same for all
-connections and, thus, useless.
-</dl></p>
-<p><dl>
+    <p>where <var>number</var> is a UNIX numeric user ID.</p>
+    <p>For the other networking configurations, the string is the same for all connections and, thus, useless.</p>
+</article>
 <article class="well bg-info text-info" id="function-is-member">
     <strong><u>Function:</u> <span class="cmd">none <b>set_connection_option</span> (obj <var>conn</var>, str <var>option</var>, <var>value</var>)</div>
 
