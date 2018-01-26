@@ -1,6 +1,12 @@
 # Changelog for The New MOO Programming Guide
 
-## [0.3] - 2017.01.25 1:56PM
+## [0.4] - 2017.01.26 5:28PM
+
+### Fixed
+### Added
+* Finished adding all functions to moo.html
+
+## [0.3] - 2018.01.25 1:56PM
 
 ### Fixed
 ### Added

@@ -17,7 +17,7 @@ See [CHANGELOG.md](CHANGELOG.md)
 1. This is a work in progress
 2. The stylesheet can be swapped out with a normal bootstrap style sheet.
 3. I've tried to format the functions in a more modern way
-4. Estimated Hours: 20
+4. Estimated Hours: 30
 
 ## TODO
 1. Finish full HTML5 conversion
@@ -33,6 +33,7 @@ See [CHANGELOG.md](CHANGELOG.md)
 11. Convert all secondary files to markdown or HTML5.
 12. Consider converting HTML5 moo guide to markdown for easy github viewing
 13. Deploy guide to a website for easy HTML5 viewing
+14. ~~Finish converting all built-in functions to HTML5~~
 
 ## Contributing
 Please feel free to fork the repo and contribute.  This is a labor of love.  I've been using LambdaMOO since 2003 and I wanted to give back to the community.  Text based gaming is an important part of our history and our future.  No game is more accessible to those with handicaps, for example.
