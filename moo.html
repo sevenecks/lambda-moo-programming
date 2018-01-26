@@ -3621,251 +3621,118 @@ $user_disconnected(<var>player</var>)
     <p>where <var>number</var> is a UNIX numeric user ID.</p>
     <p>For the other networking configurations, the string is the same for all connections and, thus, useless.</p>
 </article>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>set_connection_option</span> (obj <var>conn</var>, str <var>option</var>, <var>value</var>)</div>
-
-Controls a number of optional behaviors associated the connection <var>conn</var>.
-Raises <span class="cmd">E_INVARG</span> if <var>conn</var> does not specify a current connection and
-<span class="cmd">E_PERM</span> if the programmer is neither <var>conn</var> nor a wizard. The
-following values for <var>option</var> are currently supported:<dl COMPACT>
-
-<dt><span class="cmd">"hold-input"</span>
-<dd>
-If <var>value</var> is true, then input received on <var>conn</var> will never be treated
-as a command; instead, it will remain in the queue until retrieved by a call to
-<span class="cmd">read()</span>.
-
-<dt><span class="cmd">"client-echo"</span>
-<dd>
-Send the Telnet Protocol <span class="cmd">WONT ECHO</span> or <span class="cmd">WILL ECHO</span> command,
-depending on whether <var>value</var> is true or false, respectively. For clients
-that support the Telnet Protocol, this should toggle whether or not the client
-echoes locally the characters typed by the user. Note that the server itself
-never echoes input characters under any circumstances. (This option is only
-available under the TCP/IP networking configurations.)
-
-<dt><span class="cmd">"binary"</span>
-<dd>
-If <var>value</var> is true, then both input from and output to <var>conn</var> can
-contain arbitrary bytes. Input from a connection in binary mode is not broken
-into lines at all; it is delivered to either the read() function or the
-built-in command parser as <em>binary strings</em>, in whatever size chunks come
-back from the operating system. (See the early section on MOO value types for
-a description of the binary string representation.)  For output to a connection
-in binary mode, the second argument to `notify()' must be a binary string; if
-it is malformed, E_INVARG is raised.
-
-<dt><span class="cmd">"flush-command"</span>
-<dd>
-If <var>value</var> is a non-empty string, then it becomes the new <em>flush</em>
-command for this connection, by which the player can flush all queued input
-that has not yet been processed by the server. If <var>value</var> is not a
-non-empty string, then <var>conn</var> is set to have no flush command at all. The
-default value of this option can be set via the property
-<span class="cmd">$server_options.default_flush_command</span>; see the chapter on server
-assumptions about the database for details.
-</dl>
-</dl>
-
-</p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>connection_options</span> (obj <var>conn</var>)</div>
-
-Returns a list of <span class="cmd">{<var>name</var>, <var>value</var>}</span> pairs describing the
-current settings of all of the allowed options for the connection <var>conn</var>.
-Raises <span class="cmd">E_INVARG</span> if <var>conn</var> does not specify a current connection and
-<span class="cmd">E_PERM</span> if the programmer is neither <var>conn</var> nor a wizard.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">value <b>connection_option</span> (obj <var>conn</var>, str <var>name</var>)</div>
-
-Returns the current setting of the option <var>name</var> for the connection
-<var>conn</var>. Raises <span class="cmd">E_INVARG</span> if <var>conn</var> does not specify a current
-connection and <span class="cmd">E_PERM</span> if the programmer is neither <var>conn</var> nor a
-wizard.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">obj <b>open_network_connection</span> (<var>value</var>, ...)</span>
-
-Establishes a network connection to the place specified by the arguments and
-more-or-less pretends that a new, normal player connection has been established
-from there. The new connection, as usual, will not be logged in initially and
-will have a negative object number associated with it for use with
-<span class="cmd">read()</span>, <span class="cmd">notify()</span>, and <span class="cmd">boot_player()</span>. This object number
-is the value returned by this function.</p>
-<p>If the programmer is not a wizard or if the <span class="cmd">OUTBOUND_NETWORK</span> compilation
-option was not used in building the server, then <span class="cmd">E_PERM</span> is raised. If
-the network connection cannot be made for some reason, then other errors will
-be returned, depending upon the particular network implementation in use.</p>
-<p>For the TCP/IP network implementations (the only ones as of this writing that
-support outbound connections), there must be two arguments, a string naming a
-host (possibly using the numeric Internet syntax) and an integer specifying a TCP
-port. If a connection cannot be made because the host does not exist, the port
-does not exist, the host is not reachable or refused the connection,
-<span class="cmd">E_INVARG</span> is raised. If the connection cannot be made for other
-reasons, including resource limitations, then <span class="cmd">E_QUOTA</span> is raised.</p>
-<p>The outbound connection process involves certain steps that can take quite a
-long time, during which the server is not doing anything else, including
-responding to user commands and executing MOO tasks. See the chapter on
-server assumptions about the database for details about how the server limits
-the amount of time it will wait for these steps to successfully complete.</p>
-<p>It is worth mentioning one tricky point concerning the use of this function.
-Since the server treats the new connection pretty much like any normal player
-connection, it will naturally try to parse any input from that connection as
-commands in the usual way. To prevent this treatment, you should use
-<span class="cmd">set_connection_option()</span> to set the <span class="cmd">"hold-input"</span> option true on
-the connection.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">value <b>listen</span> (obj <var>object</var>, <var>point</var> [, <var>print-messages</var>])</div>
-
-Create a new point at which the server will listen for network connections,
-just as it does normally. <var>Object</var> is the object whose verbs
-<span class="cmd">do_login_command</span>, <span class="cmd">do_command</span>, <span class="cmd">do_out_of_band_command</span>,
-<span class="cmd">user_connected</span>, <span class="cmd">user_created</span>, <span class="cmd">user_reconnected</span>,
-<span class="cmd">user_disconnected</span>, and <span class="cmd">user_client_disconnected</span> will be called at
-appropriate points, just as these verbs are called on <span class="cmd">#0</span> for normal
-connections. (See the chapter on server assumptions about the database for the
-complete story on when these functions are called.)  <var>Point</var> is a
-network-configuration-specific parameter describing the listening point. If
-<var>print-messages</var> is provided and true, then the various
-database-configurable messages (also detailed in the chapter on server
-assumptions) will be printed on connections received at the new listening
-point. <span class="cmd">Listen()</span> returns <var>canon</var>, a `canonicalized' version of
-<var>point</var>, with any configuration-specific defaulting or aliasing accounted
-for.</p>
-<p>This raises <span class="cmd">E_PERM</span> if the programmer is not a wizard, <span class="cmd">E_INVARG</span> if
-<var>object</var> is invalid or there is already a listening point described by
-<var>point</var>, and <span class="cmd">E_QUOTA</span> if some network-configuration-specific error
-occurred.</p>
-<p>For the TCP/IP configurations, <var>point</var> is a TCP port number on which to
-listen and <var>canon</var> is equal to <var>point</var> unless <var>point</var> is zero, in
-which case <var>canon</var> is a port number assigned by the operating system.</p>
-<p>For the local multi-user configurations, <var>point</var> is the UNIX file name to
-be used as the connection point and <var>canon</var> is always equal to <var>point</var>.</p>
-<p>In the single-user configuration, the can be only one listening point at a
-time; <var>point</var> can be any value at all and <var>canon</var> is always zero.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>unlisten</span> (<var>canon</var>)</div>
-
-Stop listening for connections on the point described by <var>canon</var>, which
-should be the second element of some element of the list returned by
-<span class="cmd">listeners()</span>. Raises <span class="cmd">E_PERM</span> if the programmer is not a wizard and
-<span class="cmd">E_INVARG</span> if there does not exist a listener with that description.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>listeners</span> ()</span>
-<dd><a name="IDX100"></a>
-Returns a list describing all existing listening points, including the default
-one set up automatically by the server when it was started (unless that one has
-since been destroyed by a call to <span class="cmd">unlisten()</span>). Each element of the list
-has the following form:</p>
+<article class="well bg-info text-info" id="function-set-connection-option">
+    <strong><u>Function:</u> <span class="cmd">set_connection_option</span></strong>
+    <p>set_connection_option -- controls a number of optional behaviors associated the connection <var>conn</var></p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">set_connection_option</span> (obj <var>conn</var>, str <var>option</var>, <var>value</var>)</div>
+    <p>Raises <span class="cmd">E_INVARG</span> if <var>conn</var> does not specify a current connection and <span class="cmd">E_PERM</span> if the programmer is neither <var>conn</var> nor a wizard.</p>
+    <p>The following values for <var>option</var> are currently supported:</p>
+    <p><span class="cmd">"hold-input"</span><br />
+    <p>If <var>value</var> is true, then input received on <var>conn</var> will never be treated as a command; instead, it will remain in the queue until retrieved by a call to <span class="cmd">read()</span>.</p>
+    <p><span class="cmd">"client-echo"</span><br />
+    Send the Telnet Protocol <span class="cmd">WONT ECHO</span> or <span class="cmd">WILL ECHO</span> command, depending on whether <var>value</var> is true or false, respectively. For clients that support the Telnet Protocol, this should toggle whether or not the client echoes locally the characters typed by the user. Note that the server itself never echoes input characters under any circumstances. (This option is only available under the TCP/IP networking configurations.)</p>
+    <p><span class="cmd">"binary"</span><br />
+        If <var>value</var> is true, then both input from and output to <var>conn</var> can contain arbitrary bytes. Input from a connection in binary mode is not broken into lines at all; it is delivered to either the read() function or the built-in command parser as <em>binary strings</em>, in whatever size chunks come back from the operating system. (See the early section on MOO value types for a description of the binary string representation.)  For output to a connection in binary mode, the second argument to `notify()' must be a binary string; if it is malformed, E_INVARG is raised.</p>
+    <p><span class="cmd">"flush-command"</span><br />
+        If <var>value</var> is a non-empty string, then it becomes the new <em>flush</em> command for this connection, by which the player can flush all queued input that has not yet been processed by the server. If <var>value</var> is not a non-empty string, then <var>conn</var> is set to have no flush command at all. The default value of this option can be set via the property <span class="cmd">$server_options.default_flush_command</span>; see the chapter on server assumptions about the database for details.</p>
+</article>
+<article class="well bg-info text-info" id="function-connection-options">
+    <strong><u>Function:</u> <span class="cmd">connection_options</span></strong>
+    <p>connection_options -- returns a list of <span class="cmd">{<var>name</var>, <var>value</var>}</span> pairs describing the
+current settings of all of the allowed options for the connection <var>conn</var></p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">connection_options</span> (obj <var>conn</var>)</div>
+    <p>Raises <span class="cmd">E_INVARG</span> if <var>conn</var> does not specify a current connection and <span class="cmd">E_PERM</span> if the programmer is neither <var>conn</var> nor a wizard.</p>
+</article>
+<article class="well bg-info text-info" id="function-connection_option">
+    <strong><u>Function:</u> <span class="cmd">connection_option</span></strong>
+    <p>connection_option -- returns the current setting of the option <var>name</var> for the connection <var>conn</var></p>
+    <div class="well bg-info"><var>value</var> <span class="cmd">>connection_option</span> (obj <var>conn</var>, str <var>name</var>)</div>
+    <p>Raises <span class="cmd">E_INVARG</span> if <var>conn</var> does not specify a current connection and <span class="cmd">E_PERM</span> if the programmer is neither <var>conn</var> nor a wizard.</p>
+</article>
+<article class="well bg-info text-info" id="function-open-network-connection">
+    <strong><u>Function:</u> <span class="cmd">open_network_connection</span></strong>
+    <p>open_network_connection -- establishes a network connection to the place specified by the arguments and more-or-less pretends that a new, normal player connection has been established from there</p>
+    <div class="well bg-info"><var>obj</var> <span class="cmd">open_network_connection</span> (<var>value</var>, ...)</span></div>
+    <p>The new connection, as usual, will not be logged in initially and will have a negative object number associated with it for use with <span class="cmd">read()</span>, <span class="cmd">notify()</span>, and <span class="cmd">boot_player()</span>. This object number is the value returned by this function.</p>
+    <p>If the programmer is not a wizard or if the <span class="cmd">OUTBOUND_NETWORK</span> compilation option was not used in building the server, then <span class="cmd">E_PERM</span> is raised. If the network connection cannot be made for some reason, then other errors will be returned, depending upon the particular network implementation in use.</p>
+    <p>For the TCP/IP network implementations (the only ones as of this writing that support outbound connections), there must be two arguments, a string naming a host (possibly using the numeric Internet syntax) and an integer specifying a TCP port. If a connection cannot be made because the host does not exist, the port does not exist, the host is not reachable or refused the connection, <span class="cmd">E_INVARG</span> is raised. If the connection cannot be made for other reasons, including resource limitations, then <span class="cmd">E_QUOTA</span> is raised.</p>
+    <p>The outbound connection process involves certain steps that can take quite a long time, during which the server is not doing anything else, including responding to user commands and executing MOO tasks. See the chapter on server assumptions about the database for details about how the server limits the amount of time it will wait for these steps to successfully complete.</p>
+    <p>It is worth mentioning one tricky point concerning the use of this function.  Since the server treats the new connection pretty much like any normal player connection, it will naturally try to parse any input from that connection as commands in the usual way. To prevent this treatment, you should use <span class="cmd">set_connection_option()</span> to set the <span class="cmd">"hold-input"</span> option true on the connection.</p>
+</article>
+<article class="well bg-info text-info" id="function-listen">
+    <strong><u>Function:</u> <span class="cmd">listen</span></strong>
+    <p>listen -- create a new point at which the server will listen for network connections, just as it does normally</p>
+    <div class="well bg-info"><var>value</var> <span class="cmd">listen</span> (obj <var>object</var>, <var>point</var> [, <var>print-messages</var>])</div>
+    <p><var>Object</var> is the object whose verbs <span class="cmd">do_login_command</span>, <span class="cmd">do_command</span>, <span class="cmd">do_out_of_band_command</span>, <span class="cmd">user_connected</span>, <span class="cmd">user_created</span>, <span class="cmd">user_reconnected</span>, <span class="cmd">user_disconnected</span>, and <span class="cmd">user_client_disconnected</span> will be called at appropriate points, just as these verbs are called on <span class="cmd">#0</span> for normal connections. (See the chapter on server assumptions about the database for the complete story on when these functions are called.)  <var>Point</var> is a network-configuration-specific parameter describing the listening point. If <var>print-messages</var> is provided and true, then the various database-configurable messages (also detailed in the chapter on server assumptions) will be printed on connections received at the new listening point. <span class="cmd">Listen()</span> returns <var>canon</var>, a `canonicalized' version of <var>point</var>, with any configuration-specific defaulting or aliasing accounted for.</p>
+    <p>This raises <span class="cmd">E_PERM</span> if the programmer is not a wizard, <span class="cmd">E_INVARG</span> if <var>object</var> is invalid or there is already a listening point described by <var>point</var>, and <span class="cmd">E_QUOTA</span> if some network-configuration-specific error occurred.</p>
+    <p>For the TCP/IP configurations, <var>point</var> is a TCP port number on which to listen and <var>canon</var> is equal to <var>point</var> unless <var>point</var> is zero, in which case <var>canon</var> is a port number assigned by the operating system.</p>
+    <p>For the local multi-user configurations, <var>point</var> is the UNIX file name to be used as the connection point and <var>canon</var> is always equal to <var>point</var>.</p>
+    <p>In the single-user configuration, the can be only one listening point at a time; <var>point</var> can be any value at all and <var>canon</var> is always zero.</p>
+</article>
+<article class="well bg-info text-info" id="function-unlisten">
+    <strong><u>Function:</u> <span class="cmd">unlisten</span></strong>
+    <p>unlisten -- stop listening for connections on the point described by <var>canon</var>, which should be the second element of some element of the list returned by <span class="cmd">listeners()</span></p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">unlisten</span> (<var>canon</var>)</div>
+    <p>Raises <span class="cmd">E_PERM</span> if the programmer is not a wizard and <span class="cmd">E_INVARG</span> if there does not exist a listener with that description.</p>
+</article>
+<article class="well bg-info text-info" id="function-listeners">
+    <strong><u>Function:</u> <span class="cmd">listeners</span></strong>
+    <p>listeners -- returns a list describing all existing listening points, including the default one set up automatically by the server when it was started (unless that one has since been destroyed by a call to <span class="cmd">unlisten()</span>)</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">listeners</span> ()</span></div>
+    <p>Each element of the list has the following form:</p>
 <pre>
 {<var>object</var>, <var>canon</var>, <var>print-messages</var>}
 </pre>
-<p>where <var>object</var> is the first argument given in the call to <span class="cmd">listen()</span>
-to create this listening point, <var>print-messages</var> is true if the third
-argument in that call was provided and true, and <var>canon</var> was the value
-returned by that call. (For the initial listening point, <var>object</var> is
-<span class="cmd">#0</span>, <var>canon</var> is determined by the command-line arguments or a
-network-configuration-specific default, and <var>print-messages</var> is true.)
-</dl></p>
-<p>Please note that there is nothing special about the initial listening point
-created by the server when it starts; you can use <span class="cmd">unlisten()</span> on it just
-as if it had been created by <span class="cmd">listen()</span>. This can be useful; for example,
-under one of the TCP/IP configurations, you might start up your server on some
-obscure port, say 12345, connect to it by yourself for a while, and then open
-it up to normal users by evaluating the statments
-</p>
+    <p>where <var>object</var> is the first argument given in the call to <span class="cmd">listen()</span> to create this listening point, <var>print-messages</var> is true if the third argument in that call was provided and true, and <var>canon</var> was the value returned by that call. (For the initial listening point, <var>object</var> is <span class="cmd">#0</span>, <var>canon</var> is determined by the command-line arguments or a network-configuration-specific default, and <var>print-messages</var> is true.)</p>
+    <p>Please note that there is nothing special about the initial listening point created by the server when it starts; you can use <span class="cmd">unlisten()</span> on it just as if it had been created by <span class="cmd">listen()</span>. This can be useful; for example, under one of the TCP/IP configurations, you might start up your server on some obscure port, say 12345, connect to it by yourself for a while, and then open it up to normal users by evaluating the statments:</p>
 <pre>
 unlisten(12345); listen(#0, 7777, 1)
 </pre>
-<h3><a name="SEC53" href="ProgrammersManual_toc.html#TOC53">Operations Involving Times and Dates</a></h3>
-
-</p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">int <b>time</span> ()</span>
-<dd><a name="IDX101"></a>
-Returns the current time, represented as the number of seconds that have
-elapsed since midnight on 1 January 1970, Greenwich Mean Time.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">str <b>ctime</span> ([int <var>time</var>])</div>
-<dd><a name="IDX102"></a>
-Interprets <var>time</var> as a time, using the same representation as given in the
-description of <span class="cmd">time()</span>, above, and converts it into a 28-character,
-human-readable string in the following format:</p>
+</article>
+<h5 id="operations-involving-times-and-dates">Operations Involving Times and Dates</h5>
+<article class="well bg-info text-info" id="function-time">
+    <strong><u>Function:</u> <span class="cmd">time</span></strong>
+    <p>time -- returns the current time, represented as the number of seconds that have elapsed since midnight on 1 January 1970, Greenwich Mean Time</p>
+    <div class="well bg-info"><var>int</var> <span class="cmd">time</span> ()</span></div>
+</article>
+<article class="well bg-info text-info" id="function-ctime">
+    <strong><u>Function:</u> <span class="cmd">ctime</span></strong>
+    <p>ctime -- interprets <var>time</var> as a time, using the same representation as given in the description of <span class="cmd">time()</span>, above, and converts it into a 28-character, human-readable string</p>
+    <div class="well bg-info"><var>str</var> <span class="cmd">ctime</span> ([int <var>time</var>])</div>
+    <p>The string will be in the following format:</p>
 <pre>
 Mon Aug 13 19:13:20 1990 PDT
 </pre>
-<p>If the current day of the month is less than 10, then an extra blank appears
-between the month and the day:</p>
+    <p>If the current day of the month is less than 10, then an extra blank appears between the month and the day:</p>
 <pre>
 Mon Apr  1 14:10:43 1991 PST
 </pre>
-<p>If <var>time</var> is not provided, then the current time is used.</p>
-<p>Note that <span class="cmd">ctime()</span> interprets <var>time</var> for the local time zone of the
-computer on which the MOO server is running.
-</dl>
-
-<h3><a name="SEC54" href="ProgrammersManual_toc.html#TOC54">MOO-Code Evaluation and Task Manipulation</a></h3>
-
-</p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>raise</span> (<var>code</var> [, str <var>message</var> [, <var>value</var>]])</div>
-<dd><a name="IDX103"></a>
-Raises <var>code</var> as an error in the same way as other MOO expressions,
-statements, and functions do. <var>Message</var>, which defaults to the value of
-<span class="cmd">tostr(<var>code</var>)</span>, and <var>value</var>, which defaults to zero, are made
-available to any <span class="cmd">try</span>-<span class="cmd">except</span> statements that catch the error. If
-the error is not caught, then <var>message</var> will appear on the first line of
-the traceback printed to the user.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">value <b>call_function</span> (str <var>func-name</var>, <var>arg</var>, ...)</span>
-<dd><a name="IDX104"></a>
-Calls the built-in function named <var>func-name</var>, passing the given arguments,
-and returns whatever that function returns. Raises <span class="cmd">E_INVARG</span> if
-<var>func-name</var> is not recognized as the name of a known built-in function.
-This allows you to compute the name of the function to call and, in particular,
-allows you to write a call to a built-in function that may or may not exist in
-the particular version of the server you're using.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>function_info</span> ([str <var>name</var>])</div>
-<dd><a name="IDX105"></a>
-Returns descriptions of the built-in functions available on the server. If
-<var>name</var> is provided, only the description of the function with that name is
-returned. If <var>name</var> is omitted, a list of descriptions is returned, one
-for each function available on the server. Raised <span class="cmd">E_INVARG</span> if
-<var>name</var> is provided but no function with that name is available on the
-server.</p>
-<p>Each function description is a list of the following form:</p>
+    <p>If <var>time</var> is not provided, then the current time is used.</p>
+    <p>Note that <span class="cmd">ctime()</span> interprets <var>time</var> for the local time zone of the computer on which the MOO server is running.</p>
+</article>
+<h5 id="moo-code-evaluation-and-task-management">MOO-Code Evaluation and Task Manipulation</h5>
+<article class="well bg-info text-info" id="function-raise">
+    <strong><u>Function:</u> <span class="cmd">raise</span></strong>
+    <p>raise -- raises <var>code</var> as an error in the same way as other MOO expressions, statements, and functions do</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">raise</span> (<var>code</var> [, str <var>message</var> [, <var>value</var>]])</div>
+    <p><var>Message</var>, which defaults to the value of <span class="cmd">tostr(<var>code</var>)</span>, and <var>value</var>, which defaults to zero, are made available to any <span class="cmd">try</span>-<span class="cmd">except</span> statements that catch the error. If the error is not caught, then <var>message</var> will appear on the first line of the traceback printed to the user.</p>
+</article>
+<article class="well bg-info text-info" id="function-call-function">
+    <strong><u>Function:</u> <span class="cmd">call_function</span></strong>
+    <p>call_function -- calls the built-in function named <var>func-name</var>, passing the given arguments, and returns whatever that function returns</p>
+    <div class="well bg-info"><var>value</var> <span class="cmd">call_function</span> (str <var>func-name</var>, <var>arg</var>, ...)</div>
+    <p>Raises <span class="cmd">E_INVARG</span> if <var>func-name</var> is not recognized as the name of a known built-in function.  This allows you to compute the name of the function to call and, in particular, allows you to write a call to a built-in function that may or may not exist in the particular version of the server you're using.</p>
+</article>
+<article class="well bg-info text-info" id="function-function-info">
+    <strong><u>Function:</u> <span class="cmd">function_info</span></strong>
+    <p>function_info -- returns descriptions of the built-in functions available on the server</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">function_info</span> ([str <var>name</var>])</div>
+    <p>If <var>name</var> is provided, only the description of the function with that name is returned. If <var>name</var> is omitted, a list of descriptions is returned, one for each function available on the server. Raised <span class="cmd">E_INVARG</span> if <var>name</var> is provided but no function with that name is available on the server.</p>
+    <p>Each function description is a list of the following form:</p>
 <pre>
 {<var>name</var>, <var>min-args</var>, <var>max-args</var>, <var>types</var>
 </pre>
-<p>where <var>name</var> is the name of the built-in function, <var>min-args</var> is the
-minimum number of arguments that must be provided to the function,
-<var>max-args</var> is the maximum number of arguments that can be provided to the
-function or <span class="cmd">-1</span> if there is no maximum, and <var>types</var> is a list of
-<var>max-args</var> integers (or <var>min-args</var> if <var>max-args</var> is <span class="cmd">-1</span>),
-each of which represents the type of argument required in the corresponding
-position. Each type number is as would be returned from the <span class="cmd">typeof()</span>
-built-in function except that <span class="cmd">-1</span> indicates that any type of value is
-acceptable and <span class="cmd">-2</span> indicates that either integers or floating-point
-numbers may be given. For example, here are several entries from the list:</p>
+    <p>where <var>name</var> is the name of the built-in function, <var>min-args</var> is the minimum number of arguments that must be provided to the function, <var>max-args</var> is the maximum number of arguments that can be provided to the function or <span class="cmd">-1</span> if there is no maximum, and <var>types</var> is a list of <var>max-args</var> integers (or <var>min-args</var> if <var>max-args</var> is <span class="cmd">-1</span>), each of which represents the type of argument required in the corresponding position. Each type number is as would be returned from the <span class="cmd">typeof()</span> built-in function except that <span class="cmd">-1</span> indicates that any type of value is acceptable and <span class="cmd">-2</span> indicates that either integers or floating-point numbers may be given. For example, here are several entries from the list:</p>
 <pre>
 {"listdelete", 2, 2, {4, 0}}
 {"suspend", 0, 1, {0}}
@@ -3873,32 +3740,15 @@ numbers may be given. For example, here are several entries from the list:</p>
 {"max", 1, -1, {-2}}
 {"tostr", 0, -1, {}}
 </pre>
-<p><span class="cmd">Listdelete()</span> takes exactly 2 arguments, of which the first must be a
-list (<span class="cmd">LIST == 4</span>) and the second must be an integer (<span class="cmd">INT == 0</span>).
-<span class="cmd">Suspend()</span> has one optional argument that, if provided, must be an
-integer. <span class="cmd">Server_log()</span> has one required argument that must be a string
-(<span class="cmd">STR == 2</span>) and one optional argument that, if provided, may be of any
-type. <span class="cmd">Max()</span> requires at least one argument but can take any number
-above that, and the first argument must be either an integer or a
-floating-point number; the type(s) required for any other arguments can't be
-determined from this description. Finally, <span class="cmd">tostr()</span> takes any number of
-arguments at all, but it can't be determined from this description which
-argument types would be acceptable in which positions.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>eval</span> (str <var>string</var>)</div>
-<dd><a name="IDX106"></a>
-The MOO-code compiler processes <var>string</var> as if it were to be the program
-associated with some verb and, if no errors are found, that fictional verb is
-invoked. If the programmer is not, in fact, a programmer, then <span class="cmd">E_PERM</span>
-is raised. The normal result of calling <span class="cmd">eval()</span> is a two element list.
-The first element is true if there were no compilation errors and false
-otherwise. The second element is either the result returned from the fictional
-verb (if there were no compilation errors) or a list of the compiler's error
-messages (otherwise).</p>
-<p>When the fictional verb is invoked, the various built-in variables have values
-as shown below:</p>
+    <p><span class="cmd">listdelete()</span> takes exactly 2 arguments, of which the first must be a list (<span class="cmd">LIST == 4</span>) and the second must be an integer (<span class="cmd">INT == 0</span>).  <span class="cmd">Suspend()</span> has one optional argument that, if provided, must be an integer. <span class="cmd">Server_log()</span> has one required argument that must be a string (<span class="cmd">STR == 2</span>) and one optional argument that, if provided, may be of any type.
+    <span class="cmd">max()</span> requires at least one argument but can take any number above that, and the first argument must be either an integer or a floating-point number; the type(s) required for any other arguments can't be determined from this description. Finally, <span class="cmd">tostr()</span> takes any number of arguments at all, but it can't be determined from this description which argument types would be acceptable in which positions.</p>
+</article>
+<article class="well bg-info text-info" id="function-is-eval">
+    <strong><u>Function:</u> <span class="cmd">eval</span></strong>
+    <p>eval -- the MOO-code compiler processes <var>string</var> as if it were to be the program associated with some verb and, if no errors are found, that fictional verb is invoked</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">eval</span> (str <var>string</var>)</div>
+    <p>If the programmer is not, in fact, a programmer, then <span class="cmd">E_PERM</span> is raised. The normal result of calling <span class="cmd">eval()</span> is a two element list.  The first element is true if there were no compilation errors and false otherwise. The second element is either the result returned from the fictional verb (if there were no compilation errors) or a list of the compiler's error messages (otherwise).</p>
+    <p>When the fictional verb is invoked, the various built-in variables have values as shown below:</p>
 <pre>
 player    the same as in the calling verb
 this      #-1
@@ -3914,81 +3764,46 @@ prepstr   ""
 iobjstr   ""
 iobj      #-1
 </pre>
-<p>The fictional verb runs with the permissions of the programmer and as if its
-<span class="cmd">d</span> permissions bit were on.</p>
+    <p>The fictional verb runs with the permissions of the programmer and as if its <span class="cmd">d</span> permissions bit were on.</p>
 <pre>
 eval("return 3 + 4;")   =>   {1, 7}
 </pre>
-
-</dl>
-
-</p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>set_task_perms</span> (obj <var>who</var>)</div>
-<dd><a name="IDX107"></a>
-Changes the permissions with which the currently-executing verb is running to
-be those of <var>who</var>. If the programmer is neither <var>who</var> nor a wizard,
-then <span class="cmd">E_PERM</span> is raised.
-<blockquote>
-</p>
-<p><strong>Note</strong>: This does not change the owner of the currently-running verb,
-only the permissions of this particular invocation. It is used in verbs owned
-by wizards to make themselves run with lesser (usually non-wizard) permissions.
-</blockquote>
-
-</dl>
-
-</p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">obj <b>caller_perms</span> ()</span>
-<dd><a name="IDX108"></a>
-Returns the permissions in use by the verb that called the currently-executing
-verb. If the currently-executing verb was not called by another verb (i.e., it
-is the first verb called in a command or server task), then
-<span class="cmd">caller_perms()</span> returns <span class="cmd">#-1</span>.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">int <b>ticks_left</span> ()</span>
-<dd><a name="IDX109"></a>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">int <b>seconds_left</span> ()</span>
-<dd><a name="IDX110"></a>
-These two functions return the number of ticks or seconds (respectively) left
-to the current task before it will be forcibly terminated. These are useful,
-for example, in deciding when to call <span class="cmd">suspend()</span> to continue a long-lived
-computation.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">int <b>task_id</span> ()</span>
-<dd><a name="IDX111"></a>
-Returns the non-zero, non-negative integer identifier for the
-currently-executing task. Such integers are randomly selected for each task and
-can therefore safely be used in circumstances where unpredictability is
-required.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">value <b>suspend</span> ([int <var>seconds</var>])</div>
-<dd><a name="IDX112"></a>
-Suspends the current task, and resumes it after at least <var>seconds</var> seconds.
-(If <var>seconds</var> is not provided, the task is suspended indefinitely; such a
-task can only be resumed by use of the <span class="cmd">resume()</span> function.)  When the
-task is resumed, it will have a full quota of ticks and seconds. This function
-is useful for programs that run for a long time or require a lot of ticks. If
-<var>seconds</var> is negative, then <span class="cmd">E_INVARG</span> is raised. <span class="cmd">Suspend()</span>
-returns zero unless it was resumed via <span class="cmd">resume()</span>, in which case it
-returns the second argument given to that function.</p>
-<p>In some sense, this function forks the `rest' of the executing task. However,
-there is a major difference between the use of <span class="cmd">suspend(<var>seconds</var>)</span>
-and the use of the <span class="cmd">fork (<var>seconds</var>)</span>. The <span class="cmd">fork</span> statement
-creates a new task (a <em>forked task</em>) while the currently-running task still
-goes on to completion, but a <span class="cmd">suspend()</span> suspends the currently-running
-task (thus making it into a <em>suspended task</em>). This difference may be best
-explained by the following examples, in which one verb calls another:</p>
+</article>
+<article class="well bg-info text-info" id="function-set-task-perms">
+    <strong><u>Function:</u> <span class="cmd">set_task_perms</span></strong>
+    <p>set_task_perms -- changes the permissions with which the currently-executing verb is running to be those of <var>who</var></p>
+    <div class="well bg-info"><var>one</var> <span class="cmd">set_task_perms</span> (obj <var>who</var>)</div>
+    <p>If the programmer is neither <var>who</var> nor a wizard, then <span class="cmd">E_PERM</span> is raised.</p> </p>
+    <div class="well"><span class="label label-info">Note:</span> This does not change the owner of the currently-running verb, only the permissions of this particular invocation. It is used in verbs owned by wizards to make themselves run with lesser (usually non-wizard) permissions.</div>
+</article>
+<article class="well bg-info text-info" id="function-caller-perms">
+    <strong><u>Function:</u> <span class="cmd">caller_perms</span></strong>
+    <p>caller_perms -- returns the permissions in use by the verb that called the currently-executing verb</p>
+    <div class="well bg-info"><var>obj</var> <span class="cmd">caller_perms</span> ()</div>
+    <p>If the currently-executing verb was not called by another verb (i.e., it is the first verb called in a command or server task), then <span class="cmd">caller_perms()</span> returns <span class="cmd">#-1</span>.</p>
+</article>
+<article class="well bg-info text-info" id="function-ticks-left">
+    <strong><u>Function:</u> <span class="cmd">ticks_left</span></strong>
+    <p>ticks_left -- return the number of ticks left to the current task before it will be forcibly terminated</p>
+    <div class="well bg-info"><var>int</var> <span class="cmd">ticks_left</span> ()</div>
+    <strong><u>Function:</u> <span class="cmd">seconds_left</span></strong>
+    <p>seconds_left -- return the number of seconds left to the current task before it will be forcibly terminated</p>
+    <div class="well bg-info"><var>int</var> <span class="cmd">seconds_left</span> ()</div>
+    <p>These are useful, for example, in deciding when to call <span class="cmd">suspend()</span> to continue a long-lived computation.</p>
+</article>
+<article class="well bg-info text-info" id="function-task-id">
+    <strong><u>Function:</u> <span class="cmd">task_id</span></strong>
+    <p>task_id -- returns the non-zero, non-negative integer identifier for the currently-executing task</p>
+    <div class="well bg-info"><var>int</var> <span class="cmd">task_id</span> ()</div>
+    <p>Such integers are randomly selected for each task and can therefore safely be used in circumstances where unpredictability is required.  </p>
+</article>
+<article class="well bg-info text-info" id="function-suspend">
+    <strong><u>Function:</u> <span class="cmd">suspend</span></strong>
+    <p>suspend -- suspends the current task, and resumes it after at least <var>seconds</var> seconds</p>
+    <div class="well bg-info"><var>value</var> <span class="cmd">suspend</span> ([int <var>seconds</var>])</div>
+    <p>If <var>seconds</var> is not provided, the task is suspended indefinitely; such a task can only be resumed by use of the <span class="cmd">resume()</span> function.</p>
+    <p>When the task is resumed, it will have a full quota of ticks and seconds. This function is useful for programs that run for a long time or require a lot of ticks. If <var>seconds</var> is negative, then <span class="cmd">E_INVARG</span> is raised. <span class="cmd">Suspend()</span> returns zero unless it was resumed via <span class="cmd">resume()</span>, in which case it returns the second argument given to that function.</p>
+    <p>In some sense, this function forks the `rest' of the executing task. However, there is a major difference between the use of <span class="cmd">suspend(<var>seconds</var>)</span> and the use of the <span class="cmd">fork (<var>seconds</var>)</span>. The <span class="cmd">fork</span> statement creates a new task (a <em>forked task</em>) while the currently-running task still goes on to completion, but a <span class="cmd">suspend()</span> suspends the currently-running task (thus making it into a <em>suspended task</em>). This difference may be best explained by the following examples, in which one verb calls another:</p>
 <pre>
 .program   #0:caller_A
 #0.prop = 1;
@@ -4013,229 +3828,121 @@ suspend(5);
 #0.prop = 3;
 .
 </pre>
-<p>Consider <span class="cmd">#0:caller_A</span>, which calls <span class="cmd">#0:callee_A</span>. Such a task would
-assign 1 to <span class="cmd">#0.prop</span>, call <span class="cmd">#0:callee_A</span>, fork a new task, return to
-<span class="cmd">#0:caller_A</span>, and assign 2 to <span class="cmd">#0.prop</span>, ending this task. Five
-seconds later, if the forked task had not been killed, then it would begin to
-run; it would assign 3 to <span class="cmd">#0.prop</span> and then stop. So, the final value of
-<span class="cmd">#0.prop</span> (i.e., the value after more than 5 seconds) would be 3.</p>
-<p>Now consider <span class="cmd">#0:caller_B</span>, which calls <span class="cmd">#0:callee_B</span> instead of
-<span class="cmd">#0:callee_A</span>. This task would assign 1 to <span class="cmd">#0.prop</span>, call
-<span class="cmd">#0:callee_B</span>, and suspend. Five seconds later, if the suspended task had
-not been killed, then it would resume; it would assign 3 to <span class="cmd">#0.prop</span>,
-return to <span class="cmd">#0:caller_B</span>, and assign 2 to <span class="cmd">#0.prop</span>, ending the task.
-So, the final value of <span class="cmd">#0.prop</span> (i.e., the value after more than 5
-seconds) would be 2.</p>
-<p>A suspended task, like a forked task, can be described by the
-<span class="cmd">queued_tasks()</span> function and killed by the <span class="cmd">kill_task()</span> function.
-Suspending a task does not change its task id. A task can be suspended again
-and again by successive calls to <span class="cmd">suspend()</span>.</p>
-<p>By default, there is no limit to the number of tasks any player may suspend,
-but such a limit can be imposed from within the database. See the chapter on
-server assumptions about the database for details.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>resume</span> (int <var>task-id</var> [, <var>value</var>])</div>
-<dd><a name="IDX113"></a>
-Immediately ends the suspension of the suspended task with the given
-<var>task-id</var>; that task's call to <span class="cmd">suspend()</span> will return <var>value</var>,
-which defaults to zero. If <var>value</var> is of type <span class="cmd">ERR</span>, it will be
-raised, rather than returned, in the suspended task. <span class="cmd">Resume()</span> raises
-<span class="cmd">E_INVARG</span> if <var>task-id</var> does not specify an existing suspended task
-and <span class="cmd">E_PERM</span> if the programmer is neither a wizard nor the owner of the
-specified task.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>queue_info</span> ([obj <var>player</var>])</div>
-<dd><a name="IDX114"></a>
-If <var>player</var> is omitted, returns a list of object numbers naming all players
-that currently have active task queues inside the server. If <var>player</var> is
-provided, returns the number of background tasks currently queued for that
-user. It is guaranteed that <span class="cmd">queue_info(<var>X</var>)</span> will return zero for
-any <var>X</var> not in the result of <span class="cmd">queue_info()</span>.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>queued_tasks</span> ()</span>
-<dd><a name="IDX115"></a>
-Returns information on each of the background tasks (i.e., forked, suspended or
-reading) owned by the programmer (or, if the programmer is a wizard, all queued
-tasks). The returned value is a list of lists, each of which encodes certain
-information about a particular queued task in the following format:</p>
+    <p>Consider <span class="cmd">#0:caller_A</span>, which calls <span class="cmd">#0:callee_A</span>. Such a task would assign 1 to <span class="cmd">#0.prop</span>, call <span class="cmd">#0:callee_A</span>, fork a new task, return to <span class="cmd">#0:caller_A</span>, and assign 2 to <span class="cmd">#0.prop</span>, ending this task. Five seconds later, if the forked task had not been killed, then it would begin to run; it would assign 3 to <span class="cmd">#0.prop</span> and then stop. So, the final value of <span class="cmd">#0.prop</span> (i.e., the value after more than 5 seconds) would be 3.</p>
+    <p>Now consider <span class="cmd">#0:caller_B</span>, which calls <span class="cmd">#0:callee_B</span> instead of <span class="cmd">#0:callee_A</span>. This task would assign 1 to <span class="cmd">#0.prop</span>, call <span class="cmd">#0:callee_B</span>, and suspend. Five seconds later, if the suspended task had not been killed, then it would resume; it would assign 3 to <span class="cmd">#0.prop</span>, return to <span class="cmd">#0:caller_B</span>, and assign 2 to <span class="cmd">#0.prop</span>, ending the task. So, the final value of <span class="cmd">#0.prop</span> (i.e., the value after more than 5 seconds) would be 2.</p>
+    <p>A suspended task, like a forked task, can be described by the <span class="cmd">queued_tasks()</span> function and killed by the <span class="cmd">kill_task()</span> function. Suspending a task does not change its task id. A task can be suspended again and again by successive calls to <span class="cmd">suspend()</span>.</p>
+    <p>By default, there is no limit to the number of tasks any player may suspend, but such a limit can be imposed from within the database. See the chapter on server assumptions about the database for details.</p>
+</article>
+<article class="well bg-info text-info" id="function-resume">
+    <strong><u>Function:</u> <span class="cmd">resume</span></strong>
+    <p>resume -- immediately ends the suspension of the suspended task with the given <var>task-id</var>; that task's call to <span class="cmd">suspend()</span> will return <var>value</var>, which defaults to zero</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">resume</span> (int <var>task-id</var> [, <var>value</var>])</div>
+    <p>If <var>value</var> is of type <span class="cmd">ERR</span>, it will be raised, rather than returned, in the suspended task. <span class="cmd">Resume()</span> raises <span class="cmd">E_INVARG</span> if <var>task-id</var> does not specify an existing suspended task and <span class="cmd">E_PERM</span> if the programmer is neither a wizard nor the owner of the specified task.</p>
+</article>
+<article class="well bg-info text-info" id="function-queue-info">
+    <strong><u>Function:</u> <span class="cmd">queue_info</span></strong>
+    <p>queue_info -- if <var>player</var> is omitted, returns a list of object numbers naming all players that currently have active task queues inside the server</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">queue_info</span> ([obj <var>player</var>])</div>
+    <p>If <var>player</var> is provided, returns the number of background tasks currently queued for that user. It is guaranteed that <span class="cmd">queue_info(<var>X</var>)</span> will return zero for any <var>X</var> not in the result of <span class="cmd">queue_info()</span>.</p>
+</article>
+<article class="well bg-info text-info" id="function-queued-tasks">
+    <strong><u>Function:</u> <span class="cmd">queued_tasks</span></strong>
+    <p>queued_tasks -- returns information on each of the background tasks (i.e., forked, suspended or reading) owned by the programmer (or, if the programmer is a wizard, all queued tasks)</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">queued_tasks</span> ()</div>
+    <p>The returned value is a list of lists, each of which encodes certain information about a particular queued task in the following format:</p>
 <pre>
 {<var>task-id</var>, <var>start-time</var>, <var>x</var>, <var>y</var>,
  <var>programmer</var>, <var>verb-loc</var>, <var>verb-name</var>, <var>line</var>, <var>this</var>}
 </pre>
-<p>where <var>task-id</var> is an integer identifier for this queued task,
-<var>start-time</var> is the time after which this task will begin execution (in
-<span class="cmd">time()</span> format), <var>x</var> and <var>y</var> are obsolete values that are no
-longer interesting, <var>programmer</var> is the permissions with which this task
-will begin execution (and also the player who <em>owns</em> this task),
-<var>verb-loc</var> is the object on which the verb that forked this task was
-defined at the time, <var>verb-name</var> is that name of that verb, <var>line</var> is
-the number of the first line of the code in that verb that this task will
-execute, and <var>this</var> is the value of the variable <span class="cmd">this</span> in that verb.
-For reading tasks, <var>start-time</var> is <span class="cmd">-1</span>.</p>
-<p>The <var>x</var> and <var>y</var> fields are now obsolete and are retained only for
-backward-compatibility reasons. They may be reused for new purposes in some
-future version of the server.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>kill_task</span> (int <var>task-id</var>)</div>
-<dd><a name="IDX116"></a>
-Removes the task with the given <var>task-id</var> from the queue of waiting tasks.
-If the programmer is not the owner of that task and not a wizard, then
-<span class="cmd">E_PERM</span> is raised. If there is no task on the queue with the given
-<var>task-id</var>, then <span class="cmd">E_INVARG</span> is raised.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>callers</span> ([<var>include-line-numbers</var>])</div>
-<dd><a name="IDX117"></a>
-Returns information on each of the verbs and built-in functions currently
-waiting to resume execution in the current task. When one verb or function
-calls another verb or function, execution of the caller is temporarily
-suspended, pending the called verb or function returning a value. At any given
-time, there could be several such pending verbs and functions: the one that
-called the currently executing verb, the verb or function that called that one,
-and so on. The result of <span class="cmd">callers()</span> is a list, each element of which
-gives information about one pending verb or function in the following format:</p>
+    <p>where <var>task-id</var> is an integer identifier for this queued task, <var>start-time</var> is the time after which this task will begin execution (in <span class="cmd">time()</span> format), <var>x</var> and <var>y</var> are obsolete values that are no longer interesting, <var>programmer</var> is the permissions with which this task will begin execution (and also the player who <em>owns</em> this task), <var>verb-loc</var> is the object on which the verb that forked this task was defined
+    at the time, <var>verb-name</var> is that name of that verb, <var>line</var> is the number of the first line of the code in that verb that this task will execute, and <var>this</var> is the value of the variable <span class="cmd">this</span> in that verb.</p>
+    <p>For reading tasks, <var>start-time</var> is <span class="cmd">-1</span>.</p>
+    <p>The <var>x</var> and <var>y</var> fields are now obsolete and are retained only for backward-compatibility reasons. They may be reused for new purposes in some future version of the server.</p>
+</article>
+<article class="well bg-info text-info" id="function-kill-task">
+    <strong><u>Function:</u> <span class="cmd">kill_task</span></strong>
+    <p>kill_task -- removes the task with the given <var>task-id</var> from the queue of waiting tasks</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">kill_task</span> (int <var>task-id</var>)</div>
+    <p>If the programmer is not the owner of that task and not a wizard, then <span class="cmd">E_PERM</span> is raised. If there is no task on the queue with the given <var>task-id</var>, then <span class="cmd">E_INVARG</span> is raised.</p>
+</article>
+<article class="well bg-info text-info" id="function-callers">
+    <strong><u>Function:</u> <span class="cmd">callers</span></strong>
+    <p>callers -- returns information on each of the verbs and built-in functions currently waiting to resume execution in the current task</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">callers</span> ([<var>include-line-numbers</var>])</div>
+    <p>When one verb or function calls another verb or function, execution of the caller is temporarily suspended, pending the called verb or function returning a value. At any given time, there could be several such pending verbs and functions: the one that called the currently executing verb, the verb or function that called that one, and so on. The result of <span class="cmd">callers()</span> is a list, each element of which gives information about one pending verb or function in the following format:</p>
 <pre>
 {<var>this</var>, <var>verb-name</var>, <var>programmer</var>, <var>verb-loc</var>, <var>player</var>, <var>line-number</var>}
 </pre>
-<p>For verbs, <var>this</var> is the initial value of the variable <span class="cmd">this</span> in that
-verb, <var>verb-name</var> is the name used to invoke that verb, <var>programmer</var> is
-the player with whose permissions that verb is running, <var>verb-loc</var> is the
-object on which that verb is defined, <var>player</var> is the initial value of the
-variable <span class="cmd">player</span> in that verb, and <var>line-number</var> indicates which line
-of the verb's code is executing. The <var>line-number</var> element is included
-only if the <var>include-line-numbers</var> argument was provided and true.</p>
-<p>For functions, <var>this</var>, <var>programmer</var>, and <var>verb-loc</var> are all
-<span class="cmd">#-1</span>, <var>verb-name</var> is the name of the function, and <var>line-number</var>
-is an index used internally to determine the current state of the built-in
-function. The simplest correct test for a built-in function entry is</p>
+    <p>For verbs, <var>this</var> is the initial value of the variable <span class="cmd">this</span> in that verb, <var>verb-name</var> is the name used to invoke that verb, <var>programmer</var> is the player with whose permissions that verb is running, <var>verb-loc</var> is the object on which that verb is defined, <var>player</var> is the initial value of the variable <span class="cmd">player</span> in that verb, and <var>line-number</var> indicates which line of the verb's code is executing. The <var>line-number</var> element is included only if the <var>include-line-numbers</var> argument was provided and true.</p>
+    <p>For functions, <var>this</var>, <var>programmer</var>, and <var>verb-loc</var> are all <span class="cmd">#-1</span>, <var>verb-name</var> is the name of the function, and <var>line-number</var> is an index used internally to determine the current state of the built-in function. The simplest correct test for a built-in function entry is</p>
 <pre>
 (VERB-LOC == #-1  &#38;&#38;  PROGRAMMER == #-1  &#38;&#38;  VERB-name != "")
 </pre>
-<p>The first element of the list returned by <span class="cmd">callers()</span> gives information on
-the verb that called the currently-executing verb, the second element describes
-the verb that called that one, and so on. The last element of the list
-describes the first verb called in this task.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>task_stack</span> (int <var>task-id</var> [, <var>include-line-numbers</var>])</div>
-<dd><a name="IDX118"></a>
-Returns information like that returned by the <span class="cmd">callers()</span> function, but
-for the suspended task with the given <var>task-id</var>; the
-<var>include-line-numbers</var> argument has the same meaning as in
-<span class="cmd">callers()</span>. Raises <span class="cmd">E_INVARG</span> if <var>task-id</var> does not specify an
-existing suspended task and <span class="cmd">E_PERM</span> if the programmer is neither a wizard
-nor the owner of the specified task.
-</dl>
-
-<h3><a name="SEC55" href="ProgrammersManual_toc.html#TOC55">Administrative Operations</a></h3>
-
-</p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">str <b>server_version</span> ()</span>
-<dd><a name="IDX119"></a>
-Returns a string giving the version number of the running MOO server.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>server_log</span> (str <var>message</var> [, <var>is-error</var>])</div>
-<dd><a name="IDX120"></a>
-The text in <var>message</var> is sent to the server log with a distinctive prefix
-(so that it can be distinguished from server-generated messages). If the
-programmer is not a wizard, then <span class="cmd">E_PERM</span> is raised. If <var>is-error</var>
-is provided and true, then <var>message</var> is marked in the server log as an
-error.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">obj <b>renumber</span> (obj <var>object</var>)</div>
-<dd><a name="IDX121"></a>
-The object number of the object currently numbered <var>object</var> is changed to
-be the least nonnegative object number not currently in use and the new object
-number is returned. If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is
-raised. If the programmer is not a wizard, then <span class="cmd">E_PERM</span> is raised.
-If there are no unused nonnegative object numbers less than <var>object</var>, then
-<var>object</var> is returned and no changes take place.</p>
-<p>The references to <var>object</var> in the parent/children and location/contents
-hierarchies are updated to use the new object number, and any verbs, properties
-and/or objects owned by <var>object</var> are also changed to be owned by the new
-object number. The latter operation can be quite time consuming if the
-database is large. No other changes to the database are performed; in
-particular, no object references in property values or verb code are updated.</p>
-<p>This operation is intended for use in making new versions of the LambdaCore
-database from the then-current LambdaMOO database, and other similar
-situations. Its use requires great care.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>reset_max_object</span> ()</span>
-<dd><a name="IDX122"></a>
-The server's idea of the highest object number ever used is changed to be the
-highest object number of a currently-existing object, thus allowing reuse of
-any higher numbers that refer to now-recycled objects. If the programmer is
-not a wizard, then <span class="cmd">E_PERM</span> is raised.</p>
-<p>This operation is intended for use in making new versions of the LambdaCore
-database from the then-current LambdaMOO database, and other similar
-situations. Its use requires great care.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">list <b>memory_usage</span> ()</span>
-<dd><a name="IDX123"></a>
-On some versions of the server, this returns statistics concerning the server
-consumption of system memory. The result is a list of lists, each in the
-following format:</p>
+    <p>The first element of the list returned by <span class="cmd">callers()</span> gives information on the verb that called the currently-executing verb, the second element describes the verb that called that one, and so on. The last element of the list describes the first verb called in this task.</p>
+</article>
+<article class="well bg-info text-info" id="function-task-stack">
+    <strong><u>Function:</u> <span class="cmd">task_stack</span></strong>
+    <p>task_stack -- returns information like that returned by the <span class="cmd">callers()</span> function, but for the suspended task with the given <var>task-id</var>; the <var>include-line-numbers</var> argument has the same meaning as in <span class="cmd">callers()</span></p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">task_stack</span> (int <var>task-id</var> [, <var>include-line-numbers</var>])</div>
+    <p>Raises <span class="cmd">E_INVARG</span> if <var>task-id</var> does not specify an existing suspended task and <span class="cmd">E_PERM</span> if the programmer is neither a wizard nor the owner of the specified task.</p>
+</article>
+<h5 id="administrative-questions">Administrative Operations</h5>
+<article class="well bg-info text-info" id="function-server-version">
+    <strong><u>Function:</u> <span class="cmd">server_version</span></strong>
+    <p>server_version -- returns a string giving the version number of the running MOO server</p>
+    <div class="well bg-info"><var>str</var> <span class="cmd">server_version</span> ()</div>
+</article>
+<article class="well bg-info text-info" id="function-server-log">
+    <strong><u>Function:</u> <span class="cmd">server_log</span></strong>
+    <p>server_log -- the text in <var>message</var> is sent to the server log with a distinctive prefix (so that it can be distinguished from server-generated messages)</p>
+    <div class="well bg-info"><var>none</var> <span style="cmd">server_log</span> (str <var>message</var> [, <var>is-error</var>])</div>
+    <p>If the programmer is not a wizard, then <span class="cmd">E_PERM</span> is raised. If <var>is-error</var> is provided and true, then <var>message</var> is marked in the server log as an error.</p>
+</article>
+<article class="well bg-info text-info" id="function-renumber">
+    <strong><u>Function:</u> <span class="cmd">renumber</span></strong>
+    <p>renumber -- the object number of the object currently numbered <var>object</var> is changed to be the least nonnegative object number not currently in use and the new object number is returned</p>
+    <div class="well bg-info"><var>obj</var> <span class="cmd">renumber</span> (obj <var>object</var>)</div>
+    <p>If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If the programmer is not a wizard, then <span class="cmd">E_PERM</span> is raised. If there are no unused nonnegative object numbers less than <var>object</var>, then <var>object</var> is returned and no changes take place.</p>
+    <p>The references to <var>object</var> in the parent/children and location/contents hierarchies are updated to use the new object number, and any verbs, properties and/or objects owned by <var>object</var> are also changed to be owned by the new object number. The latter operation can be quite time consuming if the database is large. No other changes to the database are performed; in particular, no object references in property values or verb code are updated.</p>
+    <p>This operation is intended for use in making new versions of the LambdaCore database from the then-current LambdaMOO database, and other similar situations. Its use requires great care.</p>
+</article>
+<article class="well bg-info text-info" id="function-reset-max-object">
+    <strong><u>Function:</u> <span class="cmd">reset_max_object</span></strong>
+    <p>reset_max_object -- the server's idea of the highest object number ever used is changed to be the highest object number of a currently-existing object, thus allowing reuse of any higher numbers that refer to now-recycled objects</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">reset_max_object</span> ()</div>
+    <p>If the programmer is not a wizard, then <span class="cmd">E_PERM</span> is raised.</p>
+    <p>This operation is intended for use in making new versions of the LambdaCore database from the then-current LambdaMOO database, and other similar situations. Its use requires great care.</p>
+</article>
+<article class="well bg-info text-info" id="function-memory-usage">
+    <strong><u>Function:</u> <span class="cmd">memory_usage</span></strong>
+    <p>memory_usage -- on some versions of the server, this returns statistics concerning the server consumption of system memory</p>
+    <div class="well bg-info"><var>list</var> <span class="cmd">memory_usage</span> ()</div>
+    <p>The result is a list of lists, each in the following format:</p>
 <pre>
 {<var>block-size</var>, <var>nused</var>, <var>nfree</var>}
 </pre>
-<p>where <var>block-size</var> is the size in bytes of a particular class of memory
-fragments, <var>nused</var> is the number of such fragments currently in use in the
-server, and <var>nfree</var> is the number of such fragments that have been reserved
-for use but are currently free.</p>
-<p>On servers for which such statistics are not available, <span class="cmd">memory_usage()</span>
-returns <span class="cmd">{}</span>. The compilation option <span class="cmd">USE_GNU_MALLOC</span> controls
-whether or not statistics are available; if the option is not provided,
-statistics are not available.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>dump_database</span> ()</span>
-<dd><a name="IDX124"></a>
-Requests that the server checkpoint the database at its next opportunity. It
-is not normally necessary to call this function; the server automatically
-checkpoints the database at regular intervals; see the chapter on server
-assumptions about the database for details. If the programmer is not a wizard,
-then <span class="cmd">E_PERM</span> is raised.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">int <b>db_disk_size</span> ()</span>
-<dd><a name="IDX125"></a>
-Returns the total size, in bytes, of the most recent full representation of the
-database as one or more disk files. Raises <span class="cmd">E_QUOTA</span> if, for some reason,
-no such on-disk representation is currently available.
-</dl></p>
-<p><dl>
-<article class="well bg-info text-info" id="function-is-member">
-    <strong><u>Function:</u> <span class="cmd">none <b>shutdown</span> ([str <var>message</var>])</div>
-<dd><a name="IDX126"></a>
-Requests that the server shut itself down at its next opportunity. Before
-doing so, a notice (incorporating <var>message</var>, if provided) is printed to all
-connected players. If the programmer is not a wizard, then <span class="cmd">E_PERM</span> is
-raised.
-</dl>
-
-<h1><a name="SEC56" href="ProgrammersManual_toc.html#TOC56">Server Commands and Database Assumptions</a></h1>
+    <p>where <var>block-size</var> is the size in bytes of a particular class of memory fragments, <var>nused</var> is the number of such fragments currently in use in the server, and <var>nfree</var> is the number of such fragments that have been reserved for use but are currently free.</p>
+    <p>On servers for which such statistics are not available, <span class="cmd">memory_usage()</span> returns <span class="cmd">{}</span>. The compilation option <span class="cmd">USE_GNU_MALLOC</span> controls whether or not statistics are available; if the option is not provided, statistics are not available.</p>
+</article>
+<article class="well bg-info text-info" id="function-dump-database">
+    <strong><u>Function:</u> <span class="cmd">dump_database</span></strong>
+    <p>dump_database -- requests that the server checkpoint the database at its next opportunity</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">dump_database</span> ()</div>
+    <p>It is not normally necessary to call this function; the server automatically checkpoints the database at regular intervals; see the chapter on server assumptions about the database for details. If the programmer is not a wizard, then <span class="cmd">E_PERM</span> is raised.</p>
+</article>
+<article class="well bg-info text-info" id="function-db-disk-size">
+    <strong><u>Function:</u> <span class="cmd">db_disk_size</span></strong>
+    <p>db_disk_size -- returns the total size, in bytes, of the most recent full representation of the database as one or more disk files</p>
+    <div class="well bg-info"><var>int</var> <span class="cmd">db_disk_size</span> ()</div>
+    <p>Raises <span class="cmd">E_QUOTA</span> if, for some reason, no such on-disk representation is currently available.</p>
+</article>
+<article class="well bg-info text-info" id="function-shutdown">
+    <strong><u>Function:</u> <span class="cmd">shutdown</span></strong>
+    <p>shutdown -- requests that the server shut itself down at its next opportunity</p>
+    <div class="well bg-info"><var>none</var> <span class="cmd">shutdown</span> ([str <var>message</var>])</div>
+    <p>Before doing so, a notice (incorporating <var>message</var>, if provided) is printed to all connected players. If the programmer is not a wizard, then <span class="cmd">E_PERM</span> is raised.</p>
+</article>
+<h4 id="server-commands-and-database-assumptions">Server Commands and Database Assumptions</h4>
 
 </p>
 <p>This chapter describes all of the commands that are built into the server and
