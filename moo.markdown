@@ -86,10 +86,10 @@ Next, I describe the complete syntax and semantics of the MOO programming
 language. Finally, I describe all of the database conventions assumed by the
 server.
 
-Note: For the most part, this manual describes only those aspects of LambdaMOO that are
-entirely independent of the contents of the database. It does not describe,
-for example, the commands or programming interfaces present in the LambdaCore
-database. There are exceptions to this, for situations where it seems prudent to delve deeper into these areas.
+> Note: For the most part, this manual describes only those aspects of LambdaMOO that are
+> entirely independent of the contents of the database. It does not describe,
+> for example, the commands or programming interfaces present in the LambdaCore
+> database. There are exceptions to this, for situations where it seems prudent to delve deeper into these areas.
 
 ## The LambdaMOO Database
 
