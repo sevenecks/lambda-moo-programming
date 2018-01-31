@@ -1,0 +1,1019 @@
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+	<meta author="Yib" keywords="moo, moo programming">
+	<title>Yib's Pet Rock: a moo programming primer for beginners</title>
+	<style type="text/css"><!--
+		a:link { color: #069; font-weight: bold; text-decoration: none }
+		code { margin-left: 2em; border-left: 2em }
+		h2 { color: #093 }-->
+	</style>
+</head>
+
+<body bgcolor="#ffffcc">
+    <h1>This source code was taken from <a href="http://cmc.uib.no/moo/yib/index.html">http://cmc.uib.no/moo/yib/index.html</a> and is included here for posterity. It is a non-HTML5 version for now. It may be updated at some point.</h1>
+
+	<h1><font face="verdana,arial,helvetica,sanserif" color="#009933">Yib's Pet Rock<br>
+	A Programming Primer for Beginners</font></h1>
+	<p><font face="verdana,arial,helvetica,sanserif">[This tutorial was written by Yib for LambdaMOO, which is a text-only moo. The coding will work in cmcMOO or other xpress moos, but you may prefer using the web interface's verb and property editors rather than the line-editors used here. The object numbers refer to the original notes at LambdaMOO. </font><font color="black" face="verdana,arial,helvetica,sanserif">The original tutorial can be found in the library (#1670) at<a href="telnet://Lambda.moo.mud.org:8888"> LambdaMOO</a>]</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif">Contents</font></h2>
+	<p><a href="#Anchor-introduction-49575"><font face="verdana,arial,helvetica,sanserif">page 1........Introduction (#54906)</font></a><font face="verdana,arial,helvetica,sanserif"><br>
+	<a href="#Anchor-Preamble-47857">page 2........Preamble and Pre-Requisites (#106374)</a><br>
+	<a href="#someconventions">page 3........Some Conventions (#31872)</a><br>
+	<a href="#letsgo">page 4........Let's Go! (#63382)</a><br>
+	<a href="#butwhat">page 5........But What Did I Just Do?</a> (#10948)<br>
+	<a href="#sharing">page 6........Sharing the Experience</a> (#82960)<br>
+	<a href="#plunging">page 7........Plunging Into Pronoun Substitutions!</a> (#51941)<br>
+	<a href="#generalising">page 8........Generalizing the Message Verb</a> (#99544)<br>
+	<a href="#polishing">page 9........Polishing the Rock</a> (#112210)<br>
+	<a href="#whatcan't">page 10.......What Can't You Do With a Rock?</a> (#37254)<br>
+	<a href="#rocking">page 11.......Rockin' and Rollin'</a> (#114030)<br>
+	<a href="#lookingunder">page 12.......Looking Under Various (Other) Rocks</a> (#76179)<br>
+	<a href="#askingothers">page 13.......Asking Others for Help</a> (#105724)<br>
+	<a href="#isitcovered">page 14.......Is It Covered With Moss Yet?</a> (#61290)<br>
+	<a href="#goodtimes">page 15.......Good Times</a> (#83281)<br>
+	<a href="#whatsbig">page 16.......What's Big and Red and Eats Rocks?</a> (#106833)<br>
+	<a href="#isit">page 17.......Is it a Boy or a Girl?</a> (#73773)<br>
+	<a href="#pet">page 18.......Pet the Nice Rock Eater...</a> (#110987)<br>
+	<a href="#iteats">page 19.......It Eats Rocks... Right?</a> (#92422)<br>
+	<a href="#chowtime">page 20.......Chow Time!</a> (#13995)<br>
+	<a href="#thebreath">page 21.......The Breath of Life</a> (#69982)<br>
+	<a href="#whoa">page 22.......Whoa! Down Boy!</a> (#12930)<br>
+	<a href="#care">page 23.......Care and Feeding of a Big Red Rock Eater</a> (#106396)<br>
+	<a href="#afterword">page 24.......Afterword</a> (#109033)</font></p>
+	<h2><font color="black" face="verdana,arial,helvetica,sanserif"><a name="Anchor-introduction-49575"></a>introduction</font></h2>
+	<p><font color="black" face="verdana,arial,helvetica,sanserif">This tutorial was written on and for <a href="telnet://Lambda.moo.mud.org:8888">LambdaMOO</a> by Yib (#58337), in 1999. It may be ported to other MOO's or otherwise published provided that credit is given to the original author. If anyone intends to make any money from it, though, e must negotiate with me in advance. [Note: The author commits to updating the LambdaMOO version only. All other versions are the responsibility of whoever ports it. This version was last updated on July 14, 1999.]</font></p>
+	<p><font color="black" face="verdana,arial,helvetica,sanserif">The overall objective of this project is to give you a footing in the LambdaMOO programming environment. I will explain how to create and program a few simple objects -- with the goal that you will do it not just by rote, but will come away with an understanding of what is actually going on. I will explain how to inspect the code on an object (yours or someone else's), because this is one of the major methods of expanding one's existing knowledge and horizons. I will suggest a polite way to ask for help from more experienced players.</font></p>
+	<p><font color="black" face="verdana,arial,helvetica,sanserif">I hope to take you through the creative process in such a way that you will come away with an understanding of how programs evolve, rather than just a finished product that you programmed by rote. To accomplish this, I will explain some things in minute detail. If you get impatient, remember that there are others who want and need that info, and skim ahead.</font></p>
+	<p><font color="black" face="verdana,arial,helvetica,sanserif">Nobody writes bug-free code, including this author. If you write your code thinking that it will work perfectly the first (or second) time, you are setting yourself up for disappointment. Debugging is an adventure; it's detective work. If you find a bug, good! You're that much closer to fixing it and moving on to the next one.</font></p>
+	<p><font color="black" face="verdana,arial,helvetica,sanserif">I hope to demonstrate what I consider to be good programming style, and to point out ways to improve the inherent quality of your objects by making them robust. It's one thing to whip up a thing that works, and quite another thing to make a finely-crafted object that is easy for others to understand and use. Although we will be making fairly simple objects, what you learn in their making will transfer to making larger, more complex objects. Polishing is an important part of the process.</font></p>
+	<p><font color="black" face="verdana,arial,helvetica,sanserif">Last, by showing you a variety of tools and how to learn to use them, I hope to launch you on a journey that is as much fun for you as mine has been for me. (Feedback is appreciated, as always.)</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="Anchor-Preamble-47857"></a>Preamble and Pre-Requisites</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">If you don't already have one, you will need a programmer's bit. There are several ways to get one, some of them automated. One way is to give yourself a gender and description, then send mail to *wiz containing the text, &quot;May I please have a programmer bit?&quot;</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">If you don't receive a copy of Standard Lecture #12 along with it, type</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">mailme #9118</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">or</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">read #9118 </font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">[this is for LambdaMOO only, but whatever MOO you're in, you should be able to type &quot;help programming&quot; to get some help about how to get a programmer's bit and other details. The Programmer's Manual can be downloaded from <a href="ftp://ftp.lambda.moo.mud.org/pub/MOO/ProgrammersManual_toc.html">ftp://ftp.lambda.moo.mud.org/pub/MOO/ProgrammersManual_toc.html</a></font><a href="ftp://ftp.lambda.moo.mud.org/pub/MOO/ProgrammersManual_toc.html"><font face="verdana,arial,helvetica,sanserif" color="black">]</font></a></p>
+	<p><font face="verdana,arial,helvetica,sanserif">While this tutorial *can* be done without a copy of the Programmer's Manual, you'll get much more out of it if you have one. The standard lecture tells where to obtain one via ftp. (How to use ftp is beyond the scope of this document, sorry.)</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">You will need to know how to edit things on the MOO, and that, too, is beyond the scope of this document. See 'help @edit' and 'help editors'. Don't fret about the verb editor -- if you can edit mail messages, the verb editor works almost the same way.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Some of the pages of this book are rather long. If you find it difficult to follow along and program at the same time, you can email yourself an individual page by listing this books contents and using the 'mailme' command with a pages object number. Example:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>contents book</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>Page 1........Introduction (#54906)<br>
+	Page 2........Preamble and Pre-Requisites (#106374)<br>
+	Page 3........Some Conventions (#31872)<br>
+	Page 4........Let's Go! (#63382)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&lt;etc.&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>mailme #63382</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">If you find this tutorial too laborious, and/or if you want to go on to do another supervised project after those presented here, see also yduJ's tutorial, which is generally found in the library.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="someconventions"></a>Some Conventions</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">Typically, though not universally, commands that call attention to the fact that we're working on a computer begin with an '@' sign. '@edit' is one, '@who' is another. Commands that are consistent with what we call 'VR' usually don't begin with an '@' sign, such as 'look' or 'drop'.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">I often use single quotes around text that I want you to type in. When you do type it in, omit the single quotes themselves.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Angle brackets '&lt; &gt;' often indicate a place-holder for an actual value that you must supply at the time, and I use them in said manner. For example, if I instruct you to type 'examine &lt;object&gt;', you will type 'examine rock' or 'examine tree' or 'examine book' depending on the actual object of concern at the time. If you are holding an object or if an object is in the same room with you, then you can refer to the object by name. If you aren't holding or with an object, you can refer to it remotely by using its object number instead. The object numbers may seem strange and contrived at first, but you'll get used to them fast, I assure you! One way to find out an object's number is to examine it. You can always get a list of objects you own, and their numbers, by typing '@audit me'. You can also type '@audit &lt;player&gt;' to see a list of objects that someone else owns. [Point of etiquette: Some people consider it nosy to @audit someone without asking, but this isn't written!</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">down anywhere. What I sometimes do is go ahead and @audit, but refrain from commenting on something someone owns unless e mentions it first, or unless asking after-the-fact if I may audit and getting 'yes' for an answer. People aren't as uptight about this as they are about some other things, but you should know that you *might* embarass someone if you ask em out of the blue, &quot;Polka-dot boxer shorts?&quot; Use discretion, is all.]</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">It's nice when objects have help text, and the ones we make will. But if an object doesn't have help text, the system will tell you to try @examine &lt;item&gt;' instead. I encourage you to 'examine &lt;item&gt;' instead. What's the difference? '@examine &lt;item&gt;' will show you *all* the verbs associated with an object, whether they're meant for you or not. Some people prefer this completeness. 'examine &lt;item&gt;' can be tailored by the item's owner so that only relevant verbs appear, or so that all the verbs appear in a more logical order, and it's a more polished look. I will teach you how to tailor what someone sees when e types 'examine &lt;object&gt;'.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Asterisks in verb names: If you type 'examine $thing', you will see:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>generic thing (aka #5 and generic thing) Owned by Haakon.(No description set.)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>Obvious verbs:</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>g*et/t*ake $thing</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>d*rop/th*row $thing</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>gi*ve/ha*nd $thing to &lt;anything&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Check out those asterisks! They indiate ways in which you can abbreviate a verb when typing it. So 'get $thing' and 'g $thing' do the same thing. In a room, you can type 'look' or 'l' to the same effect. You may put asterisks in your verb names or leave them out. Does it matter? Sometimes. If you're going to embellish an existing verb, then you have to type in the verb name as given. More on this later.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="letsgo"></a>Let's Go!</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">Well! Let's stop beating around the bush, and make something already! We're going to make a pet rock. Pet rocks don't do much, but it's good to start small. Think of it as a stepping stone to bigger and better things.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@create $thing named &quot;&lt;your name&gt;'s pet rock&quot;,&quot;pet rock&quot;,&quot;rock&quot;,&quot;pr&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Whew. Let's look at that. '@create' is the command for making a new object. What about that '$' sign in '$thing'? Some things are so basic to the system that they have sort-of universal names, if you will, and we never have to remember their object numbers. Where do they come from? They're designated by wizards on object #0. If you were to look at #0.thing you would see #5 (generic thing).</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Speaking of looking, there are several ways to look at properties and verbs, and you will (or should) want to do a lot of that, because it is a great way to learn. For now, here are three ways to look at #0.thing (more on this later):</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@display #0.thing</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>#0.thing</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>;$thing</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Try each of those and see what you get. Ho, ho, you just snooped on the system object! Good for you! Here are a couple more things to try:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>;2+2</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>;player.description</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>;player:tell(&quot;Hello, world.&quot;)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>#2.description</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now then, back to our rock. When you created it, you gave it a list of names, in double quotes, separated by commas. The first one is its actual name. The others are aliases, and you can use any of them to refer to your rock if you are holding it or in the same room with it. If you want to change or adjust the name or aliases, see 'help @rename', 'help @addalias' and/or 'help @rmalias'. See also 'help @create' for all the low-down nitty-gritty on creating things. If you wanted to, you could give it only a name, and no aliases, or you could name it Malcolm, or Fred, or whatever you like. Programming is about making choices, and it's the choices you make that make your programming yours.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">You also don't have to put quotation marks around the aliases. (I do it out of habit -- the two are equivilent.) Speaking of quotation marks, if you want to include the quotation mark character in a string, precede it with the backslash character '\'.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Well, at the moment, our rock doesn't look like much. Let's give it a description. I did mine this way:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@describe rock as &quot;A small rock. It looks friendly, but doesn't do much.&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Okay, let's cut to the chase! Time to put a verb on that rock.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb rock:pet this none none rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The '@verb' command is how we add commands to objects. Some are &quot;obvious verbs&quot; that show up in 'examine', and others aren't. If you examine your rock now, you won't see it. And if you type 'pet rock', the system will respond with &quot;I don't understand that.&quot; [Try it yourself, just be sure.] That's because we haven't programmed it yet. But hang on, here we go.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">There are two ways to accomplish this. One is to type it in all at one go, as follows:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(&quot;You pet the rock. Nothing happens.&quot;); .</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The other is to use the verb editor, like this:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit rock:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(&quot;You pet the rock. Nothing happens.&quot;); .</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>compile</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">IF you get a compiler error, don't panic. You probably made a typing mistake. See what line it had trouble with (there aren't a lot of choices, with this verb, but there will be, later), and check for a missing semi-colon, mis-matched quote-marks, a period instead of a colon, etc. *How* do you check? With compiler errors, you can only do it by using the second form, i.e. the verb editor. Type in your verb. Type 'compile'. When you get the compiler error, type 'list' or 'list 1-$' to see the lines listed with their associated numbers. Compilers are dumb, sometimes, and if you leave out a semicolon, you'll confuse it as to which line the error is actually on. So for an error on a given line, also check lines before and after the one the compiler claims is offensive.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now we're rolling! Examine the rock. Pet the rock. Celebrate!</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Got a traceback? Don't panic. Read it, see where it barfed out, then check that line and any lines near it. Tracebacks are GOOD (in an intermediate sort of way)! They help us find and fix bugs faster.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">To fix a program (or change it), you can either type in the revised version from scratch ('@program rock:pet') or use the verb editor ('@edit rock:pet'). NOTE: Once you have created a particular verb with the '@verb' command, from now on, use only '@program' or '@edit'.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="butwhat"></a>But What Did I Just Do?</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">Before we move on, I want to explain a bit more about all that stuff you just typed.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb rock:pet this none none rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">&lt; NOTE: do not type the '@verb' command again. It is indented here for explication purposes only. &gt;</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">I already explained the '@verb command'. Let's look at 'rock:pet'. 'rock' identifies the object. ':' signifies a verb, as opposed to a property. 'pet' is the name of the verb. 'this none none' is the syntax for the verb. In this case, we want the command to be 'pet rock' with no preposition or indirect object. 'rxd' means that it's readable by others ('r'), callable by other verbs ('x'), and will generate a nice, informative traceback ('d') if something goes wrong.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(&quot;Nothing happens.&quot;);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">'player' is a built-in variable that always refers to the player who typed in the command. ':tell' is one way that we cause someone to see text. The parentheses surround *what* we're going to tell that player. In this case, we've typed in a string, delimited by double quotes, that the player will see. Strings delimited with quotes, object numbers, and some arithmetic numbers are called 'literals' (as opposed to variables). It is bad programming hygene to put literals in your verbs (with a few exceptions), and we'll be cleaning that literal out and replacing it with something better shortly.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">In fact, let's do that now. Instead of embedding the text in the verb [bad], we'll extract it into a property [good]. And this is going to be a special kind of property called a message. Type this:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@property rock.pet_msg &quot;Nothing happens.&quot; rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Notice the period instead of the colon. This tells the system that we're adding a property and not a verb. '&quot;Nothing happens.&quot;' is the initial value of our property. We can change it later if we want to. 'r' means that the property is readable. 'c' means that you expect to change this property from the command line, and *not* from within a verb. Don't worry about the 'c' for now, it's kind of tricky. Some things I gloss over, in this early stage, but as a matter of expedience, not as a matter of secrecy. There are no secrets. Everything has a reason. (Well, almost everything.) And for some people, that is part of programming's charm. If you root around long enough, you can find the answers to almost anything you care to delve into. For now, though, you can just follow my lead.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Edit the verb, either with '@program rock:pet' or with the verb editor, '@edit rock:pet' as follows (I give the full text, here):</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this.pet_msg);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Notice that instead of a string in quotation marks, we've put in a property name instead. 'this' refers to the object on which the verb is defined, in this case, your rock. '.pet_msg' refers to the property we just created.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now pet the rock.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Nothing happens.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Hmm. Something's missing. Right! I forgot to put in &quot;You pet the rock,&quot; first. Well, it's easier to change a property, especially a message property, than to re-edit the verb. Observe:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@set rock.pet_msg to &quot;You pet the rock. Nothing happens.&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">OR</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@pet rock is You pet the rock. Nothing happens.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The second form works *because* the property's name ends in &quot;_msg&quot;.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now pet the rock again. Voila! See how easy this is? You could try:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@pet rock is You pet the rock. Nothing happens. What foolishness!</code></font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="sharing"></a>Sharing the Experience</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">Now let's go public, so to speak, and make our actions visible to others. We're going to edit rock:pet and add another message, this time one that others see.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The business of programming has many phases. Among them I number deciding what you want the product to do, thinking up various ways one might do it, seeing if it can be done at all (prototyping), finding a better way to do it. The last one tends to be repeated, and deciding when one has gone far enough is part of what makes it an Art.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">So. What do I want it to do? I want it to announce to other players in the room that I'm petting the rock.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">What are some ways that I might do it? New programmers may not have a clue where to begin. Experienced programmers may have a sense of &quot;the usual way to do it&quot;, if it's a commonly-done thing, or will investigate how other people have done it, if it's a thing they've seen before. Geniuses may come up with a brilliant, new way to do it that may or may not be practical. For now, follow my lead. Later, I'll show you some ways to see how other people do things. Good programmers stand on the shoulders of giants, giving credit where credit is due.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">We'll do a prototype, first, to prove that it can be done, then I'll show you some better ways to do it. Here we go.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this.pet_msg);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(player.name + &quot; pets the rock. Nothing happens.&quot;); </code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">'player.location' is the room where the player is located. 'player.location:announce(&lt;stuff&gt;)' is a verb defined on all rooms, and it announces text to everybody in the room except 'player', the person who typed in the command. The parentheses contain the arguments to player.location:announce -- Arguments comprise the incoming information a verb works with. 'player.name' is the .name property of the person typing in the command. Text in double quotation marks is plain text. the '+' sign joins two strings of text to each another.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now to test it. An interesting challenge, here, because you see the regular stuff, but want to know what other people see. You will either need to get a partner, or, if you have the capacity to MOO with two windows at once, log in as a guest, join yourself, and do two things at once. If you work with a partner, I recommend both of the following: Pet the rock, and ask your partner what e sees. Ask your partner to pet the rock and see for yourself.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Okay, that's the prototype. It works, but leaves much to be desired. The first step in improving the situation would be to extract the text into a second message. But wait! The message changes depending on who is petting the rock, so we need to adjust this in real time! Here we go, with another intermediate solution:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@property rock.player &quot;&quot; r</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Add a property to the rock, where we will store the player's name. Notice that it's 'r' and not 'rc' this time. That's because we expect to set it from within a verb, rather than from the command line. You get a feel for this after a while, and if you change your mind, there's the '@chmod' command, which see.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@property rock.opet_msg &quot; pets the rock. Nothing happens.&quot; rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">This is the rest of the message which (we think) won't change. [Don't bet on it, though. I have more tricks up my sleeve.] Note, it is a programming convention here to make messages in pairs, one for the player and one for everybody else, and, by convention, the message have the same name except that the one for everybody else is prefixed with an &quot;o&quot;, for &quot;other&quot;.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this.pet_msg);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>this.player = player.name;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this.player + this.opet_msg); </code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Test it. It works, but is only a modest improvement. Modest improvements are progress, though. (If it doesn't work, debug it until it does. Probably a typographical error -- we all make them.)</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Just as we extracted message text into a property, before, now we're going to extract the business of constructing a message into a separate verb of its own. This may seem like a lot of work for one little message, but the fact is that complex objects have boatloads of messages, and we'll be able to generalize our work. So think of it as an investment of effort that will pay off later. (And it will, I promise.)</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb rock:opet_msg this none this rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:opet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return this.player + this.opet_msg;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this.pet_msg);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>this.player = player.name;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:opet_msg()); </code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Be sure to test your work..</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">What's new? The new verb had arguments of 'this none this', which is a construct that doesn't happen in natural English usage. This is how we designate an internal verb (as opposed to an obvious verb), and if you examine your rock again, you will note the absence of an opet_msg verb, which is the way we want it. The new verb returns a result, which in turn is used by the verb that called it. We still set 'this.player = player.name' in the :pet verb. We could have moved that to the :opet_msg verb. In this case, the choice doesn't matter, but you should be aware that the choice of where to set the value of 'this.player' exists, because you might want to take advantage of it later.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="plunging"></a>Plunging Into Pronoun Substitutions!</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">The time has come to learn to put pronouns into your messages.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">At your leisure, you should skim 'help pronouns' and 'help $string_utils:pronoun_sub'. You don't have to understand every nuance now, but you should know that these help texts exist, and have a sense of their scope, for future reference.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Suppose that when I pet the rock, you wanted to say, &quot;Yib pets the rock. Nothing happens. Doesn't she look foolish!&quot; And when Klaatu pets the rock, we would want it to say, &quot;Klaatu pets the rock. Nothing happens. Doesn't he look foolish!&quot; and when Bits (who use the plural gender), we'd like it to say, &quot;Bits pet the rock. Nothing happens. Don't they look foolish!&quot; Hopefully you're beginning to detect a pattern, here.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Here we go.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The tool that does the work for us is called $string_utils:pronoun_sub. It takes a string as an argument, and replaces certain special symbols with values that are meaningful at that particular moment. We'll do this in steps. Type:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@set rock.opet_msg to &quot;%N pets the rock. Nothing happens.&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">OR</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@opet rock is %N pets the rock. Nothing happens.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">OR</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@opet rock is &quot;%N pets the rock. Nothing happens.&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Because the property name ends in &quot;_msg&quot; we can set it using either form. (From now on I'm going to let that go without saying.) '%N' is the special symbol for which the player's name will be substituted. [Learn Something New Every Day Department: After all these years of programming, I just noticed that that omitting the double quotes in the second form reduces the number of spaces between the two sentences from two to one, while using the double quotes preserves the two spaces between the two sentences. Fancy that! Since I'm picky about spacing, I'll use double quotes, as I always have (until I started writing this tutorial).]</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:opet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return $string_utils:pronoun_sub(this.opet_msg); </code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now, the property rock.player is superfluous. Let's remove it before we forget. Neatness counts.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@rmprop rock.player</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Test it once more to make sure nothing is broken. Whoops, a traceback! The original :pet verb still sets that property.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;pet rock</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>You pet the rock. Nothing happens.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>#70217:pet, line 2: Property not found</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>(End of traceback)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@list rock:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>#70217:pet this none none</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this.pet_msg);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>this.player = player.name;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:opet_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Sure enough. So @program or @edit that verb to get rid of the offending line:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this.pet_msg);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:opet_msg()); </code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Much better! Testing can seem tedious, at times, but it's important to test at every stage, because it's SO EASY to forget something, and SO EMBARRASSING to present something as finished and have it break the first time someone else tries to use it.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now that the code is in place, lets fancy up that opet_msg a little bit:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@opet rock is &quot;%N pets the rock. Nothing happens. Doesn't %s look foolish?&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">'%s' is the special symble that substitutes the subject pronoun (he, she, e, they, etc.) Capitalization of the substitution symbols works as you might expect, by the way. Find a way to test this new message with different genders. Either find people of different genders to play with, or find an observer while you set your gender to different things. Or, if your machine and/or client software has the capability, you can log on simulaneously as yourself and a guest for purposes of testing. Many programmers do this.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Did you find the problem with the plural gender? &quot;Bits pets the rock. Doesn't they look foolish?&quot; Who looks foolish now? The pronouns are good, but there's a little problem with verb agreement. Never fear, $string_utils:pronoun_sub will save the day again.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@opet rock is &quot;%N %&lt;pets&gt; the rock. %&lt;Doesn't&gt; %s look foolish?&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now this works for everybody and everything. [Isn't life grand?] The angle brackets signal to $string_utils:pronoun_sub that some verb adjustment may be needed. From your end, just put the appropriate verbs between the angle brackets, preceded by the '%' sign. Write the verbs as if they were for a single (third person) actor.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="generalising"></a>Generalizing the Message Verb</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">What we've done so far is work our way up to the .opet_msg property and a corresponding :opet_msg verb that does spiffy pronoun substitutions, and we've come quite a long way from where we started out. And we could do another verb, if we wanted, :feed, perhaps, with corresponding .feed_msg and .ofeed_msg properties and an :ofeed_msg verb. (Think about how you might do that.) The :ofeed_msg verb would look an awful lot like the :opet_msg verb, wouldn't it? In fact, it would bear a STRIKING RESEMBLANCE, except for the name of the message property it referred to. Well, well. Can we capitalize on this and do something more efficient? You bet we can.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@list rock:opet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Watch this:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:opet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return $string_utils:pronoun_sub(this.(verb)); </code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Instead of 'this.opet_msg', I wrote, 'this.(verb)'. Notice that the name of the verb is the same as the message. The variable 'verb' is a system-provided variable that contains a string, the name of the verb as it was called. Now do this:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@addalias &quot;pet_msg&quot; to rock:opet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Just as objects can have aliases, so, too, can verbs!</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@list rock:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this:pet_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:opet_msg()); </code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Ta-dah! We've now generalized it about as much as we can. Watch closely. Nothing up my sleeve, and presto!</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb rock:feed this none none rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:feed</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this:feed_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:ofeed_msg()); .</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop rock.feed_msg &quot;You try to feed the rock. Nothing happens.&quot; rc @prop rock.ofeed_msg &quot;%N %&lt;tries&gt; to feed the rock. Nothing happens. What a maroon!&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@addalias &quot;feed_msg&quot; to rock:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@addalias &quot;ofeed_msg&quot; to rock:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>examine rock</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>feed rock</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Heh.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="polishing"></a>Polishing the Rock</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">I am now going to address myself to issues of documentation. At the beginning, writing documentation may seem tedious, and it may seem silly to add comments to such simple programs. But good habits start early, and comments and documentation are what separate the good craftsmen from the mere hacks.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">We'll start with plain help text, which turns out to be easier than you think. Just create and edit a .help_msg property. (It can have one line or several lines.) I usually start out with an empty list, then edit that with the note editor.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@property rock.help_msg {} rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit rock.help_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>Rocks make great pets! They're quiet, clean, and easy to maintain.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>Build one today!</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>save</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">If you wanted to, you could '@addalias &quot;help_msg&quot; to rock:pet_msg' and do pronoun substitutions in the help messages. Let's do that, just to see.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@addalias &quot;help_msg&quot; to rock:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit rock.help_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>list</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>ins 2</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>This one's name is %t.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>save</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>help rock</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Recall that I asked you to read 'help $string_utils:pronoun_sub'. $string_utils is an object, and has it's own .help_msg property. And there is ALSO help text on the verb, :pronoun_sub. How do they do that? If you typed '@list $string_utils:pronoun_sub' (it's rather long), you would see some lines at the top in double quotes, with semi-colons at the end. You would probably recognize these as comments, and you would be right. Comments that appear at the top of a verb, before any other lines of code will also appear as help text for a particular verb. Even though our verbs are small and simple, lets add comments to them.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit rock:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>ins 1</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Usage: pet &lt;this&gt;&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>compile</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>help rock:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Do the same for the :feed verb. At the top of the :pet_msg verb, put a comment that says, &quot;This verb does pronoun substitutions on various messages.&quot; Test your work.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">And now, for the icing on the cake, because we can, we're going to customize the output when someone types 'examine rock'.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop rock.obvious_verbs {} rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit rock.obvious_verbs</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>pet %&lt;what&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>feed %&lt;what&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>give/hand %&lt;what&gt; to &lt;anyone&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>get/take %&lt;what&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>drop/throw %&lt;what&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>help %&lt;what&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>save</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb rock:examine_verbs tnt rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:examine_verbs</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Returns a list of obvious verbs, substituting the name the player typed in for %&lt;what&gt;&quot;; what = dobjstr;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>vrbs = {};</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>for vrby in (this.obvious_verbs)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>vrbs = {@vrbs, $string_utils:substitute(vrby, {{&quot;%&lt;what&gt;&quot;, what}})}; endfor</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return {&quot;Obvious verbs:&quot;, @vrbs};</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>examine rock</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>examine pet rock</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The .obvious_verbs property should seem fairly obvious to you by now. Let's take a quick look at that :examine_verbs verb. It's an internal verb that's called when you examine something. It has a comment at the top. 'dobjstr' is the string the user typed as the direct object in a command. If the player typed 'examine rock' then dobjstr will be &quot;rock&quot;. If the player typed 'examine pet rock', then dobjstr will be &quot;pet rock&quot; and so on. The next few lines are building a construct to return as a result. We start with an empty list. Then there is a &quot;for loop&quot; that does something with every item of .obvious_verbs. What does it do? It does a substitution of dobjstr, and appends the new result to the existing list. For the use of the '@' sign in this context, I refer you to 'help listappend. For the rest, parentheses, brackets, and braces nest. It's just a fancy call to a fancy verb, $string_utils:substitute, which has its own help text. If you want to, you can take this!</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">one at face value, and model subsequent :examine_verbs on other objects after this one. Mimicking is a tried and true technique that gets you into hot water sometimes but often works. I'm not above doing it myself when I'm trying to learn how to do someting: Mimic something similar, and in the process of getting it to do what I want, I learn how it actually works.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Programming can be wild and woolly, sometimes, but that's part of the fun.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="whatcan't"></a>What Can't You Do With a Rock?</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">Well, you can throw a rock. Throwing rocks isnt' nice. You can, if you wish, prevent people from throwing your rock.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">In this case, it's less about programming (more of that later), and more about controlling your environment and the things you own, so let's learn to exercise a bit more of that control.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">In LambdaMOO, throwing and dropping are more or less considered synonymous. But it doesn't have to stay that way. 'examine rock'. You will see, among other obvious verbs, 'd*rop/th*row' rock. Initial concept: We want dropping the rock to behave normally, but throwing the rock to give the player a message, instead.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Type, '@messages rock'. You will see all the _msg properties defined on your rock (and all of its object ancestors), including the ones that we added. Notice: No throwing messages. Concept: Make a separate throw verb, and a set of throw messages to go with it. Revision: Actually, they should be no_throw messages, or perhaps, to blend in with what's already there, throw_failed messages. So:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop rock.throw_failed_msg &quot;Throwing rocks isn't nice, and besides, this rock likes you, so it stays nestled safely in your hand.&quot; rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop rock.othrow_failed_msg &quot;%N %&lt;makes&gt; a throwing motion with %t, but can't quite seem to bring %r to let go.&quot; rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@addalias &quot;throw_failed_msg&quot; to rock:pet_msg @addalias &quot;othrow_failed_msg&quot; to rock:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">So far this should seem familiar. I often start with what I want the messages to be, then verbs to control how, when, and to whom they'll be displayed.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb rock:throw this none none rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">WAIT!!! The verb name is &quot;th*row&quot;, and if we want to override it, we have to name it exactly the same as the verb on its parent. If you went ahead and typed in the line above, remove the verb with</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@rmverb rock:throw</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">To be absolutely sure of how to add it, we'll check with this:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@display rock:throw</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">We use '@display rock:throw' rather than 'examine rock' because who knows how the previous programmer may have gussied up the examine verbs, eh? Based on what we see, then, we'll add the verb like this:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb rock:th*row this none none rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:throw</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Throwing stones isn't nice. Thwart that impluse.&quot;; player:tell(this:throw_failed_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:othrow_failed_msg()); </code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Well, on looking at it, that throw_failed_msg is a bit patronizing, and furthermore, unhelpful to someone who actually wants to rid emself of your rock. So let's adjust it:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@throw_failed rock is &quot;Throwing rocks isn't nice. Try dropping it, instead.&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Test everything. Try throwing the rock. Try dropping the rock. Examine the rock. Hmm. I found, in my play-testing, that you can't drop a rock if you aren't holding it, but you can throw a rock (or try) if you aren't holding it. We can do better. Let's start by looking at what the original code does.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@list rock:drop</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">This will show us the original drop verb. It's pretty old code, and written in a older style. You'll notice the difference between the way that verb handles messages and the way ours do. Ours is new and improved. And you'll see some things that you don't understand, perhaps, whose importance may or may not be important. Get what you can out of it, don't sweat the rest right now. What we're looking for, though, is the part that generates the text, &quot;You don't have that,&quot; so that we can do ours in a similar, if not identical way. And what it does is check the location of the rock, and display different messages depending on where it is. Our verb will be simpler, but will behave in a similar way. I'm going to show you two versions, and I hope you can tell by inspection (and maybe by consulting the programmer's manual) what the difference is. They are both just as good, so you can choose which way to implement it.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Version 1:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:throw</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Throwing stones isn't nice. Thwart that impluse.&quot;; if (this.location == player)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this:throw_failed_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:othrow_failed_msg()); else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;You can't throw a rock if you don't have it in the first place.&quot;; player:tell(&quot;You don't have that.&quot;);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Version 2:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:throw</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Throwing stones isn't nice. Thwart that impluse.&quot;; if (this.location != player)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;You can't throw a rock if you don't have it in the first place.&quot;; player:tell(&quot;You don't have that.&quot;);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;You have it, but you can't throw it....&quot;; player:tell(this:throw_failed_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:othrow_failed_msg()); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Here is a case where I've chosen *not* to extract a message into a property, so let me tell you why. I put in a perhaps-superfluous comment, &quot;You can't throw a rock if you don't have it in the first place,&quot; mostly to set a good example. But in a case where we're just telling the player some sort of error message, the embedded string can serve *as* the comment. So a leaner but just-as-readable version might look like this:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Version 3:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:throw</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Throwing stones isn't nice. Thwart that impluse.&quot;; if (this.location != player)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(&quot;You don't have that.&quot;);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;You have it, but you can't throw it....&quot;; player:tell(this:throw_failed_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:othrow_failed_msg()); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Expediency is fine, if it isn't cryptic. If you have to squint to follow what the code is doing, add a comment. You'll be glad later that you did, believe me.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Here's another way to control your rock and what people do with it.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Suppose you want to lock your rock in place, so that people can't take it. Maybe it's a boulder!</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>drop rock</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@lock rock with here</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>take rock</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Heh, you can't pick that up, and neither can anybody else. You might change your rock's description to show that it's a boulder. Or you might just change .take_failed_msg and otake_failed_msg to say something like, &quot;It's heavier than it looks isn't it!&quot;</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">If you decided to make your rock portable again, type</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@unlock rock</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">See also 'help @lock' and 'help locking'.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="rocking"></a>Rockin' and Rollin'</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">So far, we've done a variety of things with our rock, but the rock itself hasn't changed, much. Hardly surprising, I suppose, but the phrase comes to mind, &quot;A rolling stone gathers no moss,&quot; and I was thinking, would't it be fun if it gathered moss?</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">How shall we start thinking about this? Well, what if the description had a bit tacked onto the end saying how mossy the rock is? The amount of moss can depend on how long since the rock was last moved.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">So. We'll need a list of different amounts of moss. We'll need to write a verb to make the description change over time. We'll need a way to see how long it has been since the rock was last moved, and we'll need a way to convert that amount of time into a phrase about moss. You'll learn to tell time the way LambdaMOO programmers do!</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Let's start with the easy part to get our juices going:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@property rock.moss_list {} rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">It's going to be a list of text strings, and '{}' is the symbol for the empty list. We start with that. Then:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit rock.moss_list</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>It has gathered no moss.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>If you were to look at it closely with a magnifying glass, you would see a tiny bit of moss on it. There is just a wee bit of moss growing on it. It has gathered a little bit of moss.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>There is some moss growing on it.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>It is about half-covered with moss.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>It has gathered quite a bit of moss.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>It has gathered a great deal of moss.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>It is almost completely covered with moss. It is covered with moss.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>save</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Time on LambdaMOO is measured in seconds since midnight on 1 January 1970, Greenwich Mean Time. How do I remember that? I don't. It's in 'help time()', which we will be using.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop rock.reference_time 0 r</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">It's 'r' because we'll be changing it from within a verb. Everytime the rock moves, we'll record the time. Everytime someone looks at the rock, we'll compare the then-current time to the last-moved-time. Anytime an item moves or is moved, its :moveto verb is called. We want to add a bit to the existing :moveto verb, and we do it like this:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb rock:moveto tnt rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">'tnt' is an abbreviation for 'this none this', our designation for an internal verb.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:moveto</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Reset the reference time (clearing off any moss)&quot;; this.reference_time = time();</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Then do all the usual stuff.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return pass(@args);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Can we test out this much? You bet. Drop the rock (if you have it) or take the rock (if you don't). You can manually inspect the .reference_time property this way:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>#rock.reference_time</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Move it again, then check .reference_time again. It changed, by about the number of seconds between moves. Don't be daunted by that great big number. There are plenty of verbs to help us make sense of it. (See 'help $time_utils' if you're curious right now.)</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The difference between time() and rock.reference_time is the number of seconds that have elapsed since it was last moved, and that's what we're actually interested in. Next we have to pick an interval during which a new amount of moss grows. Maybe a day, or a week, but who wants to wait that long to test it? We'll start with, say, a minute, then change the number later after we've tested it.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop rock.moss_interval 60 rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The next bit is somewhat complex all at once, but try to stay with me.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">First, let's look at some of those moss descriptions one at a time, to get a feel for them. You'll need to know your rock's object number for this. If you've forgotten it, type '#rock'. Mine is #70217, so I'll type that here, but you should use your own rock's object number. [Angle brackets are just too cumbersome for this demonstration.] We're going to play with 'eval' a bit. 'eval' lets you evaluate a tiny bit of MOO-code on the fly, as it were, without having to write an entire verb to do it. It's extremely useful! Try some of these:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>#70217.moss_list</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>#70217.moss_list[1]</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>#70217.moss_list[5]</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>#70217.moss_list[0]</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>#70217.moss_list[30]</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Oho, if we give it too high or too low a number, we get an error. We'll want to keep this in mind when we write our verb. Here are some more:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>;length(#70217.moss_list)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>;#70217.moss_list[length(#70217.moss_list)] ;#70217.moss_list[$]</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>;ctime()</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>;ctime(#70217.reference_time)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>;time() - #70217.reference_time</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>;(time() - #70217.reference_time) / #70217.moss_interval</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">If your moss interval is 60, like mine, the last one will show you how many minutes since the rock was last moved.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb rock:description tnt rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program rock:description</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Append some moss, perhaps.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Start with the original description, then add to it.&quot;; base_description = pass(@args);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;What time is it now?&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>now = time();</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;How long has it been since it was last moved?&quot;; how_long = now - this.reference_time;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;How many .moss_interval's is that?&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>index = how_long / this.moss_interval;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;If it has been a very short time, index will be 0, but we have to start at 1, so we'll add 1.&quot;; index = index + 1;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (index &gt; length(this.moss_list))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;It has been so long, index is too high.&quot;; &quot;So just use the last one.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>index = length(this.moss_list);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return (base_description + &quot; &quot; + this.moss_list[index]); </code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Test your work. Isn't this fun? If you don't like waiting a minute each time, set your rock's .moss_interval to something shorter, like 10 or 15. Then when you're satisfied, set to something longer. How many seconds in a day? In a week? In a month? Find out like this:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;One hour</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>;60 * 60</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;A day</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>;60 * 60 * 24</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;A week</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>;60 * 60 * 24 * 7</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;And so on.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">...And so you see, a stationary stone gathers moss.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="lookingunder"></a>Looking Under Various (Other) Rocks</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">Learning a new language is always a challenge, and a programming language is no different. It's nice, as an adult, to attend a language class and have a professor or instructor take you through the material in a logical sequence, so that first you learn to express simple things, then more complex things, until you get a sufficient understanding of the grammar and a sufficiently large vocabulary that you can start to express your own ideas independently. Children learn languages, on the other hand, by being immersed, by imitating those around them, by trying things and seeing which utterances get results and which get perplexed looks from their elders. I don't think anyone learns a language by reading a dictionary.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The Programmer's Manual is a good reference book, but there are other tools that will help you explore the MOO around you and learn (by example) from what's out there already, and I am going to detail some of those tools now.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Suppose you want to investigate an object to find out what makes it tick. First, (I hope) you would examine the object and perhaps play with it a bit.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Then you might type 'help object', to see what the owner or creator wants you to know about it. Then, perhaps, '@parents &lt;object&gt;' to get a handle on what sort of object it is. You'll get a list of object numbers and names, and it may (or may not) be fruitful to check the help text on the object's ancestors, as well.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Then, perhaps, you'd like to know whether this object has any special programming of its own that makes it different from its ancestors. This is where the '@display' verb comes it. It's one of my favorites. There's extensive help text on it, but the form of '@display' that I use most often is '@display &lt;object&gt;.:' which gives a list of verbs and properties defined on that object. [Note, if none are defined, however, you may see the verbs and props defined on its immediate parent, instead. You can fix that by typing '@display-options +thisonly'.] Often you can get a good start on sussing out an object just by looking at the names of the verbs and properties defined on it. Trick: If an object is set as a whole to be unreadable, but some or all of its verbs *are* readable, you can get a handle on those by typing '@verbs &lt;object&gt;' instead of using @display. See also '@show &lt;object&gt;'.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">If a particular verb catches my eye, I might list it, using the command '@list &lt;object&gt;:&lt;verbname&gt;'. Just to see what's in there.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Another thing I might do is type '@messages &lt;object&gt;' to get a sense of the scope of its output. If there are messages that I haven't found yet in the course of my playing, then I know that the programming on the object is richer than first meets the eye, and that it might well be worth exploring the object further.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Some people like to use either '@dump &lt;object&gt;' or '@dump &lt;object&gt; with create' to get a complete listing of everything on it. As a rule, I don't care for the spam that '@dump' generates, but some people like to print out everything there is to know about an object, send it to a printing device, and read the hard copy at leisure, and if that's your cup of tea, by all means do it.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Suppose you see a line of text, that you know to be from a particular object, and you want to home in on it to see what verb generates it, and what's going on in the vicinity (if you will) of the line of text that has caught your interest. For example, &quot;Yib tries to feed the rock. Nothing happens. What a maroon!&quot; The '@grep' command is helpful here. [Note, @grep requires an object number, not the name of an object, even if you are in proximity.]</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@grep &quot;maroon&quot; in &lt;object&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;Searching for verbs in &lt;object&gt; containing the string &quot;maroon&quot; ...</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;Total: 0 verbs.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Well, in this case we struck out. But if you typed '@messages rock' and found that the phrase, &quot;What a maroon!&quot; was part of the .ofeed_msg property, then you could type:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@grep &quot;ofeed_msg&quot; in &lt;object&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>...and you would see</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;Searching for verbs in #&lt;object&gt; containing the string &quot;ofeed_msg&quot; ...</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;&lt;object&gt;:feed [&lt;verb owner&gt;]: player.location:announce(this:ofeed_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;Total: 1 verbs.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Last, suppose you are MOOing along, minding your own business (more or less), and out of the blue you see the text, &quot;A black magpie flies in and looks greedily at bright sparkly thing.&quot; (You happen to have dropped said sparkly thing recently.) Suppose you made that sparkly thing yourself, and know for sure that there is nothing in its verbs or properties that refers to a black magpie. Where did this line of text come from? What's going on here? You can type '@check-full &lt;text&gt;' and get a traceback of the verbs that were called in the process of delivering this choice tidbit of text to your baby blue eyes.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@check-full magpie</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;Traceback for:</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;A black magpie flies in and looks greedily at a linen handkerchief. This?Verb?Permissions VerbLocation Player</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;-------------- ------------------ -------------- -------------- -------------- #58337(Y)?tell(1)?#67(Rincewind) #7069(generic) #5720(blue)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;#58337(Y)?tell(29)?#3920(Jay)?#33337(PC Clas #5720(blue)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;#58337(Y)?tell(4)?#57140(SSO) #40099(SSSPC) #5720(blue)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;#58337(Y)?tell(1)?#58337(Y)?#58337(Y)?#5720(blue)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;#6193(Driveway announce_all(3) #2(wiz)?#3(generic roo #5720(blue)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;#6193(Driveway announce_all(3) #24442(rw3) #17755(Integra #5720(blue) #77522(magpie) make_the_rounds(27 #61050(Y_A) #77522(magpie) #5720(blue) #77522(magpie) wake_up(19)?#61050(Y_A) #77522(magpie) #5720(blue)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;-------------- ------------------ -------------- -------------- --------------</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Well, in this example, you can find out the object number of the magpie, the names of a couple of verbs on the magpie that might be worth looking into, and then you're off and running. Heads up: If you are reading this on LambdaMOO and have the Lag Reduction Feature Object of Godlike powers, you will have to type '@addlag' and '@paranoid &lt;number&gt;' in order to get anything useful from '@check-full'. &lt;number&gt; in the '@paranoid' command refers to a number of lines to keep tracebacks for. There's help text for all of these functions.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Read lots and lots of verbs. Even if you don't understand everything in them, you will gain exposure, start to pick up on patterns, and, as you are ready, absorb new concepts and learn new tricks (so to speak). Leave no stone unturned.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="askingothers"></a>Asking Others for Help</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">It is very important that you give a problem &quot;the old college try&quot; before asking others for help, for a couple of reasons.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">First, it's inconsiderate to ask someone else to put more time and work into investigating a bug of yours than you are willing to do yourself.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Second, the very act of trying everything you can think of and checking every reference you know about makes you more receptive to (and appreciative of) the answer when you finally get it.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Before asking for help:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">- Read any tracebacks and look at the verb/lines that seem to be causing a problem. - Read any compiler errors and look at the verb/lines that seem to be causing a problem. - See if you can find any online help text that addresses your difficulties. (Don't forget 'help index'.) - See if there is any other documentation relevant to your project.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">When you ask for help, put together a summary of the problem:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">- Include a brief description, and a copy of a traceback (if any). - Describe in detail how to duplicate the problem. - Include object numbers -- don't just say, &quot;My pet rock doesn't work.&quot; - Document what you've tried so far, both to show that you *have* tried, and to save your helper the trouble of trying things that you've already checked.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">DO ask for help if you're genuinely stuck. Most people are happy to assist (or at least try) if you ask nicely and demonstrate respect for their time.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="isitcovered"></a>Is It Covered With Moss Yet?</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">While my rock was gathering moss, I was wanting to check it each and every .moss_interval, just for the fun of reading all the messages. But I felt silly typing 'look rock' over and over again, waiting to see whether it had changed yet. So I thought, &quot;I wish I had a timer, so I could set it and forget it, and be reminded when it was time to look at the rock again.&quot;</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Let's make one.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Concept: This will not be a complicated object to use. All we need is a verb, 'set timer for &lt;some duration&gt;'. One verb ought to do it. We'll get more practice using those $time_utils.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@create $thing named timer</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@describe timer as A simple timer, such as you might find in the kitchen.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now we'll start with a prototype, to see if we can make it work at all, then refine it and make it more robust. With programming (as with many kinds of projects) the trick is, &quot;Divide and Conquer&quot;. If a task seems too big and overwhelming, divide it into subtasks. If those are still to complicated, divide those further. I'm going to show you many versions of one verb, to demonstrate that these programs don't emerge full blown from my head. After years and years of programming, I still work simple-to-complex. Here we go.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">First, I typed '@display $time_utils:' (note the colon), which gives me a list of all the verbs on that particular utility package. I have something in mind that I'm looking for, and that just comes with experience and lots of exploring. You could also type 'help $time_utils'. Aha, here is what I'm looking for, $time_utils:parse_english_time_interval. This will let me take input like, &quot;1 minute&quot; and turn it into a number of seconds. Let's try out just that much.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb timer:set this for any rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program timer:set</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>duration = $time_utils:parse_english_time_interval(iobjstr); player:tell(tostr(duration));</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">I created the verb, and then put the bare minimum of programming on it. 'iobjstr' is the string that someone types in as the indirect object, and, since it can be anything (it will be a duration, in english words), I gave 'this for any' as the arguments. In the program I set up a variable called 'duration', which calls the $time_utils verb. My only goal at the moment is to satisfy myself that I can take a string like '10 seconds' and get a number 10 out of it. The second line of the verb is a simple output line, to player (that's me, the developer) to see if I did, in fact, get something intelligible. Note the 'tostr(duration)'. 'duration' is a number. 'player:tell' takes a string. 'tostr' turns a number into a string. So I've turned the number into a string (inner set of parentheses), then I'm telling that string to player (me).</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>set timer for 10 seconds</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;10</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Success! But let's test further:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>set timer for 10</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;Incorrect number of arguments</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>set timer for Fred</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;Incorrect number of arguments</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Hmm. I want to know if $time_utils:parse_english_time_interval is sending back the STRING &quot;Incorrect number of arguments&quot;, in which case I can work with it, or whether the system is giving me this message, in which case I'll have to scratch my head considerably more. I'm going to adjust my verb to answer this question:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program timer:set</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>duration = $time_utils:parse_english_time_interval(iobjstr); player:tell(&quot;-&gt; &quot; + tostr(duration));</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">All I've done is prepend my own symbol, &quot;-&gt; &quot;, before the result I get back from $time_utils. If I'm getting the string back from the utility, then I'll see my symble. If I'm getting the message from the system, then I won't.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>set timer for 10</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;-&gt; Incorrect number of arguments</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>set timer for Fred</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;-&gt; Incorrect number of arguments</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Yay! The message is coming from $time_utils, so I'll be able to snag it and deal with it gracefully.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program timer:set</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>duration = $time_utils:parse_english_time_interval(iobjstr); if (typeof(duration) == NUM)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;We got a good value for duration.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(tostr(duration));</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell($string_utils:pronoun_sub(&quot;Try something like 'set %t for 3 minutes'.&quot;)); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">This version of the verb tests to see whether the result returned by '$time_utils:parse_english_time_interval' was a number or not. If it's a number, then we got good input. If we didn't get a number back, then we'll give the player a polite and instructive error message. the 'typof' builtin function is what I use to find out what sort of thing I'm working with. See 'help typeof'. At this stage, I choose not to extract that error message into its own verb, so I do the pronoun substitution on the fly. Also, With more than a handful of lines, it's also time to put help text at the top of the verb, so I'll be sure to do that in the next round. Test the code as before. When you've elicited every message for every contingency you've accounted for, then you've done enough.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now it's time to make the timer actually do its thing. (Drum roll, please.)</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program timer:set</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Usage: set &lt;this&gt; for &lt;duration&gt;&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Example: set timer for 1 hour&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>duration = $time_utils:parse_english_time_interval(iobjstr); if (typeof(duration) == NUM)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;We got a good value for duration.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>fork (duration)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(&quot;Ding!&quot;);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endfork</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(&quot;The timer starts ticking.&quot;); else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell($string_utils:pronoun_sub(&quot;Try something like 'set %t for 3 minutes'.&quot;)); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">You should be able to follow most of this. The only new items are those 'fork' and 'endfork' statements. When you set a timer, you set it down and go off and do something else, while the timer does its thing independently. And that's what's going on here. Everything between the lines, 'fork....endfork' will be done at a later time. How much later? The number that we give to 'fork' as an argument, in this case, duration. Anything after the 'endfork' statement gets done in real time. Try this out, now. Use a duration like '1 minute'. An hour is probably excessive.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">You can check on background tasks (as these are called) with the '@forked' task. See 'help @forked' and also 'help @kill'. [Note, forked tasks hog system resources, and should only be used in moderation. If you work on a MOO that has a task scheduler, you should make a point of learning to use it (when you feel ready).]</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Well. When I tried it, it worked, but the &quot;Ding!&quot; got lost in some other text I was displaying on the screen at the time. So on the next round, I'm going to indent it, among other things. The only thing new is that I'm going to make the output prettier. Pretty output is more important than you might think. What I want is, &quot;Ding! 10 seconds are up,&quot; indented so that I'll notice it more. I also want it to differentiate between &quot;60 seconds ARE up,&quot; and &quot;1 minute IS up&quot;.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program timer:set</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Usage: set &lt;this&gt; for &lt;duration&gt;&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Example: set timer for 1 hour&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>duration = $time_utils:parse_english_time_interval(iobjstr); if (typeof(duration) == NUM)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;We got a good value for duration.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>fork (duration)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Indent the message, for better visibility.&quot;; &quot;Add text to remind player how much time has elapsed.&quot;; be = ((iobjstr[$] == &quot;s&quot;) ? &quot;are&quot; | &quot;is&quot;); message = iobjstr + &quot; &quot; + be + &quot; up.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>message = $string_utils:capitalize(message); player:tell(&quot; Ding! &quot; + message);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endfork</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(&quot;The timer starts ticking.&quot;); else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell($string_utils:pronoun_sub(&quot;Try something like 'set %t for 3 minutes'.&quot;)); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The new material is within the fork/endfork statement. I construct a message using smaller strings and the '+' sign to concatenate then together. Here's the mystery line:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>be = ((iobjstr[$] == &quot;s&quot;) ? &quot;are&quot; | &quot;is&quot;);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Here it is in pseudo-code:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (the last letter of iobjstr is &quot;s&quot;)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>set the variable 'be' to the string &quot;are&quot; else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>set the variable 'be' to the string &quot;is&quot; endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Divide and conquer. Working from the inner-most parentheses outwards.... 'iobjstr' is going to be something like, &quot;10 minutes&quot;, or &quot;1 hour&quot;. I want to know whether the last character is an &quot;s&quot;. 'iobjstr[5]' means the fifth letter of iobjstr. 'iobjstr(length(iobjstr))' is the last letter of iobjstr. 'iobjstr[$]' is a way to abbreviate that. '$' in this context means 'last'. Note the double '==' sign. If you are assigning a value to a variable, use one: 'x = 3'. If you are testing for equality, use two: 'if (x == 3)...' These two different usages lend themselves to typographical errors. Be sure to look for a mistake in the number of '=' signs when you are debugging.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now what about that question mark? Am I uncertain of what I'm coding? No. The pared symbols, '?' and '|' are an abbreviated way to do a simple if...then statement.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>result = (x ? a | b)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>...is the short way of writing</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (x)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>result = a;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>rsult = b;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">So:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>be = ((iobjstr[$] == &quot;s&quot;) ? &quot;are&quot; | &quot;is&quot;);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">...sets up a variable, 'be' to be either the string &quot;are&quot; or the string &quot;is&quot; depending on whether iobjstr ends in 's' or not.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">If you've played around with your timer, you may have noticed that you can set it more than once. It's actually a multiple timer. We could call this a bug, and add code to see if the timer is ticking, and, if it is, tell the player that it's currently in use. Or we could call this a feature, and add code (and documentation!) to take advantage of the fact. I choose the latter.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="goodtimes"></a>Good Times</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">We have a timer, and it times things. It dings when the time is up, and we can set it more than once -- it's a multiple timer. Being the forgetful sort, now I would like to be able to type in an optional reminder message, so that when the timer dings, I'll know what it was I had set it for.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program timer:set</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Usage: set &lt;this&gt; for &lt;duration&gt;&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Example: set timer for 1 hour&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>duration = $time_utils:parse_english_time_interval(iobjstr); if (typeof(duration) == NUM)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;We got a good value for duration.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Ask for an optional reminder message.&quot;; message = $command_utils:read(&quot;an optional reminder message&quot;); if (!message)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>be = (iobjstr[$] == &quot;s&quot; ? &quot;are&quot; | &quot;is&quot;); message = iobjstr + &quot; &quot; + be + &quot; up.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>message = &quot; Ding! &quot; + $string_utils:capitalize(message); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>fork (duration)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(message);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endfork</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(&quot;The timer starts ticking.&quot;); else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell($string_utils:pronoun_sub(&quot;Try something like 'set %t for 3 minutes'.&quot;)); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The new line here is</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>message = $command_utils:read(&quot;an optional reminder message&quot;);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Oho! Another utilities package, $command_utils. Check out its help text to see what sorts of things are in this box of tools. Don't worry about understanding it all; just get acquainted a little bit, for future reference. We are going to read a line of input from the user (player), and store its value in the variable 'message'. If the user typed &lt;enter&gt; without any text, then we'll build the message as before.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Notice that I took some of the message building out of the fork...endfork construct and did it all ahead of time. This is a matter of programming style, which is hard to teach. My reason was, put all the message building code in one place, before the fork statement. Then when the forked duration is up, just tell the player the message.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Edit or type in the new version, and try it out. This is not bad, but I missed the 'Ding!' if I typed in a message. So I'm going to tweak it so that the output is more to my taste. The next changes aren't really substantive, so I've just noted the changes with comments in the code itself.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program timer:set</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Usage: set &lt;this&gt; for &lt;duration&gt;&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Example: set timer for 1 hour&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>duration = $time_utils:parse_english_time_interval(iobjstr); if (typeof(duration) == NUM)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;We got a good value for duration.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Ask for an optional reminder message.&quot;; message = $command_utils:read(&quot;an optional reminder message&quot;); if (!message)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>be = (iobjstr[$] == &quot;s&quot; ? &quot;are&quot; | &quot;is&quot;); message = iobjstr + &quot; &quot; + be + &quot; up.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>message = &quot; Ding! &quot; + $string_utils:capitalize(message); else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Add a Ding! because I can.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>message = &quot; Ding! &quot; + message;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>fork (duration)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(message);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endfork</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(&quot;The timer starts ticking.&quot;); else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell($string_utils:pronoun_sub(&quot;Try something like 'set %t for 3 minutes'.&quot;)); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">This version does *almost* exactly what I want. The last step (before doing up the examine verbs and the help text) is to take a step back and look a the code and see if I can make it any better. I notice that I am prepending &quot;Ding!&quot; in two places, and can consolodate that. Now that you understand what more of the code means, some of the comments are superfluous, and I'm going to take them out. That last 'else' statement is pretty far from its matching 'if' statement, so I'm going to add a comment down there. And I found the Ding! message still not quite prominent enough, so I'm going to use a variant on 'player:tell' to put it between blank lines. Here is my final version:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program timer:set</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Usage: set &lt;this&gt; for &lt;duration&gt;&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Example: set timer for 1 hour&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>duration = $time_utils:parse_english_time_interval(iobjstr); if (typeof(duration) == NUM)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;We got a good value for duration.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>message = $command_utils:read(&quot;an optional reminder message&quot;); if (!message)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>be = (iobjstr[$] == &quot;s&quot; ? &quot;are&quot; | &quot;is&quot;); message = $string_utils:capitalize(iobjstr + &quot; &quot; + be + &quot; up.&quot;); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>message = &quot; Ding! &quot; + message;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>fork (duration)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell_lines({&quot;&quot;, message, &quot;&quot;});</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endfork</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(&quot;The timer starts ticking.&quot;); else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Didn't get a good value for duration.&quot;; player:tell($string_utils:pronoun_sub(&quot;Try something like 'set %t for 3 minutes'.&quot;)); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Last but not least, we'll add help text and examine verbs. We've done this before:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop timer.help_msg {} rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit timer.help_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">This is a simple timer. To use it, type 'set timer for &lt;duration&gt;'. Here are a few examples:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>set timer for 3 minutes</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>set timer for 45 seconds</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>set timer for an hour</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The timer will prompt you for an optional reminder message.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">You can time more than one thing at once. That is, you don't have to wait until the first time is up before setting the timer for another thing. Reminder messages are especially helpful when you are timing several things simultaneously.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>save</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop timer.obvious_verbs {} rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit timer.obvious_verbs</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>set %&lt;what&gt; for &lt;duration&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>give/hand %&lt;what&gt; to &lt;anyone&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>get/take %&lt;what&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>drop/throw %&lt;what&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>help %&lt;what&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>save</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb timer:examine_verbs tnt rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program timer:examine_verbs</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>what = dobjstr;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>vrbs = {};</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>for vrby in (this.obvious_verbs)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>vrbs = {@vrbs, $string_utils:substitute(vrby, {{&quot;%&lt;what&gt;&quot;, what}})}; endfor</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return {&quot;Obvious verbs:&quot;, @vrbs};</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Voila, a finished product that does something useful! As you can see, objects and verbs evolve, from gleams in their creators' eyes to simple proof-of-concept prototypes, to fancy versions with whistles and bells, to finished products with nice exam verbs and help text.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="whatsbig"></a>What's Big and Red and Eats Rocks?</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">When I first started planning this document, I wanted to make a small pet. Something that one could interact with, that could respond in a limited way to things happening around it, something that would seem to take on &quot;a life of its own&quot; which is part of the true magic of programming. So for our final project, we're going to make a big red rock eater.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">First, the brainstorming. Petting the big red rock eater (I think I'll name mine &quot;Red&quot;, for ease of reference) should generate more interesting results than petting a rock. There should be a command of the form, 'feed &lt;anything&gt; to Red'. Hmm. What should happen to things that get fed to Red? Should they disappear? Should we make a special place called 'RedBelly'? Should it be possible to feed a *player* to Red? That might be an interesting experience, but not all players tolerate being moved. If it eats, then it would be nice to have a good VR way to get things back or have them re-appear. Should it excrete? How indelicate -- there must be a better way. Maybe it could go hunting and find a &quot;treasure&quot;, like a cat finding a mouse. Or maybe it could be like a cartoon character and reach into its own innards and produce a previously-eaten object. I'll have to think about that one. Should it talk? How about if it had variable color spots? It should have a gender! , so we'll make it a kid of the generic gendered object. If it only eats rocks, then I'll need a way of deciding whether a thing is a rock. Or maybe it eats anything, but is especially fond of rocks. How about a verb to tickle the rock eater? Nah. It wouldn't effect any change in state, and emote works just as well. So let's pass on that one. [ I know, the same could be said of the :pet and :feed verbs on the pet rock, but those were instructional exercises. Or so I claim. ] Maybe it would eat rocks in the vicinity spontaneously. Or maybe not. It should have a repertoire of spontaneous actions, things that it &quot;just does&quot; from time to time. I know what cats do, but will have to think of particulars for rock eaters. Still, the concept is good. Maybe it's like a Tamagochi(tm) thingie, and if you don't take good enough care of it, it dies! Or maybe if it gets hungry enough, it eats its owner and the owner gets booted! [ Fun thoughts, but maybe that's taking things ! a bit too far. ] Maybe, though, it's description could change depending on how hungry it is -- like the rock gathering moss. That would be a good compromise.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">That's how I typically start a project. I write down everything I can possibly think of, adding to the list over the course of several days (sometimes weeks, or even months). I consider possibilities, no matter how far-out, and pose myself problems. Some things I already know how to do, because I've done the same or similar things before. Others I may have to research.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The next step, then, is to create an object and start fleshing it out, making it more complex as I go along.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@create $thing named &quot;a big red rock eater&quot;,&quot;big red rock eater&quot;,&quot;red rock eater&quot;,&quot;rock eater&quot;,&quot;eater&quot;,&quot;brre&quot;,&quot;Fred&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">I decided at the last minute to name mine Fred. Feel free to name yours something else. Naming is actually hard, sometimes. You have to decide what you want people to see when they enter a room (for example): &quot;You see a big red rock eater here,&quot; OR &quot;You see Fred here.&quot; I may yet change my mind and rename him so that the name is Fred, and &quot;big red rock eater&quot; appears in the description, instead.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@rename big red rock eater to &quot;Fred&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Or how about,</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@rename Fred to &quot;Fred (a big red rock eater)&quot;,&quot;a big red rock eater&quot;,&quot;red rock eater&quot;,&quot;rock eater&quot;,&quot;eater&quot;,&quot;Fred&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">There are some other options that I may explore later, in particular a :title verb, which usually but doesn't always return an item's name. I might want it to be &quot;Fred (a big red rock eater)&quot; sometimes, and sometimes just, &quot;Fred&quot;. I'll defer that for now.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@describe &lt;your rock eater&gt; as &lt;your idea of what a big red rock eater looks like&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Aha! Food will go where any other MOO food goes... that is, to its home if it has a .home property defined on it, otherwise to its owners home. Whew, I'm glad to get that off my mind. Notice, creative development rarely follows a logical, linear sequence.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now that I've gotten that off my mind, let me show you a fun (optional) thing you can do with the description, which will further enrich your skills with pronoun substitution. My rock eater is red, but he has spots, and I want the spots to be a different color each time someone looks. For variety.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Recall that we wrote a :description verb to enhance the pet rock's description with the addition of some moss. Our strategy here will be similar, with a custom description verb. In that verb, we will determine the color of the rock eater's spots. But we'll refer to the color in the description itself. Stay with me, here.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@property Red.color &quot;blue&quot; r</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Start simple, then get fancy. For now, he'll have blue spots. Then we'll work on variable-colored spots. In my examples, I'm going to give the rock eater a fairly generic description, so as not to meddle with your own idea of the critter's physiognomy. Notice that the property is 'r' and not 'rc'. That's because I intend to change it from within a verb, later, and not from the command line.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">@describe Red as &quot;You see a big red rock eater with %[tcolor] spots.&quot;</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">@verb Red:description this none this rxd</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">@program Red:description</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">base_description = pass(@args);</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">return $string_utils:pronoun_sub(base_description); .</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Here's what's going on with the new fancy footwork. Recall that the '%' sign is a special symbol used by $string_utils:pronoun_sub. The square brackets delimit a unit of text that $string_utils:pronoun_sub will work on. The 't' inside the square brackets refers to 'this', a special variable in MOOcode that means the object on which the current verb is defined -- here, the big red rock eater. The rest of what's in the square brackets is the name of a property on the object, in this case, 'color', which we just added. So in essence we're telling $string_utils:pronoun_sub to substitute 'this.color' for '%[tcolor]', and it does. Take a look at your rock eater now!</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">If my rock eater were always going to be red with blue spots, I would have just written that into the description and not gone to all the trouble. But I'm laying a foundation.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Next, I want the color of the spots to change. I'll start with a list of colors to choose from.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.color_list {} rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit Red.color_list</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>blue</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>green</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>yellow</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>purple</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>orange</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>brown</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>tan</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>black</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>white</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>save</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Make up your own list of colors. It can be of any length. Now: in the description verb, we're going to select one of these colors at random and put that color into this.color. Then we'll do the substitution.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:description</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>base_description = pass(@args);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Pick a random color for the spots.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>this.color = this.color_list[random($)]; return $string_utils:pronoun_sub(base_description); </code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The only new thing here is 'this.color_list[random($)]', and even that isn't completely new, because of our work with the '.moss_list' property on the pet rock. Working from the inside out, then. '$', when used inside the square brackets, refers to the number of elements in the list. That's why it doesn't matter how long your .color_list is. If you add more colors later, or remove some, changing the length of the list, the code will still work. 'random($)' (again, when within square brackets), gives a random number between 1 and the length of the list. So. Set 'this.color' to a random element of the list 'this.color_list'.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Here's my whiz-bang fancy version -- see if you can figure out what's going on here:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@rmprop Red.color</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.color1 &quot;blue&quot; r</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.color2 &quot;tan&quot; r</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@describe Red as &quot;You see a big red rock eater with %[tcolor1] and %[tcolor2] spots.&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program red:description</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>base_description = pass(@args);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Fancy version! Two *different* colors of spots!&quot;; index = random(length(this.color_list)); this.color1 = this.color_list[index];</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>this.color2 = (listdelete(this.color_list, index))[random($)]; return $string_utils:pronoun_sub(base_description); .</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">And so you see, unlike leopards, big red rock eaters can change their spots. And hopefully you have at least a glimmer of how this technique could be adapted to other situations. You could give your rock eater a variable number of eyes, for example. Go ahead. Try something if you want to.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="isit"></a>Is it a Boy or a Girl?</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">Being a critter, let's suppose that it has a gender. This step isn't strictly necessary, except that it allows me to use pronoun substitutions when typing in template messages for you to copy, and may give you some additional practice with pronouns as well. (Practice those pronouns, folks!)</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@chparent Red to #7687</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now you can set its gender, for example,</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@gender Red is female</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">What you get, by using this generic, is the verb for setting the gender, and a bunch of properties that are used for the various pronouns. If you type</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@display Red,</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">[Note the comma, which means you want to display all inherited properties]</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">...You should see what I'm referring to.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="pet"></a>Pet the Nice Rock Eater...</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">We'll put a :pet verb on the rock eater, but this time we'll get a more gratifying response. As always, we'll start simple and work up. Our initial goal will be to set up the :pet verb, and add msg properties and their corresponding verbs.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.pet_msg &quot;You pet %t.&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.opet_msg &quot;%N %&lt;pets&gt; %t.&quot;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb Red:pet_msg tnt rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@addalias opet_msg to Red:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return $string_utils:pronoun_sub(this.(verb)); .</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb Red:pet this none none rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this:pet_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:opet_msg()); </code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">This level of programming is so fundamental that I can almost enter it in wholesale and have it work on the first try. (Though not quite -- I had a small typo in the verb, and had to go back and fix it. Always test everything.) I usually set up the messages first, then the verb to do the pronoun substitution, then the verb that uses the messages.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">So far, so good. But unlike a rock, a rock eater ought to react. So lets Liven things up some. Here's a design decision: When it reacts, will the player and other in the room see the same thing, or different things. If I pet the rock eater, should I see, &quot;The rock eater looks at you adoringly,&quot; and others see, &quot;The rock eater looks at Yib adoringly&quot;? or is it okay if everyone (including me) sees, &quot;The rock eater looks at Yib adoringly.&quot;....? The second choice is easier. In the spirit of starting easy and getting fancy, we'll do that. If the results aren't satisfying, then we can gussy things up some more. I'm more concerned that you notice the existence of a choice than that we pick one particular thing over the other.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">But now I have a dilemma. My short range plan is to add a message such as, &quot;%T thumps its tail happily.&quot; But my long range plan is to have an optional list of possible responses, and maybe I could use that list for more than one thing (after he's fed, for example). I want to name the message property in a way that is specific enough to be instructive to someone reading the code later, but general enough that I don't have to limit myself to the :pet verb. I think I'm going to make it a happy response, and later, if the occasion arises, I can add unhappy responses and/or neutral responses.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.happy_response_msg &quot;%T looks at %n adoringly.&quot; rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@addalias &quot;happy_response_msg&quot; to Red:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this:pet_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:opet_msg()); player.location:announce_all(this:happy_response_msg()); </code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Test this.... So far, so good. Notice the call to 'player.location:announce_all'. There are three forms of the announce verb on the generic room. ':announce' announces text to everyone except the player who typed the command. ':announce_all' announces text to everyone, *including* the player who typed the command. ':announce_all_but' takes an additional argument that specifies a list of object *not* to see the text. We'll use the third form later.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now to diversify. Just as I've typed in a list of colors, I want to have a *list* of happy responses, and I want the message to select one of them. And, for compactness, I want to do it in the same :*_msg verb that I'm already using.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Here's one of my philosopies of writing code: Nobody writes bug-free code. All code will be maintained sooner or later. Even the person who writes the code sometimes forgets what e was thinking when e wrote it. It is better to write longer code that is easy to understand than to write compact code that is cryptic. If and only if you can compact the code without undue sacrifice of clarity, then more compact code is better.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Here is the strategy: The :pet_msg verb is going to fetch this.(verb), i.e. its corresponding message. If it's a quoted string (that's all we have, so far), then just do a pronoun substitution on that string. If it's a list (of strings), then select one of them at random, and *then* do the pronoun substitution.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;If it's a list, pick one at random. Then do the pronoun substitution.&quot;; msg = this.(verb);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (typeof(msg) == LIST)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>msg = msg[random($)];</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return $string_utils:pronoun_sub(msg);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">First, we'll test it to make sure all the old messages work fine. (Do that now.)</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Then, edit Red.happy_response_msg to be a list of strings.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit Red.happy_response_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>%T thumps %[tpp] tail happily.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>%T makes a rumbling noise in %[tpp] throat, reminiscent of a cat's purring. %T sighs contentedly.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>%T does a happy little dance.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>print</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>save</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now, pet the nice rock eater to make sure that you get an appropriate variety of responses.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="iteats"></a>It Eats Rocks... Right?</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">We want to be able to feed rocks (and maybe other things) to the big red rock eater. Design decision: Shall it eat only rocks, or shall it eat anything, but especially like rocks? I choose to go for diversity on this one, so that you can feed the rock eater without having to hunt around for a rock. But either way, we'll need a strategy to tell whether an item *is* a rock or not, and there are some pitfalls there. Another design decision: Shall the rock eater eat players, or shall it be a domesticated rock eater that doesn't eat players? If it eats players, what happens to them then? I choose to sidestep that concern, and make a rock eater that eats rocks *and* other things, but doesn't eat players.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The syntax of the command will be, 'feed &lt;anything&gt; to &lt;rock eater&gt;'. When the rock eater eats something, it will be moved to the rock eater itself. After a while, the food item will go back to its home, or, if it doesn't have a home, to its owner's home. We have to account for the possibility that an item can't be moved to the rock eater (maybe its owner locked it down, for example), so we'll have messages to handle that case, and we have to account for someone *trying* to feed a player to the rock eater, and provide a suitable failure message. Accounting for every kind of mis-use you can possibly think of is what makes for good, rich programming. We will have many opportunities to practice our pronoun substitution.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">First, I'm going to tackle some behind-the-scenes stuff, in particular, filtering what things the rock eater can eat.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Baseline check -- Do you still have your pet rock handy?</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@move rock to Red</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">You should get a message to the effect that either your rock doesn't want to go, or the big red rock eater didn't accept it.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb Red:acceptable tnt rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:acceptable</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;This verb returns a truth value if an item may be moved to the rock eater, and 0 if an item may not be moved to the rock eater.&quot;; {item} = args;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (is_player(item))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;No players!&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>result = 0;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>result = 1;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return result;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">'{item} = args;' This is a special kind of assignment statement. This verb won't be called from the command line. But it needs to receive some information (called 'arguments') so that it knows *what* is under consideration for acceptance. The built-in variable 'args' is a list of arguments. We only expect one argument to this particular verb. The form '{item} = args', is the preferred way of writing, 'item = args[1]'. I'm going to ask you to accept it as an idiom of the language. It's detailed in section 4.1.9 of the programmer's manual.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Here's a shorter, more compact version:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:acceptable</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;This verb returns a truth value if an item may be moved to the rock eater, and 0 if an item may not be moved to the rock eater.&quot;; &quot;Players aren't accepted.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>{item} = args;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>result = (is_player(item) ? 0 | 1);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return result;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">...And a shorter version still:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:acceptable</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;This verb returns a truth value if an item may be moved to the rock eater, and 0 if an item may not be moved to the rock eater.&quot;; &quot;Players aren't accepted.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>{item} = args;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return (is_player(item) ? 0 | 1);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">NOW try teleporting your rock to the rock eater. This should work. If you look at Red, you shouldn't see the rock, which is fine, since tummies are (usually) opaque. But is the rock really in there? Type</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@contents Red</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">...to see. This will also remind you of the object number of your rock, in case you want to teleport it back out again.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">If you wanted to make a rock-shaped bulge in its tummy (say), you might alter its :description verb and/or add a verb called ':tell_contents', which is what containers and rooms do. You would check the value of its '.contents' property and go from there. [The details are left as an exercise for the intrepid new progammer.]</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now, to the business of seeing to it that things get returned eventually.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">':acceptable' is expected to return a truthful, silent answer, yes or no, to the question, &quot;Will object A accpet object B?&quot;. ':accept' does the actual business of accepting (or rejecting), and may do any associated processing. For example, if you have ever tried to join someone who was in a locked room, you got a message. That's done by the ':accept' verb. The ':accept' verb on the big red rock eater is going to fork a task to move it back to some appropriate place at a later time (if the item is acceptable). If the item is not acceptable, then it's just going to return a value of 0.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">I had to tinker with the :accept verb quite a bit before it worked to my satisfaction, so I'll spare you the play-by-play development process. Don't worry if you don't understand every detail, but do try. Later you might want to write a custom ':accept' verb on some other object, and you'll know to revisit this example for a deeper understanding of it.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.digestion_duration 30 rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">This is the duration (in seconds) that a thing will stay in Red's tummy. While I'm testing, I'll set it to something short, like 30 seconds. When I'm satisfied that everything works, I'll change it to something like an hour, maybe.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.return_item_home_msg &quot;The housekeeper arrives and drops off %[titem].&quot; rc @prop Red.item &quot;This will be set to item.name by the :accept program.&quot; rc @addalias &quot;return_item_home_msg&quot; to Red:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb red:accept tnt rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program red:accept</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Hold an item (while digesting), then try to send it home.&quot;; {item} = args;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (result = this:acceptable(@args))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>fork (this.digestion_duration)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Is it still there?&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (item.location == this)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Figure out where to send it, and try to send it there.&quot;; place = ($object_utils:has_property(item, &quot;home&quot;) ?</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>item.home |</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>item.owner.home);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>item:moveto(place);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Now see if it actually arrived.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (item.location == place)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if ($object_utils:has_verb(place, &quot;announce_all&quot;))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Set up item.name for appropriate pronoun substitution.&quot;; this.item = item.name;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>place:announce_all(this:return_item_home_msg()); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;We failed to get rid of it gracefully, just get rid of it.&quot;; this:eject_basic(item);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endfork</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return result;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">There are two subtleties in particular to which I would like to call your attention. The first is the statement,</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (result = this:acceptable(@args))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">I have done an assignment statement *within* the parenthetical conditional statemet. This is perfectly legal and is often done. It's the same as</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (this:acceptable(@args))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&lt;do stuff&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return this:acceptable(@args);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>...except that I call the ':acceptable' verb once instead of twice, saving the result for later.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>The second is that I broke the statement</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>place = ($object_utils:has_property(item, &quot;home&quot;) ?</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>item.home |</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>item.owner.home);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">...into three lines, for better readability. A line of code ends with a semicolon. You may break a line into more than one line pretty much anywhere except in the middle of a quoted string, and that's what I did here.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">And now (at long last) we are ready to write the :feed verb itself.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="chowtime"></a>Chow Time!</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">After all we've been through, this part will be quite easy. Here's the prototype:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb red:feed any to this rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program red:feed</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>dobj:moveto(this);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (dobj.location == this)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(&quot;Red chomps hungrily.&quot;);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(&quot;Red looks at you dubiously.&quot;); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">The item being fed to Red is the direct object of the command, and its object number is stored in the built-in variable 'dobj'. Red is the indirect object of the command, and its object number will be stored in the built-in variable 'iobj', as well as the built-in variable 'this' (the object on which the currently-executing verb is defined).</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Here is the cleaned up, robust version:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.feed_msg &quot;You feed %d to %t.&quot; rc @prop Red.ofeed_msg &quot;%N %&lt;feeds&gt; %d to %t.&quot; rc @prop Red.no_feed_msg &quot;You try to feed %d to %t.&quot; rc @prop Red.ono_feed_msg &quot;%N %&lt;tries&gt; to feed %d to %t.&quot; rc @prop Red.ptui_msg &quot;%T looks at %n dubiously. . o O ( Ptui! )&quot; rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@addalias feed_msg to red:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@addalias ofeed_msg to red:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@addalias no_feed_msg to red:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@addalias ono_feed_msg to red:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@addalias ptui_msg to red:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program red:feed</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Try to feed it something.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>dobj:moveto(this);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (dobj.location == this)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;It ate the whole thing.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this:feed_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:ofeed_msg()); this.location:announce_all(this:happy_response_msg()); else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Ack! Ptui! Wouldn't accept it.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this:no_feed_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:ono_feed_msg()); this.location:announce_all(this:ptui_msg()); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Have you been testing all along? This works pretty darn well. Except that I tried to feed my pet rock to the rock eater before it had been returned again (I test a lot), and I got a traceback:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>#26703:feed, line 2: Invalid indirection (End of traceback)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">I can reproduce the error by trying to feed Red an object that doesn't exist:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>feed mother-in-law to Red</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>#26703:feed, line 2: Invalid indirection (End of traceback)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Looking at line 2, we're trying to move dobj. Aha! We need to add a check to make sure that we got a valid object:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program red:feed</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Try to feed it something.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (valid(dobj) &amp;&amp; (dobj.location in {player, player.location}) &amp;&amp; (this.location in {player, player.location}))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>dobj:moveto(this);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Either the thing being fed or the rock eater is not in the vicinity.&quot;; player:tell(&quot;I don't see that here.&quot;);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Just quit this verb right away.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (dobj.location == this)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;It ate the whole thing.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this:feed_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:ofeed_msg()); this.location:announce_all(this:happy_response_msg()); else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Ack! Ptui! Wouldn't accept it.&quot;;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this:no_feed_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:ono_feed_msg()); this.location:announce_all(this:ptui_msg()); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">I chose not to extract, &quot;I don't see that here,&quot; into its own message. It isn't something I ever expect to change; I don't need to do any pronoun substitution; and it does double-duty as a comment within the code. Also, during play testing, I found out that someone could feed Red remotely, and I don't want that because the messages display to the wrong place and seem incongruous, so I added a check to make sure that the thing being fed and the rock eater were either in the player's possession, or in the same location as the player. I should go back and add that same check to the ':pet' verb, too. [I might not have found this bug on my own. I like to invite select players to play-test my objects before I present them to the public, because that helps me find and fix the bugs I *didn't* think to look for.]</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:pet</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (this.location in {player, player.location})</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(this:pet_msg());</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player.location:announce(this:opet_msg()); else</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>player:tell(&quot;I don't see that here.&quot;);</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">As a last little fillip, I offer the following: Since our pet_msg verb can handle a string OR a list, I'm going to edit Red.ptui_msg for greater variety:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit red.ptui_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>%T takes one taste of %d and promptly spits %[dpo] out again. . o O ( Ptui! ) %T eats %d, but then, with a look of great consternation on %[tpp] face, acks %[dpo] back up again. . o O ( Ptui! ) .</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>save</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Whew, I'm hungry! I think I'll have a snack before going on to the next part.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="thebreath"></a>The Breath of Life</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">The last step in making a pet is to enable it to respond spontaneously to things that happen around it, and thus seemingly take on a life of its own.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Whenever a verb calls a room's ':announce' verb (or one of its variants), the ':announce' verb calls the ':tell' verb on every object present that has one, and sends the text in as an argument. So by adding a ':tell' verb to our rock eater, it will automatically start 'hearing' things going on around it. And then it can respond. We'll program in a random delay to make its actions seem even more independent.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.response_delay 20 rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">A delay (in seconds).</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.action_msg {} rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit Red.action_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>%T chases %[tpp] tail in a slow, circling ballet. %T leaps into the air and does a back flip, in a comic bid for attention. %T snuffles around, looking for rocks.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>%T looks at you with big, sad, soulful eyes. %T makes a &quot;wurfling&quot; sort of noise.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>save</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@addalias action_msg to Red:pet_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb Red:tell tnt rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:tell</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>fork (random(this.response_delay))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>this.location:announce_all(this:action_msg()); endfork</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now say, &quot;Boo,&quot; or something.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><a name="whoa"></a><code>Whoa! Down, Boy!</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@kill Red:tell</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Well! By now you've discovered that once started, Red just won't quit. This is because Red hears Red's own text, and responds to it! So what you get is a sort of chain reaction. Really, this is too much of a good thing, so now we have to work on toning things down some.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program red:tell</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>fork (random(this.response_delay))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>this.location:announce_all_but({this}, this:action_msg()); endfork</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">First, we'll use that third form of ':announce' that I mentioned earlier, ':announce_all_but'. This way you won't get an endless chain of actions. But you'll still get an action out of Red every single time there's a noise in the room. So for my next trick, I'm going to make it so that sometimes he responds, and sometimes he doesn't.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.action_odds 3 rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:tell</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (random(this.action_odds) == 1)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>fork (random(this.response_delay))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Odds of responding are 1 in &lt;action_odds&gt;.&quot;; this.location:announce_all_but({this}, this:action_msg()); endfork</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">This is better. But you might want a quieter pet still. (I did.) Whenever I would pet or feed Red, the messages would trigger an additional response, which still seemed like too much. So I can go back and edit the ':pet' and ':feed' verbs, OR I can tinker with the ':tell' verb a bit more and prevent Red from &quot;hearing&quot; any of his own messages in the first place. Take a quick look at 'help callers()'. This built-in function returns a list of all the object/verb pairs (tuples, actually -- there's additional info) that resulted in the current verb being called. So we're going to take a look at 'callers()' from within 'Red:tell' and filter out any noise generated by Red himself. This is pretty advanced stuff, and even I do a bit of preliminary prototyping before using 'callers()', because I always forget just how it goes. Here's the prototype:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.callers 0 r</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">A temporary property to hold data that I want to look at.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:tell</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>this.callers = callers();</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (random(this.action_odds) == 1)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>fork (random(this.response_delay))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>this.location:announce_all_but({this}, this:action_msg()); endfork</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">'Pet Red', to trigger the process. Then use eval to see what we get:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>#Red.callers</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&gt;#Red.callers</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>=&gt; {{#23920, &quot;announce_all&quot;, #2, #3, #58337}, {#23920, &quot;announce_all&quot;, #24442, #17755, #58337}, {#23920, &quot;announce_all&quot;, #61050, #9805, #58337}, {#26703, &quot;pet&quot;, #58337, #26703, #58337}}</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">By scrutinizing it, I find the number of *my* rock eater. (Your numbers will be different, but look anyway.) This is list of lists. I want to consider only the first elements, and see if Red's ':tell' verb was indirectly called by Red. If it was, then To do that, I'll use '$list_utils:slice' (there's help text -- give it a try).</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:tell</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Respond to noises generated by anything *except* this.&quot;; if (!(this in $list_utils:slice(callers())))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (random(this.action_odds) == 1)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>fork (random(this.response_delay))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>this.location:announce_all_but({this}, this:action_msg()); endfork</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@rmprop Red.callers</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Test this by saying things, petting your rock eater, feeding it, etc. Check '@forked' a lot.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">This is almost perfect. (Wouldn't you know.) IF you were to trigger Red's ':tell' verb and fork the task, then move Red to #-1, you would get a traceback, because #-1 doesn't have an ':announce_all_but' verb. So we'll add a check for that.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:tell</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Respond to noises generated by anything *except* this.&quot;; if (!(this in $list_utils:slice(callers())))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if (random(this.action_odds) == 1)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>fork (random(this.response_delay))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if ($object_utils:has_verb(this.location, &quot;announce_all_but&quot;))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>this.location:announce_all_but({this}, this:action_msg()); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endfork</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Last, I take a step back to see if I can condense the code without sacrificing clarity, and I think I can. Those two nested 'if' statements can be consolidated into one:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:tell</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;Respond to noises generated by anything *except* this.&quot;; if (!(this in $list_utils:slice(callers())) &amp;&amp;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>(random(this.action_odds) == 1))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>fork (random(this.response_delay))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>if ($object_utils:has_verb(this.location, &quot;announce_all_but&quot;))</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>this.location:announce_all_but({this}, this:action_msg()); endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endfork</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>endif</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Now all that's left is to tinker with 'Red.action_odds' and 'Red.response_delay' until you get the right feel for *your* pet. Some rock eaters are known to be sluggish, others are known to be frisky.</font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="care"></a>Care and Feeding of a Big Red Rock Eater</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">Just a last little bit of grooming to do, and we're done:</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.obvious_verbs {} rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@set Red.obvious_verbs to {}</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit Red.obvious_verbs</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>pet %&lt;what&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>feed &lt;anything&gt; to %&lt;what&gt;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>save</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb Red:examine_verbs tnt rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:examine_verbs</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>what = dobjstr;</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>vrbs = {};</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>for vrby in (this.obvious_verbs)</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>vrbs = {@vrbs, $string_utils:substitute(vrby, {{&quot;%&lt;what&gt;&quot;, what}})}; endfor</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>return {&quot;Obvious verbs:&quot;, @vrbs};</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">This is the usual stuff. I deliberately omitted '@gender %&lt;what&gt;' from the list of examine verbs, because that's an owner-only verb: You know it's there, and no-one else needs to.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@prop Red.help_msg {} rc</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@edit Red.help_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>enter</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>This is %t. Treat %[tpo] with love and kindness and %[tps] will be your friend forever.</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>%[Tps] likes to eat rocks, but will eat just about anything except players. (Things which have been eaten will be moved back to their homes after a while.) .</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>save</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>done</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@verb Red:help_msg tnt rxd</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>@program Red:help_msg</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>&quot;This message has its own separate verb because the regular message verb returns a random element of a list. But if this.help_msg is a list, we want the whole thing.&quot;; return $string_utils:pronoun_sub(this.(verb)); .</code></font></p>
+	<p><font face="verdana,arial,helvetica,sanserif"><code>This is your big red rock eater. Treat it with love and kindness, and it will be your friend forever.</code></font></p>
+	<h2><font face="verdana,arial,helvetica,sanserif"><a name="afterword"></a>Afterword</font></h2>
+	<p><font face="verdana,arial,helvetica,sanserif">That's about it.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">We started with the very rudaments of adding a verb to an object, and have worked our way through some fairly sophisticated stuff. You may or may not feel that you've grasped it all, but my primary goal was to give you some exposure to how MOOcode works, and to make it all less intimidating, in hopes that you will be inspired to explore further.</font></p>
+	<p><font face="verdana,arial,helvetica,sanserif">Be bold! Experiment. Try things. Don't be afraid of breaking something. There is very little on the MOO than can be harmed by accicent, and even less that can't be fixed. Go for it.</font>
+</body>
+

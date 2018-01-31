@@ -1,0 +1,265 @@
+<html>
+<head><title>Lamba MOO Programming Tutorial--Programming</title></head>
+<body>
+    <h1>The source code for this file was taken from <a href="http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/programming.html">http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/programming.html</a> and is included here for posterity. It is not HTML5.</h1>
+<h1>Programming</h1>
+<P>First and foremost, the most important thing to realize about the LambdaMOO 
+system is that there really isn't anything like a program to deal with.
+In C++, every program has a main function.  For LambdaMOO, any implicit main
+program is safely concealed inside the internals of the system, and programmers
+have no say in the matter unless they wish to start hacking away at server code.
+For LambdaMOO, a programmer is restricted to constructing objects and their verbs.
+Like any object oriented system, a programmer could argue that the execution paths
+through the various verbs constitues a program, but unfortunately that argument tends
+to break down quickly since the entire point of having functions on an object is so that
+other objects can interact with each other.  That's the point of object oriented
+programming.</P>
+<P>Unless otherwise noted, when specifying commands for performing some action,
+any text enclosed in square brackets is optional.  E.g. <i>FunctionName(Arg1 [,Arg2)</I>
+indicates that Arg2 is optional when calling the function Arg1.</P>
+<P>Having said that, the next issue is how one constructs objects to do meaningful
+things in LambdaMOO.  The major issues at this point are
+<UL>
+    <LI><a href="#data_types">Data Types</A></LI>
+    <LI><a href="#create_object">Creating an object</A></LI>
+    <LI><a href="#create_properties">Creating properties</A></LI>
+    <LI><a href="#create_verbs">Creating verbs</A></LI>
+    <LI><a href="#inside_verbs">Inside Verbs</A></LI>
+    <LI><a href="#lists">Fun with lists and strings in LambdaMOO</a></LI>
+</UL>
+<hr>
+<a name="data_types">Data Types in LambdaMOO</A>
+<UL>The data types for LambdaMOO are
+    <LI>
+        <b>Integers</b>  Signed whole numbers.  
+    </LI>
+    <LI>
+        <b>Object</b>  Objects in the LambdaMOO database are referred to
+        by their object number.  #ObjectNumber denotes an object number
+        (for example #0 is object number 0).  The object number is
+        essentially a pointer to an object, since there is no such
+        notion as passing an object by value for the LambdaMOO system.
+        toobj(...) will convert either strings like "#42" or 42 to objects,
+        and both result in #42.
+    </LI>
+    <LI>
+        <b>Strings</b>  Characters in LambdaMOO are strings of length 1.
+        Like lists, LambdaMOO strings are immutable.
+    </LI>
+    <LI>
+	<b>Error</b>  Various run time errors, such as security violations,
+        type mismatches, unassigned variables, etc.  Consult the
+        programmer's manual for more information.
+    </LI>
+    <LI>
+        <b>Lists</B>  In LambdaMOO, lists are a the fundamental
+        data type for constructing things like arrays and sets.
+        The elements in a list can be assigned to destructively,
+        but in order to change the length of a list it is necessary to
+        do something like <P>
+	    MyList={@MyList,NewElement}</P>
+        <P>Elements of a list can be of any type allowed for variables in
+        LambdaMOO, including lists themselves.</P>
+        See the section on <a href="#lists">Lists for more details.</a>
+    </LI>
+    <LI>
+        <b>Floating point numbers</b>  Signed real numbers.
+        It is important to note that in LambdaMOO,
+        33 <em>is not equal</em> to 33.0.
+    </LI>
+</UL>
+<table border=3>
+<tr><th>Data Type</th><th>typeof(...)==</th><th>Conversion Function></th><th>Comments</th></tr>
+<tr><td>Integers</td><td>INT or 0</td><td>tonum(...) or toint(...)<td>Signed whole numbers</td></tr>
+<tr><td>Object</td><td>OBJ or 1</td><td>toobj(...)</td><td>Reference number for an object</td></tr>
+<tr><td>Strings</TD><td>STR or 2</TD><td>tostr(...)</td><td>String or character</td></tr>
+<tr><td>Error</td><td>ERR or 3</td><td>none</td><td>Error condition.  Used for various runtime errors</td></tr>
+<tr><td>Lists</td><td>LIST or 4</td><td>none</td><td>Immutable list.  Used for arrays and sets</tr>
+<tr><td>Floating point number</TD><td>FLOAT or 9</td><td>tofloat(...)</td><td>Signed floating point number</TD></tr>
+</table>
+<a name="create_object">Creating Objects</A>
+<UL>The three major ways of creating objects in LambdaMOO are 
+	<LI>
+	    <P>@create ParentObject named "Object Names"
+            </P>
+	    <P>This first method is used by human beings to create objects,
+               and is something which would be entered on the command line.
+               For example: </P>
+	    <b>@create $thing named "my very own object"</b>
+	    <P>will create an object derived from $thing (Generic Thing)
+               and set the new object's name to <i>my very own thing</i>
+            </P>
+        </LI>
+	<LI>
+	    <P>create(ParentObject [,OwnerObject])</P>
+	    <P>This method is intended for programmatically creating new
+               objects by invoking the interpreter's built in <b>create</b>
+               function.  Both ParentObject and OwnerObject are required to
+               by <a href="syntax.html#object_reference">object references</a>.
+               If OwnerObject is not specified, then the object will own itself
+               (see <a href="security.html#object_ownership">object ownership
+               in the security section</A>).  The return type of create will
+               be the object reference of the newly created object, or else
+               the appropriate error code.</P>
+             <P>For example: <P>
+	     <b>create($npc,player)</b>
+             <P>will create an object derived from $npc and owned by the
+                player object which caused this verb to be executed.</P>
+        </LI>
+	<LI>
+            <P>$recycler:_create(Parent, [,OwnerObject)</P>
+	    <P>This method is also intended for programmatically creating new objects
+               but in this case it differs from the built in function in a subtle
+               manner.  When create() is used, the object reference will always be
+               unique.  $recycler:_create attempts to objects discarded with
+               $recycler:_recycle(NoLongerNeededObject) by reconstructing a previously
+               used object into its new role.  In a perfect world this verb is
+               indistinguishable from the create function, except that its friendlier to
+               longer lived systems which create many temporary objects.
+            <P>
+        </LI>
+</UL>
+<a name="create_properties">Creating properties on an object</A>
+<UL>The major ways to add properties to an object in LambdaMOO are
+	<LI>
+            <P>@property ObjectName.PropertyName [PropertyValue]</P>
+            <P>This first method is intended for use by human beings when constructing
+               objects before they are put into use.  If PropertyValue is omitted,
+               the property is initialized to 0.</P>
+	</LI>
+        <LI>
+	    <P>add_property(TargetObject,PropertyName,InitialValue,Info)</P>
+            <P>This method invokes the built in add_property function to add
+               the property PropertyName to the object TargetObject.  For more
+               information, please consult the online help using
+               <b>@help add_property</b>
+            </P>
+        <LI>
+            <P>Use tkMOOlite or MacMOOSE</P>
+            <P>Andrew Wilson's tkMOOlite or the MacMOOSE programs each have
+               nice interactive object browser's which allow a programmer to 
+               interactively add properties and verbs to an object.
+            </P>
+        </LI>
+</UL>
+Needless to say, it is generally horribly complicated to add properties
+to objects from within a verb, and for most purposes there isn't really
+any need to.  I'd personally recommend staying true to the rule of thumb that
+say "If you think you need to add a property to an object from within a verb
+you're probably wrong."  To change the value (or type for that matter)
+of a property, the easiest way is simply to assign it a new value.  
+Programmatically, this is simply
+<PRE>
+    ObjectReferece.Property = NewValue;
+</PRE>
+and to change a value at the command line, the only difference is to add
+a semicolon (to tell the command line interpreter that you are typing in
+an expression and not a command), like so:
+<PRE>
+;ObjectReference.Property = NewValue;
+</PRE>
+<a name="create_verbs">Creating verbs on an object</a>
+<UL>The major ways of adding verbs to an object in LambdaMOO are 
+</UL>
+<a name="lists">Fun with lists and strings</a>
+<h5>Accessing and modifying elements of lists and strings</h5>
+<P>To access a particular element of a list or string, the square braces
+are used.  Elements are numbered sequentially from 1 to n, where n is the
+length of the string or list.</P>
+<P>Assigning to an element of a list or string modifies the corresponding
+element of the list or string. </P>
+<P>For example:</P>
+<PRE>
+    Test="George";	// Our example string
+    Test[3]="4";	// Test is now "Ge4rge"
+    Test[5..6]="56";    // Test is now "Ge456e"
+    Test={"A","B","C"}; // Our example list
+    Test[2]="BC";	// Test is now {"A","BC","C"};
+    Test[2]="BC","DE";  // Error.  Invalid statement.
+    Test[2]={"BC","DE"}; // Test is now {"A",{"BC","DE"},"C"};
+</PRE>
+As shown in the example, the elements selected from a list or string can
+be more than one element long.  However, those elements have to be
+continuous.  For example
+<PRE>
+    "George"[3..3]	// "o"
+    "George"[3..5]	// "org"
+    "George"[3..5,7..9] // syntax error
+</PRE>
+Strings can be costructed using the + operator to append two strings together.
+Unfortunately, this modifies neither of the two original strings.
+<PRE>
+    OriginalName="George";
+    LastName=" The Great";
+    NewName=OriginalName+LastName;
+</PRE>
+Changes neither OriginalName or LastName.  There is absolutely nothing
+wrong with assigning like
+<PRE>
+    OriginalName="George";
+    LastName=" The Great";
+    OriginalName=OriginalName+LastName; // OriginalName = "George The Great"
+    OriginalName="George"+LastName;     // Same result
+    OriginalName="George"+" The Great"; // Same result
+</PRE>
+In fact, this way of appending to strings in absolutely necessary.
+In LambdaMOO (as in Java), a string is only as long as it absolutely
+has to be, and to append to a string (such as changing a string stored
+in a property) requires such a construct.
+<P>Lists are constructed in a similar manner.  The ampersand operator,
+when applied to the front of a list name, expands out to the contents
+of that list.  For example:
+<PRE>
+    List={1,2,3,4,5};
+    List={@List};			// Identity operation
+    List={@List,6};			// List = {1,2,3,4,5,6};
+    Counter=1;
+    while(Counter<6)
+        List={@List,Counter};
+        Counter=Counter+1;
+    endwhile
+    // List is now {1,2,3,4,5,6,1,2,3,4,5}
+    NewList=List[7..10];		// NewList = {1,2,3}
+</PRE>
+<P>The elements of a list can be lists themselves.  There is no restriction
+on the layout of each sublist, and lists can be nested arbitrarily deep
+to construct multidimensional arrays or fancy data structures.</P>
+<PRE>
+    List={};
+    List={@List,{},{},{}};		// List now contains three empty lists.
+    List[1]={1,2,{3,4,5,6}};		// The first list in List now contains
+					// the list {1,2,{3,4,5,6}}
+    List[3]=List[1];			// The third list in List now contains
+					// a copy of List[1]
+    List[3][3][2]=7;			// List is now
+					// { {1,2,{3,4,5,6}}, {}, {1,2,{3,7,5,6}} }
+</PRE>
+For both lists, the <b>in</b> operator is very useful.  <b>in</b>
+is a binary operator, the left argument being the element to look for,
+and the right element being the list to search.  Its value is the
+position in its target to search, or 0 if the element is not found.
+<PRE>
+    (5 in {1,2,9,3,5,2}) 	// result is 5
+    (4 in {0,4,4}		// result is 2
+</PRE>
+Like assignment, using in to look for substrings won't work.  Likewise, if
+you construct a complicated list structure, in only checks the list
+and not any elements in the list.
+<PRE>
+    ({1,2} in {0,{1,2},{3,4}}) // result is 2
+    (2 in {0,{1,2},{3,4}})     // result is 0
+</PRE>
+<P>Various utility objects, such as $string_utils, $set_utils, 
+$assoc_utils, $match_utils, and others are available for use.  
+The specific documentation is available by
+<b>@examine</b>ing the appropriate objects, or reading the comments
+in the verbs of the object.</P>
+<P>The really important thing to remember is that if your were all set
+to use a binary tree, hash table, or other data structure normally
+implemented using pointers, you have two choices:  1--rethink the
+algorithm using lists, or 2--write, find or convince someone to write
+a set of functions to implement that data structure using LambdaMOO's
+lists.
+
+</body>
+</html>

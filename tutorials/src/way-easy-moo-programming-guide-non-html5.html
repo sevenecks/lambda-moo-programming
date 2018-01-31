@@ -1,0 +1,1082 @@
+<HEAD><TITLE>Way Easy MOO Programming Guide</TITLE></HEAD>
+<body BGCOLOR=FFFFFF><!--'"</title></head>-->
+    <h1>This source code was taken from <a href="http://snowfall.tripod.com/Way_Easy_Guide.latest.html">http://snowfall.tripod.com/Way_Easy_Guide.latest.html</a>, modified to remove the javascript and other such stuff that tripod added to the page, and saved in this repository for posterity. It is not HTML5.</h1>
+<CENTER>
+
+<H1>Colin's Way Easy Intro Guide to MOO Programming</H1>
+
+<P><H3>Version 2.2<BR>March 1996</H3>
+<P>
+<I>by Colin McCormick (a.k.a. Snowfall)<BR>colin@tripod.com</I><BR>
+
+<P><HR>
+
+</CENTER>
+
+<P><H2>0.0) Silly Foreword</H2><P>
+
+	This document is for free distribution.  If you have a
+brilliant idea for how to make it into truly monumental cybernetic
+scripture (or just have a comment, question or flame) <A
+HREF="mailto:colin@tripod.com">let me know</A>.  Personal cheques are
+also welcome.  The <I>Way Easy Guide</I> is intended to teach basic
+programming concepts and methods, so if you already understand how to
+code a MOO for loop or build a recursive daemon wanderer, allow me
+direct you to Pavel Curtis' <I>LambdaMOO Programmer's Guide</I>,
+available at <A HREF="ftp://parcftp.xerox.com/pub/MOO/">
+parcftp.xerox.com/pub/MOO/ProgrammersManual.*</A>.  There are a number
+of elements of MOO programming that I have omitted in the interests of
+time and personal sanity; Pavel's guide is significantly more
+complete.<P>
+
+You may also be interested, as an intermediary document, in my <A
+HREF="http://members.tripod.com/~Snowfall/Way_Easy_Examples.latest.html"><I>Way
+Easy MOO Programming Examples</I></A>, a series of building and
+programming examples spelled out in (I hope) straightforward steps.
+
+<P><H3>0.1) Special Note for HereMOO Programmers</H3><P>
+
+	<A HREF="http://trickle.tripod.com">HereMOO</A> is
+revolutionary among MOOs in its Web-based implementation.  All
+programming techniques on standard MOOs will work on HereMOO, but
+there are a few non-standard things one can do as well.  The most
+relevant of these is the fact that HTML tags can be written directly
+into descriptions or even into spoken/emoted text.  Thus by typing
+
+<PRE>	@describe me as "A &lt;B&gt;great&lt;/B&gt; guy!" </PRE>
+
+other people, when looking at you, will see:<P>
+
+<PRE>A <B>great</b> guy!<P></PRE>
+
+You could also type
+
+<PRE>	say Melanie, you look &lt;I&gt;marvelous&lt;/I&gt; tonight!</PRE>
+
+and, on the MOO, everyone will see:<P>
+
+<PRE>Colin says, "Melanie, you look <I>marvelous</I> tonight!</PRE></PRE>
+
+This technique will also work for adding images, links, lists, etc. to
+your description and the description of your room and objects.<P>
+
+For help with HTML, check out NCSA's <A
+HREF="http://www.ncsa.uiuc.edu/demoweb/html-primer.html">
+<I>Beginner's Guide to HTML</I></A>.<P>
+
+For more complicated HTML tricks on HereMOO (including <A
+HREF="#link_command"> how to use a link to send a command to the
+MOO</A> and <A HREF="#own_images">how to add images of your own to
+your description</A>) see <A HREF="#html_tricks">below</A>.
+
+<HR>
+
+<P><H2>1.0) Introduction</H3><P>
+	
+	This book is for aspiring MOO code programmers and other lower
+vertebrates, except sheep.  MOO code, for all its power and
+flexibility, is really quite easy to learn (except for sheep.)  To
+read this book you will have to know basic elements of the MOO
+environment and commands, but not much else, and by the time you
+finish you should have a good grasp of the elements of MOO
+programming, how to create and edit verbs, and the basics of the MOO
+language.<P>
+
+	One note before we begin.  In order to do most of the examples
+in this guide, you need to have been made a programmer on your MOO.
+Most MOO wizards will do this upon request, with a smile and free of
+charge.  If you try some of the following examples and get errors like
+"E_VERBNF (Verb not found)" or "E_PERM (Permission Denied)" make sure
+that you are a programmer before proceeding, unless you're a sheep, in
+which case there's just no hope.<P>
+
+Ovine-less ones, read on!
+
+<P><H3>1.1) Object Orientation</H3><P>
+
+	To program on a MOO, one must first understand the concept of
+an <I>object-oriented</I> data structure.  Everything that exists on a
+MOO is an <I>object</I> that has a unique <I>object number</I>.  These
+objects are organized into a sort of genealogical hierarchy, with the
+Root Object (#1) at the top and its "children", "grandchildren", etc.
+branching down from it.  The nifty thing about this is that every
+object automatically <I>inherits</I> all of the characteristics
+(i.e. properties and verbs) of its parent, and, by extension, of all
+of its ancestors back to #1.
+
+<P><H3>1.2) Inheritance</H3><P>
+
+	Inheritance is useful in programming in that it allows for the
+creation of <I>classes</I> of objects.  If we wished to create (for
+instance) a refrigerator, a backpack and a kangaroo pouch, we could
+first make a generic "container" object that could hold other objects
+and recognize such commands as <I>open</I>, <I>close</I>, and
+<I>lock</I>.  Then we could create three children of this generic
+container (customizing them to look like a refrigerator, a backpack
+and a kangaroo pouch) and they would all function as containers that
+could be opened, closed and locked, without having to reprogram each
+one individually.  Most MOOs are organized around this idea, and there
+are many generic items available to use as parents.  (For a complete
+list, ask the resident wizards.) <P>
+
+	To see the children or parent of an object, type 
+
+<PRE>	@kids <I>object name</I>
+	@parent <I>object name</I> </PRE>
+
+<P><H3>1.3) Referring to Objects</H3><P>
+
+	Objects are refered to in MOO code by their object number,
+preceded by the number symbol (<B>#</b>).  Hence, the Root Object is
+#1, and the next object made will be #2, etc.  One of the best ways to
+find object numbers is the <TT>@contents</TT> command.  To see the
+names and object numbers of the objects in your room, for instance,
+type <TT>@contents here</TT>.  To see your own contents (the items you
+are holding), type <TT>@contents me</TT>.
+
+<P><H3>1.4) In-Database Help</H3><P>
+
+	Type <TT>help objects</TT> for more information about objects.<P>
+
+<HR WITDH=50>
+
+<P><H2>2.0) Properties</H3><P>
+
+	Now that we've established the idea of objects and their
+hierarchy, let's talk about what you can do with them.  Objects can
+have <I>properties</I> and <I>verbs</I> defined on them.
+<I>Properties</I> are chunks of data that have four possible data
+types (or "flavours") while <I>verbs</I> are MOO-code programs.
+Properties are more straightforward, so we'll start with them.
+
+<P><H3>2.1) Properties and their Flavours</H3><P>
+
+	Properties can hold any data you wish.  Some properties,
+defined on #1 and thus inherited by all objects, characterize an
+object in the MOO's virtual reality; among these are the "name",
+"location" and "contents" properties.  Others may be used by you, the
+programmer, to hold the value of (say) the number of sandwiches left
+in a sandwich vending machine, or a list of possible phrases your pet
+parrot might say.  There are four valid data types for properties;
+they are:
+
+<UL>
+<LI><I>Numbers</I> -- any integer value, positive, negative or zero</LI>
+<LI><I>Strings</I> -- any group of text characters (can include numbers, but
+they will be treated as text)</LI>
+<LI><I>Lists</I> -- a list of any number of "elements", which can be numbers,
+strings, other lists or object numbers</LI>
+<LI><I>Object numbers</I></LI>
+</UL>
+
+Strings must be surrounded by quotes (") and lists by curly brackets
+({}) with their elements delimited by commas (,).  All elements in a
+list must be of the same data type.  For example, <TT>{"this", "is",
+"a", "list"}</TT> and <TT>{{1, "hi"}, {2, "there"}, {3, "bob"}}</TT>
+are both valid properties.
+
+<P><H3>2.2) Referring to Properties</H3><P>
+
+	Properties are referred to as '<TT>object number.property
+name</TT>' -- i.e., the name property of the Root Object is '#1.name',
+and its location property is '#1.location'.  To see the value of any
+property, just type its reference (without quotes), preceded by the
+<I>evaluation operator</I>, ";":
+
+<PRE>	;#1.name
+	=> "Root Class"</PRE>
+
+The evaluation operator (;) is used to find the value of any reference
+or MOO code expression.  It is a very powerful programming tool, but
+has the drawback that it can only recognize objects by number, not by
+name or alias.
+
+<P><H3>2.3) Creating and Removing Properties</H3><P>
+
+	To create a new property, use the <TT>@property</TT> command:
+
+<PRE>	@property me.nickname "Crazy Caboola"
+
+	@property #123.flowers = {"iris", "rose", "daisy"}</PRE>
+
+(You may abbreviate this as <TT>@prop</TT>.)  The first command will
+create a property on you (remember, <EM>everything</EM> is an object,
+including you) called "nickname" and give it the value "Crazy
+Caboola", a string.  The second will create a property on object #123
+called "flowers" with the value {"iris", "rose", "daisy"}, a list.
+Property names must not contain spaces (use the underscore "_" for
+property names like "sandwiches_left".)<P>
+
+It's worth noting at this point that if you don't <I>own</I> the
+object onto which you are attempting to define a property, the MOO
+probably won't let you define it.  We'll return to the topic of
+ownership and permissions <A HREF="#permissions">later</A>; for now
+try examples on yourself or objects you've created.<P>
+
+If no initial value is specified in <TT>@property</TT>, it will
+default to 0, a number.  Be careful about this, because if you create
+a property and give it no initial value, and later try to change the
+value of that property to a string, a list or an object number, the
+MOO will become confused and you will have to remove the property and
+start again.  If you are creating a blank property that you know will
+eventually be a string, list or object number, give it an initial
+value of <TT>""</TT> (the empty string), <TT>{}</TT> (the empty list)
+or #-1 (a default "nothing" object.)<P>
+
+	To remove a property, use the <TT>@rmproperty</TT> command:
+
+<PRE>	@rmproperty me.flowers</PRE>
+
+(You may also abbreviate this as <TT>@rmprop</TT>.)<P>
+
+	To list all properties <EM>explicitly</EM> defined on an
+object (the ones implicitly defined on it because of inheritance are
+difficult to list -- do the following for each parent on up the object
+tree) use:
+
+<PRE>	;properties(#1)</PRE>
+
+<P><H3>2.4) Changing and Viewing Property Values</H3><P>
+
+	Object inheritance includes properties, and the initial values
+of these properties are the same as those of the object's parent,
+except for certain key properties such as "name", "location" and
+"owner".  Both inherited and explicity defined properties you own can
+be changed by the <TT>@set</TT> command:
+
+<PRE>	@set me.nickname to "A Dyspeptic Aardvark"</PRE>
+
+In order to see the value of a given property, you can either use the
+evaluation operator (;) if you know the object number of the object on
+which the property is defined, or you can use the <TT>@display</TT>
+command:
+
+<PRE>@display me.nickname
+.nickname     Colin (#123)       r c    "A Dyspeptic Aardvark"</PRE>
+
+The name, owner and value of the property are displayed, as well as
+its "permission bits", which we will discuss <A
+HREF="#permissions">later</A>.  <TT>@display</TT> may be abbreviated as
+<TT>@disp</TT>.
+
+<P><H3>2.5) In-Database Help</H3><P>
+
+Type <TT>help properties</TT> for more information about properties.<P>
+
+<HR>
+
+<P><H2>3.0) Verbs</H2><P>
+
+	Verbs are the best part of a MOO.  They are what make people
+able to <EM>do</EM> things - hence their name.  A verb is a short
+program, written in MOO code and "defined on" (assigned to) some
+object.  (Remember that this means the verb is implicitly defined on
+all of this object's children, as well.)  Examples of verbs include
+<I>look</I>, <I>get</I>, and <I>floccinaucinihilipillificate</I>.  The
+greater the quantity and quality of verbs that are defined, the more
+complex and engaging the MOO's virtual reality becomes.  
+
+
+<P><H3>3.1) Verb Syntax</H3><P>
+
+	All MOO verbs not involving the evalulation operator (also
+claled "eval") are structured in the following way:
+
+<PRE>(verb) (direct object) (preposition) (indirect object)</PRE>
+
+The three <I>arguments</I> (direct object, preposition and indirect object)
+are optional, and can be used in any combination to suit the form of
+the verb.  For instance:
+
+<PRE>	spill sewage on Yog-Shaggoth</PRE>
+
+uses all three optional arguments, while
+
+<PRE>	harass Cobweb</PRE>
+
+uses only one, the direct object.  It is important to figure out how
+you want a verb to be typed in by players before you write it; make
+sure that you have all the information typed in that the verb will
+need (i.e. you need to know on whom to spill the sewage, and also what
+to spill in the first place!)  Be aware that if an object other than a
+player or a room has a verb defined on it, the name of that object
+<B>must</b> be one of the arguments.  Otherwise, the MOO doesn't know
+what object to find the verb on!
+
+<P><H3>3.2) Creating Verbs</H3><P>
+
+	The first step to writing a verb (after you have figured out
+its syntax) is to create it on a particular object.  Usually this
+object will be some nifty toy or tool you've already created using
+<TT>@create</TT>, but you can also define verbs on yourself and any
+room you own.  Verbs on yourself will always be usable by you, but
+never by anyone else (unless they copy the verb to themselves.)  Verbs
+on a room are usable when standing in the room, but not anywhere else.
+Verbs defined on any other object will only be usable if you are
+holding that object or if it is in the same room as you.<P>
+
+	To create an (unprogrammed) verb on an object, use the
+<TT>@verb</TT> command:
+
+<PRE>	@verb object:verb name d.o. prep i.o</PRE>
+
+You must specify the object on which the verb is to be defined, the
+name of the verb, and its arguments (if any.)  Objects can be
+specified either by their object number or by their name (or alias) if
+they are in your possession or in the same room as you.<P>
+
+	Argument specifications are of the following form: for the
+direct object and indirect object, you may choose <I>this</I> (the
+name or number of this object must be typed in with the command);
+<I>any</I> (any valid object name or number must be typed in with the
+command) or <I>none</I> (no [in]direct object name or number is
+required.)  Valid prepositions are pretty straightforward: (<I>on</I>,
+<I>at</I>, <I>with</I>, <I>over</I>, etc.)  A full list can be seen by
+typing <TT>help preposition</TT>.  Examples of two valid verb
+creations:
+
+<PRE>	@verb #231:chuck this at any
+
+	@verb loins:gird this none none</PRE>
+
+The first command creates the verb <I>chuck</I> on object #231.
+<I>chuck</I> expects to see a command like <TT>chuck #231 at
+Melia</TT>.  The second command creates the verb <I>gird</I> on the
+object <I>loins</I>.  <I>gird</I> expects to see a command line like
+<TT>gird loins</TT>.  The object number, name and alias are
+interchangeable as long as you are either holding the object or it is
+in the same room as you.
+
+<P><H3>3.3) Correcting Verb Arguments</H3><P>
+
+	If you realize after creating a verb that you have specified
+the wrong arguments, use the <TT>@args</TT> command to correct it:
+
+<PRE>	@args loins:gird this with any</PRE>
+
+<I>loins:gird</I> now expects to see something like <TT>gird loins
+with magnesium</TT>.
+
+<P><H3>3.4) Removing/Renaming Verbs</H3><P>
+
+	To delete a verb that you don't want, the command is
+<TT>@rmbverb object number:verb name</TT>.  To rename a verb, the
+command is <TT>@rename object number:old verb name to new verb
+name</TT>.  To see a list of all the verbs defined on an object, type
+<TT>@verbs (object)</TT>.<P>
+
+	Finally, to see all the verbs explicitly defined on an object, type
+
+<PRE>	;verbs(<I>object number</I>)</PRE><P>
+
+<P><H3>3.5) In-Database Help</H3><P>
+
+	Type <TT>help verbs</TT> or <TT>help @verb</TT> for more
+information on verbs.<P>
+
+<HR>
+
+<A NAME="permissions"></A>
+
+<P><H2>4.0) Permissions</H2><P>
+
+	As with most human systems, MOO employs a system of ownership
+to keep track of who can do what to what.  This system is somewhat
+complex, but the basic rule of thumb is: <B>if you made it, you own
+it, and you can do anything you want to it.</b> If you're in a hurry
+to get to programming, <A HREF="#programming">skip on ahead</A>, but
+it's a good idea to understand permissions if you want your verbs to
+interact with other players.<P>
+
+<P><H3>4.1) Overview</H3><P>
+
+	Each object, property and verb has an owner, specified in its
+"owner" property.  When a new object, property or verb is created, the
+player who creates it is the owner unless otherwise specified.  All
+players have an "owned_objects" property that is a list of the objects
+they own; unfortunately, no such system exists for keeping track of
+the properties or verbs one owns, which can occasionally cause
+problems.<P>
+
+	In addition to an owner, objects, properties and verbs all
+have a set of permission bits that specify what everyone other than
+their owner may do to them (owners have no restrictions on what they
+may do to their objects.  Calm down, Melanie.)  These permissions are
+similar to those on UNIX filesystems, and are stored as a string of
+characters.  The possible characters, or "bits" for objects,
+properties and verbs are different, and will be discussed in turn.<P>
+
+	The best way of viewing a property or verb's owner and
+permission bits is the <TT>@display</TT> command, mentioned above.
+
+<PRE>	@display me.nickname
+
+	@display me:run</PRE>
+
+The best way of viewing an object's owner and permission bits is the
+<TT>@examine</TT> command:
+
+<PRE>	@examine me
+
+	@examine #100</PRE>
+
+We'll start by discussing property permissions.
+
+<P><H3>4.2) Property Permissions</H3><P>
+
+	The permission bits for properties are drawn from the
+following set:
+
+<UL>
+
+<LI><TT>r</TT> -- the property is "readable", meaning others can use
+<TT>@disply</TT> to see its value</LI>
+
+<LI><TT>w</TT> -- the property is "writable", meaning others can
+change its value, using <TT>@set</TT></LI>
+
+<LI><TT>c</TT> -- the inherited version of this property on a child
+object will change ownership to the creator of the child</LI>
+
+</UL>
+
+A permission bit string can have zero, one, two or all three of these
+characters in it.  For example, a permission bit string "rc" means
+that the property is readable by everyone, writable (changable) only
+by its owner, and the inherited version of the property on any
+children of the object will be owned by the child object's creator.
+This latter property is particularly important for wizard-owned
+objects that become generics.  The default permission string for
+properties created with <TT>@property</TT> is "rc".<P>
+
+As a side note, it's a good idea to avoid writable properties where
+possible.  There's no reason for other people to be able to change
+your data, and if you rely on the propety to give information to some
+of your verbs, you have no guarantee that those verbs will continue to
+work from day to day.
+
+<P><H3>4.3) Verb Permissions</H3><P>
+
+	Verb permission strings are drawn from the following set:
+
+<UL>
+
+<LI><TT>r</TT> -- the verb's code is readable by everyone, by using
+<TT>@list</TT></LI>
+
+<LI><TT>w</TT> -- the verb's code is writable by everyone, by using
+<TT>@edit</TT></LI>
+
+<LI><TT>x</TT> -- the verb is executable, and may be called from
+within another verb</TT>
+
+<LI><TT>d</TT> -- the verb is set for debugging; if it encounters an
+error in execution it will print a "traceback" description of the
+error</LI>
+
+</UL>
+
+Writable verbs are very dangerous, as they allow any programmer to
+issue commands as if he/she were you, by editing the verb's code.  The
+default permission string for verbs is "rd", but if a verb is
+specified with the arguments "this none this" then it will have the
+permission string "rxd", which is useful when creating verbs that are
+to be called from within other verbs.
+
+<P><H3>4.4) Object Permissions</H3><P>
+
+	Object permission strings are in fact not exactly that -- they
+are individual properties called "r", "w", and "f", and are either 1
+or 0 (true or false).  Still, you can think of them as a string, as
+the <TT>@chmod</TT> command (see below) will accept them as a string.
+Their meanings are:
+
+<UL>
+
+<LI><TT>r</TT> -- the object is readable: anyone may list the
+properties and verbs defined on the object, using
+<TT>;properties()</TT> and <TT>;verbs()</TT></LI>
+
+<LI><TT>w</TT> -- the object is writable: anyone may define properties
+or verbs on it using <TT>@property</TT> and <TT>@verb</TT></LI>
+
+<LI><TT>f</TT> -- the object is fertile: anyone may create a child of
+it using <TT>@create</TT></LI>
+
+</UL>
+
+Again, writable objects are to be avoided unless there's a good reason
+for them.  Since no concise list of the properties and verbs you own
+is kept, it's easy to lose track of verbs and properties stored on
+objects you don't own.
+
+<P><H3>4.5) Changing Permissions</H3><P>
+
+	To change the permission bit string of a property or object,
+use the <TT>@chmod</TT> command:
+
+<PRE>	@chmod me.nickname "rwc"
+
+	@chmod me:run "rxd"
+
+	@chmod me "rw"</PRE>
+
+The first of these commands means that anyone on the MOO (who is a
+programmer) can read and change your nickname property; plus, if
+anyone creates a child of you, they will own the inherited version of
+the nickname property.  The second command means that anyone can list
+the code of the "run" verb (which we assume for the moment is a verb
+defined on you); it can be called from within another verb, and it
+will print traceback error messages if something goes wrong during its
+execution.  Finally, the third command means that anyone can see what
+properties and verbs you have defined on you, and anyone can define a
+new property or verb on you (which they will own.)<P>
+
+As a final emphasis, <B>beware of writable propeties, verbs and
+objects</b>.  If there's no good reason for them to be writable, don't
+make them so.
+
+<P><H3>4.6) In-Database Help</H3><P>
+
+Type <TT>help property_info</TT>, <TT>help verb_info</TT> and <TT>help
+@chown</TT> for more information on object, property and verb
+permissions.<P>
+
+<HR>
+
+<A NAME="programming"></A>
+
+<P><H2>5.0) Programming Verbs</H2><P>
+
+	Once a verb has been created and all its arguments are
+correct, all that remains is to program it.  No sweat!  The command to
+program a verb is:
+
+<PRE>	@edit <I>object:verb</I></PRE>
+
+This will move you to the Verb Editor, a special room where you can
+edit your verb line by line.  Since the Verb Editor is every
+programmer's best friend, it behooves us to briefly mention the
+commands therein.
+
+<P><H3>5.1) The Verb Editor</H3><P>
+
+	When you arrive in the Verb Editor, you will see a list of
+commands.  Typing <TT>look</TT> at any time will also give you this
+list.  The important ones are:
+
+<UL>
+<LI><I>say (line)</I>: add a line at the current insertion point</LI>
+<LI><I>list</I>: list the lines of your verb, with line numbers</LI>
+<LI><I>delete #</I> - delete line number #</LI>
+<LI><I>insert #</I> - make the current insert point before line # (to insert
+at the end, use a dollar sign <TT>$</TT> instead of a number)</LI>
+<LI><I>move #a to #b</I> - move line #a to before line #b</LI>
+</UL>
+
+Two other non-editing commands are important:
+
+<UL>
+<LI><I>compile</I> - compile your verb (translate the MOO code lines into a
+binary program that the computer can execute)</LI>
+<LI><I>quit</I> - quit and return to your previous location</LI>
+</UL>
+
+N.B. -- you must compile your verb in order to it to work.  Compile
+after each version of the verb is completed.  If you don't compile,
+the next time you use <TT>@edit</TT>, the Verb Editor will ask if you want to
+continue to work on the last (uncompiled) verb or throw it away. 
+
+<P><H3>5.2) Programming Verbs (for real)</H3><P>
+
+	MOO verb code looks a lot like C (don't panic!)  It is easy
+and practical to learn, and may even serve as a good introduction to
+learning other computer languages.  A sample bit of MOO code looks
+like:
+
+<PRE>	player:tell("You take a cookie from the jar.");
+	player.location:announce(player.name, " takes a cookie from
+the cookie jar and eyes it hungrily.");
+	if (player.name == "Cookie Monster")
+	     player:tell("You wolf down the cookie with gusto.");
+	     player.location:announce(player.name, " gobbles up the
+cookie with no regard for decorum.  You are splattered with crumbs.");
+	else
+	     player:tell("You delicately nibble at the cookie.");
+	     player.location:announce(player.name, " demurely nibbles
+at the cookie and politely cleans up the crumbs.");
+	endif
+</PRE>
+
+The code is executed line by line, except in the event of <A
+HREF="#flow_control">flow control</A> commands, which will be discussed
+later.  Every line (except the aforementioned flow control commands)
+must be followed by a semi-colon (;).  While simple verbs are easy to
+keep track of, you may want to make flow charts or other sketches of
+more complicated verbs before leaping right into writing them.
+
+<P><H3>5.3) The First Verb</H3><P>
+
+	The first verb to try, of course, is a simple one.  Without
+barely more knowledge than what we already have we can write a simple
+verb, that will say something back to us when we type it in.  The two
+most important MOO code commands you will ever know are the following:
+
+<PRE>	player:tell("Immanuel Kant was a real pissant...");
+	player.location:announce("...who was very rarely stable...");
+</PRE>
+
+The former tells the player who has called the verb (typed the verb
+name as a command) whatever is in the quotes.  The latter tells every
+other player in the calling player's room whatever is in <EM>its</EM>
+quotes.  The above two lines, if written and compiled as a verb named
+"bruce", would do the following: by typing <TT>bruce</TT>, the player
+would see the words:
+
+<PRE>Immanuel Kant was a real pissant...</PRE>
+
+and the other players in room would see:
+
+<PRE>...who was very rarely stable...</PRE>
+
+This may not seem like a big deal, but considering that you can make
+the words in the parentheses anything you want, it can get fairly
+interesting.  Also, you needn't have just text in the parentheses: you
+may also place property references or variables in the parentheses.
+For example:
+
+<PRE>	player:tell("Your name is ", player.name, " and the value of
+the variable \"count\" is ", count, ".");</PRE>
+
+will display to the calling player something like:
+
+<PRE>Your name is Griselde, and the value of the variable "count" is
+1293.</PRE>
+
+	Note that the various components of the sentence are separated
+by commas.  The expression '\"' prints out a quote sign in the
+sentence (a single quote " will be interpreted as the end of the text
+string!)<P>
+
+<I>(Technical Note: the lines </I><TT>player:tell(...)</TT><I> and
+</I><TT>player.location:announce(..)</TT><I> aren't actually MOO
+commands.  They instruct the MOO to call other verbs, either
+</I>tell<I> or </I>announce<I>, that are defined on the objects
+</I>player<I> and </I>player.location<I>, i.e. a room.  These
+particular verbs derive from the LambdaCore database distribution, and
+a very few MOOs will not have them.  If these lines fail to work on
+your MOO, contact your wizards for assistance.)</I>
+
+<P><H3>5.4) Congratulations...</H3><P>
+
+	...you can now write simple MOO verbs!  Okay, so they're not
+anything to get hot and bothered about, but they're a start.  With
+some general refinements, we can start writing interesting and
+complicated verbs that will be the envy of other players for miles
+around.<P>
+
+<HR>
+
+<P><H2>6.0) (Slightly) More Complicated Verb Programming</H2><P>
+
+	The most interesting and complicated verbs are ones that
+respond differently to different conditions: who is calling it, where
+that player is, what time it is, etc.  This can be accomplished with
+variables and flow control statements.  We've already used one
+variable unwittingly (<I>player</I>, above), so we're halfway there
+already.
+
+<P><H3>6.1) Variables</H3><P>
+
+	Variables are changeable bits of data that are used only while
+the verb is being executed.  Each variable has a name and a value. All
+verbs begin with certain pre-defined variables that can be used
+without any initializing statements.  The more useful of these are:
+
+<UL>
+<LI><I>player</I> - the object number of the player who called this verb</LI>
+<LI><I>this</I> - the object number of the object on which the verb is
+defined</LI>
+<LI><I>verb</I> - the name of the verb</LI>
+<LI><I>dobjstr</I> - the direct object string</LI>
+<LI><I>iobjstr</I> - the indirect object string</LI>
+<LI><I>prepstr</I> - the preposition string</LI>
+<LI><I>args</I> - list made up of the given arguments, i.e. for the
+command "slather honey on Kassandra", args = {"honey", "on", "Kassandra"}</LI>
+</UL>
+
+	Any variable (including the predefined ones) can be created
+and given a value or just given a new value by the equal sign ("="):
+
+<PRE>	count = 3;
+	my_object = #143;
+	old_character_name = "Rumplestiltskin";
+</PRE>
+
+Variables may also be set equal to other variables in this way,
+although a variable can never be set to a value of a different data
+type than its original value.
+
+<A NAME="flow_control"></A>
+
+<P><H3>6.2) Flow Control</H3><P>
+
+	Variables are most useful when they are used within a more
+complex structure of execution than just one line after the next.  The
+three basic flow control statements allow for lines to be executed in
+a special order, depending on certain tests.  These statements are:
+
+<PRE>	if (<I>condition 1</I>)
+		...
+	elseif (<I>condition 2</I>)
+		...
+	else
+		...
+	endif
+
+
+	while (<I>condition A</I>)
+		...
+	endwhile
+
+
+	for <I>variable</I> in (<I>list or numerical interval</I>)
+		...
+	endfor
+</PRE>
+
+The ellipses stand for an arbitrary number of lines, including zero.
+
+<P><H4>6.2.1) The <TT>If</TT> Statement</H4><P>
+
+
+<UL> 
+<LI>The <TT>if</TT> statement first tests <I>condition 1</I>. If
+it is true then all the commands between it and the next
+<TT>elseif</TT>, <TT>else</TT> or <TT>endif</TT> are executed, and
+the whole <TT>if</TT> statement is over.</LI>
+
+<LI>If <I>condition 1</I> is false, <I>condition 2</I> is tested.  If
+it is true, all the commands between it and the <I>following</I>
+<TT>elseif</TT>, <TT>else</TT> or <TT>endif</TT> are executed, and
+the whole <TT>if</TT> statement is over.</LI>
+
+<LI>If <I>condition 2</I> is false, or there was no <TT>elseif</TT>,
+the statements between <TT>else</TT> and <TT>endif</TT> are executed,
+and the whole <TT>if</TT> statement is over.  If there's no
+<TT>else</TT>, nothing at all happens.</LI>
+
+</UL>
+
+	You can have as many <TT>elseif</TT>s as you want; they are
+tested in order (after the first <TT>if</TT>) from top to bottom.
+Once one is judged true, the commands between it and the next are
+executed, and the whole <TT>if</TT> statement is over.  You may have
+one or zero <TT>else</TT>s, and you must have one and only one
+<TT>endif</TT>.
+
+<P><H4>6.2.2) The <TT>While</TT> Statement</H4><P>
+
+	The <TT>while</TT> statement is simpler.  <I>condition A</I>
+is tested, and if it is true all lines between <TT>while</TT> and
+<TT>endwhile</TT> are executed.  <I>condition A</I> is then tested
+again, and the same occurs.  Only once <I>condition A</I> is false
+will the <TT>while</TT> statement be over.  Note that this can result
+in an infinite loop.  Make sure that at least one of the lines after
+<TT>while</TT> affects <I>condition A</I> so that it will eventually
+be false.
+
+<P><H4>6.2.3) The <TT>For</TT> Statement</H4><P>
+
+	<TT>for</TT> looks at the list or numerical interval it has
+been given, and sets <I>variable</I> equal to the first element or
+number in the list or interval.  It then executes all lines until it
+gets to the endfor, sets <I>variable</I> equal to the next element or
+number in the list or interval, and repeats the process until it has
+run through the entire list or interval.  Note: to specify a numerical
+interval, the syntax is:
+
+<PRE>	for <I>variable</I> in [<I>number1</I>..<I>number2</I>]</PRE>
+
+with square brackets "[]" and two periods between the numbers
+specifying the range.
+
+<P><H4>6.2.4) Examples</H4><P>
+
+	Some examples seem in order:
+
+<PRE>	snork = random(10);
+	badsnork = 4;
+	while (snork != badsnork)
+	     player:tell("Snork number is still not ", badsnork, "!");
+	     snork = random(10);
+	endwhile
+
+	for count in [1..10]
+	     player:tell("The count is now ", count, ".");
+	endfor
+
+	if (player.name == "Dirtbag")
+	     player:tell("You are a dirtbag.");
+	else
+	     player:tell("You are not a dirtbag.");
+	endif
+</PRE>
+
+The command <TT>random(x)</TT> generates a random integer from 1 to x.
+
+<P><H3>6.3) Evaluation</H3><P>
+
+	Conditions in flow loops are evaluated in reasonably
+straightforward ways.  The following operators are important:
+
+<UL>
+<LI>== (tests equality; <B>NOTE</b>: do not confuse this with =,
+		which assigns a value to a variable!!!)</LI>
+<LI><= (tests less than or equal to)</LI>
+<LI>>= (tests greater than or equal to)</LI>
+<LI><  (tests less than)</LI>
+<LI>>  (tests greater than)</LI>
+<LI>!= (tests inequality)</LI>
+</UL>
+
+The following tests if a value is in a given list:
+
+<PRE>	<I>variable name</I> in (list)</PRE>
+
+The list or list name must be surrounded by parentheses.  Finally, the
+logical operators are as follows:
+	
+<PRE>	&& - and	|| - or </PRE>
+
+Thus <TT>(3 <= 1 && 10 == 2+8</TT> is false, while <TT>3 <= 1 || 10 ==
+2+8</TT> is true.<P>
+
+The MOO also considers the following to be true:
+
+<UL>
+<LI>any non-zero number</LI>
+<LI>any non-empty list</LI>
+<LI>any non-empty string</LI>
+</UL>
+
+and the following to be false:
+
+<UL>
+<LI>0</LI>
+<LI>the empty list <TT>{}</TT></LI>
+<LI>the empty string <TT>""</TT></LI>
+<LI>object numbers</LI>
+</UL>
+
+
+<P><H3>6.4) A Note on Lists</H3><P>
+
+	Lists are very important to programming, and you will probably
+want to use them a lot (unless you're a sheep.)  To refer to a single
+element of a list, use the list's name followed by the index of the
+element you want in square brackets:
+
+<UL>
+<LI><TT>names[5]</TT> -- refers to the fifth element in the list "names"</LI>
+<LI><TT>months[count+1]</TT> -- refers to the (count+1)th element of
+"months"</LI>
+</UL>
+
+You can also refer to a single letter in a string in this manner:
+
+<UL>
+<LI><TT>hello_msg[5]</TT> -- fifth letter of the string variable
+"hello_msg"</LI>
+<LI><TT>#1.name[4]</TT> -- fourth letter of the name of the root object</LI>
+<LI><TT>"Ulysses"[3]</TT> -- "y"</LI>
+</UL>
+
+If you attempt to refer to an element of a list or a letter of a
+string that does not exist (for instance, the list or string is not
+that long) the MOO will give you an error message.  Similarly, if the
+variable to which you are attaching an index reference is not a list
+or a string, the MOO will get upset.<P>
+  
+<HR>
+
+<P><H2>7.0) Where To Go From Here</H2><P>
+	
+	Well, that's it folks!  From this point on, basic programming
+is really just experimentation and logic.  If you write a verb and
+upon trying to compile it in the Verb Editor are given some sort of
+error message that contains <TT>Line #: syntax error</TT> (which will
+almost certainly happen at some point), look over line # very
+carefully, check that you have all the <TT>endifs</TT>,
+<TT>endwhiles</TT>, <TT>endfors</TT> and semicolons that you need, and
+then (in case of dire need) ask for help from a more experienced
+programmer or a wizard.  The best way to learn is to play. :)<P>
+
+	If you'd like more detailed information on data structures,
+interesting MOO code commands not mentioned here, or just general MOO
+erudition, there are three other sources you might try.  The first is
+the ostensible sequel to this Guide, <A
+HREF="Way_Easy_Examples.latest.html><I>Way Easy MOO Examples</I></A>,
+which includes examples of simple programming projects and ideas for
+programming exercises.  The second option for aspiring programmers is
+the above-mentioned <A
+HREF="ftp://parcftp.xerox.com/pub/MOO/"><I>LambdaMOO Programmer's
+Manual</I></A>, which is long and somewhat abstract, but very thorough
+and understandable after having read the <I>Way Easy Guide</I>.<P>
+Finally, those interested in learning about the cutting edge of MOO
+technology might enjoy the MOO-Cows mailing list, run by Pavel Curtis.
+Send a message to <A HREF="mailto:moo-cows-request@parc.xerox.com">
+moo-cows-request@parc.xerox.com</A> with the words <TT>subscribe
+moo-cows</TT>.  You'll want to lurk on the list and read all the
+documentation you can find before posting questions to it.<P>
+
+Happy programming!<P>
+
+<HR>
+
+<CENTER><P><H2><B>Appendices</b></H2></CENTER><P>
+
+<A NAME="html_tricks"></A>
+
+<P><H2>A.0) More HereMOO-Specific HTML Tricks</H2><P>
+
+There are a number of hip HTML-derived tricks that one can employ to
+make HereMOO, as cool as it currently is, even cooler.<P>
+
+<A NAME="link_command"></A>
+
+<P><H3>A.1) Sending MOO Commands Via Links</H3><P>
+
+On certain occasions, you may want a link to send a command to the
+MOO.  For instance, a bouncy ball that has the verb <TT>bounce</TT> on
+it might have the following description:<P>
+
+<PRE>	This shiny red ball makes you happy just looking 
+	at it.  You could probably <A HREF="#bounce">bounce</A> it.
+</PRE>
+
+<A NAME="bounce"></A>
+
+Selecting the <TT>bounce</TT> link should have the same effect as
+typing the command <TT>bounce ball</TT>.  So how do you do this?  Use
+the <TT>?Command=</TT> syntax in the <TT>bounce</TT> link HREF.  Type
+the following to give the ball its description including the
+<TT>bounce</TT> link:<P>
+
+<PRE>@describe ball as "This shiny red ball makes you happy 
+just looking at it.  You could probably 
+&lt;A HREF="http://trickle.tripod.com/cgi/nph-moo?Command=bounce+ball"&gt;
+bounce</A> it." 
+</PRE>
+
+Note first of all that the true URL of HereMOO is
+<TT>http://trickle.tripod.com/cgi/nph-moo</TT>.  The <TT>bounce</TT>
+link as formed above will ask for a new page from the MOO, but give it
+the command <TT>bounce ball</TT> first.  The plus sign (<TT>+</TT>)
+between "bounce" and "ball" is necessary to indicate where spaces
+would be in a typed command, as URLs cannot contain spaces.<P>
+
+As another example, let's say you have a Coke machine with the verb
+<TT>buy</TT>; its syntax is <TT>buy <I>something</I> from
+machine</TT>, where <I>something</I> has to be either <I>Sprite</I>,
+<I>Coke</I> or <I>Dr. Pepper</I> (the drink of all true MOO
+programmers.)  To give the Coke machine a description which allows
+people to select their drink of choice just by selecting a link,
+type:
+
+<PRE>
+
+@describe coke machine as "It's big and rectangular, and you know what
+it looks like.  You can buy &lt;A
+HREF="http://trickle.tripod.com/cgi/nph-moo?Command=buy+sprite+from+machine"&gt;
+a Sprite&lt;/A&gt;, &lt;A
+HREF="http://trickle.tripod.com/cgi/nph-moo?Command=buy+coke+from+machine"&gt;
+a Coke&lt;/A&gt;, or &lt;A
+HREF="http://trickle.tripod.com/cgi/nph-moo?Command=buy+dr.+pepper+from+machine&gt;a
+Dr. Pepper&lt;/A&gt; (what the gods enjoy.)
+
+</PRE>
+
+This looks pretty terrible to type in, but it's really just a set
+of HTML tags interspersed with the text of the Coke machine's
+description.  When people look at the Coke machine, they will see:
+
+<PRE>It's big and rectangular, and you know what it
+looks like.  You can buy <A HREF="#drink">a Sprite</A>,
+<A HREF="#drink">a Coke</A>, or <A HREF="#manna">a Dr. Pepper</A> (what the gods enjoy.)
+</PRE>
+
+<A NAME="drink"></A>
+<A NAME="manna"></A>
+
+By selecting the various drink names, people can buy a Sprite, Coke or
+Dr.  Pepper (the One True Beverage) -- assuming you've programmed the
+Coke machine's <TT>buy</TT> verb correctly!
+
+<A NAME="own_images"></A>
+
+<P><H3>A.2) Putting Your Own Images on the MOO</H3><P>
+
+To truly personalize your MOO character, room and objects, you will
+probably want to give them images you yourself have drawn and/or
+scanned in.  You can, of course, put into your descriptions any image
+anywhere on the World Wide Web: simply include an <TT>IMG</TT> tag in
+your description that refers to the image's URL (see NCSA's <A
+HREF="http://www.ncsa.uiuc.edu/demoweb/html-primer.html">Beginner's
+Guide to HTML</A> on how to do this.)<P>
+
+But if you have an image of your own that's not on the Web, the best
+thing to do is to FTP it to your Tripod account -- check out Tripod's
+<A HREF="http://www.tripod.com/planet/homepager/ext/ftp/">Anonymous
+FTP Server FAQ</A> for help with this.  Once you've saved the image in
+your account on Tripod, all you have to do is use the following HREF
+in the <TT>IMG</TT> tag in your (or your room's, or your objects')
+description:<P>
+
+<PRE>http://www.tripod.com/~<I>your_name</I>/<I>image_file_name</I></PRE>
+
+Remember that <I>your_name</I> is your username, not your real name.
+
+<P><H3>A.3) Miscellany</H3><P>
+
+For more information on how to structure command syntax, see the <A
+HREF="#programming">Programming Verbs</A> section.<P>
+
+If you have questions about how to do other hip Web things on HereMOO,
+don't hesitate to ask <A
+HREF="http://www.tripod.com/~Melanie">Melanie</A> or <A
+HREF="http://www.tripod.com/~Snowfall">Colin</A>.  Remember that all
+HTML tags you include in descriptions will be interpreted; this means
+that you can include graphics (and sound!) anywhere text is displayed
+to MOO users.
+
+<P><HR>
+
+<ADDRESS><A HREF="mailto:colin@tripod.com">colin@tripod.com</A></ADDRESS>
+
+<HR WIDTH=100%>
+<P><A HREF="http://www.webring.org/cgi-bin/webring?home&ring=moo"
+TARGET="_top"><IMG src="moo.gif" alt="" ALIGN=LEFT BORDER=0 WIDTH=143
+HEIGHT=83></A><A
+HREF="http://www.webring.org/cgi-bin/webring?id=5&ring=moo&next"
+TARGET=_top"><IMG src="moonext.gif" alt="" ALIGN=RIGHT BORDER=0></A><A
+HREF="http://www.webring.org/cgi-bin/webring?id=5&ring=moo&prev"
+TARGET="_top"><IMG src="mooprev.gif" alt="" ALIGN=RIGHT
+BORDER=0></A><CENTER>This MOOring site owned by <A
+HREF="mailto:colin@tripod.com">Colin McCormick</A><BR>Click for <A
+HREF="http://www.webring.org/cgi-bin/webring?id=5&ring=moo&next"
+TARGET="_top">Next</A> | <A
+HREF="http://www.webring.org/cgi-bin/webring?id=5&ring=moo&next5"
+TARGET="_top">Next 5</A> | <A
+HREF="http://www.webring.org/cgi-bin/webring?id=5&ring=moo&skip"
+TARGET="_top">Skip</A> | <A
+HREF="http://www.webring.org/cgi-bin/webring?id=5&ring=moo&prev"
+TARGET="_top">Previous</A><BR>Or click here to learn more about
+the<BR><A HREF="http://www.webring.org/cgi-bin/webring?home&ring=moo"
+TARGET="_top">MOOring</A></CENTER></P>
+<HR WIDTH=100%>
+
+</body>
+</HTML>
+
+
