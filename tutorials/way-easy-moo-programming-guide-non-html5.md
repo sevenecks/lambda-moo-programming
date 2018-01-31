@@ -1,4 +1,3 @@
-# This source code was taken from [http://snowfall.tripod.com/Way\_Easy\_Guide.latest.html][0], modified to remove the javascript and other such stuff that tripod added to the page, and saved in this repository for posterity. It is not HTML5\.
 
 # Colin's Way Easy Intro Guide to MOO Programming
 
@@ -785,6 +784,8 @@ logical operators are as follows:
     	&& - and	|| - or 
 
 Thus (3 
+
+# This source code was taken from [http://snowfall.tripod.com/Way\_Easy\_Guide.latest.html][0], modified to remove the javascript and other such stuff that tripod added to the page, and saved in this repository for posterity. It is not HTML5\.
 
 [0]: http://snowfall.tripod.com/Way_Easy_Guide.latest.html
 [1]: mailto:colin@tripod.com
