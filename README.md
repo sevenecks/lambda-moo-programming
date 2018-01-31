@@ -8,6 +8,19 @@ There are a number of other files included in this repository. Many are all scra
 ## Contents
 There are two versions of each document in this repository. One is a markdown copy located in [/tutorials](/tutorials) which is accessible on GitHub and one is an HTML version located in [/tutorials/src](/tutorials/src).
 
+### Table of Contents
+=====================
+
+* [Lambda MOO Programmer's Manual \[Updated\]](#lambda-moo-programmers-manual-updated)
+* [Yib's Pet Rock](#yibs-pet-rock)
+* [LambdaMOO Programming Tutorial (Steven Owens)](#lambdamoo-programming-tutorial-steven-owens)
+* [Colin's Way Easy intro Guide to MOO Programming](#colins-way-easy-intro-guide-to-moo-programming)
+* [Winding Duck](#winding-duck)
+* [MOO Progrmaming Tips](#moo-programming-tops)
+* [Hacking LambdaMOO Server (Nodak.edu)](#hacking-lambdamoo-server-nodak-edu)
+* [Lambda MOO Background Information (Nodak.edu)](lambda-moo-background-information-nodak-edu)
+* [Lambda MOO Programming (Nodak.edu)](lambda-moo-programming-nodak-edu)
+
 ### Lambda MOO Programmer's Manual [Updated]
 The LambdaMOO Programmer's Manual is an updated and expanded version of the LambdaMOO Programmer's Manual originally written by Pavel Curtis.
 
@@ -26,32 +39,6 @@ To use this guide you simply need to open [Yib's Pet Rock](/tutorials/yibs-pet-r
 #### Locally
 To access this file locally you simply need clone the repository and open [/tutorials/src/yibs-pet-rock-non-html5.html](/tutorials/src/yibs-pet-rock-non-html5.html) in your web browser.
 
-### Hacking LambdaMOO Server
-This document walks you through what happens when a connection is made to the Lambda MOO server.
-
-#### On GitHub
-To use this guide you simply need to open [Hacking LambdaMOO Server](/tutorials/hacking-lambda-moo-server.md).
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/hacking-lambda-moo-server-non-html5.html](/tutorials/src/hacking-lambda-moo-server-non-html5.html) in your web browser.
-
-### Lambda MOO Background Information
-This document contains background information on what LambdaMOO is in relation to other servers and languages.
-
-#### On GitHub
-To use this guide you simply need to open [Lambda MOO Background](/tutorials/lambda-moo-background.md).
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/lambda-moo-background-non-html5.html](/tutorials/src/lambda-moo-background-non-html5.html) in your web browser.
-
-### Nodak.edu Lambda MOO Programming
-This document contains information on Lambda MOO programming. It is a short and somewaht technical document without much background information.
-
-#### On GitHub
-To use this guide you simply need to open [Lambda MOO Nodak Edu](/tutorials/lambda-moo-nodak-edu.md).
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html](/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html) in your web browser.
 
 ### LambdaMOO Programming Tutorial (Steven Owens)
 This is an excellent guide, the most complete one I've seen aside from the original Lambda MOO Programmer's Manual. It was written, as the title states, by Steven J. Owens.
@@ -89,6 +76,32 @@ To use this guide you simply need to open [MOO Programming Tips](/tutorials/zomp
 #### Locally
 To access this file locally you simply need clone the repository and open [/tutorials/src/zompost-moo-help-non-html5.html](/tutorials/src/zompost-moo-help-non-html5.html) in your web browser.
 
+### Hacking LambdaMOO Server (Nodak.edu)
+This document walks you through what happens when a connection is made to the Lambda MOO server.
+
+#### On GitHub
+To use this guide you simply need to open [Hacking LambdaMOO Server](/tutorials/hacking-lambda-moo-server.md).
+
+#### Locally
+To access this file locally you simply need clone the repository and open [/tutorials/src/hacking-lambda-moo-server-non-html5.html](/tutorials/src/hacking-lambda-moo-server-non-html5.html) in your web browser.
+
+### Lambda MOO Background Information (Nodak.edu) 
+This document contains background information on what LambdaMOO is in relation to other servers and languages.
+
+#### On GitHub
+To use this guide you simply need to open [Lambda MOO Background](/tutorials/lambda-moo-background.md).
+
+#### Locally
+To access this file locally you simply need clone the repository and open [/tutorials/src/lambda-moo-background-non-html5.html](/tutorials/src/lambda-moo-background-non-html5.html) in your web browser.
+
+### Lambda MOO Programming (Nodak.edu)
+This document contains information on Lambda MOO programming. It is a short and somewaht technical document without much background information.
+
+#### On GitHub
+To use this guide you simply need to open [Lambda MOO Nodak Edu](/tutorials/lambda-moo-nodak-edu.md).
+
+#### Locally
+To access this file locally you simply need clone the repository and open [/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html](/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html) in your web browser.
 ## Cloning this Repository
 ```bash
 git clone git@github.com:SevenEcks/the-new-moo-programming-guide.git
@@ -98,26 +111,10 @@ git clone git@github.com:SevenEcks/the-new-moo-programming-guide.git
 See [CHANGELOG.md](CHANGELOG.md)
 
 ## Notes
-1. This is a work in progress
-2. The stylesheet can be swapped out with a normal bootstrap style sheet.
-3. I've tried to format the functions in a more modern way
-4. Estimated Hours: 33
+See [NOTES.md](NOTES.md)
 
 ## TODO
-1. Finish full HTML5 conversion
-2. Finish applying proper styles to elements
-3. Create an index / TOC
-4. ~~Link to relevant GitHub Repositories for LambdaMOO DBs~~
-5. Add more advanced programming examples
-6. Add a section on benchmarking
-7. Add a section on LambdaMOO plugins / extensions
-8. Current editing progress: Line 3,351
-9. Confirm all function-is-member id's are set to function names
-10. Confirm all Hx elements are properly set
-11. ~~Convert all secondary files to markdown or HTML5.~~
-12. ~~Consider converting HTML5 moo guide to markdown for easy github viewing~~
-13. Deploy guide to a website for easy HTML5 viewing
-14. ~~Finish converting all built-in functions to HTML5~~
+See [TODO.md](TODO.md)
 
 ## Contributing
 Please feel free to fork the repo and contribute via pull request. This is a labor of love. Give back to the community.  
