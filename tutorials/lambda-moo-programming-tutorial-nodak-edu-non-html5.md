@@ -1,4 +1,3 @@
-# The source code for this file was taken from [http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/programming.html][0] and is included here for posterity. It is not HTML5\.
 
 # Programming
 
@@ -231,7 +230,7 @@ of that list. For example:
         Counter=1;
         while(Counter
 
-
+# The source code for this file was taken from [http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/programming.html][0] and is included here for posterity. It is not HTML5\.
 
 [0]: http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/programming.html
 [1]: #data_types
