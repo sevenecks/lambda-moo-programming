@@ -1,5 +1,3 @@
-# The source code for this file was taken from [http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/hacking.html][0] and is stored in this repository for posterity. It is not HTML5\.
-
 Okay, I got annoyed trying to write parts of the automatic core updater
 utility, so I started digging through the server code and have discovered
 some things:
@@ -160,6 +158,7 @@ maninpulations, all that would be necessary would be to figure out how to
 dissasociate the previous copy of the variable from the reference counting
 scheme, modify it, and then reintroduce it to the ref counters.
 
+# The source code for this file was taken from [http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/hacking.html][0] and is stored in this repository for posterity. It is not HTML5\.
 
 
 [0]: http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/hacking.html
