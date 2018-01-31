@@ -370,7 +370,223 @@ alias for the verbname, and the verb can be invoked by any of those
 names. Second, the builtin variable "verb" is set to whichever name
 was actually used. This enables the property reference to be a
 simple construction from the verb name, using the expression syntax
-for property references, 
+for property references,
+.(), where in this case expression is a simple
+variable reference.
+
+Here's an example of how we can customize just one
+of those messages programmatically with the wind-up
+duck. In the continue\_msg we'll make the duck quack
+once, twice, or thrice, randomly. We leave the
+other messages alone, as we'll just be using static
+text.
+
+    
+      @verb duck:continue_msg this none this
+      @program duck:continue_msg
+      times = {"once","twice","thrice"}[random(3)];
+      return "swivels its neck and quacks " + times + ".";
+      .
+    
+
+### Complex Drop
+Let's tackle the drop verb now. There are a lot
+of problems. First, what happens if someone picks up
+the toy while it's still going? The messages still
+appear! What should happen? Two ideas come to mind:
+1\. It should fully discharge its windings, as real
+life windup toys are wont to do; 2\. It should just
+stop running, as though the player had grabbed the
+windup knob to prevent it from further discharge.
+We'll choose option 2 for our example. Option 1 would
+be easiest to do by specializing the existing "take"
+verb to reduce the .wound property to 0, printing
+appropriate messages.
+
+The major problem with our drop verb is that it
+schedules all its tasks at one time. Once
+scheduled, they \*will\* run, whether or not the
+situation has changed. To solve this problem, we
+only schedule one task at a time, making it the job
+of that task to figure out whether it has wound
+down, and schedule another task. It should also
+check if it has been picked up; if so it should
+neither print messages nor schedule the next task.
+
+Having called this section "Complex Drop", we're
+going to defer the complexity to an auxiliary verb,
+and make Drop itself simpler.
+
+    
+      @program toy:drop
+      pass(@args);
+      if (this.wound)
+        this.location:announce_all(this.name, " ", this:startup_msg());
+        fork (15)
+          this:do_the_work();
+        endfork
+      endif
+      .
+    
+
+We will use the special arguments "this none this" in our
+@verb command. This is a special kluge that means this verb is not
+a command, and cannot be typed at the command line. It also won't
+show up in @examine commands. This helps to keep down the clutter
+of @examine, and because this verb is only an internal function, it
+wouldn't make sense to type as a command line.
+
+    
+      @verb toy:do_the_work this none this
+      if (this.wound)
+        if ($object_utils:isa(this.location,$room))
+          this.location:announce_all(this.name," ", this:continue_msg());
+          this.wound = this.wound - 1;
+          if (this.wound)
+            fork (15)
+              this:do_the_work();
+            endfork
+          else
+            this.location:announce_all(this.name, " ", this:wind_down_msg());
+          endif
+        endif
+        if (this.wound < 0)
+          this.wound = 0;
+        endif
+      endif
+    
+
+Let's go through this step by step. First we check if we're
+still wound up. Theoretically this should always be true, but it's
+best to check. Assuming .would is true (that is, nonzero), we check
+to see if we're in a room. The utility function
+$object\_utils:isa(x,y) checks to see if an object X will behave as
+an object Y, that is, if Y is in the object's ancestor tree. We do
+this because we only want to make our noises if we're wandering
+around in a room. A player won't be a room, and so won't pass this
+test. Now, we print our message, and decrement this.wound to say
+we've wound down once. Next we think about scheduling the next
+task. We check this.wound again, because if we subtracted the last
+bit, we don't want to bother scheduling it. Note that we call this
+very same verb, this:do\_the\_work. Just for extra feeling, we put in
+a new message to be printed when the toy has actually wound down.
+Oops! Better add that property... And finally, at the very end,
+we've gotten all anal retentive with error checking and made sure
+that this.wound never gets into negative numbers. (Notice that if
+it \*did\* get into negative numbers, it would never stop. So this
+check is not entirely pointless!)
+
+    
+      @property toy.wind_down_msg ""
+      Property added with value "".
+    
+      @wind_down duck is "hiccups once and stops rolling."
+      You set the "wind_down" message of Wind-Up Duck (#12222).
+    
+
+---
+
+## Chapter 3: Other Programming
+Issues
+
+### Description
+It might be nice if you could tell by looking at
+the toy that it was moving, and not have to wait for
+it to tell you so. Like "drop", this is done by
+specializing an already existing verb, called
+description, by calling pass(@args) and then doing
+some additional stuff. There are a number of relevant
+differences between this and most other verbs,
+however.
+
+Most verbs do something, that is, when you type a
+command, it produces a set of messages, and changes
+some properties on some objects. Some verbs,
+however, are not commands, and don't even print any
+messages. Instead, they return a value to the
+calling verb, for that verb to use to produce
+messages or change properties. These are analogous
+to "functions" in other languages. Description is
+one such verb. By default, that is, in the basic
+case, it returns the property 'this.description'.
+Verbs like 'look' call description on objects and
+print out the strings they return. So when we
+specialize description, we won't be calling
+pass(@args) all by itself, and then printing out
+more text, instead we'll call pass(@args), add text
+to that, and return the whole pile.
+
+Again because we're trying to write generically, we
+create a property to hold a message to be added to
+the description when the toy is running, and we set
+it for the duck.
+
+    
+      @property toy.going_msg ""
+      Property added with value "".
+    
+      @going duck is "The duck is rolling forward with a slight waddle."
+      You set the "going" message of Wind-Up Duck (#12222).
+    
+
+The description verb again needs the "this none this" args,
+since it is just an internal verb called by programs.
+
+    
+      @verb toy:description this none this
+      Verb added.
+    
+      @program toy:description;
+      basic = pass(@args);
+      if (this.wound)
+        return basic + " " + this:going_msg();
+      else
+        return basic;
+      endif
+      .
+    
+
+Pretty simple code, huh? First we call pass. We store away
+that text in a variable 'basic', because we'll need it later. Then
+we check to see if we're wound up. If we are, we return the basic
+information plus our going\_msg. We put in a couple of spaces to
+separate the sentences. Otherwise, we're quiet, and we just return
+the basic string. What does it look like?
+
+    
+      look duck
+      A yellow plastic duck with wheels at the bottom and a knob for winding.  The
+      duck is rolling forward with a slight waddle.
+    
+
+### Permissions
+To allow other people to create their own
+wind-up toys, we set the generic toy world-readable
+and \`fertile':
+
+    
+      @chmod toy rf
+      Object permissions set to rf.
+    
+
+This isn't really good enough, due to the screwinesses of the
+MOO permission system. Generally speaking, when you create an
+object, you become the owner of all its properties as well. This is
+called "having c permissions". But that means that someone else
+(including the owner of the \*verb\* on the object) can't change the
+property. To get around this problem, we set the wound property !c
+(meaning "not c"). Then the wound property always belongs to the
+owner of the generic toy, and not to the creator of any specific
+instance.
+
+    
+      @chmod toy.wound !c
+      Property permissions set to r.
+    
+
+It tells us what the permissions ended up being, after
+stripping off the "c", which is "r" for readable.
+
 
 [0]: http://netlab.gmu.edu/muve/html/Winding-Duck.html
 [1]: #A1
