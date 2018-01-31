@@ -1303,7 +1303,7 @@ around it, "like this".
 
 Most punctuation in the code is one of two things, either 1)
 operators or 2) start/end indicators for an expression, statement or
-block. See [Fun With Punctuation](source-code-and-fun-with-punctuation) for a
+block. See [Fun With Punctuation](#source-code-and-fun-with-punctuation) for a
 little more detail.
 
 ##### Operators
@@ -1551,8 +1551,8 @@ exactly what you said to do.
 As you learn and ask people for help, you'll hear two
 phrases very often, RTFM (Read The Fucking Manual) and "Use the
 Source, Luke" (sometimes abbreviated UTSL). A growing trend is the
-third phrase, ["learn how
-to ask smart questions"][5], after an essay written by Eric S. Raymond
+third phrase, [learn how
+to ask smart questions](http://www.catb.org/~esr/faqs/smart-questions.html), after an essay written by Eric S. Raymond
 about how to do just that.
 
 All of these boil down to "do your own homework before you ask me
@@ -1629,10 +1629,7 @@ section, so you can go back to the top and read the regular tutorial.
 
 ---
 
-# This source code was pulled from [http://www.darksleep.com/notablog/articles/LambdaMOO\_Programming\_Tutorial][6] and is included in this repository for posterity. It is not currently HTML.
+# This source code was pulled from [http://www.darksleep.com/notablog/articles/LambdaMOO\_Programming\_Tutorial](http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial) and is included in this repository for posterity. It is not currently HTML.
 
-
-[1]: http://www.moo-cows.com/docs/manuals/ProgrammersManual.html
-[4]: #Source Code
-[5]: http://www.catb.org/~esr/faqs/smart-questions.html
-[6]: http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial
+[5]: 
+[6]: 
