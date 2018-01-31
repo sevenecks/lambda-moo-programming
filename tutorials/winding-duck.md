@@ -1,26 +1,26 @@
 # Lambda MOO Programmer's Tutorial
 
-# This tutorial was taken from [http://netlab.gmu.edu/muve/html/Winding-Duck.html][0]
+# This tutorial was taken from [http://netlab.gmu.edu/muve/html/Winding-Duck.html](http://netlab.gmu.edu/muve/html/Winding-Duck.html)
 and is included in this repository for posterity. It is
 non-HTML5 for now.
 
 * [**Chapter 1: A Simple
-Object**][1]  
-  * [Introduction][2]
-  * [Simple Wind][3]
-  * [Simple Messages][4]
-  * [Simple Drop][5]
+Object**](#A1)  
+  * [Introduction](#A1.1)
+  * [Simple Wind](#A1.2)
+  * [Simple Messages](#A1.3)
+  * [Simple Drop](#A1.4)
   
 * [**Chapter 2: A More Complex
-Object**][6]  
-  * [Complex Wind][7]
-  * [Complex Messages][8]
-  * [Complex Drop][9]
+Object**](#A2)  
+  * [Complex Wind](#A2.1)
+  * [Complex Messages](#A2.2)
+  * [Complex Drop](#A2.3)
   
 * [**Chapter 3: Other Programming
-Issues**][10]  
-  * [Description][11]
-  * [Chapter 1: A Simple Object][12]
+Issues**](#A3)  
+  * [Description](#A3.1)
+  * [Chapter 1: A Simple Object](#A3.2%3EPermissions%3C/a%3E%20%3C/UL%3E%3C/UL%3E%3CHR%3E%3CH2%3E%3CA%20NAME=)
 
 ### Introduction
 This is a programming example of reasonable
@@ -586,18 +586,3 @@ instance.
 
 It tells us what the permissions ended up being, after
 stripping off the "c", which is "r" for readable.
-
-
-[0]: http://netlab.gmu.edu/muve/html/Winding-Duck.html
-[1]: #A1
-[2]: #A1.1
-[3]: #A1.2
-[4]: #A1.3
-[5]: #A1.4
-[6]: #A2
-[7]: #A2.1
-[8]: #A2.2
-[9]: #A2.3
-[10]: #A3
-[11]: #A3.1
-[12]: #A3.2%3EPermissions%3C/a%3E%20%3C/UL%3E%3C/UL%3E%3CHR%3E%3CH2%3E%3CA%20NAME=
