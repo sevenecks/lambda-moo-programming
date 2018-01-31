@@ -8,8 +8,8 @@ There are a number of other files included in this repository. Many are all scra
 ## Contents
 There are two versions of each document in this repository. One is a markdown copy located in [/tutorials](/tutorials) which is accessible on GitHub and one is an HTML version located in [/tutorials/src](/tutorials/src).
 
-### Table of Contents
-=====================
+Table of Contents
+=================
 
 * [Lambda MOO Programmer's Manual \[Updated\]](#lambda-moo-programmers-manual-updated)
 * [Yib's Pet Rock](#yibs-pet-rock)
