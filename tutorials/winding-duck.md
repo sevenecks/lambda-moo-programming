@@ -1,4 +1,4 @@
-# Lambda MOO Programmer's Tutorial
+# Winding Duck MOO Programmer's Tutorial
 
 * [**Chapter 1: A Simple
 Object**](#A1)  
