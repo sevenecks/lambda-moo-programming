@@ -1214,7 +1214,7 @@ might look like:`
 This sort of human-readable stuff that makes up the program is
 usually called the _source code_, not an important detail but
 if you're curious as to why [read
-this](#source-code:-compiled-and-interpreted-programs).
+this](#source-code-compiled-and-interpreted-programs).
 
 If you open up the source code for a program in an editor, you see
 a bunch of words, punctuation and _whitespace_ (whitespace is
