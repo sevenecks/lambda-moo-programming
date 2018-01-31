@@ -4,7 +4,16 @@ The New MOO Programming Guide is an updated and expanded version of the LambdaMO
 There are a number of other files included in this repository. They are all scraped from various websites that continue to exist, somehow, to this day. Most are at least 15 years old. I have included them here for posterity, since losing them would be tragic. They are not HTML5, but my goal is to eventually convert them to HTML5, or perhaps to Markdown.
 
 # Usage
-To use this guide you simply need clone it and open [moo.html](moo.html) in your web browser.
+
+There are two versions of each file. One is a markdown copy which is accessible on GitHub and one is an HTML version.
+
+## On GitHub
+
+To use this guide you simply need to open [MOO Programmer's Manual](/tutorials/moo-programmers-manual-updated.md). This version of the MOO Programmer's Manual lacks much of the formatting that the HTML5 version below has. It is great for quick perusal, but the HTML version is superior. 
+
+## Locally
+
+To use this guide locally you simply need clone it and open [/tutorials/src/moo-programmers-manual-updated](/tutorials/src/moo-programmers-manual-updated.html) in your web browser.
 
 ```bash
 git clone git@github.com:SevenEcks/the-new-moo-programming-guide.git
