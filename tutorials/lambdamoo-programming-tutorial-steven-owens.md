@@ -17,7 +17,7 @@ just a beginning, but maybe someday it'll be an end.
 There are a bunch of other resources out there, starting with the LambdaMOO
 Programmer's Manual:
 
-[LambdaMOO Programmer's Manual][moo.html]
+[LambdaMOO Programmer's Manual](moo.html)
 
 Also there are a variety of tutorials. I'm not trying to duplicate or
 replace them. Instead, this is a combination of filling in the gaps
@@ -50,7 +50,7 @@ concepts, but don't get too stressed out if you don't, you'll be able
 to pick that up as you go along. If you're totally, completely
 new at this, I explain some general concepts at the end of this page,
 in a section titled:
-[Real Basics of Programming in Moocode"][#RealBasics]
+[Real Basics of Programming in Moocode"](#RealBasics)
 
 I'm going to assume you have a basic familiarity with moo concepts,
 but just to be clear:
@@ -1214,7 +1214,7 @@ might look like:`
 This sort of human-readable stuff that makes up the program is
 usually called the _source code_, not an important detail but
 if you're curious as to why [read
-this][3].
+this](#CompiledInterpreted).
 
 If you open up the source code for a program in an editor, you see
 a bunch of words, punctuation and _whitespace_ (whitespace is
