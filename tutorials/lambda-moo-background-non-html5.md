@@ -1,4 +1,3 @@
-# The source code for this file was taken from [http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/background.html][0] and is included in this repository for posterity. It is not HTML5\.
 
 # Background
 
@@ -87,5 +86,6 @@ have primitive types. Objects persist, everything else either gets stored on
 an object or else eventually gets garbage collected into oblivion.
 Aside from this issue, LambdaMOO is just as object oriented as C++, or Java.
 
+# The source code for this file was taken from [http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/background.html][0] and is included in this repository for posterity. It is not HTML5\.
 
 [0]: http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/background.html
