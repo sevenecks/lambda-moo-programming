@@ -1630,10 +1630,6 @@ section, so you can go back to the top and read the regular tutorial.
 
 ---
 
-[See original (unformatted) article][6]
-
----
-
 # This source code was pulled from [http://www.darksleep.com/notablog/articles/LambdaMOO\_Programming\_Tutorial][0] and is included in this repository for posterity. It is not currently HTML.
 
 [0]: http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial
@@ -1642,6 +1638,3 @@ section, so you can go back to the top and read the regular tutorial.
 [3]: #CompiledInterpreted
 [4]: #Source Code
 [5]: http://www.catb.org/~esr/faqs/smart-questions.html
-[6]: format.cgi?article=LambdaMOO_Programming_Tutorial.foo&format=unformatted
-[7]: http://www.darksleep.com/notablog/about.html
-[8]: http://www.oswd.org/email.phtml?user=haran "Email author"
