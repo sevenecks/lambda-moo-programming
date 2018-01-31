@@ -7,8 +7,6 @@ This page isn't by any means complete. For that, see the documents on [Shawn's p
 
 --Zompist_
 
-[![Home](home.gif)][2] [\[ Page o' SpinnStuff \]][3]
-
 ---
 
 ### Basic objects
