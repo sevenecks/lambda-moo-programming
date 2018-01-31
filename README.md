@@ -4,6 +4,7 @@ Table of Contents
 =================
 
 * [Introduction](#introduction)
+* [Local Setup](#local-setup)
 * [Contents](#contents) 
     * [Lambda MOO Programmer's Manual \[Updated\]](#lambda-moo-programmers-manual-updated)
     * [Yib's Pet Rock](#yibs-pet-rock)
@@ -24,6 +25,11 @@ Table of Contents
 The primary purpose of this repository is to aggregate and update the existing LambdaMOO Programming Resources that exist. The core of the work done here has been to converted the original MOO Programmer's Manual written by Pavel Curtis to HTML5/Bootstrap and to update each section of the manual with additional information.
 
 There are a number of other files included in this repository. Many are all scraped from various websites that continue to exist, somehow, to this day. Most are at least 15 years old. I have included them here for posterity, since losing them would be tragic.
+
+## Local Setup
+```bash
+git clone git@github.com:SevenEcks/the-new-moo-programming-guide.git
+```
 
 ## Contents
 There are two versions of each document in this repository. One is a markdown copy located in [/tutorials](/tutorials) which is accessible on GitHub and one is an HTML version located in [/tutorials/src](/tutorials/src).
@@ -109,10 +115,6 @@ To use this guide you simply need to open [Lambda MOO Nodak Edu](/tutorials/lamb
 
 #### Locally
 To access this file locally you simply need clone the repository and open [/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html](/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html) in your web browser.
-## Cloning this Repository
-```bash
-git clone git@github.com:SevenEcks/the-new-moo-programming-guide.git
-```
 
 ## Changes
 See [CHANGELOG.md](CHANGELOG.md)
