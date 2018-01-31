@@ -1,10 +1,12 @@
 # Lambda MOO Programming
 
 ## Introduction
+The primary purpose of this repository is to aggregate and update the existing LambdaMOO Programming Resources that exist. The core of the work done here has been to converted the original MOO Programmer's Manual written by Pavel Curtis to HTML5/Bootstrap and to update each section of the manual with additional information.
+
 There are a number of other files included in this repository. Many are all scraped from various websites that continue to exist, somehow, to this day. Most are at least 15 years old. I have included them here for posterity, since losing them would be tragic.
 
 ## Contents
-There are two versions of each file. One is a markdown copy which is accessible on GitHub and one is an HTML version.
+There are two versions of each document in this repository. One is a markdown copy located in [/tutorials](/tutorials) which is accessible on GitHub and one is an HTML version located in [/tutorials/src](/tutorials/src).
 
 ### Lambda MOO Programmer's Manual [Updated]
 The LambdaMOO Programmer's Manual is an updated and expanded version of the LambdaMOO Programmer's Manual originally written by Pavel Curtis.
@@ -46,11 +48,13 @@ See [CHANGELOG.md](CHANGELOG.md)
 14. ~~Finish converting all built-in functions to HTML5~~
 
 ## Contributing
-Please feel free to fork the repo and contribute.  This is a labor of love.  I've been using LambdaMOO since 2003 and I wanted to give back to the community.  Text based gaming is an important part of our history and our future.  No game is more accessible to those with handicaps, for example.
+Please feel free to fork the repo and contribute via pull request. This is a labor of love. Give back to the community.  
 
 ## Author
 [Sindome](https://www.sindome.org/) has been online since 1997. I've been playing it since 2003.  I've been developing in MOO since 2005, and a developer on Sindome since 2006. Ours is heavily modified, we have roughly 70-80 players online a lot of time time and dozens of people have developed the game over 20+ year run.  We've got a ton of best practices and design patterns that we implement in order to keep the MOO happy and healthy.  I've attempted to distill as much of that into this document while at the same time present the document in a more up to date format.
 
-Come visit us if you dare :)
+Text based gaming is an important part of our history and our future.  No game is more accessible to those with handicaps, for example.
+
+Come visit me on Sindome if you dare :)
 
 -- Brendan / Slither / Fengshui
