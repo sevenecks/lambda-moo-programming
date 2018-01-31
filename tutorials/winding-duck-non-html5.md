@@ -1,7 +1,5 @@
 # Lambda MOO Programmer's Tutorial
 
-# This tutorial was taken from [http://netlab.gmu.edu/muve/html/Winding-Duck.html][0] and is included in this repository for posterity. It is non-HTML5 for now.
-
 * [**Chapter 1: A Simple Object**][1]  
   * [Introduction][2]
   * [Simple Wind][3]
@@ -117,6 +115,7 @@ While we're at it, we should give our duck a description!
       @continue duck is "swivels its neck and emits a >> Quack <
 
 
+# This tutorial was taken from [http://netlab.gmu.edu/muve/html/Winding-Duck.html][0] and is included in this repository for posterity. It is non-HTML5 for now.
 
 [0]: http://netlab.gmu.edu/muve/html/Winding-Duck.html
 [1]: #A1
