@@ -17,9 +17,9 @@ There are two versions of each document in this repository. One is a markdown co
 * [Colin's Way Easy intro Guide to MOO Programming](#colins-way-easy-intro-guide-to-moo-programming)
 * [Winding Duck](#winding-duck)
 * [MOO Progrmaming Tips](#moo-programming-tips)
-* [Hacking LambdaMOO Server (Nodak.edu)](#hacking-lambdamoo-server-nodak-edu)
-* [Lambda MOO Background Information (Nodak.edu)](#lambda-moo-background-information-nodak-edu)
-* [Lambda MOO Programming (Nodak.edu)](#lambda-moo-programming-nodak-edu)
+* [Hacking LambdaMOO Server Nodak.edu](#hacking-lambdamoo-server-nodak)
+* [Lambda MOO Background Information Nodak.edu](#lambda-moo-background-information-nodak)
+* [Lambda MOO Programming Nodak.edu](#lambda-moo-programming-nodak)
 
 ### Lambda MOO Programmer's Manual [Updated]
 The LambdaMOO Programmer's Manual is an updated and expanded version of the LambdaMOO Programmer's Manual originally written by Pavel Curtis.
@@ -76,7 +76,7 @@ To use this guide you simply need to open [MOO Programming Tips](/tutorials/zomp
 #### Locally
 To access this file locally you simply need clone the repository and open [/tutorials/src/zompost-moo-help-non-html5.html](/tutorials/src/zompost-moo-help-non-html5.html) in your web browser.
 
-### Hacking LambdaMOO Server -Nodak.edu
+### Hacking LambdaMOO Server - Nodak
 This document walks you through what happens when a connection is made to the Lambda MOO server.
 
 #### On GitHub
@@ -85,7 +85,7 @@ To use this guide you simply need to open [Hacking LambdaMOO Server](/tutorials/
 #### Locally
 To access this file locally you simply need clone the repository and open [/tutorials/src/hacking-lambda-moo-server-non-html5.html](/tutorials/src/hacking-lambda-moo-server-non-html5.html) in your web browser.
 
-### Lambda MOO Background Information -Nodak.edu
+### Lambda MOO Background Information - Nodak
 This document contains background information on what LambdaMOO is in relation to other servers and languages.
 
 #### On GitHub
@@ -94,7 +94,7 @@ To use this guide you simply need to open [Lambda MOO Background](/tutorials/lam
 #### Locally
 To access this file locally you simply need clone the repository and open [/tutorials/src/lambda-moo-background-non-html5.html](/tutorials/src/lambda-moo-background-non-html5.html) in your web browser.
 
-### Lambda MOO Programming - Nodak.edu
+### Lambda MOO Programming - Nodak
 This document contains information on Lambda MOO programming. It is a short and somewaht technical document without much background information.
 
 #### On GitHub
