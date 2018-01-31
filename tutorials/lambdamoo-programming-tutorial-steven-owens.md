@@ -17,7 +17,7 @@ just a beginning, but maybe someday it'll be an end.
 There are a bunch of other resources out there, starting with the LambdaMOO
 Programmer's Manual:
 
-[http://www.moo-cows.com/docs/manuals/ProgrammersManual.html][1]
+[LambdaMOO Programmer's Manual][moo.html]
 
 Also there are a variety of tutorials. I'm not trying to duplicate or
 replace them. Instead, this is a combination of filling in the gaps
@@ -50,7 +50,7 @@ concepts, but don't get too stressed out if you don't, you'll be able
 to pick that up as you go along. If you're totally, completely
 new at this, I explain some general concepts at the end of this page,
 in a section titled:
-[Real Basics of Programming in Moocode"][2]
+[Real Basics of Programming in Moocode"][#RealBasics]
 
 I'm going to assume you have a basic familiarity with moo concepts,
 but just to be clear:
