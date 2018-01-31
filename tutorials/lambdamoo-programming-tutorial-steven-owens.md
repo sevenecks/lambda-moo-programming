@@ -50,7 +50,7 @@ concepts, but don't get too stressed out if you don't, you'll be able
 to pick that up as you go along. If you're totally, completely
 new at this, I explain some general concepts at the end of this page,
 in a section titled:
-[Real Basics of Programming in Moocode](#Real-Basics-of-Programming-in-Moocode)
+[Real Basics of Programming in Moocode](#real-basics-of-programming-in-moocode)
 
 I'm going to assume you have a basic familiarity with moo concepts,
 but just to be clear:
