@@ -1,5 +1,3 @@
-# The sourcecode for this file was taken from [http://www.zompist.com/moohelp.htm][0] and is included in this repository for posterity. It is non-HTML5\.
-![SpinnMoo](smlogo.jpg)
 
 ## Some tips on SpinnMoo programming
 
@@ -8,8 +6,6 @@ I'm still trying to get the hang of the LambdaMoo programming language. I though
 This page isn't by any means complete. For that, see the documents on [Shawn's page][1]: the _LambdaCore User's Manual_, the _LambdaMOO Programmer's Manual, _and the _LambdaCore Database Programing Manual.
 
 --Zompist_
-
-[![Home](home.gif)][2] [\[ Page o' SpinnStuff \]][3]
 
 ---
 
@@ -271,10 +267,7 @@ VW Microbus**. This required wizard status to fully implement; but the actual co
 
 ---
 
-[![Home](home.gif)][2] [\[ Page o' SpinnStuff \]][3]
-
+# The sourcecode for this file was taken from [http://www.zompist.com/moohelp.htm][0] and is included in this repository for posterity. It is non-HTML5\.
 
 [0]: http://www.zompist.com/moohelp.htm
 [1]: http://moo.collapsar.cx/
-[2]: default.html
-[3]: spinn.html
