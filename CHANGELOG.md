@@ -1,14 +1,27 @@
-# Changelog for The New MOO Programming Guide
+# Changelog for LambdaMOO Programming Repository
 
-## [0.4] - 2017.01.26 5:28PM
+## [0.5] - 2018.01.31 4:30PM
 
-### Fixed
+### Updated
+* Naming of various files
+* Updated License year
+
+### Added
+* Markdown versions of all files
+* HTML for yibs was run through an HTML tidier
+* <object> removed from yibs tutorial as it was breaking markdown conversion
+* Updates to README (index, better information on repo)
+* Repository renamed to lambda-moo-programming
+* Added directory structure with tutorials and tutorials/src
+* Organized files
+
+## [0.4] - 2018.01.26 5:28PM
+
 ### Added
 * Finished adding all functions to moo.html
 
 ## [0.3] - 2018.01.25 1:56PM
 
-### Fixed
 ### Added
 * Added dark-sleep tutorial
 * Added hacking lambda moo server tutorial
@@ -20,8 +33,6 @@
 * Updated README
 
 ## [0.2] - 2018.01.22 5:00PM
-
-### Fixed
 
 ### Added
 * lisdude web resource
@@ -35,6 +46,7 @@
 
 ## [0.1] - 2016.09.13 5:35PM
 
+### Added
 * Initial Release
 * HTML5 Conversion
 * Table of Contents

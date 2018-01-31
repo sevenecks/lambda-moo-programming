@@ -15,7 +15,79 @@ The LambdaMOO Programmer's Manual is an updated and expanded version of the Lamb
 To use this guide you simply need to open [MOO Programmer's Manual](/tutorials/moo-programmers-manual-updated.md). This version of the MOO Programmer's Manual lacks much of the formatting that the HTML5 version below has. It is great for quick perusal, but the HTML version is superior. 
 
 #### Locally
-To use this guide locally you simply need clone it and open [/tutorials/src/moo-programmers-manual-updated](/tutorials/src/moo-programmers-manual-updated.html) in your web browser.
+To access this file locally you simply need clone the repository and open [/tutorials/src/moo-programmers-manual-updated.html](/tutorials/src/moo-programmers-manual-updated.html) in your web browser.
+
+### Yib's Pet Rock
+A great first introduction to Lambda MOO programming.
+
+#### On GitHub
+To use this guide you simply need to open [Yib's Pet Rock](/tutorials/yibs-pet-rock.md).
+
+#### Locally
+To access this file locally you simply need clone the repository and open [/tutorials/src/yibs-pet-rock-non-html5.html](/tutorials/src/yibs-pet-rock-non-html5.html) in your web browser.
+
+### Hacking LambdaMOO Server
+This document walks you through what happens when a connection is made to the Lambda MOO server.
+
+#### On GitHub
+To use this guide you simply need to open [Hacking LambdaMOO Server](/tutorials/hacking-lambda-moo-server.md).
+
+#### Locally
+To access this file locally you simply need clone the repository and open [/tutorials/src/hacking-lambda-moo-server-non-html5.html](/tutorials/src/hacking-lambda-moo-server-non-html5.html) in your web browser.
+
+### Lambda MOO Background Information
+This document contains background information on what LambdaMOO is in relation to other servers and languages.
+
+#### On GitHub
+To use this guide you simply need to open [Lambda MOO Background](/tutorials/lambda-moo-background.md).
+
+#### Locally
+To access this file locally you simply need clone the repository and open [/tutorials/src/lambda-moo-background-non-html5.html](/tutorials/src/lambda-moo-background-non-html5.html) in your web browser.
+
+### Nodak.edu Lambda MOO Programming
+This document contains information on Lambda MOO programming. It is a short and somewaht technical document without much background information.
+
+#### On GitHub
+To use this guide you simply need to open [Lambda MOO Nodak Edu](/tutorials/lambda-moo-nodak-edu.md).
+
+#### Locally
+To access this file locally you simply need clone the repository and open [/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html](/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html) in your web browser.
+
+### LambdaMOO Programming Tutorial (Steven Owens)
+This is an excellent guide, the most complete one I've seen aside from the original Lambda MOO Programmer's Manual. It was written, as the title states, by Steven J. Owens.
+
+#### On GitHub
+To use this guide you simply need to open [LambdaMOO Programming Tutorial by Steven Owens](/tutorials/lambda-moo-steven-owens-guide.md).
+
+#### Locally
+To access this file locally you simply need clone the repository and open [/tutorials/src/dark-sleep-lambdamoo-programming-tutorial-non-html5.html](/tutorials/src/dark-sleep-lambdamoo-programming-tutorial-non-html5.html) in your web browser.
+
+### Colin's Way Easy Intro Guide to MOO Programming
+A good introduction to MOO programming. This guide gets you through all the basics.
+
+#### On GitHub
+To use this guide you simply need to open [Colin's Way Easy Intro Guide to MOO Programming](/tutorials/lambda-moo-way-easy.md).
+
+#### Locally
+To access this file locally you simply need clone the repository and open [/tutorials/src/way-easy-moo-programming-guide-non-html5.html](/tutorials/src/way-easy-moo-programming-guide-non-html5.html) in your web browser.
+
+### Winding Duck
+Winding Duck MOO Programmer's Tutorial walks you through, step by step, how to create some simple code, then make it progressively more complicated.
+
+#### On GitHub
+To use this guide you simply need to open [Winding Duck](/tutorials/winding-duck.md).
+
+#### Locally
+To access this file locally you simply need clone the repository and open [/tutorials/src/winding-duck-non-html5.html](/tutorials/src/winding-duck-non-html5.html) in your web browser.
+
+### MOO Programming Tips
+This looks like it was a guide created for a specific MOO but it has some tips that those new to MOO might find useful.
+
+#### On GitHub
+To use this guide you simply need to open [MOO Programming Tips](/tutorials/zompost-moo-help.md).
+
+#### Locally
+To access this file locally you simply need clone the repository and open [/tutorials/src/zompost-moo-help-non-html5.html](/tutorials/src/zompost-moo-help-non-html5.html) in your web browser.
 
 ## Cloning this Repository
 ```bash
