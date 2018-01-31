@@ -1303,7 +1303,7 @@ around it, "like this".
 
 Most punctuation in the code is one of two things, either 1)
 operators or 2) start/end indicators for an expression, statement or
-block. See [Fun With Punctuation][4] for a
+block. See [Fun With Punctuation](source-code-and-fun-with-punctuation) for a
 little more detail.
 
 ##### Operators
@@ -1633,8 +1633,6 @@ section, so you can go back to the top and read the regular tutorial.
 
 
 [1]: http://www.moo-cows.com/docs/manuals/ProgrammersManual.html
-[2]: #RealBasics
-[3]: #CompiledInterpreted
 [4]: #Source Code
 [5]: http://www.catb.org/~esr/faqs/smart-questions.html
 [6]: http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial
