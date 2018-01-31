@@ -36,7 +36,7 @@ There are two versions of each document in this repository. One is a markdown co
 
 
 ### Lambda MOO Programmer's Manual [Updated]
-This LambdaMOO Programmer's Manual is an _updated an expanded version_ of the *LambdaMOO Programmer's Manual* originally written by Pavel Curtis. Some pretty extensive work has gone into updating it.
+This LambdaMOO Programmer's Manual is an **updated an expanded version** of the *LambdaMOO Programmer's Manual* originally written by Pavel Curtis. Some pretty extensive work has gone into updating it.
 
 #### On GitHub
 To use this guide you simply need to open [MOO Programmer's Manual](/tutorials/moo-programmers-manual-updated.md). This version of the MOO Programmer's Manual lacks much of the formatting that the HTML5 version below has. It is great for quick perusal, but the HTML version is superior. 
