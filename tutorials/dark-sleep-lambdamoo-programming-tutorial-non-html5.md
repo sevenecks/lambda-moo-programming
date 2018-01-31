@@ -1,4 +1,3 @@
-# This source code was pulled from [http://www.darksleep.com/notablog/articles/LambdaMOO\_Programming\_Tutorial][0] and is included in this repository for posterity. It is not currently HTML.
 
 # LambaMOO Programming Tutorial (very rough draft)
 
@@ -1635,32 +1634,7 @@ section, so you can go back to the top and read the regular tutorial.
 
 ---
 
-# Feedback
-**Verification Image**: ![](/notablog/captcha/captcha.cgi?1489971096)
-
-**Subject**:
-
-**Your Email Address**:
-
-**Confirm Address**:
-
-**Please Post**:
-
-**Copyright:** By checking the "Please Post" checkbox you agree to
-having your feedback posted on notablog if the administrator decides
-it is appropriate content, and grant compilation copyright rights to
-the administrator.  
-**Message Content:**  
-  
-
----
-
-  
-[Powered by notablog][7]  
-Content by Steven J. Owens  
-Website design by [haran][8]  
-(except for the men-at-work icon)
-
+# This source code was pulled from [http://www.darksleep.com/notablog/articles/LambdaMOO\_Programming\_Tutorial][0] and is included in this repository for posterity. It is not currently HTML.
 
 [0]: http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial
 [1]: http://www.moo-cows.com/docs/manuals/ProgrammersManual.html
