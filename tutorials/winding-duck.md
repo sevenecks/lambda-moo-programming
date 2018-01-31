@@ -8,13 +8,13 @@ Object**](#A1)
   * [Simple Drop](#simple-drop)
   
 * [**Chapter 2: A More Complex
-Object**](#a-more-complex-object)  
+Object**](#chapter-2-a-more-complex-object)  
   * [Complex Wind](#complex-wind)
   * [Complex Messages](#complex-messages)
   * [Complex Drop](#complex-drop)
   
 * [**Chapter 3: Other Programming
-Issues**](#other-programming-issues)  
+Issues**](#chapter-3-other-programming-issues)  
   * [Description](#description)
 
 ### Introduction
@@ -241,8 +241,7 @@ away to see that the tasks had been scheduled:
 
 ---
 
-## Chapter 2: A More Complex
-Object
+## Chapter 2: A More Complex Object
 How could we improve on our wind-up toy? Or,
 rather, what are some of its problems?
 
@@ -481,8 +480,7 @@ check is not entirely pointless!)
 
 ---
 
-## Chapter 3: Other Programming
-Issues
+## Chapter 3: Other Programming Issues
 
 ### Description
 It might be nice if you could tell by looking at
