@@ -1,5 +1,25 @@
 # Lambda MOO Programming
 
+Table of Contents
+=================
+
+* [Introduction](#introduction)
+* [Contents](#contents) 
+    * [Lambda MOO Programmer's Manual \[Updated\]](#lambda-moo-programmers-manual-updated)
+    * [Yib's Pet Rock](#yibs-pet-rock)
+    * [LambdaMOO Programming Tutorial (Steven Owens)](#lambdamoo-programming-tutorial-steven-owens)
+    * [Colin's Way Easy intro Guide to MOO Programming](#colins-way-easy-intro-guide-to-moo-programming)
+    * [Winding Duck](#winding-duck)
+    * [MOO Progrmaming Tips](#moo-programming-tips)
+    * [Hacking LambdaMOO Server Nodak](#hacking-lambdamoo-server-nodak)
+    * [Lambda MOO Background Information Nodak](#lambda-moo-background-information-nodak)
+    * [Lambda MOO Programming Nodak](#lambda-moo-programming-nodak)
+* [Changes](#changes)
+* [Notes](#notes)
+* [ToDo](#todo)
+* [Contributing](#contributing)
+* [Author](#author)
+
 ## Introduction
 The primary purpose of this repository is to aggregate and update the existing LambdaMOO Programming Resources that exist. The core of the work done here has been to converted the original MOO Programmer's Manual written by Pavel Curtis to HTML5/Bootstrap and to update each section of the manual with additional information.
 
@@ -8,18 +28,6 @@ There are a number of other files included in this repository. Many are all scra
 ## Contents
 There are two versions of each document in this repository. One is a markdown copy located in [/tutorials](/tutorials) which is accessible on GitHub and one is an HTML version located in [/tutorials/src](/tutorials/src).
 
-Table of Contents
-=================
-
-* [Lambda MOO Programmer's Manual \[Updated\]](#lambda-moo-programmers-manual-updated)
-* [Yib's Pet Rock](#yibs-pet-rock)
-* [LambdaMOO Programming Tutorial (Steven Owens)](#lambdamoo-programming-tutorial-steven-owens)
-* [Colin's Way Easy intro Guide to MOO Programming](#colins-way-easy-intro-guide-to-moo-programming)
-* [Winding Duck](#winding-duck)
-* [MOO Progrmaming Tips](#moo-programming-tips)
-* [Hacking LambdaMOO Server Nodak](#hacking-lambdamoo-server-nodak)
-* [Lambda MOO Background Information Nodak](#lambda-moo-background-information-nodak)
-* [Lambda MOO Programming Nodak](#lambda-moo-programming-nodak)
 
 ### Lambda MOO Programmer's Manual [Updated]
 The LambdaMOO Programmer's Manual is an updated and expanded version of the LambdaMOO Programmer's Manual originally written by Pavel Curtis.
@@ -38,7 +46,6 @@ To use this guide you simply need to open [Yib's Pet Rock](/tutorials/yibs-pet-r
 
 #### Locally
 To access this file locally you simply need clone the repository and open [/tutorials/src/yibs-pet-rock-non-html5.html](/tutorials/src/yibs-pet-rock-non-html5.html) in your web browser.
-
 
 ### LambdaMOO Programming Tutorial (Steven Owens)
 This is an excellent guide, the most complete one I've seen aside from the original Lambda MOO Programmer's Manual. It was written, as the title states, by Steven J. Owens.
