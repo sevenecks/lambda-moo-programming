@@ -1,4 +1,3 @@
-
 # LambaMOO Programming Tutorial (very rough draft)
 
 _by Steven J. Owens (unless otherwise attributed)_
@@ -1630,11 +1629,12 @@ section, so you can go back to the top and read the regular tutorial.
 
 ---
 
-# This source code was pulled from [http://www.darksleep.com/notablog/articles/LambdaMOO\_Programming\_Tutorial][0] and is included in this repository for posterity. It is not currently HTML.
+# This source code was pulled from [http://www.darksleep.com/notablog/articles/LambdaMOO\_Programming\_Tutorial][6] and is included in this repository for posterity. It is not currently HTML.
 
-[0]: http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial
+
 [1]: http://www.moo-cows.com/docs/manuals/ProgrammersManual.html
 [2]: #RealBasics
 [3]: #CompiledInterpreted
 [4]: #Source Code
 [5]: http://www.catb.org/~esr/faqs/smart-questions.html
+[6]: http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial
