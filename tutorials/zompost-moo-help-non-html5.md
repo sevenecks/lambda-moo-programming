@@ -1,5 +1,3 @@
-# The sourcecode for this file was taken from [http://www.zompist.com/moohelp.htm][0] and is included in this repository for posterity. It is non-HTML5\.
-![SpinnMoo](smlogo.jpg)
 
 ## Some tips on SpinnMoo programming
 
@@ -271,10 +269,7 @@ VW Microbus**. This required wizard status to fully implement; but the actual co
 
 ---
 
-[![Home](home.gif)][2] [\[ Page o' SpinnStuff \]][3]
-
+# The sourcecode for this file was taken from [http://www.zompist.com/moohelp.htm][0] and is included in this repository for posterity. It is non-HTML5\.
 
 [0]: http://www.zompist.com/moohelp.htm
 [1]: http://moo.collapsar.cx/
-[2]: default.html
-[3]: spinn.html
