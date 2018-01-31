@@ -5,33 +5,6 @@ A Programming Primer for Beginners
 
 \[This tutorial was written by Yib for LambdaMOO, which is a text-only moo. The coding will work in cmcMOO or other xpress moos, but you may prefer using the web interface's verb and property editors rather than the line-editors used here. The object numbers refer to the original notes at LambdaMOO. The original tutorial can be found in the library (\#1670) at[LambdaMOO][1]\]
 
-## Contents
-
-[page 1........Introduction (\#54906)][2]  
-[page 2........Preamble and Pre-Requisites (\#106374)][3]  
-[page 3........Some Conventions (\#31872)][4]  
-[page 4........Let's Go! (\#63382)][5]  
-[page 5........But What Did I Just Do?][6] (\#10948)  
-[page 6........Sharing the Experience][7] (\#82960)  
-[page 7........Plunging Into Pronoun Substitutions!][8] (\#51941)  
-[page 8........Generalizing the Message Verb][9] (\#99544)  
-[page 9........Polishing the Rock][10] (\#112210)  
-[page 10.......What Can't You Do With a Rock?][11] (\#37254)  
-[page 11.......Rockin' and Rollin'][12] (\#114030)  
-[page 12.......Looking Under Various (Other) Rocks][13] (\#76179)  
-[page 13.......Asking Others for Help][14] (\#105724)  
-[page 14.......Is It Covered With Moss Yet?][15] (\#61290)  
-[page 15.......Good Times][16] (\#83281)  
-[page 16.......What's Big and Red and Eats Rocks?][17] (\#106833)  
-[page 17.......Is it a Boy or a Girl?][18] (\#73773)  
-[page 18.......Pet the Nice Rock Eater...][19] (\#110987)  
-[page 19.......It Eats Rocks... Right?][20] (\#92422)  
-[page 20.......Chow Time!][21] (\#13995)  
-[page 21.......The Breath of Life][22] (\#69982)  
-[page 22.......Whoa! Down Boy!][23] (\#12930)  
-[page 23.......Care and Feeding of a Big Red Rock Eater][24] (\#106396)  
-[page 24.......Afterword][25] (\#109033)
-
 ## introduction
 
 This tutorial was written on and for [LambdaMOO][1] by Yib (\#58337), in 1999\. It may be ported to other MOO's or otherwise published provided that credit is given to the original author. If anyone intends to make any money from it, though, e must negotiate with me in advance. \[Note: The author commits to updating the LambdaMOO version only. All other versions are the responsibility of whoever ports it. This version was last updated on July 14, 1999.\]
@@ -58,7 +31,7 @@ or
 
 read \#9118 
 
-\[this is for LambdaMOO only, but whatever MOO you're in, you should be able to type "help programming" to get some help about how to get a programmer's bit and other details. The Programmer's Manual can be downloaded from [ftp://ftp.lambda.moo.mud.org/pub/MOO/ProgrammersManual\_toc.html][26][\]][26]
+\[this is for LambdaMOO only, but whatever MOO you're in, you should be able to type "help programming" to get some help about how to get a programmer's bit and other details. The Programmer's Manual can be downloaded from [this repository](moo-programmers-manual-updated.md)]
 
 While this tutorial \*can\* be done without a copy of the Programmer's Manual, you'll get much more out of it if you have one. The standard lecture tells where to obtain one via ftp. (How to use ftp is beyond the scope of this document, sorry.)
 
