@@ -66,7 +66,7 @@ To use this guide you simply need to open [Yib's Pet Rock](/tutorials/yibs-pet-r
 To access this file locally you simply need clone the repository and open [/tutorials/src/yibs-pet-rock-non-html5.html](/tutorials/src/yibs-pet-rock-non-html5.html) in your web browser.
 
 ### LambdaMOO Programming Tutorial (Steven Owens)
-This is an excellent guide, the most complete one I've seen aside from the original Lambda MOO Programmer's Manual. It was written, as the title states, by Steven J. Owens.
+This is an excellent guide, the most complete one I've seen aside from the original Lambda MOO Programmer's Manual. It was written, as the title states, by Steven J. Owens. __This guide was updated 03/07/18__ after Steven sent over a fresh link to an updated version of the guide.
 
 #### On GitHub
 To use this guide you simply need to open [LambdaMOO Programming Tutorial by Steven Owens](/tutorials/lambda-moo-steven-owens-guide.md).

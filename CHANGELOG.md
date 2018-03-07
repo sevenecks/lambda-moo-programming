@@ -1,5 +1,9 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [0.6] - 2018.03.07 2:49PM
+* Updated README with markdown conversion instructions
+* Updated Steven Owen guide with new version (md and html)
+
 ## [0.5] - 2018.01.31 4:30PM
 
 ### Updated
