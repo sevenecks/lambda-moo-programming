@@ -7,6 +7,7 @@ Table of Contents
 * [Local Setup](#local-setup)
 * [Contents](#contents) 
     * [Lambda MOO Programmer's Manual \[Updated\]](#lambda-moo-programmers-manual-updated)
+    * [Learn MOO Programming Videos](#learn-moo-programming-videos)
     * [Yib's Pet Rock](#yibs-pet-rock)
     * [LambdaMOO Programming Tutorial (Steven Owens)](#lambdamoo-programming-tutorial-steven-owens)
     * [Colin's Way Easy intro Guide to MOO Programming](#colins-way-easy-intro-guide-to-moo-programming)
@@ -15,7 +16,6 @@ Table of Contents
     * [Hacking LambdaMOO Server Nodak](#hacking-lambdamoo-server-nodak)
     * [Lambda MOO Background Information Nodak](#lambda-moo-background-information-nodak)
     * [Lambda MOO Programming Nodak](#lambda-moo-programming-nodak)
-    * [Learn MOO Programming Videos](#learn-moo-programming-videos)
 * [Changes](#changes)
 * [Notes](#notes)
 * [ToDo](#todo)
@@ -56,6 +56,25 @@ To use this guide you simply need to open [MOO Programmer's Manual](/tutorials/m
 
 #### Locally
 To access this file locally you simply need clone the repository and open [/tutorials/src/moo-programmers-manual-updated.html](/tutorials/src/moo-programmers-manual-updated.html) in your web browser.
+
+### Learn MOO Programming Videos
+This is a series of videos on installing and learning MOO programming.
+
+1. [Installing and Compiling LambdaMOO from Source Code](https://www.youtube.com/watch?v=CmwWF6Hm4iE&t=&index=1&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
+
+2. [Using LambdaMOO DB and Applying Server Patches](https://www.youtube.com/watch?v=IyxPQFn0kG4&t=&index=2&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
+
+3. [The Basics of LambdaMOO Programming](https://www.youtube.com/watch?v=kj6ABbvnybI&t=1s&index=3&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
+
+4. [Create your own Debugger in MOO](https://www.youtube.com/watch?v=s0-cBEpW7JM&t=2s&index=4&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
+
+5. [Intro to Properties on Object (1/3)](https://www.youtube.com/watch?v=QBnXvtR1qBw&t=0s&index=5&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
+
+6. [Properties on Objects Continued (2/3)](https://www.youtube.com/watch?v=Lv5ZCjTqrjQ&t=0s&index=6&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
+
+7. [Properties on Object Concluded (3/3)](https://www.youtube.com/watch?v=HYOsog_og-o&t=0s&index=7&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
+
+8. [Extending the MOO with Custom Verbs](https://www.youtube.com/watch?v=yYoGHvmo7RU&t=0s&index=8&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
 
 ### Yib's Pet Rock
 A great first introduction to Lambda MOO programming.
@@ -128,25 +147,6 @@ To use this guide you simply need to open [Lambda MOO Nodak Edu](/tutorials/lamb
 
 #### Locally
 To access this file locally you simply need clone the repository and open [/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html](/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html) in your web browser.
-
-### Learn MOO Programming Videos
-This is a series of videos on installing and learning MOO programming.
-
-1. [Installing and Compiling LambdaMOO from Source Code](https://www.youtube.com/watch?v=CmwWF6Hm4iE&t=&index=1&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-2. [Using LambdaMOO DB and Applying Server Patches](https://www.youtube.com/watch?v=IyxPQFn0kG4&t=&index=2&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-3. [The Basics of LambdaMOO Programming](https://www.youtube.com/watch?v=kj6ABbvnybI&t=1s&index=3&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-4. [Create your own Debugger in MOO](https://www.youtube.com/watch?v=s0-cBEpW7JM&t=2s&index=4&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-5. [Intro to Properties on Object (1/3)](https://www.youtube.com/watch?v=QBnXvtR1qBw&t=0s&index=5&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-6. [Properties on Objects Continued (2/3)](https://www.youtube.com/watch?v=Lv5ZCjTqrjQ&t=0s&index=6&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-7. [Properties on Object Concluded (3/3)](https://www.youtube.com/watch?v=HYOsog_og-o&t=0s&index=7&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-8. [Extending the MOO with Custom Verbs](https://www.youtube.com/watch?v=yYoGHvmo7RU&t=0s&index=8&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
 
 ## Changes
 See [CHANGELOG.md](CHANGELOG.md)
