@@ -100,27 +100,27 @@ is really
 There are a great many such useful properties on #0 besides the utils, but here are the utils defined on LambdaMOO's #0 as of this writing:
 
     * #0.building_utils
-    *   #0.byte_quota_utils
-    *   #0.code_utils
-    *   #0.command_utils
-    *   #0.convert_utils
-    *   #0.gender_utils
-    *   #0.generic_utils
-    *   #0.list_utils
-    *   #0.lock_utils
-    *   #0.match_utils
-    *   #0.math_utils
-    *   #0.matrix_utils
-    *   #0.object_quota_utils
-    *   #0.object_utils
-    *   #0.perm_utils
-    *   #0.quota_utils
-    *   #0.seq_utils
-    *   #0.set_utils
-    *   #0.string_utils
-    *   #0.time_utils
-    *   #0.trig_utils
-    *   #0.wiz_utils
+    * #0.byte_quota_utils
+    * #0.code_utils
+    * #0.command_utils
+    * #0.convert_utils
+    * #0.gender_utils
+    * #0.generic_utils
+    * #0.list_utils
+    * #0.lock_utils
+    * #0.match_utils
+    * #0.math_utils
+    * #0.matrix_utils
+    * #0.object_quota_utils
+    * #0.object_utils
+    * #0.perm_utils
+    * #0.quota_utils
+    * #0.seq_utils
+    * #0.set_utils
+    * #0.string_utils
+    * #0.time_utils
+    * #0.trig_utils
+    * #0.wiz_utils
 
 There are also several verbs defined directly on #0, but most of them are system related and are not particularly relevant to your average moo coder.
 
@@ -816,9 +816,9 @@ player:tell(), at its simplest, relays lines to player:notify(). More complicate
 
 (Note: spoofing is when you send text to a player with the intent to deceive, usually by having the text not identify its source or pretending to be output that resulted from a player command; it's generally considered rude on its own, and when done for malicious purposes extremely rude and/or socially objectionable).
 
-**Note:** _player:tell_lines() works much like player:tell() except it can take a list of strings as an argument; it, in turn, calls player:notify_lines(), which loops through the list and calls player:notify() with each individual line._
+**Note:** player:tell_lines() works much like player:tell() except it can take a list of strings as an argument; it, in turn, calls player:notify_lines(), which loops through the list and calls player:notify() with each individual line.
 
-Okay, so now we know what happens to a line of text after it gets to the player. This is the mechanism that everything in the MOO uses to send text to your player object's network connection. When you look at the room, for example, the room's verbs in turn call player:tell() to feed you descriptions, a list of what's in the room, etc. This is a fairly common practice and is considered normal.
+Okau, so now we know what happens to a line of text after it gets to the player. This is the mechanism that everything in the MOO uses to send text to your player object's network connection. When you look at the room, for example, the room's verbs in turn call player:tell() to feed you descriptions, a list of what's in the room, etc. This is a fairly common practice and is considered normal.
 
 ## Location in MOOCode
 
@@ -838,13 +838,23 @@ For the most part, objects are moved into/out of rooms, and into/out of players 
 
 For the most part what happens when you move something is that the following verbs are called in something vaguely like this order:
 
-*   call objecttobemoved:moveto(destinationobject)*   objecttobemoved:moveto() calls destination:accept(objecttobemoved)*   destinationobject:accept(objectobemoved) calls through to destination:acceptable(objecttobemoved) to figure out if an object actually is acceptable, then returns the value*   destinationobject:enterfunc(objecttobemoved) gives the destination an opportunity to react to the arrival of the object after it has entered the destination (though normally special effects are taken care of by the exits or by the verb that's calling object:moveto()).*   sourceobject:exitfunc(objecttobemoved) gives the source an opportunity to do/say something after the object has left the source.
+*   call objecttobemoved:moveto(destinationobject)
+*   objecttobemoved:moveto() calls destination:accept(objecttobemoved)
+*   destinationobject:accept(objectobemoved) calls through to destination:acceptable(objecttobemoved) to figure out if an object actually is acceptable, then returns the value
+*   destinationobject:enterfunc(objecttobemoved) gives the destination an opportunity to react to the arrival of the object after it has entered the destination (though normally special effects are taken care of by the exits or by the verb that's calling object:moveto()).
+*   sourceobject:exitfunc(objecttobemoved) gives the source an opportunity to do/say something after the object has left the source.
 
 When you are in a room and you issue the "look" command, the parser finds $room:look(), which in turn calls $room:look_self(). look_self() is the generic verb for an object to assemble what a player sees when the object is looked at. As is often the case in moocode, the look_self verb doesn't just return a description, it in turn calls player:tell().
 
 What follows is pretty much the same process for most objects:
 
-*   player types "look<enter>"</enter>*   parser matches player.location:look_self()*   room:look_self() is called.*   room:look_self() calls room:title()*   room:look_self() calls room:description()*   room:look_self() calls room:tell_contents()*   the above verbs call player:tell()
+*   player types "look<enter>"</enter>
+*   parser matches player.location:look_self()
+*   room:look_self() is called.
+*   room:look_self() calls room:title()
+*   room:look_self() calls room:description()
+*   room:look_self() calls room:tell_contents()
+*   the above verbs call player:tell()
 
 As it turns out, room:description() is not part of $room:look_self(). I'm not sure where that get added to look_self() (though the :description() verb is defined on the Root Class, #1).
 
@@ -856,7 +866,7 @@ At the very end is an outline for my next draft of this tutorial. Really, this d
 
 In between the outline and here is a section adapted from an article I originally wrote about Java, that tries to help an absolute beginner and gets into things like "what's a statement" and "what is syntax", etc.
 
- <a name="RealBasics">### Real Basics of Programming in Moocode</a> 
+ ### Real Basics of Programming in Moocode 
 
 These details get skipped a lot. If you've played a little bit with some programming language, like BASIC, you may want to skip this, but unless you're confident, I suggest you at least skim it. Even if you are confident, I get into some programming in-jokes and stuff, further on, that might help ease the shock of getting into the programming world.
 
@@ -893,9 +903,9 @@ _While we're at it, in the modern era a lot of programmers don't use just plain 
 
 The first step the computer takes in converting the human-readable words to computer instructions is breaking them down into _tokens_, chunking them up according to certain rules. For starts, whitespace separates the words, and a change from letters to punctuation usually separates the words.
 
-Almost nobody in the programming world talks about tokens, unless they're messing around with learning how programming langauges are built. It's really just a fancier word for "chunks", and the main reason I'm bringing it up is because it lets me say that when you get right down to it, the "instructions" are a series of tokens; and now I get to explain the different kinds of tokens without having to waffle about keywords versus punctuation and various silly crap like that. They're all just tokens.<a name="Identifiers:  Keywords, Variables, Literals"></a>
+Almost nobody in the programming world talks about tokens, unless they're messing around with learning how programming langauges are built. It's really just a fancier word for "chunks", and the main reason I'm bringing it up is because it lets me say that when you get right down to it, the "instructions" are a series of tokens; and now I get to explain the different kinds of tokens without having to waffle about keywords versus punctuation and various silly crap like that. They're all just tokens.
 
-#### <a name="Identifiers:  Keywords, Variables, Literals">Identifiers: Keywords, Variables, Literals</a>
+#### Identifiers: Keywords, Variables, Literals
 
 Strings of letters like "somenumber", are _identifiers_.
 
