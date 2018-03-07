@@ -31,6 +31,15 @@ There are a number of other files included in this repository. Many are scraped 
 git clone git@github.com:SevenEcks/the-new-moo-programming-guide.git
 ```
 
+### Markdown Conversion
+
+We use the [to-markdown-cli](https://github.com/fabianmoronzirfas/to-markdown-cli) library to convert HTML files to markdown on the command line. It can be installed using NPM.
+
+```bash
+npm install -g to-markdown-cli
+html2md -i ./foo.html -o out.md <= output to out.md
+```
+
 ## Contents
 There are two versions of each document in this repository. One is a markdown copy located in [/tutorials](/tutorials) which is accessible on GitHub and one is an HTML version located in [/tutorials/src](/tutorials/src).
 

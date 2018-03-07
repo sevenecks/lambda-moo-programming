@@ -1,6 +1,30 @@
+
+<!DOCTYPE HTML SYSTEM>
+<!--
+ notablog is copyright Steven J. Owens, 2003, all rights reserved,
+ and is released under the Apache Project open-source license
+ (www.apache.org).
+-->
+<html>
+  <head>
+    <meta name="author" content="Steven J. Owens" />
+    <meta description="LambaMOO Programming Tutorial (very rough draft)" />
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=iso-8859-1" />
+    <link rel="stylesheet" type="text/css" href="/notablog/bluehaze/bluehaze.css" title="Blue Haze stylesheet" />
+    <link rel="stylesheet" type="text/css" href="/notablog/bluehaze/color-scheme.css" title="Blue Haze stylesheet" />
+
+    <title>LambaMOO Programming Tutorial (very rough draft) - darksleep.com/notablog</title>
+  </head>
+
+  <body>
+
+    <!-- ###### Body Text ###### -->
+
+    <div id="bodyText">
+        <h1>This source code was pulled from <a href="http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial">http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial</a> and is included in this repository for posterity. It is not currently HTML.</h1>
 <H1>LambaMOO Programming Tutorial (very rough draft)</H1>
 <P><EM>by Steven J. Owens (unless otherwise attributed)</EM></P>
-<!-- There are 422 paragraphs -->
+<!-- There are 381 paragraphs -->
 <P>MOO, of which LambaMOO is the first and biggest, is an interactive,
 multiplayer online game that includes the ability for players to build
 and even program new things or features into the game.  The language
@@ -187,8 +211,8 @@ utility verbs are organized on several objects, one object per
 category of verbs.  They are generally referred to as "the utils" or
 sometimes "the $utils", because the individual grouping objects tend
 to be kept track of in properties on the #0 object, and you can refer
-to these properties by using $propertyname, like $string&lowbar;utils, or
-$list&lowbar;utils.
+to these properties by using $propertyname, like $string&#095utils, or
+$list&#095utils.
 
 </P>
 
@@ -205,37 +229,37 @@ code by simply using $propertyname.
 
 </P>
 
-<PRE>$string&lowbar;utils:english&lowbar;ordinal</PRE><P>is really
+<PRE>$string&#095utils:english&#095ordinal</PRE><P>is really
 
 </P>
 
-<PRE>#0.string&lowbar;utils:english&lowbar;ordinal</PRE><P>There are a great many such useful properties on #0 besides the utils,
+<PRE>#0.string&#095utils:english&#095ordinal</PRE><P>There are a great many such useful properties on #0 besides the utils,
 but here are the utils defined on LambdaMOO's #0 as of this writing:
 
 </P>
 
-    <LI> #0.building&lowbar;utils
-    <LI> #0.byte&lowbar;quota&lowbar;utils
-    <LI> #0.code&lowbar;utils
-    <LI> #0.command&lowbar;utils
-    <LI> #0.convert&lowbar;utils
-    <LI> #0.gender&lowbar;utils
-    <LI> #0.generic&lowbar;utils
-    <LI> #0.list&lowbar;utils
-    <LI> #0.lock&lowbar;utils
-    <LI> #0.match&lowbar;utils
-    <LI> #0.math&lowbar;utils
-    <LI> #0.matrix&lowbar;utils
-    <LI> #0.object&lowbar;quota&lowbar;utils
-    <LI> #0.object&lowbar;utils
-    <LI> #0.perm&lowbar;utils
-    <LI> #0.quota&lowbar;utils
-    <LI> #0.seq&lowbar;utils
-    <LI> #0.set&lowbar;utils
-    <LI> #0.string&lowbar;utils
-    <LI> #0.time&lowbar;utils
-    <LI> #0.trig&lowbar;utils
-    <LI> #0.wiz&lowbar;utils
+    <LI> #0.building&#095utils
+    <LI> #0.byte&#095quota&#095utils
+    <LI> #0.code&#095utils
+    <LI> #0.command&#095utils
+    <LI> #0.convert&#095utils
+    <LI> #0.gender&#095utils
+    <LI> #0.generic&#095utils
+    <LI> #0.list&#095utils
+    <LI> #0.lock&#095utils
+    <LI> #0.match&#095utils
+    <LI> #0.math&#095utils
+    <LI> #0.matrix&#095utils
+    <LI> #0.object&#095quota&#095utils
+    <LI> #0.object&#095utils
+    <LI> #0.perm&#095utils
+    <LI> #0.quota&#095utils
+    <LI> #0.seq&#095utils
+    <LI> #0.set&#095utils
+    <LI> #0.string&#095utils
+    <LI> #0.time&#095utils
+    <LI> #0.trig&#095utils
+    <LI> #0.wiz&#095utils
 
 
 <P>There are also several verbs defined directly on #0, but most of them
@@ -255,12 +279,10 @@ with a valid result typically return the value #-1.
 
 </P>
 
-<P>There's actually a root property, $nothing, that contains the value
-#-1, but I'm pretty sure that $nothing does not define #-1, it merely
-points to it and gives you a more expressive way to use the value #-1.
-I.e. instead of putting the characters #-1 in your code, you put
-$nothing and anyone reading the code (including you, a few months or
-years later!) finds it easier to understand what your intent was.
+<P>There's actually a root property, $nothing, that contains the
+value #-1, but I'm pretty sure that $nothing does not define #-1, it
+merely points to it and gives you a more expressive way to use the
+value #-1.  
 
 </P>
 
@@ -279,32 +301,7 @@ e.g.:
 </P>
 
 <PRE>title = player.foo.bar:title();</PRE>
-<PRE>name = player.foo.bar.name ;</PRE><P>Here's a more realistic example of that:
-
-</P>
-
-<PRE>roomtitle = player.location.title();</PRE>
-<PRE>name = player.location.name ;</PRE><H3>Case Insensitivity</H3><P>Moo, unlike unix, linux, etc, doesn't care whether letters are upper
-case or lower case.  This seems to be generally true for variable
-names, object names, verb names, etc.  I guess Pavel (or Ghond before
-him) just didn't want to deal with an endless number of users getting
-their capitalization mixed up and screaming "This is broken!".
-
-</P>
-
-<PRE>>;;foo=5; me:tell(Foo)
-5
-=> 0
-[used 154 ticks, 0 seconds.]
->;;foo=5; me:tell(FOO)
-5
-=> 0
-[used 154 ticks, 0 seconds.]
->;;foo=5; me:tell(fOO)
-5
-=> 0
-[used 154 ticks, 0 seconds.]
-></PRE><H3>Data Types</H3><P>MOO has four data types: 
+<PRE>name = player.foo.bar.name ;</PRE><H3>Data Types</H3><P>MOO has four data types: 
 
 </P>
 
@@ -369,7 +366,7 @@ surrounded by double-quotes:
 </P>
 
 <P>Object numbers are references to objects in the MOO database.  Moo
-recognizes object numbers because they're preceded by a pound
+recognizes object numbers number because they're preceded by a pound
 sign #, also called a hash sign and officially named the octothorpe :-).
 
 </P>
@@ -379,65 +376,25 @@ elements in curly braces
 
 </P>
 
-<PRE>foo = {"a", "b", "c"} ;</PRE>
-<PRE>bar = {1, 2, 3} ;</PRE>
-<PRE>baz = {1, "two", 3} ;</PRE><P>You reference a specific element in a list by appending a number in
+<PRE>foo = {"a", "b", "c"} ;</PRE><P>You reference a specific element in a list by appending a number in
 [square brackets] to the variable name.  The number is called an
 index, and accessing a list element this way is called indexing:
 
 </P>
 
-<PRE>xyzzy = foo[2] ;</PRE><P>The index of the very first item in the list is 1, as you would expect
-if you're a normal human being:
+<PRE>xyzzy = foo[2] ;</PRE><P>Note that lists can contain any sort of data, including other lists:
 
 </P>
 
-<PRE>foo = {"a", "b", "c"} ;
-player:tell("The element at index 1 is: ", foo[1])</PRE><P>The player sees:  
-
-</P>
-
-<PRE>The element at index 1 is: a</PRE><P>If you're a programmer rather than a normal human being, you expect
-the index of the very first element to be 0, for technical reasons
-which I will skip for now.  Getting used to this is usually a major
-early stumbling block for non-programmers, which is probably why moo's
-inventors (Pavel and Ghond) decided to go with 1 instead.  But if
-you're already a programmer, you're going to expect it to be zero,
-which is why I'm pointing this out.
-
-</P>
-
-<P>Note that lists can contain any sort of data, including other lists:
-
-</P>
-
-<PRE>foo = {"a", b", c", {1, 2, 3} } ;</PRE><P>Nested lists can get quite complicated.  One particularly common form
+<PRE>foo = {"a", b", c" {1, 2, 3} } ;</PRE><P>Nested lists can get quite complicated.  One particularly common form
 of nested lists is called associative lists, or alists for short, and
 the $list_utils have a number of special verbs for dealing wtih
-alists.  Other languages usually use what's called a dictionary type
-(often "dict" for short) or "hashtable" or "map" to serve the same
-purpose.
+alists.
 
 </P>
 
-<P><B>Note:</B><EM> hashtable as a name describes how it's implemented; map as a
-name describes the act of using one value to look up another value.
-I'm explaining this mainly because the terms sometimes come up in
-programming discussions, so it's useful to be familiar with them.</EM>
-
-</P>
-
-<PRE>somealist = {{1, "January"}, {2, "February"}, {3, "March"}}</PRE><P>Note that the above isn't really a good example of an alist, since you
-could just make a list of month names and use the position (index) of
-each month name instead of needing use the associative list utility
-functions to look them up.  Here's a more realistic example, where
-you're storing players high scores in some in-moo game, using their
-object numbers as the key:
-
-</P>
-
-<PRE>somealist = {{#1449, 65050}, {#68, 743634}, {#107439, 34544}, {#93202, 235423}, {#94285, 10025}}</PRE><P>Most of the examples above are lists with elements that are all the
-same data type, but lists can contain mixed data types:
+<P>The examples above are lists with elements that are all the same data
+ type, but lists can contain mixed data types:
 
 </P>
 
@@ -452,19 +409,7 @@ in another big list.
 </P>
 
 <P>The trick with lists is not the syntax, it's the way lists are
-used in day-to-day MOO coding.  For example, if you do this, you end up having a list that contains two lists:
-
-</P>
-
-<PRE>
-foo = {1, 2, 3}  ;
-bar = {4, 5} ;
-baz = {foo, bar} ;
-</PRE><P>baz will now contain {{1, 2, 3}, {4, 5}} 
-
-</P>
-
-<P>You expand a list with the at sign @:
+used in day-to-day MOO coding.  You expand a list with the at sign @:
 
 </P>
 
@@ -472,7 +417,7 @@ baz = {foo, bar} ;
 foo = {1, 2, 3}  ;
 bar = {4, 5} ;
 baz = {@foo, @bar} ;
-</PRE><P>baz will now contain {1, 2, 3, 4, 5} 
+</PRE><P>baz will now contain {1, 2, 3, 4, 5} ;
 
 </P>
 
@@ -483,48 +428,16 @@ list is:
 
 </P>
 
-<PRE>baz = {1, 2, 3, 4, 5};
-baz = {@baz, 6} ;</PRE><P>baz will now contain {1, 2, 3, 4, 5, 6}
+<PRE>baz = {@baz, 6} ;</PRE><P>As mentioned above, you refer to specific elements in a list by their <STRONG>index</STRONG>,
+their numeric location in the list:
 
 </P>
 
-<P>What you are literally doing here is creating a new list that contains
-both the contents of the old list, baz, and the new value, 6, and then
-storing the reference to that new list in the variable name that baz,
-which previously used to store the reference to the old list.  In a more
-longer form, it might look like this:
-
-</P>
-
-<PRE>baz = {1, 2, 3, 4, 5};
-bat = {@baz, 6} ;
-baz = bat</PRE><P>bat will now contain {1, 2, 3, 4, 5, 6} and 
-
-</P>
-
-<P>baz will now contain {1, 2, 3, 4, 5 ,6}
-
-</P>
-
-<P>But of course, that's longer and using the extra variable name "bat"
-doesn't serve much purpose; usually in cases like this you'll never
-use the bat variable again.  
-
-</P>
-
-<P>Using the shorter version may seem a little less clear at first, but
-you end up doing this sort of thing so often that you quickly get used
-to it, and it's worth shortening it that way because it makes the code
-less cluttered and that makes it easier to read.
-
-</P>
-
-<P><B>Note:</B><EM> Sometimes it may make the code more clear if you be more
-explicit, as in the longer version.  Sometimes making it shorter makes
-that bit a little less clear but makes it easier to understand the
-rest of the code.  That's a judgement call that you'll learn to make
-as you get better at programming.  In fact a great majority of
-programming is making that kind of judgement call.</EM>
+<PRE>foo = {"a", "b", "c"} ;
+thelettera = foo[1] ;</PRE><P>Note that in moocode indexes start at 1.  The first element in the
+list is [1], the second element in the list is [2], etc.  This is
+unlike many C-derived languages where an array or list index starts
+with 0, i.e. the index value is an <I>offset</I>.
 
 </P>
 
@@ -540,11 +453,10 @@ bar = foo[2..4] ;</PRE><P>bar will now contain {"b", "c", "d"}.
 </P>
 
 <P>MOO list indexes and ranges can't do the things that fancier languages
-can, they have to be just a single number [4] or two numbers separated
-by two periods [2..4].  You have to do any fancy math yourself.  For
+can, they have to be just a single number [8] or two numbers separated
+by two periods [2..8].  You have to do any fancy math yourself.  For
 example, if you want to get from element 3 to the end of the list, you
-have to use the built-in function length() to get the length of the
-list:
+have to use the length() built-in function:
 
 </P>
 
@@ -558,7 +470,7 @@ bar = foo[2..length(foo)] ;</PRE><P>You'll also want to take a close look at the
 </P>
 
 <P>Enter: "foo&lt;enter&gt;<BR>
-See: You say, "Foo"
+See:   You say, "Foo"
 
 </P>
 
@@ -584,12 +496,12 @@ directly invoking verbs.
 </P>
 
 <P>One of the first property values you should set with eval is your
-player.eval&lowbar;env property. This may already be set for you; to check,
+eval&#095;env property. This may already be set for you; to check,
 just type the following:
 
 </P>
 
-<PRE>;player.eval&lowbar;env&lt;enter&gt;</PRE><P>You should see:
+<PRE>;player.eval&#095;env&lt;enter&gt;</PRE><P>You should see:
 
 </P>
 
@@ -597,13 +509,13 @@ just type the following:
 
 </P>
 
-<PRE>;player.eval&lowbar;env="here=player.location;me=player;"&lt;enter&gt;</PRE><P>Once you execute this command, you'll be able to use the eval
+<PRE>;player.eval&#095;env="here=player.location;me=player;"&lt;enter&gt;</PRE><P>Once you execute this command, you'll be able to use the eval
 shortcuts "me" for your player object, and "here" for your player
 object's current location.  This turns out to be incredibly handy.
 
 </P>
 
-<P>There's also a nifty little property, player.eval&lowbar;ticks.  See the
+<P>There's also a nifty little property, player.eval&#095ticks.  See the
 section below "Threads, Ticks and Tasks" for more on that.
 
 </P>
@@ -642,7 +554,7 @@ would store/maintain their own source code, and thus the compiler
 discarded comments, didn't bother to save them in the compiled verb
 bytecodes.  When users used the in-server editing tools, which decompiled
 the code for the user to edit it, presto, the comments were gone.
-(This compiling/decompiling also led to the happy accident that code
+(This compiling/decompiling also lead to the happy accident that code
 indenting/formatting is defacto specified by the decompiler.)
 
 </P>
@@ -766,24 +678,9 @@ started.
 
 <P>In moo programming, "arguments" generally refers to the somewhat
 Zork-like command-line parser, though "@args" refers to the verb
-arguments.
-
-</P>
-
-<P>When somebody types an interactive moo command, like "look at
-objectname", which ends up making your verb code run, any arguments
-included in that interactice command (called the invocation) will be
-stored in a list. That list will be automatically available to your
-verb code, stored in a variable named "args". In your verb code,
-usually one of the first things you do is use the @ sign (i.e. @args)
-to expand that list.  So "@args" became moo coder shorthand for
-referring to the parsed verb argument list.
-
-</P>
-
-<P><B>Note:</B><EM> args is what is called a "context variable".  There are some
-other standard context variables, some of them are discussed in the
-following paragraphs.</EM>
+arguments (when your verb code runs, any arguments included in
+the invocation will be stored in the list named args, and you  use
+@args to expand that list).  
 
 </P>
 
@@ -798,102 +695,34 @@ following paragraphs.</EM>
     <LI> verbname any any any
 
 
-<P>And so forth.
-
-</P>
-
-<P>The "foo preposition bar" form gets automatically
+<P>And so forth.  The "foo preposition bar" form gets automatically
 parsed by the MOO's command-line parser; it finds the verb name and
 argument structure that best matches, and invokes it.  
 
 </P>
 
 <P>"this" is a string that matches of the object the verb is defined on,
-i.e. the object name or one of the object aliases (see note below on
-aliases).
+i.e. the object name or one of the object aliases.
 
 </P>
 
-<P>"any" is any string. It might match an object in the same location
-(room) or it might just be a string that the user arbitrarily chose.
-Your verb code has to decide what to do with that.
-
-</P>
-
-<P><B>Note:</B><EM> Besides the object.name property, which just about every object
-in the moo db has, most objects also have object.aliases, which
-contains a list of alternative names for the object.  These are also
-used by the arg parsing and object matching code.</EM>
+<P>"any" is any string.
 
 </P>
 
 <P>There are some rules for precedence - the parser will try to match to
-player:verbname() before trying player.location:verbname(), and so
-forth.
+player:verbname before trying player.location:verbname, and so forht.
 
 </P>
 
-<H3>Context Variables</H3><P>As mentioned above, the "args" variable is automatically available
-to any code inside a verb.  The args variable contains a list of
-all of the arguments passed into the variable.  Since it's so often
-immediately expanded with the @ sign, it's often referred to ind
-discussion as "@args".
-
-</P>
-
-<P>The args variable is one example of a "context variable".  There are
-several of these super handy context variables.  Besides the
-parser-related ocntext variables I'll get into below, there are:
-
-</P>
-
-    <LI> "this", contains the object reference for the object that the verb is defined on.
-
-
-    <LI> "player", contains the object reference for whichever player started the current chain of execution, usually by invoking a verb interactively, using the command line.
-
-
-    <LI> "here" and "me" aren't actually context variables, but they're customarily defined in your player.eval&lowbar;env property for use with the eval command, both of which are discussed further below.
-
-
-<P><B>Note:</B><EM> player doesn't <STRONG>always</STRONG> contain the invoking player's object
-reference, there's a special built-in function named
-set&lowbar;task&lowbar;perms() that will set it to the verb owner's
-player object reference, or if the verb owner has wizard perms
-(player.wizard=1), can be used to set it to an arbitrary player.  This
-gets into tricky moo security topics, however.  If you're curious
-about it, also see the built-in function callers().</EM>
-
-</P>
-
-<P>Somewhat related to the topic, there're also several standard error or
-result code values that are available in verb code, much like the $
-variable.  These are mainly related to the built-in function typeof(),
-and are discussed a little in the section "Type Conversion" below.
-
-</P>
-
-<H3>Parser-related Context Variables</H3><P>When the parser invokes the verbs, it pre-populates several special
+<P>When the parser invokes the verbs, it pre-populates several special
 context variables that each verb starts with; argstr, dobjstr,
 iobjstr, and several others.  Let's look at an example:
 
 </P>
 
-<P>You have an object named "box" with a "put" verb and the arguments
-"any in this", which defined by using the @verb command:
-
-</P>
-
-<P>@verb box:put any in this
-
-</P>
-
-<P>You could also define it in two steps:
-
-</P>
-
-<P>@verb box:put
-@args box:put any in this
+<P>You have an object named "box" with a "put" verb and the
+arguments "any in any"
 
 </P>
 
@@ -901,19 +730,9 @@ iobjstr, and several others.  Let's look at an example:
 
 </P>
 
-<P>The parser looks for a player:put command, doesn't find one
-
-</P>
-
-<P>The parser looks for a room:put command, doesn't fine one
-
-</P>
-
-<P>The parser looks for a "gold" with a put command and the appropriate args, doesn't find one.
-
-</P>
-
-<P>The parser looks for a "box" with a put command and the appropriate args, and gets a match.
+<P>The parser looks for a player:put command, doesn't find one, then
+looks for a room:put command, doesn't fine one, then looks for a box
+with a put command and gets a match.
 
 </P>
 
@@ -944,10 +763,13 @@ custom parsing on their own.
 
 </P>
 
-<H4>this none this and @chmod +x</H4><P>There's also a special set of arguments, "this none this" for verbs
-meant to be invoked only by other verbs:
+<P>There's also a special set of arguments for verbs meant to be invoked
+only by other verbs:
 
 </P>
+
+    <LI> this none this
+
 
 <P>Generally speaking, if your verb doesn't have its args set to "this
 none this", you won't be able to invoke it from another verb.
@@ -956,18 +778,14 @@ none this", you won't be able to invoke it from another verb.
 
 <P>In addition, such not-to-be-directly-invoked verbs must be @chmodded
 to +x, to allow them to be invoked.  If they're not +x, the moo will
-report a rather confusing "verb not found" error.
-
-</P>
-
-<P>@chmod +x box:put<EM>helper</EM>verb 
+report a rather confusing "verb not found" error.  
 
 </P>
 
 <P>The reason for this is that not-to-be-directly-invoked verbs are
 expected (in well-designed code) to do the heavy lifting, the
 important and tricky stuff, and Pavel (or possibly Ghond) wanted to
-avoid having lots of half-done code be invocable by anybody.
+avoid having lots of half-done code be invokable by anybody.
 
 </P>
 
@@ -993,8 +811,7 @@ talk about them here.
     <LI> Every flow control structure starts with a keyword  (if, for, while).
     <LI> Every flow control structure ends with a matching keyword that starts with "end" (endif, endfor, endwhile).
     <LI> The lines between the start and end are called a "block" of code.
-    <LI> The block is customarily indented 4 characters.  That's only for readability purposes, but the moo compiler/decompiler automatically does it that way.
-    <LI> The line that starts the flow control structure usually contains an expression.
+    <LI> The line that starts the flow control structure usually contains an expression. 
 
 
 <P>Let's jump right in and show some examples of if, while, for, suspend
@@ -1007,7 +824,7 @@ the set of commands in the block or not.
 
 </P>
 
-<PRE><HR>if (some expression that evaluates to 0 for false or not-0 for true)
+<PRE><HR>if (some expression that evaluates to 0 or not-0)
   "do something" ;
 endif</PRE><P>You can also use if/else for when you want have a set of instructions
 for when the if test results in not-true.
@@ -1015,9 +832,9 @@ for when the if test results in not-true.
 </P>
 
 <PRE><HR>if (some expression that evaluates to 0 or not-0)
-  "it was not-zero, do something" ;
+  "do something" ;
 else
-  "it was zero, do something else" ;
+  "do something else" ;
 endif</PRE><P>The while and for flow controls are for looping, i.e. doing something one or more times:
 
 </P>
@@ -1091,7 +908,7 @@ if (player:iftestverbname())
   player:tell("This line only gets executed if the verb  player:iftestverbname() returns a non-zero value.") ;
 endif
 </PRE><h4>for loop</h4><P>For loops in moocode are kinda neat; "for x in (y)" is nice and
-readable.  Hey, Java added something similar (foreach) in 2014, it
+readable.  Hey, Java added something similar (foreach) in 2004, it
 only took them an extra 17 years (ooh that makes me feel all
 smalltalkerly/LISPerly inside).  The y part of "for x in (y)" can be
 anything that returns a list, including:
@@ -1103,7 +920,7 @@ anything that returns a list, including:
 </P>
 
 <PRE>
->;;for x in (me.owned&lowbar;objects[1..10]) me:tell(x) ; endfor
+>;for x in (me.owned&#95;objects[1..10]) me:tell(x) ; endfor
 #1449
 #1560
 #1565
@@ -1138,7 +955,7 @@ however many seconds.
 
 </P>
 
-<PRE>>;;suspend(20) ; me:tell("boo!") ;
+<PRE>;;suspend(20) ; me:tell("boo!") ;
 ...20 seconds pass...
 boo!
 => 0</PRE><B>fork</B><P>Fork takes a little more discussion.  Fork fires off a separate task.
@@ -1184,15 +1001,15 @@ endif).
 </P>
 
 <PRE>
-&gt;;;if(1) player:tell("foo") ; else player:tell("bar") ; endif
+&gt;;if(1) player:tell("foo") ; else player:tell("bar") ; endif
 foo
 =&gt; 0
 &gt;
-&gt;;;if(0) player:tell("foo") ; else player:tell("bar") ; endif
+&gt;;if(0) player:tell("foo") ; else player:tell("bar") ; endif
 bar
 =&gt; 0
 &gt;
-&gt;;;if(-1) player:tell("foo") ; else player:tell("bar") ; endif
+&gt;;if(-1) player:tell("foo") ; else player:tell("bar") ; endif
 foo
 =&gt; 0
 &gt;
@@ -1202,7 +1019,7 @@ i is 2
 i is 1
 =&gt; 0
 &gt;
-&gt;;;fork taskidvar (2) me:tell("later.") ; endfork
+&gt;;fork taskidvar (2) me:tell("later.") ; endfork
 =&gt; 0
 (two seconds pass)
 later.
@@ -1274,10 +1091,10 @@ ticks.
 </P>
 
 <P>Ticks get renewed over time, so verbs that have to do a whole lot of
-stuff will periodically use suspend() to pause for some period of time and let
-their ticks recharge. $command&lowbar;utils:suspend&lowbar;if&lowbar;needed(10) 
+stuff will use suspend() to pause for some period of time and let
+their ticks recharge. $command&#095utils:suspend&#095if&#095needed(10) 
 is often used for this, to only suspend() if the verb is in danger of
-running out of ticks.  Of course, suspend&lowbar;if&lowbar;needed() burns up ticks
+running out of ticks.  Of course, suspend&#95;if&#95;needed() burns up ticks
 in itself, so it's wise to always give it an argument of at least 5,
 more like 10 seconds for the pause.
 
@@ -1286,9 +1103,6 @@ more like 10 seconds for the pause.
 <P>There's also a player-wide tick allocation, so if a particular player
 has lots of verbs that have heavy tick usage, the performance impact
 will fall more on that player, and less on the rest of the MOO.
-(Hands up if you wrote ridiculously expensive 3D line of sight
-elimination code that caused the wizards to priotirize completing
-player-wide tick allocations in the moo server... anyone?  Buehler?).
 
 </P>
 
@@ -1296,7 +1110,7 @@ player-wide tick allocations in the moo server... anyone?  Buehler?).
 
 </P>
 
-<PRE>;me.eval&lowbar;env=1</PRE><P>And now the examples I gave you in the Flow Control section will
+<PRE>;me.eval&#095env=1</PRE><P>And now the examples I gave you in the Flow Control section will
 produce output like:
 
 </P>
@@ -1388,43 +1202,42 @@ creating the sense of space and place.
 
 </P>
 
-<P>$room:look() is the verb that the parser invokes if you simply type "look" with no arguments.  
+<P>Room:look() is the verb that the parser invokes if you simply type "look" with no arguments.  
 
 </P>
 
-<P>$room:look() calls room:look&lowbar;self() to return text describing the room.  
+<P>Room:look() calls room:look&#95;self() to return text describing the room.  
 
 </P>
 
-<P>$room:look&lowbar;self() calls room:description() and
-$room:tell&lowbar;contents() and sends the results to player:tell().
+<P>Room:look&#95;self() calls room:description() and
+room:tell&#95;contents() and sends the results to player:tell().
 
 </P>
 
-<P>$room:description() defaults to just returning the text in the property room.description
+<P>Room:description() defaults to just returning the text in the property room.description
 
 </P>
 
-<P>$room:tell&lowbar;contents() defaults to just listing the objects in
-the property room.contents, but they can and do often work
-differently.
+<P>Room:tell&#95;contents() defaults to just listing the objects in the property room.contents, but they can
+and do often work differently.  
 
 </P>
 
 <P>There are some room generics, for example, that dynamically compose
 the description from objects that are in the room that are designed to
 work with such rooms, and then the room leaves any such objects out of
-the room:tell&lowbar;contents() output.
+the room:tell&#95;contents() output.
 
 </P>
 
-<P>Rooms also have two properties, $room.entrances and $room.exits.  Both
-properties contain a list of $exit objects. An entrance is just an
-exit from some other room that has this room as a destination.  When
-you enter a command, if the MOO parser can't find a verb whose name
-and arguments match the command, it then tries to match an exit. If it
-does, it calls the exit's :invoke() verb, which then moves you from
-that room to the destination room.
+<P>Rooms also have two properties, room.entrances and room.exits.  Both
+properties contain a list of $exits; an entrance is just an exit from
+some other room that has this room as a destination.  When you enter a
+command, if the MOO parser can't find a verb whose name and arguments
+match the command, it then tries to match an exit. If it does, it
+calls the exit's :invoke() verb, which then moves you from that room
+to the destination room.
 
 </P>
 
@@ -1460,7 +1273,7 @@ text and just send it to all objects in the room.
 <P>The player object has a special verb, player:notify(), that sends a
 line of text to the player's network connection.  player:notify() is
 so special that nobody actually invokes it directly; it's almost only
-ever used by player:tell() (and occasionally by player:tell&lowbar;lines(),
+ever used by player:tell() (and occasionally by player:tell&#095;lines(),
 see note below).  In fact, player:notify() has a special permission
 check in its code to prevent it from being called from anything else
 but verbs on the player.
@@ -1481,9 +1294,9 @@ purposes extremely rude and/or socially objectionable).
 
 </P>
 
-<P><B>Note:</B><EM> player:tell&lowbar;lines() works much like player:tell() except it can
+<P><B>Note:</B><EM> player:tell&#095;lines() works much like player:tell() except it can
 take a list of strings as an argument; it, in turn, calls
-player:notify&lowbar;lines(), which loops through the list and calls
+player:notify&#095;lines(), which loops through the list and calls
 player:notify() with each individual line.</EM>
 
 </P>
@@ -1524,11 +1337,11 @@ object:moveto(#destination).
 
 <P>When you move an object, the object's :moveto() verb may have some
 special checks coded in it to prevent you moving it.  Most players
-don't like being moved around by random people.  See "help locking";
-also, a lot of older players use a player class that has a "sessile"
-property that, when set to 1, keeps anything from moving them.  These
-days players mostly just use the (relatively) more recently @refuse
-command ("@refuse moves") to protect themselves from idiots.
+don't like being moved around by random people.
+See "help locking"; also, a lot of older players use a player class
+that has a "sessile" property that, when set to 1, keeps anything from
+moving them.  These days players mostly just use @refuse moves to
+protect themselves from idiots.
 
 </P>
 
@@ -1546,18 +1359,18 @@ following verbs are called in something vaguely like this order:
 
 </P>
 
-    <LI> call objecttobemoved:moveto(destinationobject)
-    <LI> objecttobemoved:moveto() calls destination:accept(objecttobemoved)
-    <LI> destinationobject:accept(objectobemoved) calls through to destination:acceptable(objecttobemoved) to figure out if an object actually is acceptable, then returns the value
-    <LI> destinationobject:enterfunc(objecttobemoved) gives the destination an opportunity to react to the arrival of the object after it has entered the destination (though normally special effects are taken care of by the exits or by the verb that's calling object:moveto()).
-    <LI> sourceobject:exitfunc(objecttobemoved) gives the source an opportunity to do/say something after the object has left the source.
+    <LI> call object:moveto(destinationobject)
+    <LI> moveto() calls destination:accept(objecttobemoved)
+    <LI> destination:accept() calls through to destination:acceptable(objecttobemoved) to figure out if an object actually is acceptable, then returns the value
+    <LI> destination:enterfunc(objecttobemoved) gives the destination an opportunity to react to the arrival of the object after it has entered the destination (though normally special effects are taken care of by the exits or by the verb that's calling object:moveto()).
+    <LI> source:exitfunc(objecttobemoved) gives the source an opportunity to do/say something after the object has left the source.
 
 
 <P>When you are in a room and you issue the "look" command, the parser
-finds $room:look(), which in turn calls $room:look&lowbar;self().
-look&lowbar;self() is the generic verb for an object to assemble what a
+finds $room:look(), which in turn calls $room:look&#095;self().
+look&#095;self() is the generic verb for an object to assemble what a
 player sees when the object is looked at.  As is often the case in
-moocode, the look&lowbar;self verb doesn't just return a description, it in
+moocode, the look&#095;self verb doesn't just return a description, it in
 turn calls player:tell().
 
 </P>
@@ -1566,17 +1379,14 @@ turn calls player:tell().
 
 </P>
 
-    <LI> player types "look<enter>"
-    <LI> parser matches player.location:look_self()
-    <LI> room:look&lowbar;self() is called.
-    <LI> room:look&lowbar;self() calls room:title()
-    <LI> room:look&lowbar;self() calls room:description()
-    <LI> room:look&lowbar;self() calls room:tell&lowbar;contents()
-    <LI> the above verbs call player:tell()
+    <LI> room:look&#095;self() is called.
+    <LI> room:look&#095;self() calls room:title()
+    <LI> room:look&#095;self() calls room:description()
+    <LI> room:look&#095;self() calls room:tell&#095;contents()
 
 
-<P>As it turns out, room:description() is not part of $room:look&lowbar;self().
-I'm not sure where that get added to look&lowbar;self() (though the
+<P>As it turns out, room:description() is not part of $room:look&#095;self().
+I'm not sure where that get added to look&#095;self() (though the
 :description() verb is defined on the Root Class, #1).
 
 </P>
@@ -1677,7 +1487,7 @@ designed that programming language just thought it would be a good
 idea to keep that keyword reserved for some reason.</P><P>There are also rules for what you can put in a variable name, but
 for now just use normal words (nouns mostly), avoid using a keyword,
 and avoid doing anything fancy with punctuation or numbers, and you'll
-be fine.</P><P>A <B>literal</B> means that instead of having a variable that
+be fine.</P><P>A <I>literal</I> means that instead of having a variable that
 contains a value, you just literally have the value typed right there
 in the code, like the number 343243, for example.</P><P>Programmer-speak for a bit of text is a <I>String</I>, as in "a
 string of letters", or really "a string of characters", since text can
@@ -1692,19 +1502,15 @@ values together, or the minus character - subtracts them.
 </P><P>Most of the usual math symbols do what you'd expect them to, except
 for the equals sign =, which is an important exception I'll get to in
 just a second.</P><P>Another exception is that the plus sign "+" can be used to add two
-strings of characters together, so <CODE>"foo" + "bar"</CODE>
-works out to have the same value as <CODE>"foobar"</CODE>.  There's
+strings of characters together, so:</P><P><CODE>"foo" + "bar"</CODE></P><P>Works out to have the same value as <CODE>"foobar"</CODE>.  There's
 not much use for <CODE>"foo" + "bar"</CODE> in programming, but
 there's a lot of use for gluing together strings.</P><P>Note that in moocode you can only add strings to strings and
 numbers to numbers.  If you want to concatenate a string to a number,
 you have to use the built-in tostr() function, like this:<PRE><CODE>
 message = "The number is:  " + tostr(somenumber) ;
 </CODE></PRE><P>Many programming languages have increment "++" and decrement "--",
-but moocode does not.  foo++ adds 1 to foo, foo-- subtracts one from
-foo. A lot of languages use this to make it more succinct to loop
-through a list, adding one at a time, but moocode doesn't need it as
-much because it has "for x in y".</P><H5>The Equals Sign <CODE>=</CODE>, Assignment and Comparison</H5><P>The equals sign is used for <EM>assignment</EM>, meaning, storing a
-value into a variable.  If you see:
+but moocode does not.</P><H5>The Equals Sign <CODE>=</CODE>, Assignment and Comparison</H5><P>The equals sign is used for <EM>assignment</EM>, meaning, storing a
+value into a variable.  If you see:</P>
 
 </P>
 
@@ -1713,16 +1519,7 @@ write this out, they usually say something like "let a equal five" or "a is
 assigned the value five".</P><P>If you try to put a literal on the left side, like this:</P><P><CODE>5 = b</CODE></P><P>...the compiler yells at you.  This turns out to be a very good
 thing, we'll talk about it in a moment.</P><P>You can also assign one variable to another, which means that the
 value in the second variable gets copied to the first variable as
-well:</P><P><CODE>a = b</CODE></P><P><B>Note</B>: A lot of programming languages require you to be very
-formal about defining variables ahead of time, "initializing" them
-(assigning the initial value), etc.  Moocode is all hippy and free
-love, so you can pretty much create a new variable whenever you want,
-simply by assigning a value to a variable name.  There's a downside to
-this; if you try to assign a different value to an existing variable
-but mistype the variable name, moo will happily create the new
-variable and let things keep rolling on... and you'll have no idea WTF
-happened when the wrong value causes problems somewhere entirely else
-in your code.<H4>Equals Signs, Assignment and Comparison, or Stupid Programmer Mistakes</H4>    <P>Using a single equals sign for assignment is a very firmly
+well:</P><P><CODE>a = b</CODE></P><H4>Equals Signs, Assignment and Comparison, or Stupid Programmer Mistakes</H4>    <P>Using a single equals sign for assignment is a very firmly
 established tradition in programming.  This is sort of unfortunate,
 because it leads to one of the most common, and most frustrating typos
 in the programming world, which is "confusing assignment (=) with
@@ -1782,11 +1579,11 @@ collection of elements.  If you're familiar with arrays, think of a
 list as a smart array, that grows and shrinks as necessary.  Here's an
 example:</P><PRE><CODE>stringslist = {"one", "two", "three"};</CODE></PRE><P>Here's another example: </P><PRE><CODE>numberslist = {1, 2, 3};</CODE></PRE><P>A list can contain mixed types of elements, for example: </P><PRE><CODE>mixedlist = {1, "two", 3};</CODE></PRE><P>Most languages use square brackets "[" and "]" to <I>index</I> into
 an array or list, for example if you one the "two" from the mixedlist
-example, you'd use:</P><PRE><CODE>twostring = mixedlist[2];</CODE></PRE><P>One exception to all this left-right nonsense is the angle brackets, "&lt;" and "&gt;".  
+example, you'd use:</P><PRE><CODE>twostring = mixedlist[2];</CODE></PRE><P>One exception to all this left-right nonsense is the angle brackets, "<" and ">".  
 Moocode, like most languages, only uses angle brackets for mathematical
-stuff, like greater-than or less-than, etc.</P><P>Qouble-quotes like " usually have to be in a matched set.  Pretty
-much no programming language uses "smart quotes", where the quotes are
-angled opposite each other.  When programmers specifically want to say
+stuff, like greater-than or less-than, etc.</P><P>Quotes " usually have to be in a matched set.  Pretty much no
+programming language uses "smart quotes", where the quotes are angled
+opposite each other.  When programmers specifically want to say
 not-smart-quotes they usually say "straight quotes".</P><P>Some programming languages have special meanings for the
 single-quote ' and back-tick ` characters.  Moocode did not at first,
 but have since used them for catching errors, see the section "Catching
@@ -1819,7 +1616,7 @@ particular program is a compiler, per se, or an interpreter.  Many
 program.  Some compilers (like the moo compiler, and also the java
 compiler) compile the program halfway, to a generic format called
 bytecode, and then it's run on a <EM>virtual machine</EM> (like the
-moo server, or the Java Virtual Machine, JVM for short), which is
+moo server, ro the Java Virtual Machine, JVM for short), which is
 basically another take on the interpreter, a program that runs a
 program.</P><P>Second of all, there is seldom a one-for-one word-to-code
 translation.  Most often, a short set of words converts into dozens or
@@ -1873,7 +1670,7 @@ section, so you can go back to the top and read the regular tutorial.</P><H3>Out
       <UL>
         <LI>@display, @args, @chmod
         <LI>Eval ;
-        <LI>Eval Environment:  ;player.eval&lowbar;env="here=player.location;me=player;"
+        <LI>Eval Environment:  ;player.eval&#095;env="here=player.location;me=player;"
         <LI>Multi-Line Evals ;;
       </UL>
     <LI>The Framework
@@ -1895,10 +1692,77 @@ section, so you can go back to the top and read the regular tutorial.</P><H3>Out
       </UL>
     <LI>Some "interesting" functions and properties
       <UL>
-        <LI>max&lowbar;object()
+        <LI>max&#095;object()
         <LI>$playerdb
-        <LI>player.owned&lowbar;objects
+        <LI>player.owned&#095;objects
       </UL>
     </UL>
   </UL>
-</UL>
+</UL><HR>
+<A HREF="format.cgi?article=LambdaMOO_Programming_Tutorial.foo&format=unformatted">See original (unformatted) article</A>
+
+<HR>
+<H1>Feedback</H1>
+
+<FORM METHOD="GET" ACTION="/notablog/feedback.cgi">
+<TABLE>
+<TR>
+<TD VALIGN="TOP"><B>Verification Image</B>: <IMG SRC="/notablog/captcha/captcha.cgi?1489971096" VALIGN="top"></TD>
+<TD><input type="text" size="20" name="verifytext"></tD>
+</TR>
+<TR>
+<TD><B>Subject</B>:</TD>
+<TD><INPUT TYPE="TEXT" NAME="subject" size="40"></TD>
+</TR>
+<TR>
+<TD><B>Your Email Address</B>:</TD>
+<TD><INPUT TYPE="TEXT" NAME="replyto1" size="40"></TD>
+</TR>
+<TR>
+<TD><B>Confirm Address</B>:</TD>
+<TD><INPUT TYPE="TEXT" NAME="replyto2" size="40"></TD>
+</TR>
+<TR>
+<TD><B>Please Post</B>:</TD>
+<TD><INPUT TYPE="CHECKBOX" NAME="copyright" checked></TD>
+</TR>
+<TR>
+<TD COLSPAN="2">
+<B>Copyright:</B> By checking the "Please Post" checkbox you agree to
+having your feedback posted on notablog if the administrator decides
+it is appropriate content, and grant compilation copyright rights to
+the administrator.<BR>
+<B>Message Content:</B><BR>
+<TEXTAREA NAME="content" COLS="60" ROWS="15">
+</TEXTAREA><BR>
+<INPUT TYPE="submit" VALUE="Post Feedback">
+</TD>
+</TR>
+</TABLE>
+</FORM>
+
+<HR>
+    </div>
+    
+    <!-- ###### Footer ###### -->
+
+    <div id="footer">
+      <div>
+<BR><!--         http://www.oswd.org/design/1112/bluehaze/index.html -->
+      </div>
+
+      <div>
+	      <A HREF="http://www.darksleep.com/notablog/about.html">Powered by notablog</A><BR>
+        Content by Steven J. Owens<BR>
+        Website design by <a href="http://www.oswd.org/email.phtml?user=haran"
+        title="Email author">haran</a><BR>
+ (except for the men-at-work icon)
+      </div>
+    </div>
+    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      _uacct = "UA-2189181-1";
+      urchinTracker();
+    </script>
+</body>
+</html>
