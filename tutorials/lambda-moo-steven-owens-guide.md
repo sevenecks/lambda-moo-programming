@@ -33,9 +33,7 @@ Also there are a variety of tutorials. I'm not trying to duplicate or replace th
 
 ## Basic Terminology
 
-I'm going to assume you have a basic familiarity with programming concepts, but don't get too stressed out if you don't, you'll be able to pick that up as you go along. If you're totally, completely new at this, I explain some general concepts at the end of this page, in a section titled:
-
-[Real Basics of Programming in Moocode"](#RealBasics)
+I'm going to assume you have a basic familiarity with programming concepts, but don't get too stressed out if you don't, you'll be able to pick that up as you go along. If you're totally, completely new at this, I explain some general concepts at the end of this page, in a section titled: _Real Basics of Programming in Moocode_
 
 I'm going to assume you have a basic familiarity with moo concepts, but just to be clear:
 
