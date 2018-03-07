@@ -1116,3 +1116,5 @@ That's the end of our little "the really real realest basics of programming" sec
     *   max_object()
     *   $playerdb
     *   player.owned_objects
+
+The source code for this file was taken from http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial and converted to markdown and is stored in this repository for posterity. It is not HTML5.
