@@ -157,7 +157,7 @@ This is a step by step guide by Puff the Fractal Dragon on how get LambdaMOO run
 To use this guide you simply need to open [LambdaMOO on GenesisMud](/tutorials/genesismud.md).
 
 #### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/genesismud.txt](/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html) in your web browser.
+To access this file locally you simply need clone the repository and open [/tutorials/src/genesismud.txt](/tutorials/src/genesismud.txt) in your web browser.
 
 ### Gettings Started With moo.el
 This tutorial by Puff the Fractal Dragon walks you through using emacs to edit MOO code. It also includes some generalized emacs information.
