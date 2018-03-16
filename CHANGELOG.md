@@ -1,5 +1,10 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [0.7] - 2017.03.16 3:12PM
+* Added genesismud tutorial by Puff
+* Added emacs mud.el tutorial by Puff
+* Updated README
+
 ## [0.6] - 2018.03.07 2:49PM
 * Updated README with markdown conversion instructions
 * Updated Steven Owen guide with new version (md and html)
