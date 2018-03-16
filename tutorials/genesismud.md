@@ -899,11 +899,18 @@ http://www.chrisunkel.com/WinMOO/winmoo-faq.html
 Q. When I take my database written by WinMOO, and try to load it into a LambdaMOO server under Unix, it doesn't work. What's going on?
 
 A. Most likely, your database contains CRLF sequences (the Windows sequence) as the line-termination character, rather than the straight LF that Unix expects. Probably
-this manifests as log messages that include something like "*** DBIO_READ_NUM: Bad number:". You need to remove the CRs.
+this manifests as log messages that include something like:
 
-There are many ways to do this. One is to FTP the file from the Windows machine to the Unix machine in ASCII rather than binary mode, which will perform appropriate
-translation of end-of-line sequences. Another is to strip out the CRs, e.g. with:
+```
+"*** DBIO_READ_NUM: Bad number:". You need to remove the CRs.
+```
+
+There are many ways to do this. One is to FTP the file from the Windows machine to the Unix machine in ASCII rather than binary mode, which will perform appropriate translation of end-of-line sequences. Another is to strip out the CRs, e.g. with:
+
+```bash
 tr -d '\015' < foo-crlf.db > foo-lf.db
+```
+
 ----------------------------------------------------------------------
 
 "tr" is the unix Translate command.  Okay, let's give that a shot.
