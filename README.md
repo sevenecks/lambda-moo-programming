@@ -16,6 +16,8 @@ Table of Contents
     * [Hacking LambdaMOO Server Nodak](#hacking-lambdamoo-server-nodak)
     * [Lambda MOO Background Information Nodak](#lambda-moo-background-information-nodak)
     * [Lambda MOO Programming Nodak](#lambda-moo-programming-nodak)
+    * [How to set up a LambdaMOO server on GenesisMud](#how-to-set-up-a-lambdamoo-server-on-genesismud)
+    * [Getting Started With moo.el](#getting-started-with-moo-el)
 * [Changes](#changes)
 * [Notes](#notes)
 * [ToDo](#todo)
@@ -147,6 +149,24 @@ To use this guide you simply need to open [Lambda MOO Nodak Edu](/tutorials/lamb
 
 #### Locally
 To access this file locally you simply need clone the repository and open [/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html](/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html) in your web browser.
+
+### How to set up a LambdaMOO server on GenesisMud
+This is a step by step guide by Puff the Fractal Dragon on how get LambdaMOO running on GenesisMud. However, for anyone looking to get a general idea of how to get LambdaMOO up and running, this tutorial provides a good reference for the process.
+
+#### On GitHub
+To use this guide you simply need to open [LambdaMOO on GenesisMud](/tutorials/genesismud.md).
+
+#### Locally
+To access this file locally you simply need clone the repository and open [/tutorials/src/genesismud.txt](/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html) in your web browser.
+
+### Gettings Started With moo.el
+This tutorial by Puff the Fractal Dragon walks you through using emacs to edit MOO code. It also includes some generalized emacs information.
+
+#### On GitHub
+To use this guide you simply need to open [moo.el](/tutorials/mud_moo_el_tutorial.md).
+
+#### Locally
+To access this file locally you simply need clone the repository and open [/tutorials/src/mud_el_tutorial.txt](/tutorials/src/mud_el_tutorial.txt) in your web browser.
 
 ## Changes
 See [CHANGELOG.md](CHANGELOG.md)
