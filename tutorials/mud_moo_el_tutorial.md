@@ -8,6 +8,7 @@ __NOTE__: Many players have contacted me asking where they can get a copy of mud
 
 ## A Note About Terminology
 
+```
 Ctrl-Anything
      ...means hold down the Control key and press another key.  
 
@@ -19,20 +20,22 @@ Esc x blah-blah  or  Ctrl-X blah-blah
 
 Tab  and  ?
      While typing blah-blah, if you press Tab, EMACS will try to complete the command for you.  If you press Tab twice, or press ?, EMACS will list the possible completions of the command.  You can continue typing and using Tab until you get the entire command, then press [enter].
+```
 
 ## Starting up
 
-     Assuming you have GNU EMACS on your system, you start it up by entering "EMACS [enter]" from the prompt.  If you have more experience with EMACS you can set it up so it automatically loads moo.el, but for now, use:
+Assuming you have GNU EMACS on your system, you start it up by entering "EMACS [enter]" from the prompt.  If you have more experience with EMACS you can set it up so it automatically loads moo.el, but for now, use:
 
 Esc x load-file [enter] moo.el [enter] 
 
 ## Connecting
 
-     Connect to a mud with:
+Connect to a mud with:
 
+```
 Esc x mud [enter] mudname [enter].  
-
-        If you don't know the mud's name, you can use completion, or type ?  to get a list of the muds in your .moo_worlds file.
+```
+If you don't know the mud's name, you can use completion, or type ?  to get a list of the muds in your .moo_worlds file.
 
 ## The .moo_worlds file
 
