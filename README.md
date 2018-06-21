@@ -184,7 +184,7 @@ There are some code samples for enterprising developers to check out. It's limit
 * [Local Editing](code/LocalEditing.md) (Edit in a pop up window with @edit using Dome-Client web client)
 
 ### Web Client
-I've mentioned [https://github.com/JavaChilly/dome-client.js](Dome Client) in the updated MOO Programming Guide. It's a web based MOO client that uses NodeJS and web sockets. It works great, connecting to most LambdaMOO servers. You can run your own. 
+I've mentioned [Dome Client](https://github.com/JavaChilly/dome-client.js) in the updated MOO Programming Guide. It's a web based MOO client that uses NodeJS and web sockets. It works great, connecting to most LambdaMOO servers. You can run your own. 
 
 #### Public Web Client
 Sindome offers a [public web client](http://pubclient.sindome.org/) that can connect to whatever LambdaMOO server you want: http://pubclient.sindome.org/ 
