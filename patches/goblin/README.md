@@ -1,3 +1,9 @@
+# Warning
+
+I haven't been able to get this to work. It seems to be looking for MIN_LIST_CONCAT_LIMIT which may be GammaMOO specific. Am unsure.
+
+## From SourceForce
+
 This extension pack holds several new built-ins as a counterpart of their MOO-verb equivalents.
 
 ```
