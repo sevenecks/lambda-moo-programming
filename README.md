@@ -176,7 +176,6 @@ To access this file locally you simply need clone the repository and open [/tuto
 I've been worried that we might lose some server patches to time. Also they aren't really gathered anywhere on GitHub, just on [LisDude MOO Resources](http://www.lisdude.com/moo/) and random source forge unmainted LambdaMOO repos. So I'm starting to collect them here. If you have any, throw them up in a pull request please!
 
 * [FileIO 1.5p3](patches/fileio-1.5p3) (Todd Sundsted version)
-* [Goblin List Utils](patches/goblin) (GammaMOO only I think)
 
 ### Code
 There are some code samples for enterprising developers to check out. It's limited for now, please feel free to put a pull request in for any code you'd like included.

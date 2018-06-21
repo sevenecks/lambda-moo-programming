@@ -1,5 +1,8 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [0.10] - 2018.06.21 9:46AM
+* Removed goblin extension at authors request
+
 ## [0.9] - 2018.06.20 10:53PM
 * Fixed markdown links
 * Added code to readme
