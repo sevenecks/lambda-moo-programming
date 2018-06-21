@@ -1,4 +1,12 @@
 # Changelog for LambdaMOO Programming Repository
+
+## [0.9] - 2018.06.20 10:53PM
+* Fixed markdown links
+* Added code to readme
+* Added patches to readme
+* Added webclient section to readme
+* Added public webclient section to readme
+
 ## [0.8] - 2018.06.20 10:38PM
 * Added Patche for goblin extension (probably only works on gammamoo)
 * Added patch for fileio-1.5p3 (Todd's version)
