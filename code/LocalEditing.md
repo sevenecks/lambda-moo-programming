@@ -132,7 +132,7 @@ endfor
 @args #480:"local_instruction" this none this
 @program #480:local_instruction
 {label, ?upload = "none"} = args;
-player:tell("
+player:tell("#$# edit name: ", label, " upload: ", upload);
 .
 
 ```
