@@ -1,6 +1,10 @@
 # Changelog for LambdaMOO Programming Repository
+## [0.8] - 2018.06.20 10:38PM
+* Added Patche for goblin extension (probably only works on gammamoo)
+* Added patch for fileio-1.5p3 (Todd's version)
+* Added 'Code' directory and a code example for getting local editing (in a pop up) working form Dome-Client
 
-## [0.7] - 2017.03.16 3:12PM
+## [0.7] - 2018.03.16 3:12PM
 * Added genesismud tutorial by Puff
 * Added emacs mud.el tutorial by Puff
 * Updated README

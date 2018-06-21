@@ -168,6 +168,17 @@ To use this guide you simply need to open [moo.el](/tutorials/mud_moo_el_tutoria
 #### Locally
 To access this file locally you simply need clone the repository and open [/tutorials/src/mud_el_tutorial.txt](/tutorials/src/mud_el_tutorial.txt) in your web browser.
 
+### Server Patches
+I've been worried that we might lose some server patches to time. Also they aren't really gathered anywhere on GitHub, just on [http://www.lisdude.com/moo/](LisDude MOO Resources) and random source forge unmainted LambdaMOO repos. So I'm starting to collect them here. If you have any, throw them up in a pull request please!
+
+* [patches/fileio-1.5p3](FileIO 1.5p3) (Todd Sundsted version)
+* [patches/goblin](Goblin List Utils) (GammaMOO only I think)
+
+### Code
+There are some code samples for enterprising developers to check out. It's limited for now, please feel free to put a pull request in for any code you'd like included.
+
+* [code/LocalEditing.md](Local Editing) (Edit in a pop up window with @edit using Dome-Client)
+
 ## Changes
 See [CHANGELOG.md](CHANGELOG.md)
 
