@@ -21,7 +21,7 @@ Table of Contents
 
 * [Server Patches](#server-patches)
 * [Server Setup](#server-setup)
-    * [Automated Local Environment Setup (Stunt & LambdaCore)](#automated-local-environment-setup-stunt-&-lambdacore)
+    * [Automated Local Environment Setup (Stunt & LambdaCore)](#automated-local-environment-setup-stunt--lambdacore)
 * [Code](#code)
 * [Web Client](#web-client)
     * [Public Web Client](#public-web-client)
