@@ -1,5 +1,9 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [0.12] - 2018.07.10 2:35PM
+* Added server setup section to readme
+* Added automated local environment setup (Stunt & LambdaCore) section to readme
+
 ## [0.11] - 2018.06.21 9:54AM
 * Fixed local instruction code
 

@@ -20,6 +20,8 @@ Table of Contents
     * [Getting Started With moo.el](#getting-started-with-moo-el)
 
 * [Server Patches](#server-patches)
+* [Server Setup](#server-setup)
+    * [Automated Local Environment Setup (Stunt & LambdaCore)](#automated-local-environment-setup-stunt-&-lambdacore)
 * [Code](#code)
 * [Web Client](#web-client)
     * [Public Web Client](#public-web-client)
@@ -176,6 +178,10 @@ To access this file locally you simply need clone the repository and open [/tuto
 I've been worried that we might lose some server patches to time. Also they aren't really gathered anywhere on GitHub, just on [LisDude MOO Resources](http://www.lisdude.com/moo/) and random source forge unmainted LambdaMOO repos. So I'm starting to collect them here. If you have any, throw them up in a pull request please!
 
 * [FileIO 1.5p3](patches/fileio-1.5p3) (Todd Sundsted version)
+
+### Server Setup
+### Automated Local Environment Setup (Stunt & LambdaCore)
+Since I abuse virtual machines for this sort of thing and don't retain the data from them, I have created a repository, [moolite](https://github.com/amnsia/moolite), to reproduce my environment without much typing. It consists of the [Stunt](https://github.com/toddsundsted/stunt) server and the latest LambdaCore database from Brendan's [LambdaMOO](https://github.com/SevenEcks/LambdaMOO) repo. Right now it's a couple of shell scripts, but I will be adding more to it and the quickstart in the README. -- amnsia.
 
 ### Code
 There are some code samples for enterprising developers to check out. It's limited for now, please feel free to put a pull request in for any code you'd like included.
