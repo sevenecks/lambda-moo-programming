@@ -1,6 +1,6 @@
 # LambdaMOO Programmer's Manual
 
-## For LambdaMOO Version 1.8.0p6 (and beyond!)
+## For LambdaMOO Version 1.8.1 (and beyond!)
 
 Originally written March, 1997:
 
