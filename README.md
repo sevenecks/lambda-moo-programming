@@ -42,7 +42,7 @@ git clone git@github.com:SevenEcks/the-new-moo-programming-guide.git
 
 ### Markdown Conversion
 
-We use the [to-markdown-cli](https://github.com/fabianmoronzirfas/to-markdown-cli) library to convert HTML files to markdown on the command line. It can be installed using NPM.
+We use the [html2md](https://github.com/fabianmoronzirfas/to-markdown-cli) library to convert HTML files to markdown on the command line. It can be installed using NPM.
 
 ```bash
 npm install -g to-markdown-cli
@@ -57,7 +57,7 @@ There are two versions of each document in this repository. One is a markdown co
 This LambdaMOO Programmer's Manual is an **updated an expanded version** of the *LambdaMOO Programmer's Manual* originally written by Pavel Curtis. Some pretty extensive work has gone into updating it.
 
 #### On The Web
-This file is important, and thus, it is available online: [MOO Programmers Manual](http://www.sindome.org/moo-manual.html)
+This file is important, and thus, it is available online: [MOO Programmers Manual](https://www.sindome.org/moo-manual.html)
 
 #### On GitHub
 To use this guide you simply need to open [MOO Programmer's Manual](/tutorials/moo-programmers-manual-updated.md). This version of the MOO Programmer's Manual lacks much of the formatting that the HTML5 version below has. It is great for quick perusal, but the HTML version is superior. 
@@ -206,7 +206,7 @@ See [NOTES.md](NOTES.md)
 See [TODO.md](TODO.md)
 
 ## Contributing
-Please feel free to fork the repo and contribute via pull request. This is a labor of love. Give back to the community.  
+Please feel free to fork the repo and contribute via pull request. This is a labor of love. Give back to the community. If you want to edit one of the HTML src files, you can do so, but you should run it through html2md (npm install -g to-markdown-cli) and then move the markdown file into the tutorials directory. 
 
 ## Author
 [Sindome](https://www.sindome.org/) has been online since 1997. I've been playing it since 2003.  I've been developing in MOO since 2005, and a developer on Sindome since 2006. Ours is heavily modified, we have roughly 70-80 players online a lot of time time and dozens of people have developed the game over 20+ year run.  We've got a ton of best practices and design patterns that we implement in order to keep the MOO happy and healthy.  I've attempted to distill as much of that into this document while at the same time present the document in a more up to date format.

@@ -1,4 +1,8 @@
 # Changelog for LambdaMOO Programming Repository
+## [0.13] - 2017.07.19 6:24PM
+* Updated the CSS on the HTML5 version of the updated moo programming guide
+* Added link to this repo to the html5 version
+* Updated the remote Sindome MOO-manual.html reference to the new version
 
 ## [0.12] - 2018.07.10 2:35PM
 * Added server setup section to readme
