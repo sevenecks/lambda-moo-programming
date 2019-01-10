@@ -5,6 +5,9 @@ This package will scan verb code for common issues and warn you about them. You 
 
 The code scanner covers some of our best practices for MOO coding on [Sindome](https://www.sindome.org/). If you have your own that you think would be useful to the community please feel free to put in a pull request!
 
+## Requirements
+This code was tested on stock LambdaMOO 1.8.1 running the lastest LambdaCore.db. If your DB is based off of that it should work with no changes needed.
+
 ## Installation
 Create an object, we're using #79 as the parent, but it really doesn't rely on the parent anything but itself, so use your own discresion.
 
