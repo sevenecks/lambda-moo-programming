@@ -12,6 +12,14 @@ Create an object, we're using #79 as the parent, but it really doesn't rely on t
 @create #79 named Code Scanner
 ```
 
+Now you'll want to corify the reference to the Code Scanner, replace #97 with your new object number.
+
+```
+@corify #97 as code_scanner
+```
+
+This allows you to reference the object as $code_scanner.
+
 Now, copy the code below into a text editor and change the obj# form #97 to whatever the obj# of your newly created Code Scanner object.
 ```
 ;#97.description = {"MOO Code Scanner 1.1 by Brendan Butts <slither@sindome.org>", "", "Github: https://github.com/SevenEcks/lambda-moo-programming", "", "Usage: $code_scanner:scan_for_issues(OBJ, verbname)", "Usage: $code_scanner:display_issues($code_scanner:scan_for_issues(OBJ, verbname))", "", "If you integrate this with your @Program verb I recommend you make a copy of it first and test on that just in case! But you can always use .program if you mess up!"}
