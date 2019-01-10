@@ -187,6 +187,7 @@ Since I abuse virtual machines for this sort of thing and don't retain the data 
 There are some code samples for enterprising developers to check out. It's limited for now, please feel free to put a pull request in for any code you'd like included.
 
 * [Local Editing](code/LocalEditing.md) (Edit in a pop up window with @edit using Dome-Client web client)
+* [Code Scanner](code/CodeScanner.md) (Scan your MOO code for common issues & optimizations)
 
 ### Web Client
 I've mentioned [Dome Client](https://github.com/JavaChilly/dome-client.js) in the updated MOO Programming Guide. It's a web based MOO client that uses NodeJS and web sockets. It works great, connecting to most LambdaMOO servers. You can run your own. 
