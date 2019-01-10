@@ -9,7 +9,7 @@ The code scanner covers some of our best practices for MOO coding on [Sindome](h
 Create an object, we're using #79 as the parent, but it really doesn't rely on the parent anything but itself, so use your own discresion.
 
 ```
-@create #79 named Code Scanner
+@create #78 named Code Scanner
 ```
 
 Now you'll want to corify the reference to the Code Scanner, replace #97 with your new object number.
