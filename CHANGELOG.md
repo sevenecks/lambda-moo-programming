@@ -1,4 +1,11 @@
 # Changelog for LambdaMOO Programming Repository
+
+## [0.14] - 2019.01.08 10:31PM
+
+* Added code scanner to useful moo code section
+* Updated readme
+* Other updates happened prior to this, I forgot to update the change log.
+
 ## [0.13] - 2017.07.19 6:24PM
 * Updated the CSS on the HTML5 version of the updated moo programming guide
 * Added link to this repo to the html5 version
