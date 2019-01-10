@@ -92,7 +92,8 @@ for line in (code)
     warnings = {@warnings, {"tostr usage found inside a :tell call. This is undeeded as :tell will call tostr on all it's args.", count}};
   endif
   if ($code_scanner:match_location_assignment(line))
-    warnings = {@warnings, {"IMPORTANT!!!!!!!!!!!!!!!! You may have included a .location assignment INSTEAD of a comparison (= instead of ==)!", count}};
+    "this checks if you are doing like obj.location = something to make sure you aren't going to move an object(s) you don't mean to";
+    warnings = {@warnings, {"IMPORTANT! You may have included a .location assignment INSTEAD of a comparison (= instead of ==)!", count}};
   endif
   if ($code_scanner:match_if_assignment(line))
     warnings = {@warnings, {"You are doing an assignment '=' operation in an if statement, please confirm you didn't mean to do an equality check '=='.", count}};
@@ -102,7 +103,7 @@ for line in (code)
   endif
 endfor
 if (forks)
-  warnings = {@warnings, {"There is a fork() in this code. Please do not do this unless you know what you are doing. Consider using the $scheduler instead.", 0}};
+  warnings = {@warnings, {"There is a fork() in this code. Please do not do this unless you know what you are doing. Consider using something to schedule this verb to be run later instead.", 0}};
 endif
 if (max_nest > MAX_NESTING_WARNING)
   warnings = {@warnings, {tostr("Max nesting of if/for/while's is ", max_nest, ". Try refactoring or extracting pieces to a new verb to get your max nesting to 2 or below."), 0}};
