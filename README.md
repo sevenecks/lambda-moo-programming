@@ -22,7 +22,7 @@ Table of Contents
 * [Server Patches](#server-patches)
 * [Server Setup](#server-setup)
     * [Automated Local Environment Setup (Stunt & LambdaCore)](#automated-local-environment-setup-stunt--lambdacore)
-* [Code](#code)
+* [Useful MOO Code](#useful-moo-code)
 * [Web Client](#web-client)
     * [Public Web Client](#public-web-client)
 * [Notes](#notes)
@@ -183,7 +183,7 @@ I've been worried that we might lose some server patches to time. Also they aren
 ### Automated Local Environment Setup (Stunt & LambdaCore)
 Since I abuse virtual machines for this sort of thing and don't retain the data from them, I have created a repository, [moolite](https://github.com/amnsia/moolite), to reproduce my environment without much typing. It consists of the [Stunt](https://github.com/toddsundsted/stunt) server and the latest LambdaCore database from Brendan's [LambdaMOO](https://github.com/SevenEcks/LambdaMOO) repo. Right now it's a couple of shell scripts, but I will be adding more to it and the quickstart in the README. -- amnsia.
 
-### Code
+### Useful MOO Code
 There are some code samples for enterprising developers to check out. It's limited for now, please feel free to put a pull request in for any code you'd like included.
 
 * [Local Editing](code/LocalEditing.md) (Edit in a pop up window with @edit using Dome-Client web client)
