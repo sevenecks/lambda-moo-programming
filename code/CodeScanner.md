@@ -8,6 +8,18 @@ The code scanner covers some of our best practices for MOO coding on [Sindome](h
 ## Requirements
 This code was tested on stock LambdaMOO 1.8.1 running the lastest LambdaCore.db. If your DB is based off of that it should work with no changes needed.
 
+## What's Scanned For?
+
+1. Comment at the top of the verb for non-player facing verbs (good practice!)
+2. Nesting of for/if/while > MAX_NESTING (a variable you can define in your code).
+3. Argument scatter in player facing verbs
+4. Object Numbers in code (you should corify things for clarity (and later your own sanity))
+5. tostr usage inside a :tell (this is already tostr'd on #1)
+6. .location assignment instead of comparison (so you don't loop over a bunch of objects and move them instead of checking their location)
+7. assignment in if statements (doing assignment in if statements is valid in moo, and useful, but it's good to be warned of in general so you don't assign instead of compare by accident)
+8. forking (forks are useful but writing a $scheduler that lets you $schedule things to be run at specific times is better)
+9. verb length > MAX_LENGTH (a variable you can change to suit your needs)
+
 ## Installation
 Create an object, we're using #79 as the parent, but it really doesn't rely on the parent anything but itself, so use your own discresion.
 
