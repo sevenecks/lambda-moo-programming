@@ -1,4 +1,4 @@
-This code will allow you to support Local Editing via the Dome-Client webclient. You may need to change the obj# from #480 to whatever yours is when you create the web client package. This should be a generic package, but it doesn't really need to be. Any object will work.
+This code will allow you to support Local Editing via the Dome-Client webclient, and also probably VMOO and other clients that support local editing (though it may take some massaging). You may need to change the obj# from #480 to whatever yours is when you create the web client package. This should be a generic package, but it doesn't really need to be. Any object will work.
 
 This code actually works best if it's on $verb_editor but I've broken it out into it's own package and copied a lot of the $verb_editor verbs that were needed over to the new package, since some of the stock LambdaCore verb editor verbs require $verb_editor to be the caller, and otherwise you'd have to modify $verb_editor which you might not have permission to do.
 
