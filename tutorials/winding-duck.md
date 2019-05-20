@@ -432,6 +432,7 @@ wouldn't make sense to type as a command line.
 
     
       @verb toy:do_the_work this none this
+      @program toy:do_the_work
       if (this.wound)
         if ($object_utils:isa(this.location,$room))
           this.location:announce_all(this.name," ", this:continue_msg());
@@ -448,6 +449,7 @@ wouldn't make sense to type as a command line.
           this.wound = 0;
         endif
       endif
+      .
     
 
 Let's go through this step by step. First we check if we're
