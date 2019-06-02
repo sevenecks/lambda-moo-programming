@@ -1,5 +1,9 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.0.1] - 2019.06.02 6:09PM
+
+* Fixed typo
+
 ## [1.0] - 2019.06.02 1:25PM
 
 * Finished editing the Updated lambdamoo programming manual. All HTML converted, all errors resolved. Releasing as initial major version.

@@ -2325,8 +2325,6 @@ crypt -- Encrypts the given text using the standard UNIX encryption method.
 
 str crypt (str text \[, str salt\])
 
-j
-
 If provided, salt should be a string at least two characters long, the first two characters of which will be used as the extra encryption "salt" in the algorithm. If salt is not provided, a random pair of characters is used. In any case, the salt used is also returned as the first two characters of the resulting encrypted string.
 
 Aside from the possibly-random selection of the salt, the encryption algorithm is entirely deterministic. In particular, you can test whether or not a given string is the same as the one used to produce a given piece of encrypted text; simply extract the first two characters of the encrypted text and pass the candidate string and those two characters to crypt(). If the result is identical to the given encrypted text, then you've got a match.
