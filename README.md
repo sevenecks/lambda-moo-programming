@@ -46,7 +46,7 @@ We use the [html2md](https://github.com/fabianmoronzirfas/to-markdown-cli) libra
 
 ```bash
 npm install -g to-markdown-cli
-html2md -i ./foo.html -o out.md <= output to out.md
+html2md -i ./foo.html -o out.md
 ```
 
 ## Contents
