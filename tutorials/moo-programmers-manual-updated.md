@@ -14,8 +14,6 @@ Updated June, 2019 ([CHANGE LOG](CHANGELOG.md)):
 
 By [Brendan Butts](http://github.com/sevenecks), aka Slither, aka Fengshui
 
-For older versions of this document please see the resources section.
-
 Versions of This Document
 -------------------------
 
@@ -23,6 +21,8 @@ I highly recommend you use the Hosted HTML5 version of this document for anythin
 
 *   [GitHub Markdown Version](https://github.com/SevenEcks/lambda-moo-programming/blob/master/tutorials/moo-programmers-manual-updated.md)
 *   [Hosted HTML5 Version](https://www.sindome.org/moo-manual.html)
+
+For older versions of this document please see the resources section.
 
 Table of Contents
 -----------------
