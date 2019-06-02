@@ -10,7 +10,7 @@ Originally written March, 1997:
 
 by Pavel Curtis, aka Haakon, aka Lambda
 
-Updated June, 2019 ([CHANGE LOG](CHANGELOG.md)):
+Updated June, 2019 ([CHANGE LOG](https://github.com/SevenEcks/lambda-moo-programming/blob/master/CHANGELOG.md)):
 
 By [Brendan Butts](http://github.com/sevenecks), aka Slither, aka Fengshui
 
