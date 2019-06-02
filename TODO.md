@@ -6,7 +6,7 @@
 4. ~~Link to relevant GitHub Repositories for LambdaMOO DBs~~
 5. Add more advanced programming examples
 6. Add a section on benchmarking
-7. Add a section on LambdaMOO plugins / extensions
+7. ~~Add a section on LambdaMOO plugins / extensions~~
 8. ~~Current editing progress: DONE~~
 9. Confirm all function-is-member id's are set to function names
 10. Confirm all Hx elements are properly set
@@ -16,8 +16,11 @@
 14. ~~Finish converting all built-in functions to HTML5~~
 15. ~~Add way easy progrmaming examples http://snowfall.tripod.com/Way_Easy_Examples.latest.html#chalkboard~~
 16. Add all the server patches I can find
-17. Add more code examples
+17. ~~Add more code examples~~
 18. Cross link to forked GammmaMOO and LambdaMOO and Stunt servers
 19. Add installation guides
 20. Add where to start guide for servers/dbs
 21. Add dbs/cores and guide to them
+22. Add History of LambdaMOO (link to that prototype video history I found, discuss prototype langages, Xerox Parc)
+23. document how to best write moo comments
+24. o in {list} and ismember() being the same and also O(n)

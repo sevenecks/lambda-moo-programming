@@ -31,9 +31,9 @@ Table of Contents
 * [Author](#author)
 
 ## Introduction
-The primary purpose of this repository is to aggregate and update the existing LambdaMOO Programming Resources that exist. The core of the work done here has been to convert the original MOO Programmer's Manual written by Pavel Curtis to HTML5/Bootstrap and to update each section of the manual with additional information.
+The primary purpose of this repository is to aggregate and update the existing LambdaMOO Programming Resources that exist. The core of the work done here has been to convert the original MOO Programmer's Manual written by Pavel Curtis to Markdown as well as HTML5 w/ Bootstrap and to update each section of the manual with additional information.
 
-There are a number of other files included in this repository. Many are scraped from various websites that continue to exist, somehow, to this day. Most are at least 15 years old. I have included them here for posterity, since losing them would be tragic.
+There are a number of other files included in this repository. Many are scraped from various websites that continue to exist, somehow, to this day. Most are at least 15 years old. We have included them here for posterity, since losing them would be tragic.
 
 ## Local Setup
 ```bash
@@ -52,12 +52,11 @@ html2md -i ./foo.html -o out.md <= output to out.md
 ## Contents
 There are two versions of each document in this repository. One is a markdown copy located in [/tutorials](/tutorials) which is accessible on GitHub and one is an HTML version located in [/tutorials/src](/tutorials/src).
 
-
 ### Lambda MOO Programmer's Manual [Updated]
-This LambdaMOO Programmer's Manual is an **updated an expanded version** of the *LambdaMOO Programmer's Manual* originally written by Pavel Curtis. Some pretty extensive work has gone into updating it.
+This LambdaMOO Programmer's Manual is an **updated an expanded version** of the *LambdaMOO Programmer's Manual* originally written by Pavel Curtis. Some pretty extensive work has gone into formatting it, and updating the content.
 
 #### On The Web
-This file is important, and thus, it is available online: [MOO Programmers Manual](https://www.sindome.org/moo-manual.html)
+This file is important, and thus, it is available online without having to interact with this GitHub at all: [MOO Programmers Manual](https://www.sindome.org/moo-manual.html)
 
 #### On GitHub
 To use this guide you simply need to open [MOO Programmer's Manual](/tutorials/moo-programmers-manual-updated.md). This version of the MOO Programmer's Manual lacks much of the formatting that the HTML5 version below has. It is great for quick perusal, but the HTML version is superior. 
@@ -180,6 +179,7 @@ I've been worried that we might lose some server patches to time. Also they aren
 * [FileIO 1.5p3](patches/fileio-1.5p3) (Todd Sundsted version)
 
 ### Server Setup
+
 ### Automated Local Environment Setup (Stunt & LambdaCore)
 Since I abuse virtual machines for this sort of thing and don't retain the data from them, I have created a repository, [moolite](https://github.com/amnsia/moolite), to reproduce my environment without much typing. It consists of the [Stunt](https://github.com/toddsundsted/stunt) server and the latest LambdaCore database from Brendan's [LambdaMOO](https://github.com/SevenEcks/LambdaMOO) repo. Right now it's a couple of shell scripts, but I will be adding more to it and the quickstart in the README. -- amnsia.
 
@@ -209,10 +209,18 @@ See [TODO.md](TODO.md)
 ## Contributing
 Please feel free to fork the repo and contribute via pull request. This is a labor of love. Give back to the community. If you want to edit one of the HTML src files, you can do so, but you should run it through html2md (npm install -g to-markdown-cli) and then move the markdown file into the tutorials directory. 
 
+Example of creating a new version of the markdown file from the HTML 5 source and moving to the appropriate folder:
+
+```bash
+cd tutorials/src
+html2md -i moo-programmers-manual-updated.html -o moo-programmers-manual-updated.md
+mv moo-programmers-manual.md ../ 
+```
+
 ## Author
 [Sindome](https://www.sindome.org/) has been online since 1997. I've been playing it since 2003.  I've been developing in MOO since 2005, and a developer on Sindome since 2006. Ours is heavily modified, we have roughly 70-80 players online a lot of time time and dozens of people have developed the game over 20+ year run.  We've got a ton of best practices and design patterns that we implement in order to keep the MOO happy and healthy.  I've attempted to distill as much of that into this document while at the same time present the document in a more up to date format.
 
-Text based gaming is an important part of our history and our future.  No game is more accessible to those with handicaps, for example.
+Text based gaming is an important part of our history and our future. No game is more accessible to those with handicaps, for example.
 
 Come visit me on Sindome if you dare :)
 
