@@ -2,7 +2,7 @@
 
 ## [1.0.2A] - 2020.07.20 6:29pm
 
-* Merged in a PR from stevenjownens that fixed formatting in their guide
+* Merged in a PR from stevenjowens that fixed formatting in their guide
 
 ## [1.0.2] - 2019.06.02 6:14PM
 
