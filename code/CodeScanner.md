@@ -6,7 +6,7 @@ This package will scan verb code for common issues and warn you about them. You 
 The code scanner covers some of our best practices for MOO coding on [Sindome](https://www.sindome.org/). If you have your own that you think would be useful to the community please feel free to put in a pull request!
 
 ## Requirements
-This code was tested on stock LambdaMOO 1.8.1 running the lastest LambdaCore.db. If your DB is based off of that it should work with no changes needed.
+This code was tested on stock LambdaMOO 1.8.1 running the lastest LambdaCore.db. AND on ToastStunt running a modified LambdaCore.db. If your DB is based off of that it should work with no changes needed.
 
 ## What's Scanned For?
 
@@ -38,12 +38,14 @@ This allows you to reference the object as $code_scanner.
 Now, copy the code below into a text editor and change the obj# form #97 to whatever the obj# of your newly created Code Scanner object.
 ```
 ;#97.description = {"MOO Code Scanner 1.1 by Brendan Butts <slither@sindome.org>", "", "Github: https://github.com/SevenEcks/lambda-moo-programming", "", "Usage: $code_scanner:scan_for_issues(OBJ, verbname)", "Usage: $code_scanner:display_issues($code_scanner:scan_for_issues(OBJ, verbname))", "", "If you integrate this with your @Program verb I recommend you make a copy of it first and test on that just in case! But you can always use .program if you mess up!"}
+@create #12654 named Code Scanner Utils:Code,Scanner,Utils,Code Scanner Utils
+;;#97.("aliases") = {"Code", "Scanner", "Utils", "Code Scanner Utils"}
+;;#97.("description") = "This is a placeholder parent for all the $..._utils packages, to more easily find them and manipulate them. At present this object defines no useful verbs or properties. (Filfre.)"
+;;#97.("object_size") = {19212, 1612285023}
+;;#97.("instance_id") = "#12654-1541212667.02364"
+
 @verb #97:"scan_for_issues" this none this
 @program #97:scan_for_issues
-"MOO Code Scanner 1.1 by Brendan Butts <slither@sindome.org>";
-"GitHub for this: https://github.com/SevenEcks/lambda-moo-programming";
-":scan_for_issues(OBJ object, STR verbname, ?LIST options, ?LIST code";
-"scan the provided object:verbname's code for possible issues";
 {object, verbname, ?options = {}, ?code = {}} = args;
 if (!code)
   code = verb_code(object, verbname);
@@ -104,18 +106,20 @@ for line in (code)
     warnings = {@warnings, {"tostr usage found inside a :tell call. This is undeeded as :tell will call tostr on all it's args.", count}};
   endif
   if ($code_scanner:match_location_assignment(line))
-    "this checks if you are doing like obj.location = something to make sure you aren't going to move an object(s) you don't mean to";
-    warnings = {@warnings, {"IMPORTANT! You may have included a .location assignment INSTEAD of a comparison (= instead of ==)!", count}};
+    warnings = {@warnings, {"IMPORTANT!!!!!!!!!!!!!!!! You may have included a .location assignment INSTEAD of a comparison (= instead of ==)!", count}};
   endif
   if ($code_scanner:match_if_assignment(line))
     warnings = {@warnings, {"You are doing an assignment '=' operation in an if statement, please confirm you didn't mean to do an equality check '=='.", count}};
+  endif
+  if ($code_scanner:match_recycler_valid(line))
+    warnings = {@warnings, {"You are doing an if($recycler:valid()) operation without a ! in front of it, are you SURE that you don't need the bang (!)?", count}};
   endif
   if ((current_nest = (open_fors + open_ifs) + open_whiles) > max_nest)
     max_nest = current_nest;
   endif
 endfor
 if (forks)
-  warnings = {@warnings, {"There is a fork() in this code. Please do not do this unless you know what you are doing. Consider using something to schedule this verb to be run later instead.", 0}};
+  warnings = {@warnings, {"There is a fork() in this code. Please do not do this unless you know what you are doing. Consider using the $scheduler (or something with a heartbeat) instead.", 0}};
 endif
 if (max_nest > MAX_NESTING_WARNING)
   warnings = {@warnings, {tostr("Max nesting of if/for/while's is ", max_nest, ". Try refactoring or extracting pieces to a new verb to get your max nesting to 2 or below."), 0}};
@@ -135,11 +139,14 @@ return warnings;
 for warning_set in (warnings)
   {warning, line_number} = warning_set;
   if (line_number)
-    player:tell("Warning on line ", line_number, ": ", warning);
+    player:tell(tostr("Warning on line ", line_number), ": ", warning);
   else
     player:tell("Warning", ": ", warning);
   endif
 endfor
+"VMS NOTE display messages #22664 07/17/18  1:16";
+"VMS VERSION 1.01";
+"Last modified by Fengshui (#22664) on Tue Jul 17 13:16:35 2018 PDT";
 .
 
 @verb #97:"match_if" this none this
@@ -195,14 +202,14 @@ return match(line, "^[ ]*fork");
 @program #97:match_object
 ":match_object(STR line) => bool";
 {line} = args;
-return match(line, "^#[0-9]+");
+return match(line, "#[0-9]+");
 .
 
 @verb #97:"match_tell_tostr" this none this
 @program #97:match_tell_tostr
 ":match_tell_tostr(STR line) => bool";
 {line} = args;
-return match(line, "^.*:tell(.*tostr(");
+return match(line, ".*:tell(.*tostr(");
 .
 
 @verb #97:"match_comment" this none this
@@ -223,7 +230,7 @@ return match(line, "{.+} = args;");
 @program #97:match_location_assignment
 ":match_if(STR line) => bool";
 {line} = args;
-return match(line, "^[ ]*if (.+.location = .+)");
+return match(line, "[ ]*if (.+.location = .+)");
 .
 
 @verb #97:"match_if_assignment" this none this
@@ -232,6 +239,21 @@ return match(line, "^[ ]*if (.+.location = .+)");
 "looks for assignment operators in if statements";
 {line} = args;
 return match(line, "^[ ]*if (.+ = .+)");
+.
+
+@verb #97:"match_corified_verb_anywhere" this none this
+@program #97:match_corified_verb_anywhere
+":match_corified(STR line) => bool";
+"this matches to a corified verb reference ANYWHERE in the string";
+{line} = args;
+return match(line, "%$[a-z]+:[a-z]+[^(]");
+.
+
+@verb #97:"match_recycler_valid" this none this
+@program #97:match_recycler_valid
+":match_recycler_valid(STR line) => bool";
+{line} = args;
+return match(line, "^[ ]*if (%$recycler:valid");
 .
 ```
 
