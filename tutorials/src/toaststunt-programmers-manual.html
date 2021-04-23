@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <title>ToastStunt Programmer's Manual</title>
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro|Quantico:400,400italic,700" />
-    <link rel="stylesheet" href="//www.sindome.org/css/dome.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Quantico:400,400italic,700" />
+    <link rel="stylesheet" href="https://www.sindome.org/css/dome.css" />
 </head>
 <body style="padding-left: 30px; padding-right: 30px;">
 <h1 id="toaststunt-programmers-manual">ToastStunt Programmer's Manual</h1>
@@ -33,7 +33,7 @@ TODO: Update this section
     </li>
     <li><a href="#toaststunt-resources">ToastStunt Resources</a></li>
     <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#lambdamoo-database">The LambdaMOO Database</a></li>
+    <li><a href="#toaststunt-database">The ToastCore Database</a></li>
     <li>
         <ul>
             <li><a href="#moo-value-types">MOO Value Types</a></li>
@@ -165,9 +165,9 @@ TODO: Update this section
 </ul>
 <hr>
 <h2 id="foreword">Foreword</h2>
-<p>Hey, it's me: Brendan. The guy updating this document. The idea of updating the MOO Programming Manual has crossed my mind a few times. It's a bit of a daunting task. This document is pretty comprehensive and I'm endeavouring to make it even more so. I'm adding some much needed styling so that it looks more modern.  Things were once hosted primarily on FTP servers and we now have GitHub, so many links and resources mentioned in this document have been updated and I've even added some additional ones.</p>
+<p><strong>2019 Update</strong>: Hey, it's me: Brendan. The guy updating this document. The idea of updating the MOO Programming Manual has crossed my mind a few times. It's a bit of a daunting task. This document is pretty comprehensive and I'm endeavouring to make it even more so. I'm adding some much needed styling so that it looks more modern.  Things were once hosted primarily on FTP servers and we now have GitHub, so many links and resources mentioned in this document have been updated and I've even added some additional ones.</p>
 <p>If you want an up to date manual on MOO, this is the guide for you. If you want to read the historic document which contains the unedited text, I recommend reviewing the links toward the top of the page that point to unedited versions of the guide.</p>
-<p>2021 Update: Back again, working with <a href="https://github.com/lisdude">lisdude</a> the ToastStunt maintainer, to update this documentation for ToastStunt.</a>
+<p><strong>2021 Update</strong>: Back again, working with <a href="https://github.com/lisdude">lisdude</a> the ToastStunt maintainer, to update this documentation for ToastStunt. This version of the programmers guide has been pruned to no longer include historical LambdaMOO information that is no longer accurate or relevant. Most references to LambdaMOO have been replaced with ToastStunt. If you want to read the updated LambdaMOO Programmers manual, which continues to include this information, please see the resources section.</a></p>
 <h3 id="what-is-toaststunt">What is ToastStunt?</h3>
 <p>ToastStunt is a fork of <a href="https://github.com/toddsundsted/stunt" target="_blank">Stunt</a> which is a fork of of <a href="https://en.wikipedia.org/wiki/MOO">LambdaMOO</a>. At the time of this writing (04/23/21) ToastStunt was under active development. Stunt and LambdaMOO were not. If you are looking for an up to date, feature rich, LambdaMOO, then ToastStunt is for you. It incorporates much of the 'patches' that were released for legacy LambdaMOO, and much more (TLS, better
 FileIO, updated and expanded built-ins functions, multiple inheritance, curl support, and threading to name a few).</p>
@@ -175,6 +175,7 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
 <ul>
     <li><a href="https://github.com/SevenEcks/lambda-moo-programming" target="_blank">LambdaMOO & ToastStunt Programming Resources GitHub</a>
     <li><a href="http://www.lisdude.com/moo/" target="_blank">lisdude MOO resources</a></li>
+    <li>Updated LambdaMOO Programmers Guide (2019) <a href="https://github.com/sevenecks/lambda-moo-programming/blob/master/tutorials/src/moo-programmers-manual-updated.html" target="_blank">[markdown version]</a> <a href="https://www.sindome.org/moo-manual.html" target="_blank">[html version]</a></li>
     <li><a href="http://www.hayseed.net/MOO/manuals/ProgrammersManual.html" target="_blank">Unedited Original MOO Programmers Manual</a></li>
     <li><a href="http://www2.iath.virginia.edu/courses/moo/ProgrammersManual.texinfo_toc.html" target="_blank">Older Unedited MOO Programmers Mnaual</a></li>
     <li><a href="https://github.com/lisdude/toaststunt" target="_blank">ToastStunt Source (github)</a></li>
@@ -183,29 +184,21 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
     <li><a href="https://github.com/JavaChilly/dome-client.js" target="_blank">Dome Client Web Socket MOO Client</a></li>
 </ul>
 <h2 id="introduction">Introduction</h2>
-<p>LambdaMOO is a network-accessible, multi-user, programmable, interactive system well-suited to the construction of text-based adventure games, conferencing systems, and other collaborative software. Its most common use, however, is as a multi-participant, low-bandwidth virtual reality, and it is with this focus in mind that I describe it here.</p>
-<p>Participants (usually referred to as <em>players</em>) connect to LambdaMOO using Telnet or some other, more specialized, <em>client</em> program. Upon connection, they are usually presented with a <em>welcome message</em> explaining how to either create a new <em>character</em> or connect to an existing one.  Characters are the embodiment of players in the virtual reality that is LambdaMOO.</p>
+<p>ToastStunt is a network-accessible, multi-user, programmable, interactive system well-suited to the construction of text-based adventure games, conferencing systems, and other collaborative software. Its most common use, however, is as a multi-participant, low-bandwidth virtual reality, and it is with this focus in mind that I describe it here.</p>
+<p>Participants (usually referred to as <em>players</em>) connect to ToastStunt using Telnet, SSH, or some other, more specialized, <a href="https://en.wikipedia.org/wiki/MUD_client" target="_blank">mud client</a>. Upon connection, they are usually presented with a <em>welcome message</em> explaining how to either create a new <em>character</em> or connect to an existing one. Characters are the embodiment of players in the virtual reality that is ToastStunt.</p>
 <div class="well">
-    <span class="label label-info">Note:</span> No one really connects to a MOO over telnet these days. MOO Clients and MUD Clients are relatively common. See the resources section for more information on these. There are even some web based clients (dome-client) out there that use websockets to connect to a MOO directly from the browser.
+    <span class="label label-info">Note:</span> No one really connects to a MOO using just a telnet client these days. MOO Clients and MUD Clients are incredibly common, and can connect on the telnet port. See the resources section for more information on these. There are even some web based clients (<a href="https://github.com/JavaChilly/dome-client.js">dome-client</a>) out there that use websockets to connect to a MOO directly from the browser. And ToastStunt offers secure connections
+    using TLS.
 </div>
-<p>Having connected to a character, players then give one-line commands that are parsed and interpreted by LambdaMOO as appropriate. Such commands may cause changes in the virtual reality, such as the location of a character, or may simply report on the current state of that reality, such as the appearance of some object.</p>
-<p>The job of interpreting those commands is shared between the two major components in the LambdaMOO system: the <em>server</em> and the <em>database</em>.  The server is a program, written in a standard programming language, that manages the network connections, maintains queues of commands and other tasks to be executed, controls all access to the database, and executes other programs written in the MOO programming language. The database contains representations of all the objects in the virtual reality, including the MOO programs that the server executes to give those objects their specific behaviors.</p>
+<p>Having connected to a character, players then give one-line commands that are parsed and interpreted by ToastStunt as appropriate. Such commands may cause changes in the virtual reality, such as the location of a character, or may simply report on the current state of that reality, such as the appearance of some object.</p>
+<p>The job of interpreting those commands is shared between the two major components in the ToastStunt system: the <em>server</em> and the <em>database</em>.  The server is a program, written in a standard programming language, that manages the network connections, maintains queues of commands and other tasks to be executed, controls all access to the database, and executes other programs written in the MOO programming language. The database contains representations of all the objects in the virtual reality, including the MOO programs that the server executes to give those objects their specific behaviors.</p>
 <p>Almost every command is parsed by the server into a call on a MOO procedure, or <em>verb</em>, that actually does the work. Thus, programming in the MOO language is a central part of making non-trivial extensions to the database and thus, the virtual reality.</p>
-<p>In the next chapter, I describe the structure and contents of a LambdaMOO database. The following chapter gives a complete description of how the server performs its primary duty: parsing the commands typed by players.  Next, I describe the complete syntax and semantics of the MOO programming language. Finally, I describe all of the database conventions assumed by the server.</p>
+<p>In the next chapter, I describe the structure and contents of a ToastStunt database. The following chapter gives a complete description of how the server performs its primary duty: parsing the commands typed by players.  Next, I describe the complete syntax and semantics of the MOO programming language. Finally, I describe all of the database conventions assumed by the server.</p>
 <div class="well">
-    <span class="label label-info">Note:</span> For the most part, this manual describes only those aspects of LambdaMOO that are
-    entirely independent of the contents of the database. It does not describe,
-    for example, the commands or programming interfaces present in the LambdaCore
-    database. There are exceptions to this, for situations where it seems prudent to delve deeper into these areas.
+    <span class="label label-info">Note:</span> For the most part, this manual describes only those aspects of ToastStunt that are entirely independent of the contents of the database. It does not describe, for example, the commands or programming interfaces present in the ToastCore database. There are exceptions to this, for situations where it seems prudent to delve deeper into these areas.
 </div>
-<h2 id="lambdamoo-database">The LambdaMOO Database</h2>
-<p>In this chapter, I begin by describing in detail the various kinds of data that can appear in a LambdaMOO database and that, therefore, MOO programs can manipulate. In a few places, I refer to the <em>LambdaCore</em> database. This is one particular LambdaMOO database, created every so often by extracting the "core" of the current database for the original LambdaMOO.</p>
-<div class="well">
-    <span class="label label-info">Note:</span> The original LambdaMOO resides on the host <span class="cmd">lambda.parc.xerox.com</span> (the numeric address for which is <span class="cmd">192.216.54.2</span>), on port 8888. Feel free to drop by!  A copy of the most recent release of the LambdaCore database can be obtained by anonymous FTP from host <span class="cmd">ftp.parc.xerox.com</span> in the directory <span class="cmd">pub/MOO</span>.
-</div>
-<div class="alert alert-info">
-    The above information may be out of date, but the most recent dump of the <em>LambdaCore</em> can be found <a href="http://lambda.moo.mud.org/pub/MOO/" target="_blank">here</a>.
-</div>
+<h2 id="toaststunt-database">The ToastStunt Database</h2>
+<p>In this chapter, we describe in detail the various kinds of data that can appear in a ToastStunt database and that MOO programs can manipulate. In a few places, we refer to the <a href="https://github.com/lisdude/toastcore" target="_blank">ToastCore</a> database. This is one particular ToastStunt database which is under active development by the ToastStunt community.</p>
 <h3 id="moo-value-types">MOO Value Types</h3>
 <p>There are only a few kinds of values that MOO programs can manipulate:
 <ul>
@@ -213,10 +206,14 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
     <li>real numbers (represented with floating-point numbers)</li>
     <li>strings (of characters)</li>
     <li>objects (in the virtual reality)</li>
+    <li>anonymous object</li>
+    <li>bool</li>
+    <li>waif</li>
     <li>errors (arising during program execution)</li>
     <li>lists (of all of the above, including lists)</li>
+    <li>maps (of all of the above, including lists and maps)</li>
 </ul>
-<p>MOO supports the integers from -2^31 (that is, negative two to the power of 31) up to 2^31 - 1 (one less than two to the power of 31); that's from -2147483648 to 2147483647, enough for most purposes. In MOO programs, integers are written just as you see them here, an optional minus sign followed by a non-empty sequence of decimal digits. In particular, you may not put commas, periods, or spaces in the middle of large integers, as we sometimes do in English and other natural languages (e.g.,
+<p>ToastStunt supports 64 bit integers, but it can also be configured to support 32 bit. In MOO programs, integers are written just as you see them here, an optional minus sign followed by a non-empty sequence of decimal digits. In particular, you may not put commas, periods, or spaces in the middle of large integers, as we sometimes do in English and other natural languages (e.g.,
 `2,147,483,647').</p>
 <p>Real numbers in MOO are represented as they are in almost all other programming languages, using so-called <em>floating-point</em> numbers. These have certain (large) limits on size and precision that make them useful for a wide range of applications. Floating-point numbers are written with an optional minus sign followed by a non-empty sequence of digits punctuated at some point with a decimal point (`.') and/or followed by a scientific-notation marker (the letter `E' or `e' followed by an optional sign and one or more digits). Here are some examples of floating-point numbers:</p>
 <pre>325.0   325.  3.25e2   0.325E3   325.E1   .0325e+4   32500e-2</pre>
@@ -240,6 +237,8 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
 <div class="well">
     <span class="label label-info">Fine point:</span> There is a special kind of string used for representing the arbitrary bytes used in general, binary input and output. In a <em>binary string</em>, any byte that isn't an ASCII printing character or the space character is represented as the three-character substring "~XX", where XX is the hexadecimal representation of the byte; the input character `~' is represented by the three-character substring "~7E". This special representation is used by the functions <span class="cmd">encode_binary()</span> and <span class="cmd">decode_binary()</span> and by the functions <span class="cmd">notify()</span> and <span class="cmd">read()</span> with network connections that are in binary mode. See the descriptions of the <span class="cmd">set_connection_option()</span>, <span class="cmd">encode_binary()</span>, and <span class="cmd">decode_binary()</span> functions for more details.
 </div>
+<p>MOO strings can be 'indexed into' using square braces and an integer index (much the same way you can with lists):</p>
+<pre>"this is a string"[4] -> "s"</pre>
 <p><em>Objects</em> are the backbone of the MOO database and, as such, deserve a great deal of discussion; the entire next section is devoted to them. For now, let it suffice to say that every object has a number, unique to that object.</p>
 <p>In programs, we write a reference to a particular object by putting a hash mark (<span class="cmd">#</span>) followed by the number, like this:</p>
 <pre>#495</pre>
@@ -247,7 +246,19 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
     <span class="label label-info">Note:</span> Referencing object numbers in your code should be discouraged. An object only exists until it is recycled. It is technically possible for an object number to change under some circumstances. Thus, you should use a corified reference to an object ($my_special_object) instead. More on corified references later.
 </div>
 <p>Object numbers are always integers.</p>
-<p>There are three special object numbers used for a variety of purposes: <span class="cmd">#-1</span>, <span class="cmd">#-2</span>, and <span class="cmd">#-3</span>, usually referred to in the LambdaCore database as <span class="cmd">$nothing</span>, <span class="cmd">$ambiguous_match</span>, and <span class="cmd">$failed_match</span>, respectively.</p>
+<p>There are three special object numbers used for a variety of purposes: <span class="cmd">#-1</span>, <span class="cmd">#-2</span>, and <span class="cmd">#-3</span>, usually referred to in the ToastCore database as <span class="cmd">$nothing</span>, <span class="cmd">$ambiguous_match</span>, and <span class="cmd">$failed_match</span>, respectively.</p>
+<p><em>Anonymous Objects</em> TODO: Documentation</p>
+<p><em>bools</em> are either true or false. Eg: <span class="cmd">my_bool = true; my_second_bool = false;</span>. In MOO <span class="cmd">true</span> evaluates to <span class="cmd">1</span> and <span class="cmd">false</span> evaluates to <span class="cmd">0</span>. For example:
+<pre>
+false == 0 evaluates to true
+true  == 1 evaluates to true
+false == 1 evaluates to false
+true  == 0 evaluates to false
+true  == 5 evaluates to false
+false == -43 evaluates to false
+</pre>
+</p>
+<p><em>WAIFs</em> TODO: Documentation</p>
 <p><em>Errors</em> are, by far, the least frequently used values in MOO. In the normal case, when a program attempts an operation that is erroneous for some reason (for example, trying to add a number to a character string), the server stops running the program and prints out an error message. However, it is possible for a program to stipulate that such errors should not stop execution; instead, the server should just let the value of the operation be an error value. The program can then test for such a result and take some appropriate kind of recovery action. In programs, error values are written as words beginning with <span class="cmd">E_</span>. The complete list of error values, along with their associated messages, is as follows:</p>
 <dl class="dl-horizontal">
     <dt>E_NONE</dt>
@@ -282,23 +293,38 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
     <dd>Resource limit exceeded</dd>
     <dt>E_FLOAT</dt>
     <dd>Floating-point arithmetic error</dd>
+    <dt>E_FILE</dt>
+    <dd>File system error</dd>
 </dl>
-<div class="well">
-    <span class="label label-info">Note:</span> The MOO can be extended using extensions. These are plugins that usually contain patch files that are applied directly to your LambdaMOO source code. One very popular extension is the FileIO plugin, which allows you to read and write files to disk. Extensions can throw their own errors, though it's not as common. Old versions of FileIO threw a fake error "E_FILE", though a recently updated version throws true E_FILE errors.
-</div>
-<p>The final kind of value in MOO programs is <em>lists</em>. A list is a sequence of arbitrary MOO values, possibly including other lists. In programs, lists are written in mathematical set notation with each of the elements written out in order, separated by commas, the whole enclosed in curly braces (<span class="cmd">{</span> and <span class="cmd">}</span>). For example, a list of the names of the days of the week is written like this:</p>
+<p>Another important value in MOO programs is <em>lists</em>. A list is a sequence of arbitrary MOO values, possibly including other lists. In programs, lists are written in mathematical set notation with each of the elements written out in order, separated by commas, the whole enclosed in curly braces (<span class="cmd">{</span> and <span class="cmd">}</span>). For example, a list of the names of the days of the week is written like this:</p>
 <pre>{"Sunday", "Monday", "Tuesday", "Wednesday",
  "Thursday", "Friday", "Saturday"}
 </pre>
 <div class="well">
     <span class="label label-info">Note:</span> It doesn't matter that we put a line-break in the middle of the list. This is true in general in MOO: anywhere that a space can go, a line-break can go, with the same meaning. The only exception is inside character strings, where line-breaks are not allowed.
 </div>
+<p>The final type in MOO is a <em>map</em>. It is sometimes called a hashmap or assosciate array in other programming languages. A map is written as a set of key -> value pairs, for example: <span class="cmd">["key" -> "value", 0 -> {}, #15840 -> []]</span>.</p>
+<p>The key of a map can be:
+<ul>
+    <li>string</li>
+    <li>integer</li>
+    <li>object</li>
+    <li>error</li>
+    <li>float</li>
+    <li>anonymous object</li>
+    <li>waif</li>
+    <li>bool</li>
+</ul>
+<p>The value of a map can be an valid MOO type including another map.</p> 
+<div class="well">
+    <span class="label label-info">Note:</span> Finding a value in a list is BigO(n) as a it uses a linear search. Maps are much more effective and are BigO(1) for retrieving a specific value by key.
+</div>
 <h3 id="objects-in-the-moo-database">Objects in the MOO Database</h3>
 <p>Objects are, in a sense, the whole point of the MOO programming language.  They are used to represent objects in the virtual reality, like people, rooms, exits, and other concrete things. Because of this, MOO makes a bigger deal out of creating objects than it does for other kinds of value, like integers.</p>
 <p>Numbers always exist, in a sense; you have only to write them down in order to operate on them. With objects, it is different. The object with number <span class="cmd">#958</span> does not exist just because you write down its number. An explicit operation, the <span class="cmd">create()</span> function described later, is required to bring an object into existence. Symmetrically, once created, objects continue to exist until they are explicitly destroyed by the <span class="cmd">recycle()</span> function (also described later).</p>
 <p>The identifying number associated with an object is unique to that object. It was assigned when the object was created and will never be reused, even if the object is destroyed. Thus, if we create an object and it is assigned the number <span class="cmd">#1076</span>, the next object to be created will be assigned <span class="cmd">#1077</span>, even if <span class="cmd">#1076</span> is destroyed in the meantime.</p>
 <div class="alert alert-info">
-    The above limitation led to design of systems to manage object reuse. The <span class="cmd">$recycler</span> is one example of such a system. This is <strong>not</strong> present in the <span class="cmd">minimal.db</span> which is included in the LambdaMOO source, however it is present in the latest dump of the <a href="http://lambda.moo.mud.org/pub/MOO/">LambdaCore DB</a> which is the recommended starting point for new development.
+    The above limitation led to design of systems to manage object reuse. The <span class="cmd">$recycler</span> is one example of such a system. This is <strong>not</strong> present in the <span class="cmd">minimal.db</span> which is included in the ToastStunt source, however it is present in the latest dump of the <a href="http://lambda.moo.mud.org/pub/MOO/">ToastCore DB</a> which is the recommended starting point for new development.
 </div>
 <p>Every object is made up of three kinds of pieces that together define its behavior: <em>attributes</em>, <em>properties</em>, and <em>verbs</em>.</p>
 <h4 id="fundamental-object-attributes">Fundamental Object Attributes</h4>
@@ -309,7 +335,7 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
     <li>A list of the objects that are its <em>children</em>; that is, those objects for which this object is their parent.</li>
 </ol>
 <p>The act of creating a character sets the player attribute of an object and only a wizard (using the function <span class="cmd">set_player_flag()</span>) can change that setting. Only characters have the player bit set to 1.</p>
-<p>The parent/child hierarchy is used for classifying objects into general classes and then sharing behavior among all members of that class. For example, the LambdaCore database contains an object representing a sort of "generic" room.  All other rooms are <em>descendants</em> (i.e., children or children's children, or ...) of that one. The generic room defines those pieces of behavior that are common to all rooms; other rooms specialize that behavior for their own purposes. The notion of classes and specialization is the very essence of what is meant by <em>object-oriented</em> programming. Only the functions <span class="cmd">create()</span>, <span class="cmd">recycle()</span>, <span class="cmd">chparent()</span>, and <span class="cmd">renumber()</span> can change the parent and children attributes.</p>
+<p>The parent/child hierarchy is used for classifying objects into general classes and then sharing behavior among all members of that class. For example, the ToastCore database contains an object representing a sort of "generic" room.  All other rooms are <em>descendants</em> (i.e., children or children's children, or ...) of that one. The generic room defines those pieces of behavior that are common to all rooms; other rooms specialize that behavior for their own purposes. The notion of classes and specialization is the very essence of what is meant by <em>object-oriented</em> programming. Only the functions <span class="cmd">create()</span>, <span class="cmd">recycle()</span>, <span class="cmd">chparent()</span>, and <span class="cmd">renumber()</span> can change the parent and children attributes.</p>
 <h4 id="properties-on-objects">Properties on Objects</h4>
 <p>A <em>property</em> is a named "slot" in an object that can hold an arbitrary MOO value. Every object has eight built-in properties whose values are constrained to be of particular types. In addition, an object can have any number of other properties, none of which have type constraints. The built-in properties are as follows:</p>
 <dl class="dl-horizontal">
@@ -348,14 +374,14 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
 <p>The initial owner of a property is the player who added it; this is usually, but not always, the player who owns the object to which the property was added. This is because properties can only be added by the object owner or a wizard, unless the object is publicly writable (i.e., its <span class="cmd">w</span> property is 1), which is rare. Thus, the owner of an object may not necessarily be the owner of every (or even any) property on that object.</p>
 <p>The permissions on properties are drawn from this set: <span class="cmd">r</span> (read), <span class="cmd">w</span> (write), and <span class="cmd">c</span> (change ownership in descendants). Read permission lets non-owners get the value of the property and, of course, write permission lets them set that value. The <span class="cmd">c</span> permission bit is a little more complicated.</p>
 <p>Recall that every object has all of the properties that its parent does and perhaps some more. Ordinarily, when a child object inherits a property from its parent, the owner of the child becomes the owner of that property. This is because the <span class="cmd">c</span> permission bit is "on" by default. If the <span class="cmd">c</span> bit is not on, then the inherited property has the same owner in the child as it does in the parent.</p>
-<p>As an example of where this can be useful, the LambdaCore database ensures that every player has a <span class="cmd">password</span> property containing the encrypted version of the player's connection password. For security reasons, we don't want other players to be able to see even the encrypted version of the password, so we turn off the <span class="cmd">r</span> permission bit. To ensure that the password is only set in a consistent way (i.e., to the encrypted version of a player's password), we don't want to let anyone but a wizard change the property. Thus, in the parent object for all players, we made a wizard the owner of the password property and set the permissions to the empty string, <span class="cmd">""</span>. That is, non-owners cannot read or write the property and, because the <span class="cmd">c</span> bit is not set, the wizard who owns the property on the parent class also owns it on all of the descendants of that class.</p>
+<p>As an example of where this can be useful, the ToastCore database ensures that every player has a <span class="cmd">password</span> property containing the encrypted version of the player's connection password. For security reasons, we don't want other players to be able to see even the encrypted version of the password, so we turn off the <span class="cmd">r</span> permission bit. To ensure that the password is only set in a consistent way (i.e., to the encrypted version of a player's password), we don't want to let anyone but a wizard change the property. Thus, in the parent object for all players, we made a wizard the owner of the password property and set the permissions to the empty string, <span class="cmd">""</span>. That is, non-owners cannot read or write the property and, because the <span class="cmd">c</span> bit is not set, the wizard who owns the property on the parent class also owns it on all of the descendants of that class.</p>
 <div class="alert alert-warning">
     <strong>Warning:</strong> The MOO will only hash the first 8 characters of a password. In practice this means that the passwords <span class="cmd">password</span> and <span class="cmd">password12345</span> are exactly the same and either one can be used to login.
 </div>
 <p>Another, perhaps more down-to-earth example arose when a character named Ford started building objects he called "radios" and another character, yduJ, wanted to own one. Ford kindly made the generic radio object fertile, allowing yduJ to create a child object of it, her own radio. Radios had a property called <span class="cmd">channel</span> that identified something corresponding to the frequency to which the radio was tuned. Ford had written nice programs on radios (verbs, discussed below) for turning the channel selector on the front of the radio, which would make a corresponding change in the value of the <span class="cmd">channel</span> property. However, whenever anyone tried to turn the channel selector on yduJ's radio, they got a permissions error. The problem concerned the ownership of the <span class="cmd">channel</span> property.</p>
 <p>As I explain later, programs run with the permissions of their author. So, in this case, Ford's nice verb for setting the channel ran with his permissions.  But, since the <span class="cmd">channel</span> property in the generic radio had the <span class="cmd">c</span> permission bit set, the <span class="cmd">channel</span> property on yduJ's radio was owned by her. Ford didn't have permission to change it!  The fix was simple. Ford changed the permissions on the <span class="cmd">channel</span> property of the generic radio to be just <span class="cmd">r</span>, without the <span class="cmd">c</span> bit, and yduJ made a new radio. This time, when yduJ's radio inherited the <span class="cmd">channel</span> property, yduJ did not inherit ownership of it; Ford remained the owner. Now the radio worked properly, because Ford's verb had permission to change the channel.</p>
 <h4 id="verbs-on-objects">Verbs on Objects</h4>
-<p>The final kind of piece making up an object is <em>verbs</em>. A verb is a named MOO program that is associated with a particular object. Most verbs implement commands that a player might type; for example, in the LambdaCore database, there is a verb on all objects representing containers that implements commands of the form <span class="cmd">put <var>object</var> in <var>container</var></span>.</p>
+<p>The final kind of piece making up an object is <em>verbs</em>. A verb is a named MOO program that is associated with a particular object. Most verbs implement commands that a player might type; for example, in the ToastCore database, there is a verb on all objects representing containers that implements commands of the form <span class="cmd">put <var>object</var> in <var>container</var></span>.</p>
 <p>It is also possible for MOO programs to invoke the verbs defined on objects. Some verbs, in fact, are designed to be used only from inside MOO code; they do not correspond to any particular player command at all. Thus, verbs in MOO are like the <em>procedures</em> or <em>methods</em> found in some other programming languages.</p>
 <div class="alert alert-info">
     <span class="label label-info">Note:</span> There are even more ways to refer to <em>verbs</em> and their counterparts in other programming language: <em>procedure</em>, <em>function</em>, <em>subroutine</em>, <em>subprogram</em>, and <em>method</em> are the primary onces. However, in <em>Object Oriented Programming</em> abbreviated <em>OOP</em> you may primarily know them as methods.
@@ -397,7 +423,7 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
     <li><var>verb</var> <var>direct-object</var></li>
     <li><var>verb</var> <var>direct-object</var> <var>preposition</var> <var>indirect-object</var></li>
 </ul>
-<p>Real examples of these forms, meaningful in the LambdaCore database, are as follows:</p>
+<p>Real examples of these forms, meaningful in the ToastCore database, are as follows:</p>
 <pre>
 look
 take yellow bird
@@ -446,7 +472,7 @@ foo "bar mumble" baz" "fr"otz" bl"o"rt
 <p>If the server succeeds in finding a preposition, it considers the words between the verb and the preposition to be the direct object and those after the preposition to be the indirect object. In both cases, the sequence of words is turned into a string by putting one space between each pair of words. Thus, in the odd command from the previous paragraph, there are no words in the direct object (i.e., it is considered to be the empty string, <span class="cmd">""</span>) and the indirect object is <span class="cmd">"bar to baz"</span>.</p>
 <p>If there was no preposition, then the direct object is taken to be all of the words after the verb and the indirect object is the empty string.</p>
 <p>The next step is to try to find MOO objects that are named by the direct and indirect object strings.</p>
-<p>First, if an object string is empty, then the corresponding object is the special object <span class="cmd">#-1</span> (aka <span class="cmd">$nothing</span> in LambdaCore). If an object string has the form of an object number (i.e., a hash mark (<span class="cmd">#</span>) followed by digits), and the object with that number exists, then that is the named object. If the object string is either <span class="cmd">"me"</span> or <span class="cmd">"here"</span>, then the player object itself or its location is used, respectively.</p>
+<p>First, if an object string is empty, then the corresponding object is the special object <span class="cmd">#-1</span> (aka <span class="cmd">$nothing</span> in ToastCore). If an object string has the form of an object number (i.e., a hash mark (<span class="cmd">#</span>) followed by digits), and the object with that number exists, then that is the named object. If the object string is either <span class="cmd">"me"</span> or <span class="cmd">"here"</span>, then the player object itself or its location is used, respectively.</p>
 <div class="alert alert-info">
     <p><span class="label label-info">Note:</span> $nothing is considered a <span class="cmd">corified</span> object.  This means that a <em>property</em> has been created on <span class="cmd">#0</span> named <span class="cmd">nothing</span> with the value of <span class="cmd">#-1</span>. For example (after creating the property): <span class="cmd">;#0.nothing = #-1</span></p>
     <p>This allows you to reference the <span class="cmd">#-1</span> object via it's corified reference of <span class="cmd">$nothing</span>. In practice this can be very useful as you can use corified references in your code (and should!) instead of object numbers.</p>
@@ -455,7 +481,7 @@ foo "bar mumble" baz" "fr"otz" bl"o"rt
 </div>
 <p>Otherwise, the server considers all of the objects whose location is either the player (i.e., the objects the player is "holding", so to speak) or the room the player is in (i.e., the objects in the same room as the player); it will try to match the object string against the various names for these objects.</p>
 <p>The matching done by the server uses the <span class="cmd">aliases</span> property of each of the objects it considers. The value of this property should be a list of strings, the various alternatives for naming the object. If it is not a list, or the object does not have an <span class="cmd">aliases</span> property, then the empty list is used.  In any case, the value of the <span class="cmd">name</span> property is added to the list for the purposes of matching.</p>
-<p>The server checks to see if the object string in the command is either exactly equal to or a prefix of any alias; if there are any exact matches, the prefix matches are ignored. If exactly one of the objects being considered has a matching alias, that object is used. If more than one has a match, then the special object <span class="cmd">#-2</span> (aka <span class="cmd">$ambiguous_match</span> in LambdaCore) is used.  If there are no matches, then the special object <span class="cmd">#-3</span> (aka <span class="cmd">$failed_match</span> in LambdaCore) is used.</p>
+<p>The server checks to see if the object string in the command is either exactly equal to or a prefix of any alias; if there are any exact matches, the prefix matches are ignored. If exactly one of the objects being considered has a matching alias, that object is used. If more than one has a match, then the special object <span class="cmd">#-2</span> (aka <span class="cmd">$ambiguous_match</span> in ToastCore) is used.  If there are no matches, then the special object <span class="cmd">#-3</span> (aka <span class="cmd">$failed_match</span> in ToastCore) is used.</p>
 <p>So, now the server has identified a verb string, a preposition string, and direct- and indirect-object strings and objects. It then looks at each of the verbs defined on each of the following four objects, in order:</p>
 <ol>
     <li>the player who typed the command</li>
@@ -474,7 +500,7 @@ foo "bar mumble" baz" "fr"otz" bl"o"rt
 <p>Every verb has one or more names; all of the names are kept in a single string, separated by spaces. In the simplest case, a verb-name is just a word made up of any characters other than spaces and stars (i.e., ` ' and <span class="cmd">*</span>). In this case, the verb-name matches only itself; that is, the name must be matched exactly.</p>
 <p>If the name contains a single star, however, then the name matches any prefix of itself that is at least as long as the part before the star. For example, the verb-name <span class="cmd">foo*bar</span> matches any of the strings <span class="cmd">foo</span>, <span class="cmd">foob</span>, <span class="cmd">fooba</span>, or <span class="cmd">foobar</span>; note that the star itself is not considered part of the name.</p>
 <p>If the verb name <em>ends</em> in a star, then it matches any string that begins with the part before the star. For example, the verb-name <span class="cmd">foo*</span> matches any of the strings <span class="cmd">foo</span>, <span class="cmd">foobar</span>, <span class="cmd">food</span>, or <span class="cmd">foogleman</span>, among many others. As a special case, if the verb-name is <span class="cmd">*</span> (i.e., a single star all by itself), then it matches anything at all.</p>
-<p>Recall that the argument specifiers for the direct and indirect objects are drawn from the set <span class="cmd">none</span>, <span class="cmd">any</span>, and <span class="cmd">this</span>. If the specifier is <span class="cmd">none</span>, then the corresponding object value must be <span class="cmd">#-1</span> (aka <span class="cmd">$nothing</span> in LambdaCore); that is, it must not have been specified. If the specifier is <span class="cmd">any</span>, then the corresponding object value may be anything at all. Finally, if the specifier is <span class="cmd">this</span>, then the corresponding object value must be the same as the object on which we found this verb; for example, if we are considering verbs on the player, then the object value must be the player object.</p>
+<p>Recall that the argument specifiers for the direct and indirect objects are drawn from the set <span class="cmd">none</span>, <span class="cmd">any</span>, and <span class="cmd">this</span>. If the specifier is <span class="cmd">none</span>, then the corresponding object value must be <span class="cmd">#-1</span> (aka <span class="cmd">$nothing</span> in ToastCore); that is, it must not have been specified. If the specifier is <span class="cmd">any</span>, then the corresponding object value may be anything at all. Finally, if the specifier is <span class="cmd">this</span>, then the corresponding object value must be the same as the object on which we found this verb; for example, if we are considering verbs on the player, then the object value must be the player object.</p>
 <p>Finally, recall that the argument specifier for the preposition is either <span class="cmd">none</span>, <span class="cmd">any</span>, or one of several sets of prepositional phrases, given above. A specifier of <span class="cmd">none</span> matches only if there was no preposition found in the command. A specifier of <span class="cmd">any</span> always matches, regardless of what preposition was found, if any. If the specifier is a set of prepositional phrases, then the one found must be in that set for the specifier to match.</p>
 <p>So, the server considers several objects in turn, checking each of their verbs in turn, looking for the first one that meets all of the criteria just explained. If it finds one, then that is the verb whose program will be executed for this command. If not, then it looks for a verb named <span class="cmd">huh</span> on the room that the player is in; if one is found, then that verb will be called. This feature is useful for implementing room-specific command parsing or error recovery. If the server can't even find a <span class="cmd">huh</span> verb to run, it prints an error message like <span class="cmd">I couldn't understand that.</span> and the command is considered complete.</p>
 <p>At long last, we have a program to run in response to the command typed by the player. When the code for the program begins execution, the following built-in variables will have the indicated values:</p>
@@ -1017,7 +1043,7 @@ foo.bar
 foo.Bar
 foo.("bAr")
 </pre>
-<p>The LambdaCore database uses several properties on <span class="cmd">#0</span>, the <em>system object</em>, for various special purposes. For example, the value of <span class="cmd">#0.room</span> is the "generic room" object, <span class="cmd">#0.exit</span> is the "generic exit" object, etc. This allows MOO programs to refer to these useful objects more easily (and more readably) than using their object numbers directly. To make this usage even easier and more readable, the expression</p>
+<p>The ToastCore database uses several properties on <span class="cmd">#0</span>, the <em>system object</em>, for various special purposes. For example, the value of <span class="cmd">#0.room</span> is the "generic room" object, <span class="cmd">#0.exit</span> is the "generic exit" object, etc. This allows MOO programs to refer to these useful objects more easily (and more readably) than using their object numbers directly. To make this usage even easier and more readable, the expression</p>
 <pre>
 $<var>name</var>
 </pre>
@@ -1504,7 +1530,7 @@ player:tell("Your ball arcs to the " + direction);
 </pre>
 <p>The verb would raise <span class="cmd">E_VARNF</span> due to direction not being defined.</p>
 <h3 id="moo-tasks">MOO Tasks</h3>
-<p>A <em>task</em> is an execution of a MOO program. There are five kinds of tasks in LambdaMOO:</p>
+<p>A <em>task</em> is an execution of a MOO program. There are five kinds of tasks in ToastStunt:</p>
 <ul>
     <li>Every time a player types a command, a task is created to execute that command; we call these <em>command tasks</em>.</li>
     <li>Whenever a player connects or disconnects from the MOO, the server starts a task to do whatever processing is necessary, such as printing out <span class="cmd">Munchkin has connected</span> to all of the players in the same room; these are called <em>server tasks</em>.</li>
@@ -1528,7 +1554,7 @@ player:tell("Your ball arcs to the " + direction);
     <strong><u>function:</u> <span class="cmd">pass</span></strong>
     <p>pass -- calls the verb with the same name as the current verb but as defined on the parent of the object that defines the current verb.</p>
     <div class="well bg-info"><var>value</var> <span class="cmd">pass</span> (<var>arg</var>, ...)</div>
-    <p>Often, it is useful for a child object to define a verb that <em>augments</em> the behavior of a verb on its parent object. For example, in the LambdaCore database, the root object (which is an ancestor of every other object) defines a verb called <span class="cmd">description</span> that simply returns the value of <span class="cmd">this.description</span>; this verb is used by the implementation of the <span class="cmd">look</span> command. In many cases, a programmer would like the description of some object to include some non-constant part; for example, a sentence about whether or not the object was `awake' or `sleeping'. This sentence should be added onto the end of the normal description. The programmer would like to have a means of calling the normal <span class="cmd">description</span> verb and then appending the sentence onto the end of that description. The function <span class="cmd">pass()</span> is for exactly such situations.</p>
+    <p>Often, it is useful for a child object to define a verb that <em>augments</em> the behavior of a verb on its parent object. For example, in the ToastCore database, the root object (which is an ancestor of every other object) defines a verb called <span class="cmd">description</span> that simply returns the value of <span class="cmd">this.description</span>; this verb is used by the implementation of the <span class="cmd">look</span> command. In many cases, a programmer would like the description of some object to include some non-constant part; for example, a sentence about whether or not the object was `awake' or `sleeping'. This sentence should be added onto the end of the normal description. The programmer would like to have a means of calling the normal <span class="cmd">description</span> verb and then appending the sentence onto the end of that description. The function <span class="cmd">pass()</span> is for exactly such situations.</p>
     <p><span class="cmd">pass</span> calls the verb with the same name as the current verb but as defined on the parent of the object that defines the current verb. The arguments given to <span class="cmd">pass</span> are the ones given to the called verb and the returned value of the called verb is returned from the call to <span class="cmd">pass</span>.  The initial value of <span class="cmd">this</span> in the called verb is the same as in the calling verb.</p>
     <p>Thus, in the example above, the child-object's <span class="cmd">description</span> verb might have the following implementation:</p>
 <pre>
@@ -1969,9 +1995,9 @@ rmatch("foobar", "o*b")      =>  {4, 4, {{0, -1}, ...}, "foobar"}
     <p><var>Subs</var> should be a list like those returned by <span class="cmd">match()</span> or <span class="cmd">rmatch()</span> when the match succeeds; otherwise, <span class="cmd">E_INVARG</span> is raised.</p>
     <p>In <var>template</var>, the strings <span class="cmd">%1</span> through <span class="cmd">%9</span> will be replaced by the text matched by the first through ninth parenthesized sub-patterns when <span class="cmd">match()</span> or <span class="cmd">rmatch()</span> was called. The string <span class="cmd">%0</span> in <var>template</var> will be replaced by the text matched by the pattern as a whole when <span class="cmd">match()</span> or <span class="cmd">rmatch()</span> was called. The string <span class="cmd">%%</span> will be replaced by a single <span class="cmd">%</span> sign. If <span class="cmd">%</span> appears in <var>template</var> followed by any other character, <span class="cmd">E_INVARG</span> will be raised.</p>
 <pre>
-subs = match("*** Welcome to LambdaMOO!!!", "%(%w*%) to %(%w*%)");
+subs = match("*** Welcome to ToastStunt!!!", "%(%w*%) to %(%w*%)");
 substitute("I thank you for your %1 here in %2.", subs)
-        =>   "I thank you for your Welcome here in LambdaMOO."
+        =>   "I thank you for your Welcome here in ToastStunt."
 </pre>
 </article>
 <article class="well bg-info text-info" id="function-crypt">
@@ -2098,7 +2124,7 @@ setremove({1, 2, 3, 2}, 2)   =>   {1, 3, 2}
     <div class="well bg-info"><var>obj</var> <span class="cmd">create</span> (obj <var>parent</var> [, obj <var>owner</var>])</div>
     <p>Either the given <var>parent</var> object must be <span class="cmd">#-1</span> or valid and fertile (i.e., its <span class="cmd">f</span> bit must be set) or else the programmer must own <var>parent</var> or be a wizard; otherwise <span class="cmd">E_PERM</span> is raised. <span class="cmd">E_PERM</span> is also raised if <var>owner</var> is provided and not the same as the programmer, unless the programmer is a wizard. After the new object is created, its <span class="cmd">initialize</span> verb, if any, is called with no arguments.</p>
     <p>The new object is assigned the least non-negative object number that has not yet been used for a created object. Note that no object number is ever reused, even if the object with that number is recycled.</p>
-    <div class="alert alert-warning">This is not strictly true, especially if you are using LambdaCore and the <span class="cmd">$recycler</span>, which is a great idea.  If you don't, you end up with extremely high object numbers. However, if you plan on reusing object numbers you need to consider this carefully in your code. You do not want to include object numbers in your code if this is the case, as object numbers could change. Use corified references instead (IE: <span class="cmd"> @prop #0.my_object #objnum</span> allows you to use $my_object in your code. If the object number ever changes, you can change the reference without updating all of your code.)</div>
+    <div class="alert alert-warning">This is not strictly true, especially if you are using ToastCore and the <span class="cmd">$recycler</span>, which is a great idea.  If you don't, you end up with extremely high object numbers. However, if you plan on reusing object numbers you need to consider this carefully in your code. You do not want to include object numbers in your code if this is the case, as object numbers could change. Use corified references instead (IE: <span class="cmd"> @prop #0.my_object #objnum</span> allows you to use $my_object in your code. If the object number ever changes, you can change the reference without updating all of your code.)</div>
     <p>The owner of the new object is either the programmer (if <var>owner</var> is not provided), the new object itself (if <var>owner</var> was given as <span class="cmd">#-1</span>), or <var>owner</var> (otherwise).</p>
     <p>The other built-in properties of the new object are initialized as follows:</p>
 <pre>
@@ -2714,14 +2740,14 @@ suspend(5);
     <div class="well bg-info"><var>obj</var> <span class="cmd">renumber</span> (obj <var>object</var>)</div>
     <p>If <var>object</var> is not valid, then <span class="cmd">E_INVARG</span> is raised. If the programmer is not a wizard, then <span class="cmd">E_PERM</span> is raised. If there are no unused nonnegative object numbers less than <var>object</var>, then <var>object</var> is returned and no changes take place.</p>
     <p>The references to <var>object</var> in the parent/children and location/contents hierarchies are updated to use the new object number, and any verbs, properties and/or objects owned by <var>object</var> are also changed to be owned by the new object number. The latter operation can be quite time consuming if the database is large. No other changes to the database are performed; in particular, no object references in property values or verb code are updated.</p>
-    <p>This operation is intended for use in making new versions of the LambdaCore database from the then-current LambdaMOO database, and other similar situations. Its use requires great care.</p>
+    <p>This operation is intended for use in making new versions of the ToastCore database from the then-current ToastStunt database, and other similar situations. Its use requires great care.</p>
 </article>
 <article class="well bg-info text-info" id="function-reset-max-object">
     <strong><u>Function:</u> <span class="cmd">reset_max_object</span></strong>
     <p>reset_max_object -- the server's idea of the highest object number ever used is changed to be the highest object number of a currently-existing object, thus allowing reuse of any higher numbers that refer to now-recycled objects</p>
     <div class="well bg-info"><var>none</var> <span class="cmd">reset_max_object</span> ()</div>
     <p>If the programmer is not a wizard, then <span class="cmd">E_PERM</span> is raised.</p>
-    <p>This operation is intended for use in making new versions of the LambdaCore database from the then-current LambdaMOO database, and other similar situations. Its use requires great care.</p>
+    <p>This operation is intended for use in making new versions of the ToastCore database from the then-current ToastStunt database, and other similar situations. Its use requires great care.</p>
 </article>
 <article class="well bg-info text-info" id="function-memory-usage">
     <strong><u>Function:</u> <span class="cmd">memory_usage</span></strong>
@@ -2774,7 +2800,7 @@ SUFFIX &#62;&#62;MOO-Suffix&#60;&#60;
 PREFIX
 SUFFIX
 </pre>
-<p>The effect of which, in a LambdaCore-derived database, is to print out the code for the named verb preceded by a line containing only <span class="cmd">&#62;&#62;MOO-Prefix&#60;&#60;</span> and followed by a line containing only <span class="cmd">&#62;&#62;MOO-Suffix&#60;&#60;</span>. This enables the editor to reliably extract the program text from the MOO output and show it to the user in a separate editor window. There are many other possible uses.</p>
+<p>The effect of which, in a ToastCore-derived database, is to print out the code for the named verb preceded by a line containing only <span class="cmd">&#62;&#62;MOO-Prefix&#60;&#60;</span> and followed by a line containing only <span class="cmd">&#62;&#62;MOO-Suffix&#60;&#60;</span>. This enables the editor to reliably extract the program text from the MOO output and show it to the user in a separate editor window. There are many other possible uses.</p>
 <p>The built-in function <span class="cmd">output_delimiters()</span> can be used by MOO code to find out the output prefix and suffix currently in effect on a particular network connection.</p>
 <h4 id="programming">Programming</h4>
 <p>The <span class="cmd">.program</span> command is a common way for programmers to associate a particular MOO-code program with a particular verb. It has the following syntax:</p>
