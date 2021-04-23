@@ -1,5 +1,9 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.1] - 2021.04.20 4:29pm
+
+* Added new fork on documentation for ToastStunt
+
 ## [1.0.2A] - 2020.07.20 6:29pm
 
 * Merged in a PR from stevenjowens that fixed formatting in their guide
