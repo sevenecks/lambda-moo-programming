@@ -8,13 +8,23 @@
 <body style="padding-left: 30px; padding-right: 30px;">
 <h1 id="toaststunt-programmers-manual">ToastStunt Programmer's Manual</h1>
 <h2 id="for-toaststunt-version-2.7">For ToastStunt Version 2.7</h2>
+<p>by Pavel Curtis et al</p>
+<p>Copyright © 1991, 1992, 1993, 1995, 1996 by Pavel Curtis.</p>
+<p>Copyright © 1997 by Erik Ostrom.</p>
+<p>Copyright © 2004 by Roger F. Crew.</p>
+<p>Copyright © 2011, 2012, 2013 by Todd Sundsted.</p>
+<p>Copyright © 2017, 2018, 2019, 2020, 2021 by Brendan Butts.</p>
 <p>LambdaMOO Programming Manual Originally written <time datetime="1997-03-01 16:00">March, 1997</time>:</p>
 <address>by Pavel Curtis, aka Haakon, aka Lambda</address>
+<p>Portions adapted from the <a href="http://stunt.io/ProgrammersManual.html" target="_blank">Stunt Programmers Manual</a> by Todd Sundsted Copyright © 2011, 2012, 2013 by Todd Sundsted.</p>
 <p>Updated <time datetime="2019-06-02 14:00">June, 2019</time> (<a href="https://github.com/SevenEcks/lambda-moo-programming/blob/master/CHANGELOG.md" target="_blank">CHANGE LOG</a>):
 <address>By <a href="http://github.com/sevenecks" target="_blank">Brendan Butts</a>, aka Slither, aka Fengshui</address> 
 <p>Hard forked for ToastStunt <time datetime="2021-04-23 15:49">April, 2021</time> (<a href="https://github.com/SevenEcks/lambda-moo-programming/blob/master/CHANGELOG.md" target="_blank">CHANGE LOG</a>):
 <address>By <a href="http://github.com/sevenecks" target="_blank">Brendan Butts</a>, aka Slither, aka Fengshui</address> 
-<address>By <a href="http://github.com/lisdude" target="_blank">lisdude</a></address> 
+<address>By <a href="http://github.com/lisdude" target="_blank">lisdude</a></address> </p>
+<p>Permission is granted to make and distribute verbatim copies of this manual provided the copyright notice and this permission notice are preserved on all copies.</p>
+<p>Permission is granted to copy and distribute modified versions of this manual under the conditions for verbatim copying, provided that the entire resulting derived work is distributed under the terms of a permission notice identical to this one.</p>
+<p>Permission is granted to copy and distribute translations of this manual into another language, under the above conditions for modified versions, except that this permission notice may be stated in a translation approved by the author.</p>
 TODO: Update this section
 <h2>Versions of This Document</h2>
 <p>I highly recommend you use the Hosted HTML5 version of this document for anything more than quick references. It is better styled and easier to read. The markdown version exists as for 'quick reference' purposes.</p>
@@ -295,6 +305,10 @@ false == -43 evaluates to false
     <dd>Floating-point arithmetic error</dd>
     <dt>E_FILE</dt>
     <dd>File system error</dd>
+    <dd>E_EXEC</dd>
+    <dt>Exec error</dt>
+    <dd>E_INTRPT</dd>
+    <dt>Interrupted</dt>
 </dl>
 <p>Another important value in MOO programs is <em>lists</em>. A list is a sequence of arbitrary MOO values, possibly including other lists. In programs, lists are written in mathematical set notation with each of the elements written out in order, separated by commas, the whole enclosed in curly braces (<span class="cmd">{</span> and <span class="cmd">}</span>). For example, a list of the names of the days of the week is written like this:</p>
 <pre>{"Sunday", "Monday", "Tuesday", "Wednesday",
@@ -303,7 +317,7 @@ false == -43 evaluates to false
 <div class="well">
     <span class="label label-info">Note:</span> It doesn't matter that we put a line-break in the middle of the list. This is true in general in MOO: anywhere that a space can go, a line-break can go, with the same meaning. The only exception is inside character strings, where line-breaks are not allowed.
 </div>
-<p>The final type in MOO is a <em>map</em>. It is sometimes called a hashmap or assosciate array in other programming languages. A map is written as a set of key -> value pairs, for example: <span class="cmd">["key" -> "value", 0 -> {}, #15840 -> []]</span>.</p>
+<p>The final type in MOO is a <em>map</em>. It is sometimes called a hashmap, assosciate array, or dictionary in other programming languages. A map is written as a set of key -> value pairs, for example: <span class="cmd">["key" -> "value", 0 -> {}, #15840 -> []]</span>. Keys must be unique.</p>
 <p>The key of a map can be:
 <ul>
     <li>string</li>
@@ -598,6 +612,10 @@ endfor
     <li>STR</li>
     <li>LIST</li>
     <li>ERR</li>
+    <li>BOOL</li>
+    <li>MAP</li>
+    <li>WAIF</li>
+    <li>ANON</li>
     <li>player</li>
     <li>this</li>
     <li>caller</li>
@@ -609,24 +627,29 @@ endfor
     <li>prepstr</li>
     <li>iobj</li>
     <li>iobjstr</li>
-    <li>NUM</li>
 </ul>
 <p>The values of some of these variables always start out the same:</p>
 <dl class="dl-horizontal">
     <dt><span class="cmd">INT</span></dt>
     <dd>an integer, the type code for integers (see the description of the function <span class="cmd">typeof()</span>, below)</dd>
-    <dt><span class="cmd">NUM</span></dt>
-    <dd>the same as <span class="cmd">INT</span> (for historical reasons)</dd>
     <dt><span class="cmd">FLOAT</span></dt>
     <dd>an integer, the type code for floating-point numbers</dd>
-    <dt><span class="cmd">LIST</span></dt>
-    <dd>an integer, the type code for lists</dd>
-    <dt><span class="cmd">STR</span></dt>
-    <dd>an integer, the type code for strings</dd>
     <dt><span class="cmd">OBJ</span>
     <dd>an integer, the type code for objects</dd>
+    <dt><span class="cmd">STR</span></dt>
+    <dd>an integer, the type code for strings</dd>
+    <dt><span class="cmd">LIST</span></dt>
+    <dd>an integer, the type code for lists</dd>
     <dt><span class="cmd">ERR</span></dt>
     <dd>an integer, the type code for error values</dd>
+    <dt><span class="cmd">BOOL</span></dt>
+    <dd>an integer, the type code for bool values</dd>
+    <dt><span class="cmd">MAP</span></dt>
+    <dd>an integer, the type code for map values</dd>
+    <dt><span class="cmd">WAIF</span></dt>
+    <dd>an integer, the type code for WAIF values</dd>
+    <dt><span class="cmd">ANON</span></dt>
+    <dd>an integer, the type code for anonymous object values</dd>
 </dl>
 <p>For others, the general meaning of the value is consistent, though the value itself is different for different situations:</p>
 <dl class="dl-horizontal">
@@ -705,12 +728,20 @@ endfor
 {1, #34, "foo"} == {1, #34, "FoO"}  =>  1
 E_DIV == E_TYPE                     =>  0
 3 != "foo"                          =>  1
+[1 -> 2] == [1 -> 2]                =>  1
+[1 -> 2] == [2 -> 1]                =>  0
+true == true                        =>  1
+false == true                       =>  0
 </pre>
 <p>Note that integers and floating-point numbers are never equal to one another, even in the <em>obvious</em> cases. Also note that comparison of strings (and list values containing strings) is case-insensitive; that is, it does not distinguish between the upper- and lower-case version of letters. To test two values for case-sensitive equality, use the <span class="cmd">equal</span> function described later.</p>
 <div class="alert alert-warning">
     <span class="label label-warning">Warning:</span> It is easy (and very annoying) to confuse the equality-testing operator (<span class="cmd">==</span>) with the assignment operator (<span class="cmd">=</span>), leading to nasty, hard-to-find bugs. Don't do this.
 </div>
-<p>Numbers, object numbers, strings, and error values can also be compared for ordering purposes using the following operators:</p>
+<div class="alert alert-warning">
+    <span class="label label-warning">Warning:</span> Comparing floating point numbers for equality can be tricky. Sometimes two floating point numbers will appear the same but be rounded up or down at some meaningfuly bit, and thus will not be exactly equal. This is especially true when comparing a number in memory (assigned to a variable) to a number that is formed from reading a value from a player, or pulled from a property. Be wary of this, if you ever encounter it, as it can be
+    tediuous to debug.
+</div>
+<p>Integers, floats, object numbers, strings, and error values can also be compared for ordering purposes using the following operators:</p>
 <dl class="dl-horizontal">
     <dt>&#60;</dt>
     <dd>meaning "less than"</dd>
@@ -737,6 +768,8 @@ E_DIV &#62; E_TYPE  =>  1
     <li>all floating-point numbers not equal to <span class="cmd">0.0</span></li>
     <li>all non-empty strings (i.e., other than <span class="cmd">""</span>)</li>
     <li>all non-empty lists (i.e., other than <span class="cmd">{}</span>)</li>
+    <li>all non-empty maps (i.e, other than <span class="cmd">[]</span>)</li>
+    <li>the bool 'true'</li>
 </ul>
 <p>All other values are false:</p>
 <ul>
@@ -746,9 +779,13 @@ E_DIV &#62; E_TYPE  =>  1
     <li>the empty list (<span class="cmd">{}</span>)</li>
     <li>all object numbers</li>
     <li>all error values</li>
+    <li>the bool 'false'</li>
 </ul>
 <div class="alert alert-info">
     <span class="label label-info">Note:</span> Objects are considered false. If you need to evaluate if a value is of the type object, you can use <span class="cmd">typeof(potential_object) == OBJ</span> however, keep in mind that this does not mean that the object referenced actually exists. IE: #100000000 will return true, but that does not mean that object exists in your MOO.
+</div>
+<div class="alert alert-info">
+    <span class="label label-info">Note:</span> Don't get confused between values evaluating to true or false, and the boolean values of <span style="cmd">true</span> and <span class="cmd">false</span>.
 </div>
 <p>There are four kinds of expressions and two kinds of statements that depend upon this classification of MOO values. In describing them, I sometimes refer to the <em>truth value</em> of a MOO value; this is just <em>true</em> or <em>false</em>, the category into which that MOO value is classified.</p>
 <p>The conditional expression in MOO has the following form:</p>
@@ -808,31 +845,34 @@ E_DIV &#62; E_TYPE  =>  1
 0 || 0                  =>  0
 17 &#60;= 23  &#38;&#38;  23 &#60;= 27  =>  1
 </pre>
-<h4 id="indexing-into-lists-and-strings">Indexing into Lists and Strings</h4>
-<p>Both strings and lists can be seen as ordered sequences of MOO values. In the case of strings, each is a sequence of single-character strings; that is, one can view the string <span class="cmd">"bar"</span> as a sequence of the strings <span class="cmd">"b"</span>, <span class="cmd">"a"</span>, and <span class="cmd">"r"</span>. MOO allows you to refer to the elements of lists and strings by number, by the <em>index</em> of that element in the list or string. The first element in a list or string has index 1, the second has index 2, and so on.</p>
+<h4 id="indexing-into-lists-and-strings">Indexing into Lists, Maps and Strings</h4>
+<p>Strings, lists, and maps can be seen as ordered sequences of MOO values. In the case of strings, each is a sequence of single-character strings; that is, one can view the string <span class="cmd">"bar"</span> as a sequence of the strings <span class="cmd">"b"</span>, <span class="cmd">"a"</span>, and <span class="cmd">"r"</span>. MOO allows you to refer to the elements of lists, maps, and strings by number, by the <em>index</em> of that element in the list or string. The first element has index 1, the second has index 2, and so on.</p>
 <div class="alert alert-warning">
     <span class="alert alert-warning">Warning:</span> It is very important to note that unlike many programming languages (which use 0 as the starting index), MOO uses 1.
 </div>
-<h5 id="extracting-an-element-from-a-list-or-string">Extracting an Element from a List or String</h5>
-<p>The indexing expression in MOO extracts a specified element from a list or string:</p>
+<h5 id="extracting-an-element-from-a-list-or-string">Extracting an Element by Index</h5>
+<p>The indexing expression in MOO extracts a specified element from a list, map, or string:</p>
 <pre>
 <var>expression-1</var>[<var>expression-2</var>]
 </pre>
-<p>First, <var>expression-1</var> is evaluated; it must return a list or a string (the <em>sequence</em>). Then, <var>expression-2</var> is evaluated and must return an integer (the <em>index</em>). If either of the expressions returns some other type of value, <span class="cmd">E_TYPE</span> is returned. The index must be between 1 and the length of the sequence, inclusive; if it is not, then <span class="cmd">E_RANGE</span> is raised.  The value of the indexing expression is the index'th element in the sequence.  Anywhere within <var>expression-2</var>, you can use the symbol <span class="cmd">$</span> as an expression returning the length of the value of <var>expression-1</var>.</p>
+<p>First, <var>expression-1</var> is evaluated; it must return a list, map, or string (the <em>sequence</em>). Then, <var>expression-2</var> is evaluated and must return an integer (the <em>index</em>) or the <em>key</em> in the case of maps. If either of the expressions returns some other type of value, <span class="cmd">E_TYPE</span> is returned.</p>
+<p>For lists and strings the index must be between 1 and the length of the sequence, inclusive; if it is not, then <span class="cmd">E_RANGE</span> is raised.  The value of the indexing expression is the index'th element in the sequence. For maps, the key must be present, if it is not, then E_RANGE is raised. Within <var>expression-2</var> you can use the symbol ^ as an expression returning the index or key of the first element in the sequence and you can use the symbol $ as an expression returning the index or key of the last element in expression-1.</p>
 <pre>
 "fob"[2]                =>  "o"
+[1 -> "A"][1]           =>  "A"
 "fob"[1]                =>  "f"
 {#12, #23, #34}[$ - 1]  =>  #23
 </pre>
 <p>Note that there are no legal indices for the empty string or list, since there are no integers between 1 and 0 (the length of the empty string or list).</p>
 <div class="well">
-    <span class="label label-info">Fine point:</span> The <span class="cmd">$</span> expression actually returns the length of the value of the expression just before the nearest enclosing <span class="cmd">[...]</span> indexing or subranging brackets. For example:
+    <span class="label label-info">Fine point:</span> The ^ and $ expressions return the first/last index/key of the expression just before the nearest enclosing […] indexing or subranging brackets. For example:
 <pre>
+"frob"[{3, 2, 4}[^]]     =>  "o"
 "frob"[{3, 2, 4}[$]]     =>  "b"
 </pre>
     is possible because $ in this case represents the 3rd index of the list next to it, which evaluates to the value 4, which in turn is applied as the index to the string, which evaluates to the b.
 </div>
-<h5 id="replacing-an-element-of-a-list-or-string">Replacing an Element of a List or String</h5>
+<h5 id="replacing-an-element-of-a-list-or-string">Replacing an Element of a List, Map, or String</h5>
 <p>It often happens that one wants to change just one particular slot of a list or string, which is stored in a variable or a property. This can be done conveniently using an <em>indexed assignment</em> having one of the following forms:</p>
 <pre>
 <var>variable</var>[<var>index-expr</var>] = <var>result-expr</var>
@@ -856,6 +896,8 @@ s[2] = "u"        =>   "u"
 s                 =>   "fuobar"
 s[$] = "z"        =>   "z"
 s                 =>   "fuobaz"
+m                 =>   ["foo" -> "bar"]
+m[1] = "baz"      =>   ["foo" -> "baz"]
 </pre>
 <div class="alert alert-info">
     <span class="label label-info">Note:</span> (error) is only used for formatting and identification purposes in these examples and is not present in an actual raised error on the MOO.
@@ -1481,7 +1523,7 @@ fork (<var>expression</var>)
   <var>statements</var>
 endfork
 </pre>
-<p>The <span class="cmd">fork</span> statement first executes the expression, which must return a integer; call that integer <var>n</var>. It then creates a new MOO <em>task</em> that will, after at least <var>n</var> seconds, execute the statements. When the new task begins, all variables will have the values they had at the time the <span class="cmd">fork</span> statement was executed. The task executing the <span class="cmd">fork</span> statement immediately continues execution. The concept of tasks is discussed in detail in the next section.</p>
+<p>The <span class="cmd">fork</span> statement first executes the expression, which must return an integer or float; call that value <var>n</var>. It then creates a new MOO <em>task</em> that will, after at least <var>n</var> seconds (or sub seconds in the case of a float like 0.1), execute the statements. When the new task begins, all variables will have the values they had at the time the <span class="cmd">fork</span> statement was executed. The task executing the <span class="cmd">fork</span> statement immediately continues execution. The concept of tasks is discussed in detail in the next section.</p>
 <p>By default, there is no limit to the number of tasks any player may fork, but such a limit can be imposed from within the database. See the chapter on server assumptions about the database for details.</p>
 <p>Occasionally, one would like to be able to kill a forked task before it even starts; for example, some player might have caught the object that was thrown into the air, so no message should be printed about it hitting the ground. If a variable name is given after the <span class="cmd">fork</span> keyword, like this:</p>
 <pre>
@@ -1491,7 +1533,7 @@ endfork
 </pre>
 <p>then that variable is assigned the <em>task ID</em> of the newly-created task.  The value of this variable is visible both to the task executing the fork statement and to the statements in the newly-created task. This ID can be passed to the <span class="cmd">kill_task()</span> function to keep the task from running and will be the value of <span class="cmd">task_id()</span> once the task begins execution.</p>
 <div class="alert alert-info">
-    <span class="label label-info">Note:</span> This feature has other uses as well. The MOO is single threaded, which means that complex logic (verbs that call verbs that call verbs ...) can cause the MOO to <em>lag</em>. For instance, let's say when your user tosses their ball up, you want to calculate a complex trejectory involve the ball and other objects in the room. These calculations are costly and done in another verb, they take time to be performed. However, you want some actions to happen both before the calculations (everyone in the room seeing the ball is thrown into the air) and after the ball has left the players hands (the player reaches into their pocket and pulls out a new ball). If there is no <span class="cmd">fork()</span> then the calculations need to complete before the verb can continue execution, which means the player won't pull out a fresh ball until after the calculations are complete. A <span class="cmd">fork()</span> allows the player to throw the ball, the MOO to <span class="cmd">fork()</span> the task, which allows execution of the verb to continue right away and the user to pull out a new ball, without experiencing the delay that the calculations being returned (without a <span class="cmd">fork()</span>) would have inccured.
+    <span class="label label-info">Note:</span> This feature has other uses as well. The MOO is single threaded (though ToastStunt supports some built-ins executing on other threads), which means that complex logic (verbs that call verbs that call verbs ...) can cause the MOO to <em>lag</em>. For instance, let's say when your user tosses their ball up, you want to calculate a complex trejectory involve the ball and other objects in the room. These calculations are costly and done in another verb, they take time to be performed. However, you want some actions to happen both before the calculations (everyone in the room seeing the ball is thrown into the air) and after the ball has left the players hands (the player reaches into their pocket and pulls out a new ball). If there is no <span class="cmd">fork()</span> then the calculations need to complete before the verb can continue execution, which means the player won't pull out a fresh ball until after the calculations are complete. A <span class="cmd">fork()</span> allows the player to throw the ball, the MOO to <span class="cmd">fork()</span> the task, which allows execution of the verb to continue right away and the user to pull out a new ball, without experiencing the delay that the calculations being returned (without a <span class="cmd">fork()</span>) would have inccured.
 </div>
 <p>An example of this:</p>
 <pre>
@@ -1610,8 +1652,6 @@ toliteral(E_PERM)     =>   "E_PERM"
 </article>
 <article class="well bg-info text-info" id="function-toint">
     <strong><u>Function:</u> <span class="cmd">toint</span></strong> 
-    <br>
-    <strong><u>Function:</u> <span class="cmd">tonum</span></strong>
     <p>toint -- Converts the given MOO value into an integer and returns that integer.</p>
     <div class="well bg-info"><var>int</var> <span class="cmd">toint</span> (<var>value</var>)</div>
     <p>Floating-point numbers are rounded toward zero, truncating their fractional parts. Object numbers are converted into the equivalent integers. Strings are parsed as the decimal encoding of a real number which is then converted to an integer. Errors are converted into integers obeying the same ordering (with respect to <span class="cmd">&#60;=</span> as the errors themselves. <span class="cmd">toint()</span> raises <span class="cmd">E_TYPE</span> if <var>value</var> is a list. If <var>value</var> is a string but the string does not contain a syntactically-correct number, then <span class="cmd">toint()</span> returns 0.</p>
@@ -2578,7 +2618,7 @@ Mon Apr  1 14:10:43 1991 PST
 {"max", 1, -1, {-2}}
 {"tostr", 0, -1, {}}
 </pre>
-    <p><span class="cmd">listdelete()</span> takes exactly 2 arguments, of which the first must be a list (<span class="cmd">LIST == 4</span>) and the second must be an integer (<span class="cmd">INT == 0</span>).  <span class="cmd">Suspend()</span> has one optional argument that, if provided, must be an integer. <span class="cmd">Server_log()</span> has one required argument that must be a string (<span class="cmd">STR == 2</span>) and one optional argument that, if provided, may be of any type.  <span class="cmd">max()</span> requires at least one argument but can take any number above that, and the first argument must be either an integer or a floating-point number; the type(s) required for any other arguments can't be determined from this description. Finally, <span class="cmd">tostr()</span> takes any number of arguments at all, but it can't be determined from this description which argument types would be acceptable in which positions.</p>
+    <p><span class="cmd">listdelete()</span> takes exactly 2 arguments, of which the first must be a list (<span class="cmd">LIST == 4</span>) and the second must be an integer (<span class="cmd">INT == 0</span>).  <span class="cmd">Suspend()</span> has one optional argument that, if provided, must be a number (integer or float). <span class="cmd">Server_log()</span> has one required argument that must be a string (<span class="cmd">STR == 2</span>) and one optional argument that, if provided, may be of any type.  <span class="cmd">max()</span> requires at least one argument but can take any number above that, and the first argument must be either an integer or a floating-point number; the type(s) required for any other arguments can't be determined from this description. Finally, <span class="cmd">tostr()</span> takes any number of arguments at all, but it can't be determined from this description which argument types would be acceptable in which positions.</p>
 </article>
 <article class="well bg-info text-info" id="function-is-eval">
     <strong><u>Function:</u> <span class="cmd">eval</span></strong>
