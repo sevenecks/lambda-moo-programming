@@ -251,14 +251,7 @@ There are three special object numbers used for a variety of purposes: `#-1`, `#
 
 _Anonymous Objects_ TODO: Documentation
 
-_bools_ are either true or false. Eg: `my_bool = true; my_second_bool = false;`. In MOO `true` evaluates to `1` and `false` evaluates to `0`. For example:
-
-false == 0 evaluates to true
-true  == 1 evaluates to true
-false == 1 evaluates to false
-true  == 0 evaluates to false
-true  == 5 evaluates to false
-false == -43 evaluates to false
+_bools_ are either true or false. Eg: `my_bool = true; my_second_bool = false;`. In MOO `true` evaluates to `1` and `false` evaluates to `0`. For example: ``` false == 0 evaluates to true true == 1 evaluates to true false == 1 evaluates to false true == 0 evaluates to false true == 5 evaluates to false false == -43 evaluates to false ```
 
 _WAIFs_ TODO: Documentation
 
@@ -342,8 +335,7 @@ Interrupted
 
 Another important value in MOO programs is _lists_. A list is a sequence of arbitrary MOO values, possibly including other lists. In programs, lists are written in mathematical set notation with each of the elements written out in order, separated by commas, the whole enclosed in curly braces (`{` and `}`). For example, a list of the names of the days of the week is written like this:
 
-{"Sunday", "Monday", "Tuesday", "Wednesday",
- "Thursday", "Friday", "Saturday"}
+```{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"} ```
 
 Note: It doesn't matter that we put a line-break in the middle of the list. This is true in general in MOO: anywhere that a space can go, a line-break can go, with the same meaning. The only exception is inside character strings, where line-breaks are not allowed.
 
@@ -521,9 +513,7 @@ The MOO server is able to do a small amount of parsing on the commands that a pl
 
 Real examples of these forms, meaningful in the ToastCore database, are as follows:
 
-look
-take yellow bird
-put yellow bird in cuckoo clock
+``` look take yellow bird put yellow bird in cuckoo clock ```
 
 Note that English articles (i.e., `the`, `a`, and `an`) are not generally used in MOO commands; the parser does not know that they are not important parts of objects' names.
 
@@ -543,15 +533,15 @@ If so, that character is replaced by the corresponding command below, followed b
 
 For example this command:
 
-"Hi, there.
+``` "Hi, there. ```
 
 will be treated exactly as if it were as follows:
 
-say Hi, there.
+``` say Hi, there. ```
 
 The server next breaks up the command into words. In the simplest case, the command is broken into words at every run of space characters; for example, the command `foo bar baz` would be broken into the words `foo`, `bar`, and `baz`. To force the server to include spaces in a "word", all or part of a word can be enclosed in double-quotes. For example, the command:
 
-foo "bar mumble" baz" "fr"otz" bl"o"rt
+``` foo "bar mumble" baz" "fr"otz" bl"o"rt ```
 
 is broken into the words `foo`, `bar mumble`, `baz frotz`, and `blort`.
 
@@ -682,10 +672,7 @@ First, though, let me mention comments. You can include bits of text in your MOO
 
 To include a more persistent comment in your code, try using a character string literal as a statement. For example, the sentence about peanut butter in the following code is essentially ignored during execution but will be maintained in the database:
 
-for x in (players())
-  "Grendel eats peanut butter!";
-  player:tell(x.name, " (", x, ")");
-endfor
+``` for x in (players()) "Grendel eats peanut butter!"; player:tell(x.name, " (", x, ")"); endfor ```
 
 Note: In practice, the only style of comments you will use is quoted strings of text. Get used to it. Another thing of note is that these strings ARE evaluated. Nothing is done with the results of the evaluation, because the value is not stored anywhere-- however, it may be prudent to keep string comments out of nested loops to make your code a bit faster.
 
@@ -693,7 +680,7 @@ Note: In practice, the only style of comments you will use is quoted strings of 
 
 Expressions are those pieces of MOO code that generate values; for example, the MOO code
 
-3 + 4
+``` 3 + 4 ```
 
 is an expression that generates (or "has" or "returns") the value 7. There are many kinds of expressions in MOO, all of them discussed below.
 
@@ -717,7 +704,7 @@ The simplest kind of expression is a literal MOO value, just as described in the
 
 In the case of lists, like the last example above, note that the list expression contains other expressions, several character strings in this case. In general, those expressions can be of any kind at all, not necessarily literal values. For example,
 
-{3 + 4, 3 - 4, 3 \* 4}
+``` {3 + 4, 3 - 4, 3 \* 4} ```
 
 is an expression whose value is the list `{7, -1, 12}`.
 
@@ -837,7 +824,7 @@ The rest of the so-called "built-in" variables are only really meaningful for th
 
 To change what value is stored in a variable, use an _assignment_ expression:
 
-variable = expression
+``` variable = expression ```
 
 For example, to change the variable named `x` to have the value 17, you would write `x = 17` as an expression. An assignment expression does two things:
 
@@ -846,7 +833,7 @@ For example, to change the variable named `x` to have the value 17, you would wr
 
 Thus, the expression
 
-13 + (x = 17)
+``` 13 + (x = 17) ```
 
 changes the value of `x` to be 17 and returns 30.
 
@@ -862,17 +849,7 @@ All of the usual simple operations on numbers are available to MOO programs:
 
 These are, in order, addition, subtraction, multiplication, division, and remainder. In the following table, the expressions on the left have the corresponding values on the right:
 
-5 + 2       =>   7
-5 - 2       =>   3
-5 \* 2       =>   10
-5 / 2       =>   2
-5.0 / 2.0   =>   2.5
-5 % 2       =>   1
-5.0 % 2.0   =>   1.0
-5 % -2      =>   1
--5 % 2      =>   -1
--5 % -2     =>   -1
--(5 + 2)    =>   -7
+``` 5 + 2 => 7 5 - 2 => 3 5 \* 2 => 10 5 / 2 => 2 5.0 / 2.0 => 2.5 5 % 2 => 1 5.0 % 2.0 => 1.0 5 % -2 => 1 -5 % 2 => -1 -5 % -2 => -1 -(5 + 2) => -7 ```
 
 Note that integer division in MOO throws away the remainder and that the result of the remainder operator (`%`) has the same sign as the left-hand operand. Also, note that `-` can be used without a left-hand operand to negate a numeric expression.
 
@@ -884,10 +861,7 @@ Unless both operands to an arithmetic operator are numbers of the same kind (or,
 
 MOO also supports the exponentiation operation, also known as "raising to a power," using the `^` operator:
 
-3 ^ 4       =>   81
-3 ^ 4.5     error-->   E\_TYPE
-3.5 ^ 4     =>   150.0625
-3.5 ^ 4.5   =>   280.741230801382
+``` 3 ^ 4 => 81 3 ^ 4.5 error--> E\_TYPE 3.5 ^ 4 => 150.0625 3.5 ^ 4.5 => 280.741230801382 ```
 
 Note that if the first operand is an integer, then the second operand must also be an integer. If the first operand is a floating-point number, then the second operand can be either kind of number. Although it is legal to raise an integer to a negative power, it is unlikely to be terribly useful.
 
@@ -895,18 +869,7 @@ Note that if the first operand is an integer, then the second operand must also 
 
 Any two values can be compared for equality using `==` and `!=`. The first of these returns 1 if the two values are equal and 0 otherwise; the second does the reverse:
 
-3 == 4                              =>  0
-3 != 4                              =>  1
-3 == 3.0                            =>  0
-"foo" == "Foo"                      =>  1
-#34 != #34                          =>  0
-{1, #34, "foo"} == {1, #34, "FoO"}  =>  1
-E\_DIV == E\_TYPE                     =>  0
-3 != "foo"                          =>  1
-\[1 -> 2\] == \[1 -> 2\]                =>  1
-\[1 -> 2\] == \[2 -> 1\]                =>  0
-true == true                        =>  1
-false == true                       =>  0
+``` 3 == 4 => 0 3 != 4 => 1 3 == 3.0 => 0 "foo" == "Foo" => 1 #34 != #34 => 0 {1, #34, "foo"} == {1, #34, "FoO"} => 1 E\_DIV == E\_TYPE => 0 3 != "foo" => 1 \[1 -> 2\] == \[1 -> 2\] => 1 \[1 -> 2\] == \[2 -> 1\] => 0 true == true => 1 false == true => 0 ```
 
 Note that integers and floating-point numbers are never equal to one another, even in the _obvious_ cases. Also note that comparison of strings (and list values containing strings) is case-insensitive; that is, it does not distinguish between the upper- and lower-case version of letters. To test two values for case-sensitive equality, use the `equal` function described later.
 
@@ -934,11 +897,7 @@ meaning "less than"
 
 As with the equality operators, these return 1 when their operands are in the appropriate relation and 0 otherwise:
 
-3 < 4           =>  1
-3 < 4.0         =>  E\_TYPE (an error)
-#34 >= #32      =>  1
-"foo" <= "Boo"  =>  0
-E\_DIV > E\_TYPE  =>  1
+``` 3 < 4 => 1 3 < 4.0 => E\_TYPE (an error) #34 >= #32 => 1 "foo" <= "Boo" => 0 E\_DIV > E\_TYPE => 1 ```
 
 Note that, as with the equality operators, strings are compared case-insensitively. To perform a case-sensitive string comparison, use the `strcmp` function described later. Also note that the error values are ordered as given in the table in the section on values. If the operands to these four comparison operators are of different types (even integers and floating-point numbers are considered different types), or if they are lists, then `E_TYPE` is raised.
 
@@ -971,26 +930,23 @@ There are four kinds of expressions and two kinds of statements that depend upon
 
 The conditional expression in MOO has the following form:
 
-expression-1 ? expression-2 | expression-3
+``` expression-1 ? expression-2 | expression-3 ```
 
 Note: This is commonly refered to as a ternary statement in most programming languages. In MOO the commonly used ! is replaced with a |.
 
 First, expression-1 is evaluated. If it returns a true value, then expression-2 is evaluated and whatever it returns is returned as the value of the conditional expression as a whole. If expression-1 returns a false value, then expression-3 is evaluated instead and its value is used as that of the conditional expression.
 
-1 ? 2 | 3           =>  2
-0 ? 2 | 3           =>  3
-"foo" ? 17 | {#34}  =>  17
+``` 1 ? 2 | 3 => 2 0 ? 2 | 3 => 3 "foo" ? 17 | {#34} => 17 ```
 
 Note that only one of expression-2 and expression-3 is evaluated, never both.
 
 To negate the truth value of a MOO value, use the `!` operator:
 
-! expression
+``` ! expression ```
 
 If the value of expression is true, `!` returns 0; otherwise, it returns 1:
 
-! "foo"     =>  0
-! (3 >= 4)  =>  1
+``` ! "foo" => 0 ! (3 >= 4) => 1 ```
 
 The negation operator is usually read as "not."
 
@@ -998,8 +954,7 @@ Note: The "negation" or "not" operator is commonly referred to as "bang" in mode
 
 It is frequently useful to test more than one condition to see if some or all of them are true. MOO provides two operators for this:
 
-expression-1 && expression-2
-expression-1 || expression-2
+``` expression-1 && expression-2 expression-1 || expression-2 ```
 
 These operators are usually read as "and" and "or," respectively.
 
@@ -1009,25 +964,19 @@ Note: expression-2 is only evaluated if expression-1 returns a true value.
 
 The `&&` expression is equivalent to the conditional expression:
 
-expression-1 ? expression-2 | expression-1
+``` expression-1 ? expression-2 | expression-1 ```
 
 except that expression-1 is only evaluated once.
 
 The `||` operator works similarly, except that expression-2 is evaluated only if expression-1 returns a false value. It is equivalent to the conditional expression:
 
-expression-1 ? expression-1 | expression-2
+``` expression-1 ? expression-1 | expression-2 ```
 
 except that, as with `&&`, expression-1 is only evaluated once.
 
 These two operators behave very much like "and" and "or" in English:
 
-1 && 1                  =>  1
-0 && 1                  =>  0
-0 && 0                  =>  0
-1 || 1                  =>  1
-0 || 1                  =>  1
-0 || 0                  =>  0
-17 <= 23  &&  23 <= 27  =>  1
+``` 1 && 1 => 1 0 && 1 => 0 0 && 0 => 0 1 || 1 => 1 0 || 1 => 1 0 || 0 => 0 17 <= 23 && 23 <= 27 => 1 ```
 
 #### Indexing into Lists, Maps and Strings
 
@@ -1039,34 +988,23 @@ Warning: It is very important to note that unlike many programming languages (wh
 
 The indexing expression in MOO extracts a specified element from a list, map, or string:
 
-expression-1\[expression-2\]
+``` expression-1\[expression-2\] ```
 
 First, expression-1 is evaluated; it must return a list, map, or string (the _sequence_). Then, expression-2 is evaluated and must return an integer (the _index_) or the _key_ in the case of maps. If either of the expressions returns some other type of value, `E_TYPE` is returned.
 
 For lists and strings the index must be between 1 and the length of the sequence, inclusive; if it is not, then `E_RANGE` is raised. The value of the indexing expression is the index'th element in the sequence. For maps, the key must be present, if it is not, then E\_RANGE is raised. Within expression-2 you can use the symbol ^ as an expression returning the index or key of the first element in the sequence and you can use the symbol $ as an expression returning the index or key of the last element in expression-1.
 
-"fob"\[2\]                =>  "o"
-\[1 -> "A"\]\[1\]           =>  "A"
-"fob"\[1\]                =>  "f"
-{#12, #23, #34}\[$ - 1\]  =>  #23
+``` "fob"\[2\] => "o" \[1 -> "A"\]\[1\] => "A" "fob"\[1\] => "f" {#12, #23, #34}\[$ - 1\] => #23 ```
 
 Note that there are no legal indices for the empty string or list, since there are no integers between 1 and 0 (the length of the empty string or list).
 
-Fine point: The ^ and $ expressions return the first/last index/key of the expression just before the nearest enclosing \[…\] indexing or subranging brackets. For example:
-
-"frob"\[{3, 2, 4}\[^\]\]     =>  "o"
-"frob"\[{3, 2, 4}\[$\]\]     =>  "b"
-
-is possible because $ in this case represents the 3rd index of the list next to it, which evaluates to the value 4, which in turn is applied as the index to the string, which evaluates to the b.
+Fine point: The ^ and $ expressions return the first/last index/key of the expression just before the nearest enclosing \[…\] indexing or subranging brackets. For example: ``` "frob"\[{3, 2, 4}\[^\]\] => "o" "frob"\[{3, 2, 4}\[$\]\] => "b" ``` is possible because $ in this case represents the 3rd index of the list next to it, which evaluates to the value 4, which in turn is applied as the index to the string, which evaluates to the b.
 
 ##### Replacing an Element of a List, Map, or String
 
 It often happens that one wants to change just one particular slot of a list or string, which is stored in a variable or a property. This can be done conveniently using an _indexed assignment_ having one of the following forms:
 
-variable\[index-expr\] = result-expr
-object-expr.name\[index-expr\] = result-expr
-object-expr.(name-expr)\[index-expr\] = result-expr
-$name\[index-expr\] = result-expr
+``` variable\[index-expr\] = result-expr object-expr.name\[index-expr\] = result-expr object-expr.(name-expr)\[index-expr\] = result-expr $name\[index-expr\] = result-expr ```
 
 The first form writes into a variable, and the last three forms write into a property. The usual errors (`E_TYPE`, `E_INVIND`, `E_PROPNF` and `E_PERM` for lack of read/write permission on the property) may be raised, just as in reading and writing any object property; see the discussion of object property expressions below for details.
 
@@ -1078,19 +1016,7 @@ For lists, the variable or the property is assigned a new list that is identical
 
 The assignment expression itself returns the value of result-expr. For the following examples, assume that `l` initially contains the list `{1, 2, 3}` and that `s` initially contains the string "foobar":
 
-l\[5\] = 3          =>   E\_RANGE (error)
-l\["first"\] = 4    =>   E\_TYPE  (error)
-s\[3\] = "baz"      =>   E\_INVARG (error)
-l\[2\] = l\[2\] + 3   =>   5
-l                 =>   {1, 5, 3}
-l\[2\] = "foo"      =>   "foo"
-l                 =>   {1, "foo", 3}
-s\[2\] = "u"        =>   "u"
-s                 =>   "fuobar"
-s\[$\] = "z"        =>   "z"
-s                 =>   "fuobaz"
-m                 =>   \["foo" -> "bar"\]
-m\[1\] = "baz"      =>   \["foo" -> "baz"\]
+``` l\[5\] = 3 => E\_RANGE (error) l\["first"\] = 4 => E\_TYPE (error) s\[3\] = "baz" => E\_INVARG (error) l\[2\] = l\[2\] + 3 => 5 l => {1, 5, 3} l\[2\] = "foo" => "foo" l => {1, "foo", 3} s\[2\] = "u" => "u" s => "fuobar" s\[$\] = "z" => "z" s => "fuobaz" m => \["foo" -> "bar"\] m\[1\] = "baz" => \["foo" -> "baz"\] ```
 
 Note: (error) is only used for formatting and identification purposes in these examples and is not present in an actual raised error on the MOO.
 
@@ -1100,20 +1026,11 @@ Fine point: After an indexed assignment, the variable or property contains a _ne
 
 In the list case, indexed assignment can be nested to many levels, to work on nested lists. Assume that `l` initially contains the list:
 
-{{1, 2, 3}, {4, 5, 6}, "foo"}
+``` {{1, 2, 3}, {4, 5, 6}, "foo"} ```
 
 in the following examples:
 
-l\[7\] = 4             =>   E\_RANGE (error)
-l\[1\]\[8\] = 35         =>   E\_RANGE (error)
-l\[3\]\[2\] = 7          =>   E\_TYPE (error)
-l\[1\]\[1\]\[1\] = 3       =>   E\_TYPE (error)
-l\[2\]\[2\] = -l\[2\]\[2\]   =>   -5
-l                    =>   {{1, 2, 3}, {4, -5, 6}, "foo"}
-l\[2\] = "bar"         =>   "bar"
-l                    =>   {{1, 2, 3}, "bar", "foo"}
-l\[2\]\[$\] = "z"        =>   "z"
-l                    =>   {{1, 2, 3}, "baz", "foo"}
+``` l\[7\] = 4 => E\_RANGE (error) l\[1\]\[8\] = 35 => E\_RANGE (error) l\[3\]\[2\] = 7 => E\_TYPE (error) l\[1\]\[1\]\[1\] = 3 => E\_TYPE (error) l\[2\]\[2\] = -l\[2\]\[2\] => -5 l => {{1, 2, 3}, {4, -5, 6}, "foo"} l\[2\] = "bar" => "bar" l => {{1, 2, 3}, "bar", "foo"} l\[2\]\[$\] = "z" => "z" l => {{1, 2, 3}, "baz", "foo"} ```
 
 The first two examples raise `E_RANGE` because 7 is out of the range of `l` and 8 is out of the range of `l[1]`. The next two examples raise `E_TYPE` because `l[3]` and `l[1][1]` are not lists.
 
@@ -1121,27 +1038,19 @@ The first two examples raise `E_RANGE` because 7 is out of the range of `l` and 
 
 The range expression extracts a specified subsequence from a list or string:
 
-expression-1\[expression-2..expression-3\]
+``` expression-1\[expression-2..expression-3\] ```
 
 The three expressions are evaluated in order. Expression-1 must return a list or string (the _sequence_) and the other two expressions must return integers (the _low_ and _high_ indices, respectively); otherwise, `E_TYPE` is raised. The `$` expression can be used in either or both of expression-2 and expression-3 just as before, meaning the length of the value of expression-1.
 
 If the low index is greater than the high index, then the empty string or list is returned, depending on whether the sequence is a string or a list. Otherwise, both indices must be between 1 and the length of the sequence; `E_RANGE` is raised if they are not. A new list or string is returned that contains just the elements of the sequence with indices between the low and high bounds.
 
-"foobar"\[2..$\]                       =>  "oobar"
-"foobar"\[3..3\]                       =>  "o"
-"foobar"\[17..12\]                     =>  ""
-{"one", "two", "three"}\[$ - 1..$\]    =>  {"two", "three"}
-{"one", "two", "three"}\[3..3\]        =>  {"three"}
-{"one", "two", "three"}\[17..12\]      =>  {}
+``` "foobar"\[2..$\] => "oobar" "foobar"\[3..3\] => "o" "foobar"\[17..12\] => "" {"one", "two", "three"}\[$ - 1..$\] => {"two", "three"} {"one", "two", "three"}\[3..3\] => {"three"} {"one", "two", "three"}\[17..12\] => {} ```
 
 ##### Replacing a Subsequence of a List or String
 
 The subrange assigment replaces a specified subsequence of a list or string with a supplied subsequence. The allowed forms are:
 
-variable\[start-index-expr..end-index-expr\] = result-expr
-object-expr.name\[start-index-expr..end-index-expr\] = result-expr
-object-expr.(name-expr)\[start-index-expr..end-index-expr\] = result-expr
-$name\[start-index-expr..end-index-expr\] = result-expr
+``` variable\[start-index-expr..end-index-expr\] = result-expr object-expr.name\[start-index-expr..end-index-expr\] = result-expr object-expr.(name-expr)\[start-index-expr..end-index-expr\] = result-expr $name\[start-index-expr..end-index-expr\] = result-expr ```
 
 As with indexed assigments, the first form writes into a variable, and the last three forms write into a property. The same errors (`E_TYPE`, `E_INVIND`, `E_PROPNF` and `E_PERM` for lack of read/write permission on the property) may be raised. If variable does not yet have a value (i.e., it has never been assigned to), `E_VARNF` will be raised.
 
@@ -1151,15 +1060,15 @@ If start-index-expr or end-index-expr is not an integer, if the value of variabl
 
 In precise terms, the subrange assigment
 
-v\[start..end\] = value
+``` v\[start..end\] = value ```
 
 is equivalent to
 
-v = {@v\[1..start - 1\], @value, @v\[end + 1..$\]}
+``` v = {@v\[1..start - 1\], @value, @v\[end + 1..$\]} ```
 
 if v is a list and to
 
-v = v\[1..start - 1\] + value + v\[end + 1..$\]
+``` v = v\[1..start - 1\] + value + v\[end + 1..$\] ```
 
 if v is a string. The assigment expression itself returns the value of result-expr.
 
@@ -1167,51 +1076,31 @@ Note: The use of preceeding a list with the @ symbol is covered in just a bit.
 
 For the following examples, assume that `l` initially contains the list `{1, 2, 3}` and that `s` initially contains the string "foobar":
 
-l\[5..6\] = {7, 8}       =>   E\_RANGE (error)
-l\[2..3\] = 4            =>   E\_TYPE (error)
-l\[#2..3\] = {7}         =>   E\_TYPE (error)
-s\[2..3\] = {6}          =>   E\_TYPE (error)
-l\[2..3\] = {6, 7, 8, 9} =>   {6, 7, 8, 9}
-l                      =>   {1, 6, 7, 8, 9}
-l\[2..1\] = {10, "foo"}  =>   {10, "foo"}
-l                      =>   {1, 10, "foo", 6, 7, 8, 9}
-l\[3\]\[2..$\] = "u"       =>   "u"
-l                      =>   {1, 10, "fu", 6, 7, 8, 9}
-s\[7..12\] = "baz"       =>   "baz"
-s                      =>   "foobarbaz"
-s\[1..3\] = "fu"         =>   "fu"
-s                      =>   "fubarbaz"
-s\[1..0\] = "test"       =>   "test"
-s                      =>   "testfubarbaz"
+``` l\[5..6\] = {7, 8} => E\_RANGE (error) l\[2..3\] = 4 => E\_TYPE (error) l\[#2..3\] = {7} => E\_TYPE (error) s\[2..3\] = {6} => E\_TYPE (error) l\[2..3\] = {6, 7, 8, 9} => {6, 7, 8, 9} l => {1, 6, 7, 8, 9} l\[2..1\] = {10, "foo"} => {10, "foo"} l => {1, 10, "foo", 6, 7, 8, 9} l\[3\]\[2..$\] = "u" => "u" l => {1, 10, "fu", 6, 7, 8, 9} s\[7..12\] = "baz" => "baz" s => "foobarbaz" s\[1..3\] = "fu" => "fu" s => "fubarbaz" s\[1..0\] = "test" => "test" s => "testfubarbaz" ```
 
 #### Other Operations on Lists
 
 As was mentioned earlier, lists can be constructed by writing a comma-separated sequence of expressions inside curly braces:
 
-{expression-1, expression-2, ..., expression-N}
+``` {expression-1, expression-2, ..., expression-N} ```
 
 The resulting list has the value of expression-1 as its first element, that of expression-2 as the second, etc.
 
-{3 < 4, 3 <= 4, 3 >= 4, 3 > 4}  =>  {1, 1, 0, 0}
+``` {3 < 4, 3 <= 4, 3 >= 4, 3 > 4} => {1, 1, 0, 0} ```
 
 Additionally, one may precede any of these expressions by the splicing operator, `@`. Such an expression must return a list; rather than the old list itself becoming an element of the new list, all of the elements of the old list are included in the new list. This concept is easy to understand, but hard to explain in words, so here are some examples. For these examples, assume that the variable `a` has the value `{2, 3, 4}` and that `b` has the value `{"Foo", "Bar"}`:
 
-{1, a, 5}   =>  {1, {2, 3, 4}, 5}
-{1, @a, 5}  =>  {1, 2, 3, 4, 5}
-{a, @a}     =>  {{2, 3, 4}, 2, 3, 4}
-{@a, @b}    =>  {2, 3, 4, "Foo", "Bar"}
+``` {1, a, 5} => {1, {2, 3, 4}, 5} {1, @a, 5} => {1, 2, 3, 4, 5} {a, @a} => {{2, 3, 4}, 2, 3, 4} {@a, @b} => {2, 3, 4, "Foo", "Bar"} ```
 
 If the splicing operator (`@`) precedes an expression whose value is not a list, then `E_TYPE` is raised as the value of the list construction as a whole.
 
 The list membership expression tests whether or not a given MOO value is an element of a given list and, if so, with what index:
 
-expression-1 in expression-2
+``` expression-1 in expression-2 ```
 
 Expression-2 must return a list; otherwise, `E_TYPE` is raised. If the value of expression-1 is in that list, then the index of its first occurrence in the list is returned; otherwise, the `in` expression returns 0.
 
-2 in {5, 8, 2, 3}               =>  3
-7 in {5, 8, 2, 3}               =>  0
-"bar" in {"Foo", "Bar", "Baz"}  =>  2
+``` 2 in {5, 8, 2, 3} => 3 7 in {5, 8, 2, 3} => 0 "bar" in {"Foo", "Bar", "Baz"} => 2 ```
 
 Note that the list membership operator is case-insensitive in comparing strings, just like the comparison operators. To perform a case-sensitive list membership test, use the `is_member` function described later. Note also that since it returns zero only if the given value is not in the given list, the `in` expression can be used either as a membership test or as an element locator.
 
@@ -1219,19 +1108,13 @@ Note that the list membership operator is case-insensitive in comparing strings,
 
 It is often the case in MOO programming that you will want to access the elements of a list individually, with each element stored in a separate variables. This desire arises, for example, at the beginning of almost every MOO verb, since the arguments to all verbs are delivered all bunched together in a single list. In such circumstances, you _could_ write statements like these:
 
-first = args\[1\];
-second = args\[2\];
-if (length(args) > 2)
-  third = args\[3\];
-else
-  third = 0;
-endif
+``` first = args\[1\]; second = args\[2\]; if (length(args) > 2) third = args\[3\]; else third = 0; endif ```
 
 This approach gets pretty tedious, both to read and to write, and it's prone to errors if you mistype one of the indices. Also, you often want to check whether or not any _extra_ list elements were present, adding to the tedium.
 
 MOO provides a special kind of assignment expression, called _scattering assignment_ made just for cases such as these. A scattering assignment expression looks like this:
 
-{target, ...} = expr
+``` {target, ...} = expr ```
 
 where each target describes a place to store elements of the list that results from evaluating expr. A target has one of the following forms:
 
@@ -1255,24 +1138,15 @@ If there aren't enough list elements to fill all of the required targets, or if 
 
 Here are some examples of how this works. Assume first that the verb `me:foo()` contains the following code:
 
-b = c = e = 17;
-{a, ?b, ?c = 8, @d, ?e = 9, f} = args;
-return {a, b, c, d, e, f};
+``` b = c = e = 17; {a, ?b, ?c = 8, @d, ?e = 9, f} = args; return {a, b, c, d, e, f}; ```
 
 Then the following calls return the given values:
 
-me:foo(1)                        =>   E\_ARGS (error)
-me:foo(1, 2)                     =>   {1, 17, 8, {}, 9, 2}
-me:foo(1, 2, 3)                  =>   {1, 2, 8, {}, 9, 3}
-me:foo(1, 2, 3, 4)               =>   {1, 2, 3, {}, 9, 4}
-me:foo(1, 2, 3, 4, 5)            =>   {1, 2, 3, {}, 4, 5}
-me:foo(1, 2, 3, 4, 5, 6)         =>   {1, 2, 3, {4}, 5, 6}
-me:foo(1, 2, 3, 4, 5, 6, 7)      =>   {1, 2, 3, {4, 5}, 6, 7}
-me:foo(1, 2, 3, 4, 5, 6, 7, 8)   =>   {1, 2, 3, {4, 5, 6}, 7, 8}
+``` me:foo(1) => E\_ARGS (error) me:foo(1, 2) => {1, 17, 8, {}, 9, 2} me:foo(1, 2, 3) => {1, 2, 8, {}, 9, 3} me:foo(1, 2, 3, 4) => {1, 2, 3, {}, 9, 4} me:foo(1, 2, 3, 4, 5) => {1, 2, 3, {}, 4, 5} me:foo(1, 2, 3, 4, 5, 6) => {1, 2, 3, {4}, 5, 6} me:foo(1, 2, 3, 4, 5, 6, 7) => {1, 2, 3, {4, 5}, 6, 7} me:foo(1, 2, 3, 4, 5, 6, 7, 8) => {1, 2, 3, {4, 5, 6}, 7, 8} ```
 
 Using scattering assignment, the example at the begining of this section could be rewritten more simply, reliably, and readably:
 
-{first, second, ?third = 0} = args;
+``` {first, second, ?third = 0} = args; ```
 
 Fine point: If you are familiar with JavaScript, the 'rest' and 'spread' functionality should look pretty familiar. It is good MOO programming style to use a scattering assignment at the top of nearly every verb (at least ones that are 'this none this'), since it shows so clearly just what kinds of arguments the verb expects.
 
@@ -1280,35 +1154,33 @@ Fine point: If you are familiar with JavaScript, the 'rest' and 'spread' functio
 
 Usually, one can read the value of a property on an object with a simple expression:
 
-expression.name
+``` expression.name ```
 
 Expression must return an object number; if not, `E_TYPE` is raised. If the object with that number does not exist, `E_INVIND` is raised. Otherwise, if the object does not have a property with that name, then `E_PROPNF` is raised. Otherwise, if the named property is not readable by the owner of the current verb, then `E_PERM` is raised. Finally, assuming that none of these terrible things happens, the value of the named property on the given object is returned.
 
 I said "usually" in the paragraph above because that simple expression only works if the name of the property obeys the same rules as for the names of variables (i.e., consists entirely of letters, digits, and underscores, and doesn't begin with a digit). Property names are not restricted to this set, though. Also, it is sometimes useful to be able to figure out what property to read by some computation. For these more general uses, the following syntax is also allowed:
 
-expression-1.(expression-2)
+``` expression-1.(expression-2) ```
 
 As before, expression-1 must return an object number. Expression-2 must return a string, the name of the property to be read; `E_TYPE` is raised otherwise. Using this syntax, any property can be read, regardless of its name.
 
 Note that, as with almost everything in MOO, case is not significant in the names of properties. Thus, the following expressions are all equivalent:
 
-foo.bar
-foo.Bar
-foo.("bAr")
+``` foo.bar foo.Bar foo.("bAr") ```
 
 The ToastCore database uses several properties on `#0`, the _system object_, for various special purposes. For example, the value of `#0.room` is the "generic room" object, `#0.exit` is the "generic exit" object, etc. This allows MOO programs to refer to these useful objects more easily (and more readably) than using their object numbers directly. To make this usage even easier and more readable, the expression
 
-$name
+``` $name ```
 
 (where name obeys the rules for variable names) is an abbreviation for
 
-#0.name
+``` #0.name ```
 
 Thus, for example, the value `$nothing` mentioned earlier is really `#-1`, the value of `#0.nothing`.
 
 As with variables, one uses the assignment operator (`=`) to change the value of a property. For example, the expression
 
-14 + (#27.foo = 17)
+``` 14 + (#27.foo = 17) ```
 
 changes the value of the `foo` property of the object numbered 27 to be 17 and then returns 31. Assignments to properties check that the owner of the current verb has write permission on the given property, raising `E_PERM` otherwise. Read permission is not required.
 
@@ -1318,7 +1190,7 @@ MOO provides a large number of useful functions for performing a wide variety of
 
 The syntax of a call to a function is as follows:
 
-name(expr-1, expr-2, ..., expr-N)
+``` name(expr-1, expr-2, ..., expr-N) ```
 
 where name is the name of one of the built-in functions. The expressions between the parentheses, called _arguments_, are each evaluated in turn and then given to the named function to use in its appropriate way. Most functions require that a specific number of arguments be given; otherwise, `E_ARGS` is raised. Most also require that certain of the arguments have certain specified types (e.g., the `length()` function requires a list or a string as its argument); `E_TYPE` is raised if any argument has the wrong type.
 
@@ -1326,7 +1198,7 @@ As with list construction, the splicing operator `@` can precede any argument ex
 
 Verbs can also call other verbs, usually using this syntax:
 
-expr-0:name(expr-1, expr-2, ..., expr-N)
+``` expr-0:name(expr-1, expr-2, ..., expr-N) ```
 
 Expr-0 must return an object number; `E_TYPE` is raised otherwise. If the object with that number does not exist, `E_INVIND` is raised. If this task is too deeply nested in verbs calling verbs calling verbs, then `E_MAXREC` is raised; the default limit is 50 levels, but this can be changed from within the database; see the chapter on server assumptions about the database for details. If neither the object nor any of its ancestors defines a verb matching the given name, `E_VERBNF` is raised. Otherwise, if none of these nasty things happens, the named verb on the given object is called; the various built-in variables have the following initial values in the called verb:
 
@@ -1354,7 +1226,7 @@ All other built-in variables (`argstr`, `dobj`, etc.) are initialized with the s
 
 As with the discussion of property references above, I said "usually" at the beginning of the previous paragraph because that syntax is only allowed when the name follows the rules for allowed variable names. Also as with property reference, there is a syntax allowing you to compute the name of the verb:
 
-expr-0:(expr-00)(expr-1, expr-2, ..., expr-N)
+``` expr-0:(expr-00)(expr-1, expr-2, ..., expr-N) ```
 
 The expression expr-00 must return a string; `E_TYPE` is raised otherwise.
 
@@ -1362,17 +1234,17 @@ The splicing operator (`@`) can be used with verb-call arguments, too, just as w
 
 In many databases, a number of important verbs are defined on `#0`, the _system object_. As with the `$foo` notation for properties on `#0`, the server defines a special syntax for calling verbs on `#0`:
 
-$name(expr-1, expr-2, ..., expr-N)
+``` $name(expr-1, expr-2, ..., expr-N) ```
 
 (where name obeys the rules for variable names) is an abbreviation for
 
-#0:name(expr-1, expr-2, ..., expr-N)
+``` #0:name(expr-1, expr-2, ..., expr-N) ```
 
 #### Catching Errors in Expressions
 
 It is often useful to be able to _catch_ an error that an expression raises, to keep the error from aborting the whole task, and to keep on running as if the expression had returned some other value normally. The following expression accomplishes this:
 
-\`\` expr-1 ! codes => expr-2 '
+``` \`\` expr-1 ! codes => expr-2 ' ```
 
 Note: The open- and close-quotation marks in the previous line are really part of the syntax; you must actually type them as part of your MOO program for this kind of expression.
 
@@ -1384,15 +1256,15 @@ Next, expr-1 is evaluated. If it evaluates normally, without raising an error, t
 
 Here are some examples of the use of this kind of expression:
 
-\`\`x + 1 ! E\_TYPE => 0'
+``` \`\`x + 1 ! E\_TYPE => 0' ```
 
 Returns `x + 1` if `x` is an integer, returns `0` if `x` is not an integer, and raises `E_VARNF` if `x` doesn't have a value.
 
-\`\`x.y ! E\_PROPNF, E\_PERM => 17'
+``` \`\`x.y ! E\_PROPNF, E\_PERM => 17' ```
 
 Returns `x.y` if that doesn't cause an error, `17` if `x` doesn't have a `y` property or that property isn't readable, and raises some other kind of error (like `E_INVIND`) if `x.y` does.
 
-\`\`1 / 0 ! ANY'
+``` \`\`1 / 0 ! ANY' ```
 
 Returns `E_DIV`.
 
@@ -1402,32 +1274,25 @@ Note: It's important to mention how powerful this compact syntax for writing err
 
 As shown in a few examples above, MOO allows you to use parentheses to make it clear how you intend for complex expressions to be grouped. For example, the expression
 
-3 \* (4 + 5)
+``` 3 \* (4 + 5) ```
 
 performs the addition of 4 and 5 before multiplying the result by 3.
 
 If you leave out the parentheses, MOO will figure out how to group the expression according to certain rules. The first of these is that some operators have higher _precedence_ than others; operators with higher precedence will more tightly bind to their operands than those with lower precedence. For example, multiplication has higher precedence than addition; thus, if the parentheses had been left out of the expression in the previous paragraph, MOO would have grouped it as follows:
 
-(3 \* 4) + 5
+``` (3 \* 4) + 5 ```
 
 The table below gives the relative precedence of all of the MOO operators; operators on higher lines in the table have higher precedence and those on the same line have identical precedence:
 
-!       - (without a left operand)
-^
-\*       /       %
-+       -
-==      !=      <       <=      >       >=      in
-&&      ||
-... ? ... | ... (the conditional expression)
-=
+``` ! - (without a left operand) ^ \* / % + - == != < <= > >= in && || ... ? ... | ... (the conditional expression) = ```
 
 Thus, the horrendous expression
 
-x = a < b && c > d + e \* f ? w in y | - q - r
+``` x = a < b && c > d + e \* f ? w in y | - q - r ```
 
 would be grouped as follows:
 
-x = (((a < b) && (c > (d + (e \* f)))) ? (w in y) | ((- q) - r))
+``` x = (((a < b) && (c > (d + (e \* f)))) ? (w in y) | ((- q) - r)) ```
 
 It is best to keep expressions simpler than this and to use parentheses liberally to make your meaning clear to other humans.
 
@@ -1447,85 +1312,49 @@ If the `d` bit is set, as it usually is, then the error is _raised_ and can be c
 
 The simplest kind of statement is the _null_ statement, consisting of just a semicolon:
 
-;
+``` ; ```
 
 It doesn't do anything at all, but it does it very quickly.
 
 The next simplest statement is also one of the most common, the expression statement, consisting of any expression followed by a semicolon:
 
-expression;
+``` expression; ```
 
 The given expression is evaluated and the resulting value is ignored. Commonly-used kinds of expressions for such statements include assignments and verb calls. Of course, there's no use for such a statement unless the evaluation of expression has some side-effect, such as changing the value of some variable or property, printing some text on someone's screen, etc.
 
-#42.weight = 40;
-#42.weight;
-2 + 5;
-obj:verbname();
-1 > 2;
-2 < 1;
+``` #42.weight = 40; #42.weight; 2 + 5; obj:verbname(); 1 > 2; 2 < 1; ```
 
 #### Statements for Testing Conditions
 
 The `if` statement allows you to decide whether or not to perform some statements based on the value of an arbitrary expression:
 
-if (expression)
-  statements
-endif
+``` if (expression) statements endif ```
 
 Expression is evaluated and, if it returns a true value, the statements are executed in order; otherwise, nothing more is done.
 
 One frequently wants to perform one set of statements if some condition is true and some other set of statements otherwise. The optional `else` phrase in an `if` statement allows you to do this:
 
-if (expression)
-  statements-1
-else
-  statements-2
-endif
+``` if (expression) statements-1 else statements-2 endif ```
 
 This statement is executed just like the previous one, except that statements-1 are executed if expression returns a true value and statements-2 are executed otherwise.
 
 Sometimes, one needs to test several conditions in a kind of nested fashion:
 
-if (expression-1)
-  statements-1
-else
-  if (expression-2)
-    statements-2
-  else
-    if (expression-3)
-      statements-3
-    else
-      statements-4
-    endif
-  endif
-endif
+``` if (expression-1) statements-1 else if (expression-2) statements-2 else if (expression-3) statements-3 else statements-4 endif endif endif ```
 
 Such code can easily become tedious to write and difficult to read. MOO provides a somewhat simpler notation for such cases:
 
-if (expression-1)
-  statements-1
-elseif (expression-2)
-  statements-2
-elseif (expression-3)
-  statements-3
-else
-  statements-4
-endif
+``` if (expression-1) statements-1 elseif (expression-2) statements-2 elseif (expression-3) statements-3 else statements-4 endif ```
 
 Note that `elseif` is written as a single word, without any spaces. This simpler version has the very same meaning as the original: evaluate expression-i for i equal to 1, 2, and 3, in turn, until one of them returns a true value; then execute the statements-i associated with that expression. If none of the expression-i return a true value, then execute statements-4.
 
 Any number of `elseif` phrases can appear, each having this form:
 
-elseif (expression) 
-    statements
+``` elseif (expression) statements ```
 
 The complete syntax of the `if` statement, therefore, is as follows:
 
-if (expression)
-  statements
-zero-or-more-elseif-phrases
-an-optional-else-phrase
-endif
+``` if (expression) statements zero-or-more-elseif-phrases an-optional-else-phrase endif ```
 
 #### Statements for Looping
 
@@ -1537,90 +1366,59 @@ Note: In some programming languages this is referred to as a foreach loop. The s
 
 To perform some statements once for each element of a given list, use this syntax:
 
-for variable in (expression)
-  statements
-endfor
+``` for variable in (expression) statements endfor ```
 
 The expression is evaluated and should return a list; if it does not, `E_TYPE` is raised. The statements are then executed once for each element of that list in turn; each time, the given variable is assigned the value of the element in question. For example, consider the following statements:
 
-odds = {1, 3, 5, 7, 9};
-evens = {};
-for n in (odds)
-  evens = {@evens, n + 1};
-endfor
+``` odds = {1, 3, 5, 7, 9}; evens = {}; for n in (odds) evens = {@evens, n + 1}; endfor ```
 
 The value of the variable `evens` after executing these statements is the list
 
-{2, 4, 6, 8, 10}
+``` {2, 4, 6, 8, 10} ```
 
 Another example of this, looping over all the children of an object:
 
-for child in (children(obj))
-    notify(player, tostr(o.name, " is located in ", o.location));
-endfor
+``` for child in (children(obj)) notify(player, tostr(o.name, " is located in ", o.location)); endfor ```
 
 Another exmaple of this, looping over a list of strings:
 
-strings = {"foo", "bar", "baz"};
-for string in (strings)
-    notify(player, string);
-endfor
+``` strings = {"foo", "bar", "baz"}; for string in (strings) notify(player, string); endfor ```
 
 ##### The For-Range Loop
 
 To perform a set of statements once for each integer or object number in a given range, use this syntax:
 
-for variable in \[expression-1..expression-2\]
-  statements
-endfor
+``` for variable in \[expression-1..expression-2\] statements endfor ```
 
 The two expressions are evaluated in turn and should either both return integers or both return object numbers; `E_TYPE` is raised otherwise. The statements are then executed once for each integer (or object number, as appropriate) greater than or equal to the value of expression-1 and less than or equal to the result of expression-2, in increasing order. Each time, the given variable is assigned the integer or object number in question. For example, consider the following statements:
 
-evens = {};
-for n in \[1..5\]
-  evens = {@evens, 2 \* n};
-endfor
+``` evens = {}; for n in \[1..5\] evens = {@evens, 2 \* n}; endfor ```
 
 The value of the variable `evens` after executing these statements is just as in the previous example: the list
 
-{2, 4, 6, 8, 10}
+``` {2, 4, 6, 8, 10} ```
 
 The following loop over object numbers prints out the number and name of every valid object in the database:
 
-for o in \[#0..max\_object()\]
-  if (valid(o))
-    notify(player, tostr(o, ": ", o.name));
-  endif
-endfor
+``` for o in \[#0..max\_object()\] if (valid(o)) notify(player, tostr(o, ": ", o.name)); endif endfor ```
 
 ##### The While Loop
 
 The final kind of loop in MOO executes a set of statements repeatedly as long as a given condition remains true:
 
-while (expression)
-  statements
-endwhile
+``` while (expression) statements endwhile ```
 
 The expression is evaluated and, if it returns a true value, the statements are executed; then, execution of the `while` statement begins all over again with the evaluation of the expression. That is, execution alternates between evaluating the expression and executing the statements until the expression returns a false value. The following example code has precisely the same effect as the loop just shown above:
 
-evens = {};
-n = 1;
-while (n <= 5)
-  evens = {@evens, 2 \* n};
-  n = n + 1;
-endwhile
+``` evens = {}; n = 1; while (n <= 5) evens = {@evens, 2 \* n}; n = n + 1; endwhile ```
 
 Fine point: It is also possible to give a _name_ to a `while` loop.
 
-while name (expression)
-  statements
-endwhile
+``` while name (expression) statements endwhile ```
 
 which has precisely the same effect as
 
-while (name = expression)
-  statements
-endwhile
+``` while (name = expression) statements endwhile ```
 
 This naming facility is only really useful in conjunction with the `break` and `continue` statements, described in the next section.
 
@@ -1632,91 +1430,57 @@ Warning: With `while` loops it is especially important to make sure you do not c
 
 Sometimes, it is useful to exit a loop before it finishes all of its iterations. For example, if the loop is used to search for a particular kind of element of a list, then it might make sense to stop looping as soon as the right kind of element is found, even if there are more elements yet to see. The `break` statement is used for this purpose; it has the form
 
-break;
+``` break; ```
 
 or
 
-break name;
+``` break name; ```
 
 Each `break` statement indicates a specific surrounding loop; if name is not given, the statement refers to the innermost one. If it is given, name must be the name appearing right after the `for` or `while` keyword of the desired enclosing loop. When the `break` statement is executed, the indicated loop is immediately terminated and executing continues just as if the loop had completed its iterations normally.
 
 MOO also allows you to terminate just the current iteration of a loop, making it immediately go on to the next one, if any. The `continue` statement does this; it has precisely the same forms as the `break` statement:
 
-continue;
+``` continue; ```
 
 or
 
-continue name;
+``` continue name; ```
 
 An example that sums up a list of integers, excluding any integer equal to four:
 
-my\_list = {1, 2, 3, 4, 5, 6, 7};
-sum = 0;
-for element in (my\_list)
-    if (element == 4)
-        continue;
-    endif
-    sum = sum + element;
-endfor
+``` my\_list = {1, 2, 3, 4, 5, 6, 7}; sum = 0; for element in (my\_list) if (element == 4) continue; endif sum = sum + element; endfor ```
 
 An example that breaks out of hte loop when a specific object in a list is found
 
-my\_list = {#13633, #98, #15840, #18657, #22664};
-i = 0;
-found = 0;
-for obj in (my\_list)
-    i = i + 1;
-    if (obj == #18657)
-        found = 1;
-        break;
-    endif
-endfor
-if (found)
-    notify(player, tostr("found #18657 at ", i, " index"));
-else
-    notify(player, "couldn't find #18657 in the list!");
-endif
+``` my\_list = {#13633, #98, #15840, #18657, #22664}; i = 0; found = 0; for obj in (my\_list) i = i + 1; if (obj == #18657) found = 1; break; endif endfor if (found) notify(player, tostr("found #18657 at ", i, " index")); else notify(player, "couldn't find #18657 in the list!"); endif ```
 
 #### Returning a Value from a Verb
 
 The MOO program in a verb is just a sequence of statements. Normally, when the verb is called, those statements are simply executed in order and then the integer 0 is returned as the value of the verb-call expression. Using the `return` statement, one can change this behavior. The `return` statement has one of the following two forms:
 
-return;
+``` return; ```
 
 or
 
-return expression;
+``` return expression; ```
 
 When it is executed, execution of the current verb is terminated immediately after evaluating the given expression, if any. The verb-call expression that started the execution of this verb then returns either the value of expression or the integer 0, if no expression was provided.
 
 We could modify the example given above. Imagine a verb called has\_object which takes an object (that we want to find) as it's first argument and a list of objects (to search) as it's second argument:
 
-{seek\_obj, list\_of\_objects} = args;
-for obj in (list\_of\_objects)
-    if (obj == seek\_obj)
-        return 1;
-    endif
-endfor
+``` {seek\_obj, list\_of\_objects} = args; for obj in (list\_of\_objects) if (obj == seek\_obj) return 1; endif endfor ```
 
 The verb above could be called with `obj_with_verb:has_object(#18657, {#1, #3, #4, #3000})` and it would return `false` (0) if the object was not found in the list. It would return `true` (1) if the object was found in the list.
 
 Of course we could write this much simplier (and get the index of the object in the list at the same time):
 
-{seek\_obj, list\_of\_objects} = args;
-return seek\_obj in list\_of\_objects;
+``` {seek\_obj, list\_of\_objects} = args; return seek\_obj in list\_of\_objects; ```
 
 #### Handling Errors in Statements
 
 Normally, whenever a piece of MOO code raises an error, the entire task is aborted and a message printed to the user. Often, such errors can be anticipated in advance by the programmer and code written to deal with them in a more graceful manner. The `try`\-`except` statement allows you to do this; the syntax is as follows:
 
-try
-  statements-0
-except variable-1 (codes-1)
-  statements-1
-except variable-2 (codes-2)
-  statements-2
-...
-endtry
+``` try statements-0 except variable-1 (codes-1) statements-1 except variable-2 (codes-2) statements-2 ... endtry ```
 
 where the variables may be omitted and each codes part is either the keyword `ANY` or else a comma-separated list of expressions, just like an argument list. As in an argument list, the splicing operator (`@`) can be used here. There can be anywhere from 1 to 255 `except` clauses.
 
@@ -1726,7 +1490,7 @@ Next, statements-0 is executed; if it doesn't raise an error, then that's all th
 
 If E is found first in codes-i, then variable-i (if provided) is assigned a value containing information about the error being raised and statements-i is executed. The value assigned to variable-i is a list of four elements:
 
-{code, message, value, traceback}
+``` {code, message, value, traceback} ```
 
 where code is E, the error being raised, message and value are as provided by the code that raised the error, and traceback is a list like that returned by the `callers()` function, including line numbers. The traceback list contains entries for every verb from the one that raised the error through the one containing this `try`\-`except` statement.
 
@@ -1734,33 +1498,13 @@ Unless otherwise mentioned, all of the built-in errors raised by expressions, st
 
 Here's an example of the use of this kind of statement:
 
-try
-  result = object:(command)(@arguments);
-  player:tell("=> ", toliteral(result));
-except v (ANY)
-  tb = v\[4\];
-  if (length(tb) == 1)
-    player:tell("\*\* Illegal command: ", v\[2\]);
-  else
-    top = tb\[1\];
-    tb\[1..1\] = {};
-    player:tell(top\[1\], ":", top\[2\], ", line ", top\[6\], ":", v\[2\]);
-    for fr in (tb)
-      player:tell("... called from ", fr\[1\], ":", fr\[2\], ", line ", fr\[6\]);
-    endfor
-    player:tell("(End of traceback)");
-  endif
-endtry
+``` try result = object:(command)(@arguments); player:tell("=> ", toliteral(result)); except v (ANY) tb = v\[4\]; if (length(tb) == 1) player:tell("\*\* Illegal command: ", v\[2\]); else top = tb\[1\]; tb\[1..1\] = {}; player:tell(top\[1\], ":", top\[2\], ", line ", top\[6\], ":", v\[2\]); for fr in (tb) player:tell("... called from ", fr\[1\], ":", fr\[2\], ", line ", fr\[6\]); endfor player:tell("(End of traceback)"); endif endtry ```
 
 #### Cleaning Up After Errors
 
 Whenever an error is raised, it is usually the case that at least some MOO code gets skipped over and never executed. Sometimes, it's important that a piece of code _always_ be executed, whether or not an error is raised. Use the `try`\-`finally` statement for these cases; it has the following syntax:
 
-try
-  statements-1
-finally
-  statements-2
-endtry
+``` try statements-1 finally statements-2 endtry ```
 
 First, statements-1 is executed; if it completes without raising an error, returning from this verb, or terminating the current iteration of a surrounding loop (we call these possibilities _transferring control_), then statements-2 is executed and that's all that happens for the entire `try`\-`finally` statement.
 
@@ -1770,13 +1514,7 @@ In short, this statement ensures that statements-2 is executed after control lea
 
 Here's an example:
 
-try
-  start = time();
-  object:(command)(@arguments);
-finally
-  end = time();
-  this:charge\_user\_for\_seconds(player, end - start);
-endtry
+``` try start = time(); object:(command)(@arguments); finally end = time(); this:charge\_user\_for\_seconds(player, end - start); endtry ```
 
 #### Executing Statements at a Later Time
 
@@ -1784,9 +1522,7 @@ It is sometimes useful to have some sequence of statements execute at a later ti
 
 The `fork` statement is intended for just such situations and has the following syntax:
 
-fork (expression)
-  statements
-endfork
+``` fork (expression) statements endfork ```
 
 The `fork` statement first executes the expression, which must return an integer or float; call that value n. It then creates a new MOO _task_ that will, after at least n seconds (or sub seconds in the case of a float like 0.1), execute the statements. When the new task begins, all variables will have the values they had at the time the `fork` statement was executed. The task executing the `fork` statement immediately continues execution. The concept of tasks is discussed in detail in the next section.
 
@@ -1794,9 +1530,7 @@ By default, there is no limit to the number of tasks any player may fork, but su
 
 Occasionally, one would like to be able to kill a forked task before it even starts; for example, some player might have caught the object that was thrown into the air, so no message should be printed about it hitting the ground. If a variable name is given after the `fork` keyword, like this:
 
-fork name (expression)
-  statements
-endfork
+``` fork name (expression) statements endfork ```
 
 then that variable is assigned the _task ID_ of the newly-created task. The value of this variable is visible both to the task executing the fork statement and to the statements in the newly-created task. This ID can be passed to the `kill_task()` function to keep the task from running and will be the value of `task_id()` once the task begins execution.
 
@@ -1804,39 +1538,21 @@ Note: This feature has other uses as well. The MOO is single threaded (though To
 
 An example of this:
 
-{ball} = args;
-player:tell("You throw the ball!");
-ball:calculate\_trajectory();
-player:tell("You get out another ball!");
+``` {ball} = args; player:tell("You throw the ball!"); ball:calculate\_trajectory(); player:tell("You get out another ball!"); ```
 
 In the above example, `player:tell("You get out another ball!");` will not be executed until after `ball:calculate_trajectory();` is completed.
 
-{ball} = args;
-player:tell("You throw the ball!");
-fork (1)
-    ball:calculate\_trajectory();
-endfor
-player:tell("You get out another ball!");
+``` {ball} = args; player:tell("You throw the ball!"); fork (1) ball:calculate\_trajectory(); endfor player:tell("You get out another ball!"); ```
 
 In this forked example, the ball will be thrown, the task forked for 1 second later and the the final line telling the player they got out another ball will be followed up right after, without having to wait for the trajectory verb to finish running.
 
 This type of fork cannot be used if the trajectory is required by the code that runs after it. For instance:
 
-{ball} = args;
-player:tell("You throw the ball!");
-direction = ball:calculate\_trajectory();
-player:tell("You get out another ball!");
-player:tell("Your ball arcs to the " + direction);
+``` {ball} = args; player:tell("You throw the ball!"); direction = ball:calculate\_trajectory(); player:tell("You get out another ball!"); player:tell("Your ball arcs to the " + direction); ```
 
 If the above task was forked as it is below:
 
-{ball} = args;
-player:tell("You throw the ball!");
-fork (1)
-    direction = ball:calculate\_trajectory();
-endfork
-player:tell("You get out another ball!");
-player:tell("Your ball arcs to the " + direction);
+``` {ball} = args; player:tell("You throw the ball!"); fork (1) direction = ball:calculate\_trajectory(); endfork player:tell("You get out another ball!"); player:tell("Your ball arcs to the " + direction); ```
 
 The verb would raise `E_VARNF` due to direction not being defined.
 
@@ -1888,7 +1604,7 @@ Often, it is useful for a child object to define a verb that _augments_ the beha
 
 Thus, in the example above, the child-object's `description` verb might have the following implementation:
 
-return pass() + "  It is " + (this.awake ? "awake." | "sleeping.");
+``` return pass() + " It is " + (this.awake ? "awake." | "sleeping."); ```
 
 That is, it calls its parent's `description` verb and then appends to the result a sentence whose content is computed based on the value of a property on the object.
 
@@ -1908,11 +1624,11 @@ int `typeof` (value)
 
 The result is the same as the initial value of one of these built-in variables: `INT`, `FLOAT`, `STR`, `LIST`, `OBJ`, or `ERR`. Thus, one usually writes code like this:
 
-if (typeof(x) == LIST) ...
+``` if (typeof(x) == LIST) ... ```
 
 and not like this:
 
-if (typeof(x) == 3) ...
+``` if (typeof(x) == 3) ... ```
 
 because the former is much more readable than the latter.
 
@@ -1922,13 +1638,7 @@ tostr -- Converts all of the given MOO values into strings and returns the conca
 
 str `tostr` (value, ...)
 
-tostr(17)                  =>   "17"
-tostr(1.0/3.0)             =>   "0.333333333333333"
-tostr(#17)                 =>   "#17"
-tostr("foo")               =>   "foo"
-tostr({1, 2})              =>   "{list}"
-tostr(E\_PERM)              =>   "Permission denied"
-tostr("3 + 4 = ", 3 + 4)   =>   "3 + 4 = 7"
+``` tostr(17) => "17" tostr(1.0/3.0) => "0.333333333333333" tostr(#17) => "#17" tostr("foo") => "foo" tostr({1, 2}) => "{list}" tostr(E\_PERM) => "Permission denied" tostr("3 + 4 = ", 3 + 4) => "3 + 4 = 7" ```
 
 Warning `tostr()` does not do a good job of converting lists into strings; all lists, including the empty list, are converted into the string `"{list}"`. The function `toliteral()`, below, is better for this purpose.
 
@@ -1938,12 +1648,7 @@ Returns a string containing a MOO literal expression that, when evaluated, would
 
 str `toliteral` (value)
 
-toliteral(17)         =>   "17"
-toliteral(1.0/3.0)    =>   "0.333333333333333"
-toliteral(#17)        =>   "#17"
-toliteral("foo")      =>   "\\"foo\\""
-toliteral({1, 2})     =>   "{1, 2}"
-toliteral(E\_PERM)     =>   "E\_PERM"
+``` toliteral(17) => "17" toliteral(1.0/3.0) => "0.333333333333333" toliteral(#17) => "#17" toliteral("foo") => "\\"foo\\"" toliteral({1, 2}) => "{1, 2}" toliteral(E\_PERM) => "E\_PERM" ```
 
 **Function: `toint`**
 
@@ -1953,13 +1658,7 @@ int `toint` (value)
 
 Floating-point numbers are rounded toward zero, truncating their fractional parts. Object numbers are converted into the equivalent integers. Strings are parsed as the decimal encoding of a real number which is then converted to an integer. Errors are converted into integers obeying the same ordering (with respect to `<=` as the errors themselves. `toint()` raises `E_TYPE` if value is a list. If value is a string but the string does not contain a syntactically-correct number, then `toint()` returns 0.
 
-toint(34.7)        =>   34
-toint(-34.7)       =>   -34
-toint(#34)         =>   34
-toint("34")        =>   34
-toint("34.7")      =>   34
-toint(" - 34  ")   =>   -34
-toint(E\_TYPE)      =>   1
+``` toint(34.7) => 34 toint(-34.7) => -34 toint(#34) => 34 toint("34") => 34 toint("34.7") => 34 toint(" - 34 ") => -34 toint(E\_TYPE) => 1 ```
 
 **Function: `toobj`**
 
@@ -1969,10 +1668,7 @@ obj `toobj` (value)
 
 The conversions are very similar to those for `toint()` except that for strings, the number _may_ be preceded by `#`.
 
-toobj("34")       =>   #34
-toobj("#34")      =>   #34
-toobj("foo")      =>   #0
-toobj({1, 2})     => E\_TYPE (error)
+``` toobj("34") => #34 toobj("#34") => #34 toobj("foo") => #0 toobj({1, 2}) => E\_TYPE (error) ```
 
 **Function: `tofloat`**
 
@@ -1982,11 +1678,7 @@ float `tofloat` (value)
 
 Integers and object numbers are converted into the corresponding integral floating-point numbers. Strings are parsed as the decimal encoding of a real number which is then represented as closely as possible as a floating-point number. Errors are first converted to integers as in `toint()` and then converted as integers are. `tofloat()` raises `E_TYPE` if value is a list. If value is a string but the string does not contain a syntactically-correct number, then `tofloat()` returns 0.
 
-tofloat(34)          =>   34.0
-tofloat(#34)         =>   34.0
-tofloat("34")        =>   34.0
-tofloat("34.7")      =>   34.7
-tofloat(E\_TYPE)      =>   1.0
+``` tofloat(34) => 34.0 tofloat(#34) => 34.0 tofloat("34") => 34.0 tofloat("34.7") => 34.7 tofloat(E\_TYPE) => 1.0 ```
 
 **Function: `equal`**
 
@@ -1996,9 +1688,7 @@ int `equal` (value, value2)
 
 This is much the same operation as `value1 == value2` except that, unlike `==`, the `equal()` function does not treat upper- and lower-case characters in strings as equal and thus, is case-sensitive.
 
-"Foo" == "foo"         =>   1
-equal("Foo", "foo")    =>   0
-equal("Foo", "Foo")    =>   1
+``` "Foo" == "foo" => 1 equal("Foo", "foo") => 0 equal("Foo", "Foo") => 1 ```
 
 **Function: `value_bytes`**
 
@@ -2298,8 +1988,7 @@ int `length` (str string)
 
 It is also permissible to pass a list to `length()`; see the description in the next section.
 
-length("foo")   =>   3
-length("")      =>   0
+``` length("foo") => 3 length("") => 0 ```
 
 **Function: `strsub`**
 
@@ -2309,9 +1998,7 @@ str `strsub` (str subject, str what, str with \[, int case-matters\])
 
 The occurrences are found from left to right and all substitutions happen simultaneously. By default, occurrences of what are searched for while ignoring the upper/lower case distinction. If case-matters is provided and true, then case is treated as significant in all comparisons.
 
-strsub("%n is a fink.", "%n", "Fred")   =>   "Fred is a fink."
-strsub("foobar", "OB", "b")             =>   "fobar"
-strsub("foobar", "OB", "b", 1)          =>   "foobar"
+``` strsub("%n is a fink.", "%n", "Fred") => "Fred is a fink." strsub("foobar", "OB", "b") => "fobar" strsub("foobar", "OB", "b", 1) => "foobar" ```
 
 **Function: `index`**
 
@@ -2321,10 +2008,7 @@ int `index` (str str1, str str2, \[, int case-matters\])
 
 If str2 does not occur in str1 at all, zero is returned. By default the search for an occurrence of str2 is done while ignoring the upper/lower case distinction. If case-matters is provided and true, then case is treated as significant in all comparisons.
 
-index("foobar", "o")        =>   2
-index("foobar", "x")        =>   0
-index("foobar", "oba")      =>   3
-index("Foobar", "foo", 1)   =>   0
+``` index("foobar", "o") => 2 index("foobar", "x") => 0 index("foobar", "oba") => 3 index("Foobar", "foo", 1) => 0 ```
 
 **Function: `rindex`**
 
@@ -2334,7 +2018,7 @@ int `rindex` (str str1, str str2, \[, int case-matters\])
 
 If str2 does not occur in str1 at all, zero is returned. By default the search for an occurrence of str2 is done while ignoring the upper/lower case distinction. If case-matters is provided and true, then case is treated as significant in all comparisons.
 
-rindex("foobar", "o")       =>   3
+``` rindex("foobar", "o") => 3 ```
 
 **Function: `strcmp`**
 
@@ -2352,11 +2036,7 @@ list `decode_binary` (str bin-string \[, int fully\])
 
 If fully is false or omitted, the list contains an integer only for each non-printing, non-space byte; all other characters are grouped into the longest possible contiguous substrings. If fully is provided and true, the list contains only integers, one for each byte represented in bin\_string. Raises `E_INVARG` if bin\_string is not a properly-formed binary string. (See the early section on MOO value types for a full description of binary strings.)
 
-decode\_binary("foo")               =>   {"foo"}
-decode\_binary("~~foo")             =>   {"~foo"}
-decode\_binary("foo~0D~0A")         =>   {"foo", 13, 10}
-decode\_binary("foo~0Abar~0Abaz")   =>   {"foo", 10, "bar", 10, "baz"}
-decode\_binary("foo~0D~0A", 1)      =>   {102, 111, 111, 13, 10}
+``` decode\_binary("foo") => {"foo"} decode\_binary("~~foo") => {"~foo"} decode\_binary("foo~0D~0A") => {"foo", 13, 10} decode\_binary("foo~0Abar~0Abaz") => {"foo", 10, "bar", 10, "baz"} decode\_binary("foo~0D~0A", 1) => {102, 111, 111, 13, 10} ```
 
 **Function: `encode_binary`**
 
@@ -2366,9 +2046,7 @@ str `encode_binary` (arg, ...)
 
 Each argument must be an integer between 0 and 255, a string, or a list containing only legal arguments for this function. This function (See the early section on MOO value types for a full description of binary strings.)
 
-encode\_binary("~foo")                     =>   "~7Efoo"
-encode\_binary({"foo", 10}, {"bar", 13})   =>   "foo~0Abar~0D"
-encode\_binary("foo", 10, "bar", 13)       =>   "foo~0Abar~0D"
+``` encode\_binary("~foo") => "~7Efoo" encode\_binary({"foo", 10}, {"bar", 13}) => "foo~0Abar~0D" encode\_binary("foo", 10, "bar", 13) => "foo~0Abar~0D" ```
 
 **Function: `match`**
 
@@ -2382,17 +2060,13 @@ If no match is found, the empty list is returned; otherwise, these functions ret
 
 The list that `match()` returns contains the details about the match made. The list is in the form:
 
-{start, end, replacements, subject}
+``` {start, end, replacements, subject} ```
 
 where start is the index in subject of the beginning of the match, end is the index of the end of the match, replacements is a list described below, and subject is the same string that was given as the first argument to `match()`.
 
 The replacements list is always nine items long, each item itself being a list of two integers, the start and end indices in string matched by some parenthesized sub-pattern of pattern. The first item in replacements carries the indices for the first parenthesized sub-pattern, the second item carries those for the second sub-pattern, and so on. If there are fewer than nine parenthesized sub-patterns in pattern, or if some sub-pattern was not used in the match, then the corresponding item in replacements is the list {0, -1}. See the discussion of `%)`, below, for more information on parenthesized sub-patterns.
 
-match("foo", "^f\*o$")        =>  {}
-match("foo", "^fo\*$")        =>  {1, 3, {{0, -1}, ...}, "foo"}
-match("foobar", "o\*b")       =>  {2, 4, {{0, -1}, ...}, "foobar"}
-match("foobar", "f%(o\*%)b")
-        =>  {1, 4, {{2, 3}, {0, -1}, ...}, "foobar"}
+``` match("foo", "^f\*o$") => {} match("foo", "^fo\*$") => {1, 3, {{0, -1}, ...}, "foo"} match("foobar", "o\*b") => {2, 4, {{0, -1}, ...}, "foobar"} match("foobar", "f%(o\*%)b") => {1, 4, {{2, 3}, {0, -1}, ...}, "foobar"} ```
 
 **Function: `rmatch`**
 
@@ -2406,13 +2080,13 @@ If no match is found, the empty list is returned; otherwise, these functions ret
 
 The list that `match()` returns contains the details about the match made. The list is in the form:
 
-{start, end, replacements, subject}
+``` {start, end, replacements, subject} ```
 
 where start is the index in subject of the beginning of the match, end is the index of the end of the match, replacements is a list described below, and subject is the same string that was given as the first argument to `match()`.
 
 The replacements list is always nine items long, each item itself being a list of two integers, the start and end indices in string matched by some parenthesized sub-pattern of pattern. The first item in replacements carries the indices for the first parenthesized sub-pattern, the second item carries those for the second sub-pattern, and so on. If there are fewer than nine parenthesized sub-patterns in pattern, or if some sub-pattern was not used in the match, then the corresponding item in replacements is the list {0, -1}. See the discussion of `%)`, below, for more information on parenthesized sub-patterns.
 
-rmatch("foobar", "o\*b")      =>  {4, 4, {{0, -1}, ...}, "foobar"}
+``` rmatch("foobar", "o\*b") => {4, 4, {{0, -1}, ...}, "foobar"} ```
 
 **Function: `substitute`**
 
@@ -2424,9 +2098,7 @@ Subs should be a list like those returned by `match()` or `rmatch()` when the ma
 
 In template, the strings `%1` through `%9` will be replaced by the text matched by the first through ninth parenthesized sub-patterns when `match()` or `rmatch()` was called. The string `%0` in template will be replaced by the text matched by the pattern as a whole when `match()` or `rmatch()` was called. The string `%%` will be replaced by a single `%` sign. If `%` appears in template followed by any other character, `E_INVARG` will be raised.
 
-subs = match("\*\*\* Welcome to ToastStunt!!!", "%(%w\*%) to %(%w\*%)");
-substitute("I thank you for your %1 here in %2.", subs)
-        =>   "I thank you for your Welcome here in ToastStunt."
+``` subs = match("\*\*\* Welcome to ToastStunt!!!", "%(%w\*%) to %(%w\*%)"); substitute("I thank you for your %1 here in %2.", subs) => "I thank you for your Welcome here in ToastStunt." ```
 
 **Function: `crypt`**
 
@@ -2438,10 +2110,7 @@ If provided, salt should be a string at least two characters long, the first two
 
 Aside from the possibly-random selection of the salt, the encryption algorithm is entirely deterministic. In particular, you can test whether or not a given string is the same as the one used to produce a given piece of encrypted text; simply extract the first two characters of the encrypted text and pass the candidate string and those two characters to `crypt()`. If the result is identical to the given encrypted text, then you've got a match.
 
-crypt("foobar")         =>   "J3fSFQfgkp26w"
-crypt("foobar", "J3")   =>   "J3fSFQfgkp26w"
-crypt("mumble", "J3")   =>   "J3D0.dh.jjmWQ"
-crypt("foobar", "J4")   =>   "J4AcPxOJ4ncq2"
+``` crypt("foobar") => "J3fSFQfgkp26w" crypt("foobar", "J3") => "J3fSFQfgkp26w" crypt("mumble", "J3") => "J3D0.dh.jjmWQ" crypt("foobar", "J4") => "J4AcPxOJ4ncq2" ```
 
 **Function: `string_hash`**  
 **Function: `binary_hash`**
@@ -2456,11 +2125,11 @@ str `binary_hash` (str bin-string)
 
 Returns the result of applying the MD5 cryptographically secure hash function to the contents of the string string or the binary string bin-string. MD5, like other such functions, has the property that, if
 
-string\_hash(x) == string\_hash(y)
+``` string\_hash(x) == string\_hash(y) ```
 
 then, almost certainly,
 
-equal(x, y)
+``` equal(x, y) ```
 
 This can be useful, for example, in certain networking applications: after sending a large piece of text across a connection, also send the result of applying `string_hash()` to the text; if the destination site also applies `string_hash()` to the text and gets the same result, you can be quite confident that the large text has arrived unchanged.
 
@@ -2474,8 +2143,7 @@ int `length` (list list)
 
 It is also permissible to pass a string to `length()`; see the description in the previous section.
 
-length({1, 2, 3})   =>   3
-length({})          =>   0
+``` length({1, 2, 3}) => 3 length({}) => 0 ```
 
 **Function: `is_member`**
 
@@ -2485,9 +2153,7 @@ int `is_member` (value, list list)
 
 This is much the same operation as "`value in list`" except that, unlike `in`, the `is_member()` function does not treat upper- and lower-case characters in strings as equal.
 
-"Foo" in {1, "foo", #24}            =>   2
-is\_member("Foo", {1, "foo", #24})   =>   0
-is\_member("Foo", {1, "Foo", #24})   =>   2
+``` "Foo" in {1, "foo", #24} => 2 is\_member("Foo", {1, "foo", #24}) => 0 is\_member("Foo", {1, "Foo", #24}) => 2 ```
 
 **Function: `listinsert`**  
 **Function: `listappend`**
@@ -2504,19 +2170,11 @@ list `listappend` (list list, value \[, int index\])
 
 The following three expressions always have the same value:
 
-listinsert(list, element, index)
-listappend(list, element, index - 1)
-{@list\[1..index - 1\], element, @list\[index..length(list)\]}
+``` listinsert(list, element, index) listappend(list, element, index - 1) {@list\[1..index - 1\], element, @list\[index..length(list)\]} ```
 
 If index is not provided, then `listappend()` adds the value at the end of the list and `listinsert()` adds it at the beginning; this usage is discouraged, however, since the same intent can be more clearly expressed using the list-construction expression, as shown in the examples below.
 
-x = {1, 2, 3};
-listappend(x, 4, 2)   =>   {1, 2, 4, 3}
-listinsert(x, 4, 2)   =>   {1, 4, 2, 3}
-listappend(x, 4)      =>   {1, 2, 3, 4}
-listinsert(x, 4)      =>   {4, 1, 2, 3}
-{@x, 4}               =>   {1, 2, 3, 4}
-{4, @x}               =>   {4, 1, 2, 3}
+``` x = {1, 2, 3}; listappend(x, 4, 2) => {1, 2, 4, 3} listinsert(x, 4, 2) => {1, 4, 2, 3} listappend(x, 4) => {1, 2, 3, 4} listinsert(x, 4) => {4, 1, 2, 3} {@x, 4} => {1, 2, 3, 4} {4, @x} => {4, 1, 2, 3} ```
 
 **Function: `listdelete`**
 
@@ -2526,8 +2184,7 @@ list `listdelete` (list list, int index)
 
 If index is not in the range `[1..length(list)]`, then `E_RANGE` is raised.
 
-x = {"foo", "bar", "baz"};
-listdelete(x, 2)   =>   {"foo", "baz"}
+``` x = {"foo", "bar", "baz"}; listdelete(x, 2) => {"foo", "baz"} ```
 
 **Function: `listset`**
 
@@ -2537,8 +2194,7 @@ list `listset` (list list, value, int index)
 
 If index is not in the range `[1..length(list)]`, then `E_RANGE` is raised.
 
-x = {"foo", "bar", "baz"};
-listset(x, "mumble", 2)   =>   {"foo", "mumble", "baz"}
+``` x = {"foo", "bar", "baz"}; listset(x, "mumble", 2) => {"foo", "mumble", "baz"} ```
 
 This function exists primarily for historical reasons; it was used heavily before the server supported indexed assignments like `x[i] = v`. New code should always use indexed assignment instead of `listset()` wherever possible.
 
@@ -2555,11 +2211,7 @@ list `setremove` (list list, value)
 
 `setadd()` only adds value if it is not already an element of list; list is thus treated as a mathematical set. value is added at the end of the resulting list, if at all. Similarly, `setremove()` returns a list identical to list if value is not an element. If value appears more than once in list, only the first occurrence is removed in the returned copy.
 
-setadd({1, 2, 3}, 3)         =>   {1, 2, 3}
-setadd({1, 2, 3}, 4)         =>   {1, 2, 3, 4}
-setremove({1, 2, 3}, 3)      =>   {1, 2}
-setremove({1, 2, 3}, 4)      =>   {1, 2, 3}
-setremove({1, 2, 3, 2}, 2)   =>   {1, 3, 2}
+``` setadd({1, 2, 3}, 3) => {1, 2, 3} setadd({1, 2, 3}, 4) => {1, 2, 3, 4} setremove({1, 2, 3}, 3) => {1, 2} setremove({1, 2, 3}, 4) => {1, 2, 3} setremove({1, 2, 3, 2}, 2) => {1, 3, 2} ```
 
 #### Manipulating Objects
 
@@ -2583,14 +2235,7 @@ The owner of the new object is either the programmer (if owner is not provided),
 
 The other built-in properties of the new object are initialized as follows:
 
-name         ""
-location     #-1
-contents     {}
-programmer   0
-wizard       0
-r            0
-w            0
-f            0
+``` name "" location #-1 contents {} programmer 0 wizard 0 r 0 w 0 f 0 ```
 
 The function `is_player()` returns false for newly created objects.
 
@@ -2618,8 +2263,7 @@ int `valid` (obj object)
 
 Returns a non-zero integer (i.e., a true value) if object is a valid object (one that has been created and not yet recycled) and zero (i.e., a false value) otherwise.
 
-valid(#0)    =>   1
-valid(#-1)   =>   0
+``` valid(#0) => 1 valid(#-1) => 0 ```
 
 **Function: `parent`**
 
@@ -2677,7 +2321,7 @@ what should be a valid object and where should be either a valid object or `#-1`
 
 If where is a valid object, then the verb-call
 
-where:accept(what)
+``` where:accept(what) ```
 
 is performed before any movement takes place. If the verb returns a false value and the programmer is not a wizard, then where is considered to have refused entrance to what; `move()` raises `E_NACC`. If where does not define an `accept` verb, then it is treated as if it defined one that always returned false.
 
@@ -2685,11 +2329,11 @@ If moving what into where would create a loop in the containment hierarchy (i.e.
 
 The `location` property of what is changed to be where, and the `contents` properties of the old and new locations are modified appropriately. Let old-where be the location of what before it was moved. If old-where is a valid object, then the verb-call
 
-old-where:exitfunc(what)
+``` old-where:exitfunc(what) ```
 
 is performed and its result is ignored; it is not an error if old-where does not define a verb named `exitfunc`. Finally, if where and what are still valid objects, and where is still the location of what, then the verb-call
 
-where:enterfunc(what)
+``` where:enterfunc(what) ```
 
 is performed and its result is ignored; again, it is not an error if where does not define a verb named `enterfunc`.
 
@@ -2719,7 +2363,7 @@ none `set_property_info` (obj object, str prop-name, list info)
 
 If object is not valid, then `E_INVARG` is raised. If object has no non-built-in property named prop-name, then `E_PROPNF` is raised. If the programmer does not have read (write) permission on the property in question, then `set_property_info()` raises `E_PERM`. Property info has the following form:
 
-{owner, perms \[, new-name\]}
+``` {owner, perms \[, new-name\]} ```
 
 where owner is an object, perms is a string containing only characters from the set `r`, `w`, and `c`, and new-name is a string; new-name is never part of the value returned by `property_info()`, but it may optionally be given as part of the value provided to `set_property_info()`. This list is the kind of value returned by property\_info() and expected as the third argument to `set_property_info()`; the latter function raises `E_INVARG` if owner is not valid, if perms contains any illegal characters, or, when new-name is given, if prop-name is not defined directly on object or new-name names an existing property defined on object or any of its ancestors or descendants.
 
@@ -2771,7 +2415,7 @@ Most of the remaining operations on verbs accept a string containing the verb's 
 
 For example, suppose that `verbs(#34)` returns this list:
 
-{"foo", "bar", "baz", "foo"}
+``` {"foo", "bar", "baz", "foo"} ```
 
 Object `#34` has two verbs named `foo` defined on it (this may not be an error, if the two verbs have different command syntaxes). To refer unambiguously to the first one in the list, one uses the integer 1; to refer to the other one, one uses 4.
 
@@ -2801,7 +2445,7 @@ If object is not valid, then `E_INVARG` is raised. If object does not define a v
 
 Verb info has the following form:
 
-{owner, perms, names}
+``` {owner, perms, names} ```
 
 where owner is an object, perms is a string containing only characters from the set `r`, `w`, `x`, and `d`, and names is a string. This is the kind of value returned by `verb_info()` and expected as the third argument to `set_verb_info()`. `set_verb_info()` raises `E_INVARG` if owner is not valid, if perms contains any illegal characters, or if names is the empty string or consists entirely of spaces; it raises `E_PERM` if owner is not the programmer and the programmer is not a wizard.
 
@@ -2821,13 +2465,11 @@ If object is not valid, then `E_INVARG` is raised. If object does not define a v
 
 Verb args specifications have the following form:
 
-{dobj, prep, iobj}
+``` {dobj, prep, iobj} ```
 
 where dobj and iobj are strings drawn from the set `"this"`, `"none"`, and `"any"`, and prep is a string that is either `"none"`, `"any"`, or one of the prepositional phrases listed much earlier in the description of verbs in the first chapter. This is the kind of value returned by `verb_args()` and expected as the third argument to `set_verb_args()`. Note that for `set_verb_args()`, prep must be only one of the prepositional phrases, not (as is shown in that table) a set of such phrases separated by `/` characters. `set_verb_args` raises `E_INVARG` if any of the dobj, prep, or iobj strings is illegal.
 
-verb\_args($container, "take")
-                    =>   {"any", "out of/from inside/from", "this"}
-set\_verb\_args($container, "take", {"any", "from", "this"})
+``` verb\_args($container, "take") => {"any", "out of/from inside/from", "this"} set\_verb\_args($container, "take", {"any", "from", "this"}) ```
 
 **Function: `add_verb`**
 
@@ -2963,11 +2605,11 @@ If the given `player` is not currently connected and has no pending lines of inp
 
 The restriction on the use of `read()` without any arguments preserves the following simple invariant: if input is being read from a player, it is for the task started by the last command that player typed. This invariant adds responsibility to the programmer, however. If your program calls another verb before doing a `read()`, then either that verb must not suspend or else you must arrange that no commands will be read from the connection in the meantime. The most straightforward way to do this is to call
 
-set\_connection\_option(player, "hold-input", 1)
+``` set\_connection\_option(player, "hold-input", 1) ```
 
 before any task suspension could happen, then make all of your calls to `read()` and other code that might suspend, and finally call
 
-set\_connection\_option(player, "hold-input", 0)
+``` set\_connection\_option(player, "hold-input", 0) ```
 
 to allow commands once again to be read and interpreted normally.
 
@@ -3005,7 +2647,7 @@ The connection will not actually be closed until the currently-running task retu
 
 If there was a currently-active connection, then the following verb call is made when the connection is actually closed:
 
-$user\_disconnected(player)
+``` $user\_disconnected(player) ```
 
 It is not an error if this verb does not exist; the call is simply skipped.
 
@@ -3019,19 +2661,19 @@ If the programmer is not a wizard and not player, then `E_PERM` is raised. If pl
 
 For the TCP/IP networking configurations, for in-bound connections, the string has the form:
 
-"port lport from host, port port"
+``` "port lport from host, port port" ```
 
 where lport is the decimal TCP listening port on which the connection arrived, host is either the name or decimal TCP address of the host from which the player is connected, and port is the decimal TCP port of the connection on that host.
 
 For outbound TCP/IP connections, the string has the form
 
-"port lport to host, port port"
+``` "port lport to host, port port" ```
 
 where lport is the decimal local TCP port number from which the connection originated, host is either the name or decimal TCP address of the host to which the connection was opened, and port is the decimal TCP port of the connection on that host.
 
 For the System V 'local' networking configuration, the string is the UNIX login name of the connecting user or, if no such name can be found, something of the form:
 
-"User #number"
+``` "User #number" ```
 
 where number is a UNIX numeric user ID.
 
@@ -3124,13 +2766,13 @@ list `listeners` ()
 
 Each element of the list has the following form:
 
-{object, canon, print-messages}
+``` {object, canon, print-messages} ```
 
 where object is the first argument given in the call to `listen()` to create this listening point, print-messages is true if the third argument in that call was provided and true, and canon was the value returned by that call. (For the initial listening point, object is `#0`, canon is determined by the command-line arguments or a network-configuration-specific default, and print-messages is true.)
 
 Please note that there is nothing special about the initial listening point created by the server when it starts; you can use `unlisten()` on it just as if it had been created by `listen()`. This can be useful; for example, under one of the TCP/IP configurations, you might start up your server on some obscure port, say 12345, connect to it by yourself for a while, and then open it up to normal users by evaluating the statments:
 
-unlisten(12345); listen(#0, 7777, 1)
+``` unlisten(12345); listen(#0, 7777, 1) ```
 
 ##### Operations Involving Times and Dates
 
@@ -3148,11 +2790,11 @@ str `ctime` (\[int time\])
 
 The string will be in the following format:
 
-Mon Aug 13 19:13:20 1990 PDT
+``` Mon Aug 13 19:13:20 1990 PDT ```
 
 If the current day of the month is less than 10, then an extra blank appears between the month and the day:
 
-Mon Apr  1 14:10:43 1991 PST
+``` Mon Apr 1 14:10:43 1991 PST ```
 
 If time is not provided, then the current time is used.
 
@@ -3186,15 +2828,11 @@ If name is provided, only the description of the function with that name is retu
 
 Each function description is a list of the following form:
 
-{name, min-args, max-args, types
+``` {name, min-args, max-args, types ```
 
 where name is the name of the built-in function, min-args is the minimum number of arguments that must be provided to the function, max-args is the maximum number of arguments that can be provided to the function or `-1` if there is no maximum, and types is a list of max-args integers (or min-args if max-args is `-1`), each of which represents the type of argument required in the corresponding position. Each type number is as would be returned from the `typeof()` built-in function except that `-1` indicates that any type of value is acceptable and `-2` indicates that either integers or floating-point numbers may be given. For example, here are several entries from the list:
 
-{"listdelete", 2, 2, {4, 0}}
-{"suspend", 0, 1, {0}}
-{"server\_log", 1, 2, {2, -1}}
-{"max", 1, -1, {-2}}
-{"tostr", 0, -1, {}}
+``` {"listdelete", 2, 2, {4, 0}} {"suspend", 0, 1, {0}} {"server\_log", 1, 2, {2, -1}} {"max", 1, -1, {-2}} {"tostr", 0, -1, {}} ```
 
 `listdelete()` takes exactly 2 arguments, of which the first must be a list (`LIST == 4`) and the second must be an integer (`INT == 0`). `Suspend()` has one optional argument that, if provided, must be a number (integer or float). `Server_log()` has one required argument that must be a string (`STR == 2`) and one optional argument that, if provided, may be of any type. `max()` requires at least one argument but can take any number above that, and the first argument must be either an integer or a floating-point number; the type(s) required for any other arguments can't be determined from this description. Finally, `tostr()` takes any number of arguments at all, but it can't be determined from this description which argument types would be acceptable in which positions.
 
@@ -3208,23 +2846,11 @@ If the programmer is not, in fact, a programmer, then `E_PERM` is raised. The no
 
 When the fictional verb is invoked, the various built-in variables have values as shown below:
 
-player    the same as in the calling verb
-this      #-1
-caller    the same as the initial value of `this` in the calling verb
-
-args      {}
-argstr    ""
-
-verb      ""
-dobjstr   ""
-dobj      #-1
-prepstr   ""
-iobjstr   ""
-iobj      #-1
+``` player the same as in the calling verb this #-1 caller the same as the initial value of `this` in the calling verb args {} argstr "" verb "" dobjstr "" dobj #-1 prepstr "" iobjstr "" iobj #-1 ```
 
 The fictional verb runs with the permissions of the programmer and as if its `d` permissions bit were on.
 
-eval("return 3 + 4;")   =>   {1, 7}
+``` eval("return 3 + 4;") => {1, 7} ```
 
 **Function: `set_task_perms`**
 
@@ -3278,28 +2904,7 @@ When the task is resumed, it will have a full quota of ticks and seconds. This f
 
 In some sense, this function forks the 'rest' of the executing task. However, there is a major difference between the use of `suspend(seconds)` and the use of the `fork (seconds)`. The `fork` statement creates a new task (a _forked task_) while the currently-running task still goes on to completion, but a `suspend()` suspends the currently-running task (thus making it into a _suspended task_). This difference may be best explained by the following examples, in which one verb calls another:
 
-.program   #0:caller\_A
-#0.prop = 1;
-#0:callee\_A();
-#0.prop = 2;
-.
-
-.program   #0:callee\_A
-fork(5)
-  #0.prop = 3;
-endfork
-.
-
-.program   #0:caller\_B
-#0.prop = 1;
-#0:callee\_B();
-#0.prop = 2;
-.
-
-.program   #0:callee\_B
-suspend(5);
-#0.prop = 3;
-.
+``` .program #0:caller\_A #0.prop = 1; #0:callee\_A(); #0.prop = 2; . .program #0:callee\_A fork(5) #0.prop = 3; endfork . .program #0:caller\_B #0.prop = 1; #0:callee\_B(); #0.prop = 2; . .program #0:callee\_B suspend(5); #0.prop = 3; . ```
 
 Consider `#0:caller_A`, which calls `#0:callee_A`. Such a task would assign 1 to `#0.prop`, call `#0:callee_A`, fork a new task, return to `#0:caller_A`, and assign 2 to `#0.prop`, ending this task. Five seconds later, if the forked task had not been killed, then it would begin to run; it would assign 3 to `#0.prop` and then stop. So, the final value of `#0.prop` (i.e., the value after more than 5 seconds) would be 3.
 
@@ -3333,8 +2938,7 @@ list `queued_tasks` ()
 
 The returned value is a list of lists, each of which encodes certain information about a particular queued task in the following format:
 
-{task-id, start-time, x, y,
- programmer, verb-loc, verb-name, line, this}
+``` {task-id, start-time, x, y, programmer, verb-loc, verb-name, line, this} ```
 
 where task-id is an integer identifier for this queued task, start-time is the time after which this task will begin execution (in `time()` format), x and y are obsolete values that are no longer interesting, programmer is the permissions with which this task will begin execution (and also the player who _owns_ this task), verb-loc is the object on which the verb that forked this task was defined at the time, verb-name is that name of that verb, line is the number of the first line of the code in that verb that this task will execute, and this is the value of the variable `this` in that verb.
 
@@ -3358,13 +2962,13 @@ list `callers` (\[include-line-numbers\])
 
 When one verb or function calls another verb or function, execution of the caller is temporarily suspended, pending the called verb or function returning a value. At any given time, there could be several such pending verbs and functions: the one that called the currently executing verb, the verb or function that called that one, and so on. The result of `callers()` is a list, each element of which gives information about one pending verb or function in the following format:
 
-{this, verb-name, programmer, verb-loc, player, line-number}
+``` {this, verb-name, programmer, verb-loc, player, line-number} ```
 
 For verbs, this is the initial value of the variable `this` in that verb, verb-name is the name used to invoke that verb, programmer is the player with whose permissions that verb is running, verb-loc is the object on which that verb is defined, player is the initial value of the variable `player` in that verb, and line-number indicates which line of the verb's code is executing. The line-number element is included only if the include-line-numbers argument was provided and true.
 
 For functions, this, programmer, and verb-loc are all `#-1`, verb-name is the name of the function, and line-number is an index used internally to determine the current state of the built-in function. The simplest correct test for a built-in function entry is
 
-(VERB-LOC == #-1  &&  PROGRAMMER == #-1  &&  VERB-name != "")
+``` (VERB-LOC == #-1 && PROGRAMMER == #-1 && VERB-name != "") ```
 
 The first element of the list returned by `callers()` gives information on the verb that called the currently-executing verb, the second element describes the verb that called that one, and so on. The last element of the list describes the first verb called in this task.
 
@@ -3422,7 +3026,7 @@ list `memory_usage` ()
 
 The result is a list of lists, each in the following format:
 
-{block-size, nused, nfree}
+``` {block-size, nused, nfree} ```
 
 where block-size is the size in bytes of a particular class of memory fragments, nused is the number of such fragments currently in use in the server, and nfree is the number of such fragments that have been reserved for use but are currently free.
 
@@ -3470,18 +3074,13 @@ Every MOO network connection has associated with it two strings, the `output pre
 
 The `PREFIX` and `SUFFIX` commands are used to set and clear these strings. They have the following simple syntax:
 
-PREFIX  output-prefix
-SUFFIX  output-suffix
+``` PREFIX output-prefix SUFFIX output-suffix ```
 
 That is, all text after the command name and any following spaces is used as the new value of the appropriate string. If there is no non-blank text after the command string, then the corresponding string is cleared. For compatibility with some general MUD client programs, the server also recognizes `OUTPUTPREFIX` as a synonym for `PREFIX` and `OUTPUTSUFFIX` as a synonym for `SUFFIX`.
 
 These commands are intended for use by programs connected to the MOO, so that they can issue MOO commands and reliably determine the beginning and end of the resulting output. For example, one editor-based client program sends this sequence of commands on occasion:
 
-PREFIX >>MOO-Prefix<<
-SUFFIX >>MOO-Suffix<<
-@list object:verb without numbers
-PREFIX
-SUFFIX
+``` PREFIX >>MOO-Prefix<< SUFFIX >>MOO-Suffix<< @list object:verb without numbers PREFIX SUFFIX ```
 
 The effect of which, in a ToastCore-derived database, is to print out the code for the named verb preceded by a line containing only `>>MOO-Prefix<<` and followed by a line containing only `>>MOO-Suffix<<`. This enables the editor to reliably extract the program text from the MOO output and show it to the user in a separate editor window. There are many other possible uses.
 
@@ -3491,9 +3090,7 @@ The built-in function `output_delimiters()` can be used by MOO code to find out 
 
 The `.program` command is a common way for programmers to associate a particular MOO-code program with a particular verb. It has the following syntax:
 
-.program object:verb
-...several lines of MOO code...
-.
+``` .program object:verb ...several lines of MOO code... . ```
 
 That is, after typing the `.program` command, then all lines of input from the player are considered to be a part of the MOO program being defined. This ends as soon as the player types a line containing only a dot (`.`). When that line is received, the accumulated MOO program is checked for proper MOO syntax and, if correct, associated with the named verb.
 
@@ -3519,19 +3116,19 @@ By default, each connection is initially given `.flush` as its flush command. If
 
 The server interprets command lines that begin with any of the following characters specially:
 
-"        :        ;
+``` " : ; ```
 
 Before processing the command, the initial punctuation character is replaced by the corresponding word below, followed by a space:
 
-say      emote    eval
+``` say emote eval ```
 
 For example, the command line
 
-"Hello, there.
+``` "Hello, there. ```
 
 is transformed into
 
-say Hello, there.
+``` say Hello, there. ```
 
 before parsing.
 
@@ -3625,12 +3222,7 @@ The user who just logged in on this connection was already logged in on some oth
 
 `server_full_msg`
 
-Default:
-
-\*\*\* Sorry, but the server cannot accept any more connections right now.
-\*\*\* Please try again later.
-
-This connection arrived when the server really couldn't accept any more connections, due to running out of a critical operating system resource.
+Default: ``` \*\*\* Sorry, but the server cannot accept any more connections right now. \*\*\* Please try again later. ``` This connection arrived when the server really couldn't accept any more connections, due to running out of a critical operating system resource.
 
 `timeout_msg = "*** Timed-out waiting for login. ***"`
 
@@ -3648,11 +3240,11 @@ The decision about how long to wait between checkpoints is made again immediatel
 
 Whenever the server begins to make a checkpoint, it makes the following verb call:
 
-$checkpoint\_started()
+``` $checkpoint\_started() ```
 
 When the checkpointing process is complete, the server makes the following verb call:
 
-$checkpoint\_finished(success)
+``` $checkpoint\_finished(success) ```
 
 where success is true if and only if the checkpoint was successfully written on the disk. Checkpointing can fail for a number of reasons, usually due to exhaustion of various operating system resources such as virtual memory or disk space. It is not an error if either of these verbs does not exist; the corresponding call is simply skipped.
 
@@ -3674,19 +3266,17 @@ When a network connection is first made to the MOO, it is identified by a unique
 
 Each line of input on an un-logged-in connection is first parsed into words in the usual way (see the chapter on command parsing for details) and then these words are passed as the arguments in a call to the verb `$do_login_command()`. For example, the input line
 
-connect Munchkin frebblebit
+``` connect Munchkin frebblebit ```
 
 would result in the following call being made:
 
-$do\_login\_command("connect", "Munchkin", "frebblebit")
+``` $do\_login\_command("connect", "Munchkin", "frebblebit") ```
 
 In that call, the variable `player` will have as its value the negative object number associated with the appropriate network connection. The functions `notify()` and `boot_player()` can be used with such object numbers to send output to and disconnect un-logged-in connections. Also, the variable `argstr` will have as its value the unparsed command line as received on the network connection.
 
 If `$do_login_command()` returns a valid player object and the connection is still open, then the connection is considered to have _logged into_ that player. The server then makes one of the following verbs calls, depending on the player object that was returned:
 
-$user\_created(player)
-$user\_connected(player)
-$user\_reconnected(player)
+``` $user\_created(player) $user\_connected(player) $user\_reconnected(player) ```
 
 The first of these is used if the returned object number is greater than the value returned by the `max_object()` function before `$do_login_command()` was invoked, that is, it is called if the returned object appears to have been freshly created. If this is not the case, then one of the other two verb calls is used. The `$user_connected()` call is used if there was no existing active connection for the returned player object. Otherwise, the `$user_reconnected()` call is used instead.
 
@@ -3696,8 +3286,7 @@ If an in-bound network connection does not successfully log in within a certain 
 
 When any network connection (even an un-logged-in or outbound one) is terminated, by either the server or the client, then one of the following two verb calls is made:
 
-$user\_disconnected(player)
-$user\_client\_disconnected(player)
+``` $user\_disconnected(player) $user\_client\_disconnected(player) ```
 
 The first is used if the disconnection is due to actions taken by the server (e.g., a use of the `boot_player()` function or the un-logged-in timeout described above) and the second if the disconnection was initiated by the client side.
 
@@ -3711,11 +3300,11 @@ When the network connection is first established, the null command is automatica
 
 It is possible to compile the server with an option defining an `out-of-band prefix` for commands. This is a string that the server will check for at the beginning of every line of input from players, regardless of whether or not those players are logged in and regardless of whether or not reading tasks are waiting for input from those players. If a given line of input begins with the defined out-of-band prefix (leading spaces, if any, are _not_ stripped before testing), then it is not treated as a normal command or as input to any reading task. Instead, the line is parsed into a list of words in the usual way and those words are given as the arguments in a call to `$do_out_of_band_command()`. For example, if the out-of-band prefix were defined to be `#$#`, then the line of input
 
-#$# client-type fancy
+``` #$# client-type fancy ```
 
 would result in the following call being made in a new server task:
 
-$do\_out\_of\_band\_command("#$#", "client-type", "fancy")
+``` $do\_out\_of\_band\_command("#$#", "client-type", "fancy") ```
 
 During the call to `$do_out_of_band_command()`, the variable `player` is set to the object number representing the player associated with the connection from which the input line came. Of course, if that connection has not yet logged in, the object number will be negative. Also, the variable `argstr` will have as its value the unparsed input line as received on the network connection.
 
@@ -3772,13 +3361,13 @@ The specific handler verb, and the set of arguments it is passed, differs for th
 
 If an error is raised and not caught, then the verb-call
 
-$handle\_uncaught\_error(code, msg, value, traceback, formatted)
+``` $handle\_uncaught\_error(code, msg, value, traceback, formatted) ```
 
 is made, where code, msg, value, and traceback are the values that would have been passed to a handler in a `try`\-`except` statement and formatted is a list of strings being the lines of error and traceback output that will be printed to the player if `$handle_uncaught_error` returns false without suspending.
 
 If a task runs out of ticks or seconds, then the verb-call
 
-$handle\_task\_timeout(resource, traceback, formatted)
+``` $handle\_task\_timeout(resource, traceback, formatted) ```
 
 is made, where resource is the appropriate one of the strings `"ticks"` or `"seconds"`, and traceback and formatted are as above.
 
