@@ -204,9 +204,9 @@ There are only a few kinds of values that MOO programs can manipulate:
 *   lists (of all of the above, including lists)
 *   maps (of all of the above, including lists and maps)
 
-ToastStunt supports 64 bit integers, but it can also be configured to support 32 bit. In MOO programs, integers are written just as you see them here, an optional minus sign followed by a non-empty sequence of decimal digits. In particular, you may not put commas, periods, or spaces in the middle of large integers, as we sometimes do in English and other natural languages (e.g., \`2,147,483,647').
+ToastStunt supports 64 bit integers, but it can also be configured to support 32 bit. In MOO programs, integers are written just as you see them here, an optional minus sign followed by a non-empty sequence of decimal digits. In particular, you may not put commas, periods, or spaces in the middle of large integers, as we sometimes do in English and other natural languages (e.g. 2,147,483,647).
 
-Real numbers in MOO are represented as they are in almost all other programming languages, using so-called _floating-point_ numbers. These have certain (large) limits on size and precision that make them useful for a wide range of applications. Floating-point numbers are written with an optional minus sign followed by a non-empty sequence of digits punctuated at some point with a decimal point (\`.') and/or followed by a scientific-notation marker (the letter \`E' or \`e' followed by an optional sign and one or more digits). Here are some examples of floating-point numbers:
+Real numbers in MOO are represented as they are in almost all other programming languages, using so-called _floating-point_ numbers. These have certain (large) limits on size and precision that make them useful for a wide range of applications. Floating-point numbers are written with an optional minus sign followed by a non-empty sequence of digits punctuated at some point with a decimal point '.' and/or followed by a scientific-notation marker (the letter 'E' or 'e' followed by an optional sign and one or more digits). Here are some examples of floating-point numbers:
 
 325.0   325.  3.25e2   0.325E3   325.E1   .0325e+4   32500e-2
 
@@ -233,7 +233,7 @@ Finally, to include a backslash in a string, double it:
 
 MOO strings may not include special ASCII characters like carriage-return, line-feed, bell, etc. The only non-printing characters allowed are spaces and tabs.
 
-Fine point: There is a special kind of string used for representing the arbitrary bytes used in general, binary input and output. In a _binary string_, any byte that isn't an ASCII printing character or the space character is represented as the three-character substring "~XX", where XX is the hexadecimal representation of the byte; the input character \`~' is represented by the three-character substring "~7E". This special representation is used by the functions \`encode\_binary()\` and \`decode\_binary()\` and by the functions \`notify()\` and \`read()\` with network connections that are in binary mode. See the descriptions of the \`set\_connection\_option()\`, \`encode\_binary()\`, and \`decode\_binary()\` functions for more details.
+Fine point: There is a special kind of string used for representing the arbitrary bytes used in general, binary input and output. In a _binary string_, any byte that isn't an ASCII printing character or the space character is represented as the three-character substring "~XX", where XX is the hexadecimal representation of the byte; the input character '~' is represented by the three-character substring "~7E". This special representation is used by the functions \`encode\_binary()\` and \`decode\_binary()\` and by the functions \`notify()\` and \`read()\` with network connections that are in binary mode. See the descriptions of the \`set\_connection\_option()\`, \`encode\_binary()\`, and \`decode\_binary()\` functions for more details.
 
 MOO strings can be 'indexed into' using square braces and an integer index (much the same way you can with lists):
 
@@ -611,7 +611,7 @@ For each of these verbs in turn, it tests if all of the the following are true:
 
 I'll explain each of these criteria in turn.
 
-Every verb has one or more names; all of the names are kept in a single string, separated by spaces. In the simplest case, a verb-name is just a word made up of any characters other than spaces and stars (i.e., \` ' and \`\*\`). In this case, the verb-name matches only itself; that is, the name must be matched exactly.
+Every verb has one or more names; all of the names are kept in a single string, separated by spaces. In the simplest case, a verb-name is just a word made up of any characters other than spaces and stars (i.e., ' ' and \`\*\`). In this case, the verb-name matches only itself; that is, the name must be matched exactly.
 
 If the name contains a single star, however, then the name matches any prefix of itself that is at least as long as the part before the star. For example, the verb-name \`foo\*bar\` matches any of the strings \`foo\`, \`foob\`, \`fooba\`, or \`foobar\`; note that the star itself is not considered part of the name.
 
@@ -1251,7 +1251,7 @@ This is also an optional target, but if there aren't enough list elements availa
 
 \`@variable\`
 
-By analogy with the \`@\` syntax in list construction, this variable is assigned a list of all of the \`leftover' list elements in this part of the list after all of the other targets have been filled in. It is assigned the empty list if there aren't any elements left over. This is called a _rest_ target, since it gets the rest of the elements. There may be at most one rest target in each scattering assignment expression.
+By analogy with the \`@\` syntax in list construction, this variable is assigned a list of all of the 'leftover' list elements in this part of the list after all of the other targets have been filled in. It is assigned the empty list if there aren't any elements left over. This is called a _rest_ target, since it gets the rest of the elements. There may be at most one rest target in each scattering assignment expression.
 
 If there aren't enough list elements to fill all of the required targets, or if there are more than enough to fill all of the required and optional targets but there isn't a rest target to take the leftover ones, then \`E\_ARGS\` is raised.
 
@@ -1374,7 +1374,7 @@ $name(expr-1, expr-2, ..., expr-N)
 
 It is often useful to be able to _catch_ an error that an expression raises, to keep the error from aborting the whole task, and to keep on running as if the expression had returned some other value normally. The following expression accomplishes this:
 
-\` expr-1 ! codes => expr-2 '
+\`\` expr-1 ! codes => expr-2 '
 
 Note: The open- and close-quotation marks in the previous line are really part of the syntax; you must actually type them as part of your MOO program for this kind of expression.
 
@@ -1386,19 +1386,19 @@ Next, expr-1 is evaluated. If it evaluates normally, without raising an error, t
 
 Here are some examples of the use of this kind of expression:
 
-\`x + 1 ! E\_TYPE => 0'
+\`\`x + 1 ! E\_TYPE => 0'
 
 Returns \`x + 1\` if \`x\` is an integer, returns \`0\` if \`x\` is not an integer, and raises \`E\_VARNF\` if \`x\` doesn't have a value.
 
-\`x.y ! E\_PROPNF, E\_PERM => 17'
+\`\`x.y ! E\_PROPNF, E\_PERM => 17'
 
 Returns \`x.y\` if that doesn't cause an error, \`17\` if \`x\` doesn't have a \`y\` property or that property isn't readable, and raises some other kind of error (like \`E\_INVIND\`) if \`x.y\` does.
 
-\`1 / 0 ! ANY'
+\`\`1 / 0 ! ANY'
 
 Returns \`E\_DIV\`.
 
-Note: It's important to mention how powerful this compact syntax for writing error catching code can be. When used properly you can write very complex and elegant code. For example imagine that you have a set of objects from different parents, some of which define a specific verb, and some of which do not. If for instance, your code wants to perform some function _if_ the verb exists, you can write \`obj:verbname() ! ANY => 0' to allow the MOO to attempt to execute that verb and then if it fails, catch the error and continue operations normally.
+Note: It's important to mention how powerful this compact syntax for writing error catching code can be. When used properly you can write very complex and elegant code. For example imagine that you have a set of objects from different parents, some of which define a specific verb, and some of which do not. If for instance, your code wants to perform some function _if_ the verb exists, you can write \`\`obj:verbname() ! ANY => 0' to allow the MOO to attempt to execute that verb and then if it fails, catch the error and continue operations normally.
 
 #### Parentheses and Operator Precedence
 
@@ -1884,7 +1884,7 @@ pass -- calls the verb with the same name as the current verb but as defined on 
 
 value \`pass\` (arg, ...)
 
-Often, it is useful for a child object to define a verb that _augments_ the behavior of a verb on its parent object. For example, in the ToastCore database, the root object (which is an ancestor of every other object) defines a verb called \`description\` that simply returns the value of \`this.description\`; this verb is used by the implementation of the \`look\` command. In many cases, a programmer would like the description of some object to include some non-constant part; for example, a sentence about whether or not the object was \`awake' or \`sleeping'. This sentence should be added onto the end of the normal description. The programmer would like to have a means of calling the normal \`description\` verb and then appending the sentence onto the end of that description. The function \`pass()\` is for exactly such situations.
+Often, it is useful for a child object to define a verb that _augments_ the behavior of a verb on its parent object. For example, in the ToastCore database, the root object (which is an ancestor of every other object) defines a verb called \`description\` that simply returns the value of \`this.description\`; this verb is used by the implementation of the \`look\` command. In many cases, a programmer would like the description of some object to include some non-constant part; for example, a sentence about whether or not the object was 'awake' or 'sleeping'. This sentence should be added onto the end of the normal description. The programmer would like to have a means of calling the normal \`description\` verb and then appending the sentence onto the end of that description. The function \`pass()\` is for exactly such situations.
 
 \`pass\` calls the verb with the same name as the current verb but as defined on the parent of the object that defines the current verb. The arguments given to \`pass\` are the ones given to the called verb and the returned value of the called verb is returned from the call to \`pass\`. The initial value of \`this\` in the called verb is the same as in the calling verb.
 
@@ -2675,7 +2675,7 @@ none \`move\` (obj what, obj where)
 
 This is a complex process because a number of permissions checks and notifications must be performed. The actual movement takes place as described in the following paragraphs.
 
-what should be a valid object and where should be either a valid object or \`#-1\` (denoting a location of \`nowhere'); otherwise \`E\_INVARG\` is raised. The programmer must be either the owner of what or a wizard; otherwise, \`E\_PERM\` is raised.
+what should be a valid object and where should be either a valid object or \`#-1\` (denoting a location of 'nowhere'); otherwise \`E\_INVARG\` is raised. The programmer must be either the owner of what or a wizard; otherwise, \`E\_PERM\` is raised.
 
 If where is a valid object, then the verb-call
 
@@ -2939,7 +2939,7 @@ none \`notify\` (obj conn, str string \[, no-flush\])
 
 If the programmer is not conn or a wizard, then \`E\_PERM\` is raised. If conn is not a currently-active connection, then this function does nothing. Output is normally written to connections only between tasks, not during execution.
 
-The server will not queue an arbitrary amount of output for a connection; the \`MAX\_QUEUED\_OUTPUT\` compilation option (in \`options.h\`) controls the limit. When an attempt is made to enqueue output that would take the server over its limit, it first tries to write as much output as possible to the connection without having to wait for the other end. If that doesn't result in the new output being able to fit in the queue, the server starts throwing away the oldest lines in the queue until the new ouput will fit. The server remembers how many lines of output it has \`flushed' in this way and, when next it can succeed in writing anything to the connection, it first writes a line like \`>> Network buffer overflow: X lines of output to you have been lost <<\` where X is the number of flushed lines.
+The server will not queue an arbitrary amount of output for a connection; the \`MAX\_QUEUED\_OUTPUT\` compilation option (in \`options.h\`) controls the limit. When an attempt is made to enqueue output that would take the server over its limit, it first tries to write as much output as possible to the connection without having to wait for the other end. If that doesn't result in the new output being able to fit in the queue, the server starts throwing away the oldest lines in the queue until the new ouput will fit. The server remembers how many lines of output it has 'flushed' in this way and, when next it can succeed in writing anything to the connection, it first writes a line like \`>> Network buffer overflow: X lines of output to you have been lost <<\` where X is the number of flushed lines.
 
 If no-flush is provided and true, then \`notify()\` never flushes any output from the queue; instead it immediately returns false. \`Notify()\` otherwise always returns true.
 
@@ -3031,7 +3031,7 @@ For outbound TCP/IP connections, the string has the form
 
 where lport is the decimal local TCP port number from which the connection originated, host is either the name or decimal TCP address of the host to which the connection was opened, and port is the decimal TCP port of the connection on that host.
 
-For the System V \`local' networking configuration, the string is the UNIX login name of the connecting user or, if no such name can be found, something of the form:
+For the System V 'local' networking configuration, the string is the UNIX login name of the connecting user or, if no such name can be found, something of the form:
 
 "User #number"
 
@@ -3057,7 +3057,7 @@ If value is true, then input received on conn will never be treated as a command
 Send the Telnet Protocol \`WONT ECHO\` or \`WILL ECHO\` command, depending on whether value is true or false, respectively. For clients that support the Telnet Protocol, this should toggle whether or not the client echoes locally the characters typed by the user. Note that the server itself never echoes input characters under any circumstances. (This option is only available under the TCP/IP networking configurations.)
 
 \`"binary"\`  
-If value is true, then both input from and output to conn can contain arbitrary bytes. Input from a connection in binary mode is not broken into lines at all; it is delivered to either the read() function or the built-in command parser as _binary strings_, in whatever size chunks come back from the operating system. (See the early section on MOO value types for a description of the binary string representation.) For output to a connection in binary mode, the second argument to \`notify()' must be a binary string; if it is malformed, E\_INVARG is raised.
+If value is true, then both input from and output to conn can contain arbitrary bytes. Input from a connection in binary mode is not broken into lines at all; it is delivered to either the read() function or the built-in command parser as _binary strings_, in whatever size chunks come back from the operating system. (See the early section on MOO value types for a description of the binary string representation.) For output to a connection in binary mode, the second argument to 'notify()' must be a binary string; if it is malformed, E\_INVARG is raised.
 
 \`"flush-command"\`  
 If value is a non-empty string, then it becomes the new _flush_ command for this connection, by which the player can flush all queued input that has not yet been processed by the server. If value is not a non-empty string, then conn is set to have no flush command at all. The default value of this option can be set via the property \`$server\_options.default\_flush\_command\`; see the chapter on server assumptions about the database for details.
@@ -3100,7 +3100,7 @@ listen -- create a new point at which the server will listen for network connect
 
 value \`listen\` (obj object, point \[, print-messages\])
 
-Object is the object whose verbs \`do\_login\_command\`, \`do\_command\`, \`do\_out\_of\_band\_command\`, \`user\_connected\`, \`user\_created\`, \`user\_reconnected\`, \`user\_disconnected\`, and \`user\_client\_disconnected\` will be called at appropriate points, just as these verbs are called on \`#0\` for normal connections. (See the chapter on server assumptions about the database for the complete story on when these functions are called.) Point is a network-configuration-specific parameter describing the listening point. If print-messages is provided and true, then the various database-configurable messages (also detailed in the chapter on server assumptions) will be printed on connections received at the new listening point. \`Listen()\` returns canon, a \`canonicalized' version of point, with any configuration-specific defaulting or aliasing accounted for.
+Object is the object whose verbs \`do\_login\_command\`, \`do\_command\`, \`do\_out\_of\_band\_command\`, \`user\_connected\`, \`user\_created\`, \`user\_reconnected\`, \`user\_disconnected\`, and \`user\_client\_disconnected\` will be called at appropriate points, just as these verbs are called on \`#0\` for normal connections. (See the chapter on server assumptions about the database for the complete story on when these functions are called.) Point is a network-configuration-specific parameter describing the listening point. If print-messages is provided and true, then the various database-configurable messages (also detailed in the chapter on server assumptions) will be printed on connections received at the new listening point. \`Listen()\` returns canon, a 'canonicalized' version of point, with any configuration-specific defaulting or aliasing accounted for.
 
 This raises \`E\_PERM\` if the programmer is not a wizard, \`E\_INVARG\` if object is invalid or there is already a listening point described by point, and \`E\_QUOTA\` if some network-configuration-specific error occurred.
 
@@ -3278,7 +3278,7 @@ If seconds is not provided, the task is suspended indefinitely; such a task can 
 
 When the task is resumed, it will have a full quota of ticks and seconds. This function is useful for programs that run for a long time or require a lot of ticks. If seconds is negative, then \`E\_INVARG\` is raised. \`Suspend()\` returns zero unless it was resumed via \`resume()\`, in which case it returns the second argument given to that function.
 
-In some sense, this function forks the \`rest' of the executing task. However, there is a major difference between the use of \`suspend(seconds)\` and the use of the \`fork (seconds)\`. The \`fork\` statement creates a new task (a _forked task_) while the currently-running task still goes on to completion, but a \`suspend()\` suspends the currently-running task (thus making it into a _suspended task_). This difference may be best explained by the following examples, in which one verb calls another:
+In some sense, this function forks the 'rest' of the executing task. However, there is a major difference between the use of \`suspend(seconds)\` and the use of the \`fork (seconds)\`. The \`fork\` statement creates a new task (a _forked task_) while the currently-running task still goes on to completion, but a \`suspend()\` suspends the currently-running task (thus making it into a _suspended task_). This difference may be best explained by the following examples, in which one verb calls another:
 
 .program   #0:caller\_A
 #0.prop = 1;
@@ -3460,7 +3460,7 @@ This chapter describes all of the commands that are built into the server and ev
 
 #### Built-in Commands
 
-As was mentioned in the chapter on command parsing, there are five commands whose interpretation is fixed by the server: \`PREFIX\`, \`OUTPUTPREFIX\`, \`SUFFIX\`, \`OUTPUTSUFFIX\`, and \`.program\`. The first four of these are intended for use by programs that connect to the MOO, so-called \`client' programs. The \`.program\` command is used by programmers to associate a MOO program with a particular verb. The server can, in addition, recognize a sixth special command on any or all connections, the \`flush\` command.
+As was mentioned in the chapter on command parsing, there are five commands whose interpretation is fixed by the server: \`PREFIX\`, \`OUTPUTPREFIX\`, \`SUFFIX\`, \`OUTPUTSUFFIX\`, and \`.program\`. The first four of these are intended for use by programs that connect to the MOO, so-called 'client' programs. The \`.program\` command is used by programmers to associate a MOO program with a particular verb. The server can, in addition, recognize a sixth special command on any or all connections, the \`flush\` command.
 
 The server also performs special processing on command lines that begin with certain punctuation characters.
 
@@ -3509,7 +3509,7 @@ In the \`.program\` command, object may have one of three forms:
 
 #### Flushing Unprocessed Input
 
-It sometimes happens that a user changes their mind about having typed one or more lines of input and would like to \`untype' them before the server actually gets around to processing them. If they react quickly enough, they can type their connection's defined \`flush\` command; when the server first reads that command from the network, it immediately and completely flushes any as-yet unprocessed input from that user, printing a message to the user describing just which lines of input were discarded, if any.
+It sometimes happens that a user changes their mind about having typed one or more lines of input and would like to 'untype' them before the server actually gets around to processing them. If they react quickly enough, they can type their connection's defined \`flush\` command; when the server first reads that command from the network, it immediately and completely flushes any as-yet unprocessed input from that user, printing a message to the user describing just which lines of input were discarded, if any.
 
 Fine point: The flush command is handled very early in the server's processing of a line of input, before the line is entered into the task queue for the connection and well before it is parsed into words like other commands. For this reason, it must be typed exactly as it was defined, alone on the line, without quotation marks, and without any spaces before or after it.
 
@@ -3727,7 +3727,7 @@ Out-of-band commands are intended for use by fancy client programs that may gene
 
 Whenever the server is booted, there are a few tasks it runs right at the beginning, before accepting connections or getting the value of \`#0.dump\_interval\` to schedule the first checkpoint (see below for more information on checkpoint scheduling).
 
-First, the server calls \`$user\_disconnected()\` once for each user who was connected at the time the database file was written; this allows for any cleaning up that's usually done when users disconnect (e.g., moving their player objects back to some \`home' location, etc.).
+First, the server calls \`$user\_disconnected()\` once for each user who was connected at the time the database file was written; this allows for any cleaning up that's usually done when users disconnect (e.g., moving their player objects back to some 'home' location, etc.).
 
 Next, it checks for the existence of the verb \`$server\_started()\`. If there is such a verb, then the server runs a task invoking that verb with no arguments and with \`player\` equal to \`#-1\`. This is useful for carefully scheduling checkpoints and for re-initializing any state that is not properly represented in the database file (e.g., re-opening certain outbound network connections, clearing out certain tables, etc.).
 
@@ -3768,7 +3768,7 @@ The server will abort the execution of tasks for either of two reasons:
 
 In each case, after aborting the task, the server attempts to call a particular _handler verb_ within the database to allow code there to handle this mishap in some appropriate way. If this verb call suspends or returns a true value, then it is considered to have handled the situation completely and no further processing will be done by the server. On the other hand, if the handler verb does not exist, or if the call either returns a false value without suspending or itself is aborted, the server takes matters into its own hands.
 
-First, an error message and a MOO verb-call stack _traceback_ are printed to the player who typed the command that created the original aborted task, explaining why the task was aborted and where in the task the problem occurred. Then, if the call to the handler verb was itself aborted, a second error message and traceback are printed, describing that problem as well. Note that if the handler-verb call itself is aborted, no further \`nested' handler calls are made; this policy prevents what might otherwise be quite a vicious little cycle.
+First, an error message and a MOO verb-call stack _traceback_ are printed to the player who typed the command that created the original aborted task, explaining why the task was aborted and where in the task the problem occurred. Then, if the call to the handler verb was itself aborted, a second error message and traceback are printed, describing that problem as well. Note that if the handler-verb call itself is aborted, no further 'nested' handler calls are made; this policy prevents what might otherwise be quite a vicious little cycle.
 
 The specific handler verb, and the set of arguments it is passed, differs for the two causes of aborted tasks.
 
