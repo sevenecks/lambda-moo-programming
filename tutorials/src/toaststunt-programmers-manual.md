@@ -208,7 +208,7 @@ ToastStunt supports 64 bit integers, but it can also be configured to support 32
 
 Real numbers in MOO are represented as they are in almost all other programming languages, using so-called _floating-point_ numbers. These have certain (large) limits on size and precision that make them useful for a wide range of applications. Floating-point numbers are written with an optional minus sign followed by a non-empty sequence of digits punctuated at some point with a decimal point '.' and/or followed by a scientific-notation marker (the letter 'E' or 'e' followed by an optional sign and one or more digits). Here are some examples of floating-point numbers:
 
-precodestart325.0 325. 3.25e2 0.325E3 325.E1 .0325e+4 32500e-2precodedone
+```325.0 325. 3.25e2 0.325E3 325.E1 .0325e+4 32500e-2```
 
 All of these examples mean the same number. The third of these, as an example of scientific notation, should be read "3.25 times 10 to the power of 2".
 
@@ -221,13 +221,13 @@ Fine point: The MOO represents floating-point numbers using the local meaning of
 
 Character _strings_ are arbitrarily-long sequences of normal, ASCII printing characters. When written as values in a program, strings are enclosed in double-quotes, like this:
 
-precodestart"This is a character string."precodedone
+```"This is a character string."```
 
-To include a double-quote in the string, precede it with a backslash (`\`), like this: precodestart"His name was \\"Leroy\\", but nobody ever called him that."precodedone
+To include a double-quote in the string, precede it with a backslash (`\`), like this: ```"His name was \\"Leroy\\", but nobody ever called him that."```
 
 Finally, to include a backslash in a string, double it:
 
-precodestart"Some people use backslash ('\\\\') to mean set difference."precodedone
+```"Some people use backslash ('\\\\') to mean set difference."```
 
 MOO strings may not include special ASCII characters like carriage-return, line-feed, bell, etc. The only non-printing characters allowed are spaces and tabs.
 
@@ -235,13 +235,13 @@ Fine point: There is a special kind of string used for representing the arbitrar
 
 MOO strings can be 'indexed into' using square braces and an integer index (much the same way you can with lists):
 
-precodestart"this is a string"\[4\] -> "s"precodedone
+```"this is a string"\[4\] -> "s"```
 
 _Objects_ are the backbone of the MOO database and, as such, deserve a great deal of discussion; the entire next section is devoted to them. For now, let it suffice to say that every object has a number, unique to that object.
 
 In programs, we write a reference to a particular object by putting a hash mark (`#`) followed by the number, like this:
 
-precodestart#495precodedone
+```#495```
 
 Note: Referencing object numbers in your code should be discouraged. An object only exists until it is recycled. It is technically possible for an object number to change under some circumstances. Thus, you should use a corified reference to an object ($my\_special\_object) instead. More on corified references later.
 
