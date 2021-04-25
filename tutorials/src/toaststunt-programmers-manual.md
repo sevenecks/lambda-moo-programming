@@ -233,7 +233,7 @@ Finally, to include a backslash in a string, double it:
 
 MOO strings may not include special ASCII characters like carriage-return, line-feed, bell, etc. The only non-printing characters allowed are spaces and tabs.
 
-Fine point: There is a special kind of string used for representing the arbitrary bytes used in general, binary input and output. In a _binary string_, any byte that isn't an ASCII printing character or the space character is represented as the three-character substring "\~XX", where XX is the hexadecimal representation of the byte; the input character '\~' is represented by the three-character substring "\~7E". This special representation is used by the functions `encode_binary()` and `decode_binary()` and by the functions `notify()` and `read()` with network connections that are in binary mode. See the descriptions of the `set_connection_option()`, `encode_binary()`, and `decode_binary()` functions for more details.
+Fine point: There is a special kind of string used for representing the arbitrary bytes used in general, binary input and output. In a _binary string_, any byte that isn't an ASCII printing character or the space character is represented as the three-character substring "\\~XX", where XX is the hexadecimal representation of the byte; the input character '\\~' is represented by the three-character substring "\\~7E". This special representation is used by the functions `encode_binary()` and `decode_binary()` and by the functions `notify()` and `read()` with network connections that are in binary mode. See the descriptions of the `set_connection_option()`, `encode_binary()`, and `decode_binary()` functions for more details.
 
 MOO strings can be 'indexed into' using square braces and an integer index (much the same way you can with lists):
 
@@ -2355,10 +2355,10 @@ list `decode_binary` (str bin-string \[, int fully\])
 If fully is false or omitted, the list contains an integer only for each non-printing, non-space byte; all other characters are grouped into the longest possible contiguous substrings. If fully is provided and true, the list contains only integers, one for each byte represented in bin\_string. Raises `E_INVARG` if bin\_string is not a properly-formed binary string. (See the early section on MOO value types for a full description of binary strings.)
 
 decode\_binary("foo")               =>   {"foo"}
-decode\_binary("~~foo")             =>   {"~foo"}
-decode\_binary("foo~0D~0A")         =>   {"foo", 13, 10}
-decode\_binary("foo~0Abar~0Abaz")   =>   {"foo", 10, "bar", 10, "baz"}
-decode\_binary("foo~0D~0A", 1)      =>   {102, 111, 111, 13, 10}
+decode\_binary("\\~\\~foo")             =>   {"\\~foo"}
+decode\_binary("foo\\~0D\\~0A")         =>   {"foo", 13, 10}
+decode\_binary("foo\\~0Abar\\~0Abaz")   =>   {"foo", 10, "bar", 10, "baz"}
+decode\_binary("foo\\~0D\\~0A", 1)      =>   {102, 111, 111, 13, 10}
 
 **Function: `encode_binary`**
 
@@ -2368,9 +2368,9 @@ str `encode_binary` (arg, ...)
 
 Each argument must be an integer between 0 and 255, a string, or a list containing only legal arguments for this function. This function (See the early section on MOO value types for a full description of binary strings.)
 
-encode\_binary("~foo")                     =>   "~7Efoo"
-encode\_binary({"foo", 10}, {"bar", 13})   =>   "foo~0Abar~0D"
-encode\_binary("foo", 10, "bar", 13)       =>   "foo~0Abar~0D"
+encode\_binary("\\~foo")                     =>   "\\~7Efoo"
+encode\_binary({"foo", 10}, {"bar", 13})   =>   "foo\\~0Abar\\~0D"
+encode\_binary("foo", 10, "bar", 13)       =>   "foo\\~0Abar\\~0D"
 
 **Function: `match`**
 
