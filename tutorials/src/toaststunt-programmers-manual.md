@@ -475,7 +475,7 @@ As I explain later, programs run with the permissions of their author. So, in th
 
 #### Verbs on Objects
 
-The final kind of piece making up an object is _verbs_. A verb is a named MOO program that is associated with a particular object. Most verbs implement commands that a player might type; for example, in the ToastCore database, there is a verb on all objects representing containers that implements commands of the form `put object in container`.
+The final kind of piece making up an object is _verbs_. A verb is a named MOO program that is associated with a particular object. Most verbs implement commands that a player might type; for example, in the ToastCore database, there is a verb on all objects representing containers that implements commands of the form ``put `object` in `container` ``.
 
 It is also possible for MOO programs to invoke the verbs defined on objects. Some verbs, in fact, are designed to be used only from inside MOO code; they do not correspond to any particular player command at all. Thus, verbs in MOO are like the _procedures_ or _methods_ found in some other programming languages.
 
@@ -520,9 +520,9 @@ The Built-in Command Parser
 
 The MOO server is able to do a small amount of parsing on the commands that a player enters. In particular, it can break apart commands that follow one of the following forms:
 
-*   verb
-*   verb direct-object
-*   verb direct-object preposition indirect-object
+*   `verb`
+*   `verb` `direct-object`
+*   `verb` `direct-object` `preposition` `indirect-object`
 
 Real examples of these forms, meaningful in the ToastCore database, are as follows:
 
@@ -538,15 +538,15 @@ To have any of this make real sense, it is important to understand precisely how
 
 First, the server checks whether or not the first non-blank character in the command is one of the following:
 
-*   `"`
-*   `:`
-*   `;`
+*   `` `"` ``
+*   `` `:` ``
+*   `` `;` ``
 
 If so, that character is replaced by the corresponding command below, followed by a space:
 
-*   `say`
-*   `emote`
-*   `eval`
+*   `` `say` ``
+*   `` `emote` ``
+*   `` `eval` ``
 
 For example this command:
 
@@ -857,7 +857,7 @@ The rest of the so-called "built-in" variables are only really meaningful for th
 To change what value is stored in a variable, use an _assignment_ expression:
 
 ```
-variable = expression
+`variable` = `expression`
 ```
 
 For example, to change the variable named `x` to have the value 17, you would write `x = 17` as an expression. An assignment expression does two things:
@@ -1003,12 +1003,12 @@ There are four kinds of expressions and two kinds of statements that depend upon
 The conditional expression in MOO has the following form:
 
 ```
-expression-1 ? expression-2 | expression-3
+`expression-1` ? `expression-2` | `expression-3`
 ```
 
 Note: This is commonly refered to as a ternary statement in most programming languages. In MOO the commonly used ! is replaced with a |.
 
-First, expression-1 is evaluated. If it returns a true value, then expression-2 is evaluated and whatever it returns is returned as the value of the conditional expression as a whole. If expression-1 returns a false value, then expression-3 is evaluated instead and its value is used as that of the conditional expression.
+First, `expression-1` is evaluated. If it returns a true value, then `expression-2` is evaluated and whatever it returns is returned as the value of the conditional expression as a whole. If `expression-1` returns a false value, then `expression-3` is evaluated instead and its value is used as that of the conditional expression.
 
 ```
 1 ? 2 | 3           =>  2
@@ -1016,15 +1016,15 @@ First, expression-1 is evaluated. If it returns a true value, then expression-2 
 "foo" ? 17 | {#34}  =>  17
 ```
 
-Note that only one of expression-2 and expression-3 is evaluated, never both.
+Note that only one of `expression-2` and `expression-3` is evaluated, never both.
 
 To negate the truth value of a MOO value, use the `!` operator:
 
 ```
-! expression
+! `expression`
 ```
 
-If the value of expression is true, `!` returns 0; otherwise, it returns 1:
+If the value of `expression` is true, `!` returns 0; otherwise, it returns 1:
 
 ```
 ! "foo"     =>  0
@@ -1038,31 +1038,31 @@ Note: The "negation" or "not" operator is commonly referred to as "bang" in mode
 It is frequently useful to test more than one condition to see if some or all of them are true. MOO provides two operators for this:
 
 ```
-expression-1 && expression-2
-expression-1 || expression-2
+`expression-1` && `expression-2`
+`expression-1` || `expression-2`
 ```
 
 These operators are usually read as "and" and "or," respectively.
 
-The `&&` operator first evaluates expression-1. If it returns a true value, then expression-2 is evaluated and its value becomes the value of the `&&` expression as a whole; otherwise, the value of expression-1 is used as the value of the `&&` expression.
+The `&&` operator first evaluates `expression-1`. If it returns a true value, then `expression-2` is evaluated and its value becomes the value of the `&&` expression as a whole; otherwise, the value of `expression-1` is used as the value of the `&&` expression.
 
-Note: expression-2 is only evaluated if expression-1 returns a true value.
+Note: `expression-2` is only evaluated if `expression-1` returns a true value.
 
 The `&&` expression is equivalent to the conditional expression:
 
 ```
-expression-1 ? expression-2 | expression-1
+`expression-1` ? `expression-2` | `expression-1`
 ```
 
-except that expression-1 is only evaluated once.
+except that `expression-1` is only evaluated once.
 
-The `||` operator works similarly, except that expression-2 is evaluated only if expression-1 returns a false value. It is equivalent to the conditional expression:
+The `||` operator works similarly, except that `expression-2` is evaluated only if `expression-1` returns a false value. It is equivalent to the conditional expression:
 
 ```
-expression-1 ? expression-1 | expression-2
+`expression-1` ? `expression-1` | `expression-2`
 ```
 
-except that, as with `&&`, expression-1 is only evaluated once.
+except that, as with `&&`, `expression-1` is only evaluated once.
 
 These two operators behave very much like "and" and "or" in English:
 
@@ -1087,12 +1087,12 @@ Warning: It is very important to note that unlike many programming languages (wh
 The indexing expression in MOO extracts a specified element from a list, map, or string:
 
 ```
-expression-1\[expression-2\]
+`expression-1`\[`expression-2`\]
 ```
 
-First, expression-1 is evaluated; it must return a list, map, or string (the _sequence_). Then, expression-2 is evaluated and must return an integer (the _index_) or the _key_ in the case of maps. If either of the expressions returns some other type of value, `E_TYPE` is returned.
+First, `expression-1` is evaluated; it must return a list, map, or string (the _sequence_). Then, `expression-2` is evaluated and must return an integer (the _index_) or the _key_ in the case of maps. If either of the expressions returns some other type of value, `E_TYPE` is returned.
 
-For lists and strings the index must be between 1 and the length of the sequence, inclusive; if it is not, then `E_RANGE` is raised. The value of the indexing expression is the index'th element in the sequence. For maps, the key must be present, if it is not, then E\_RANGE is raised. Within expression-2 you can use the symbol ^ as an expression returning the index or key of the first element in the sequence and you can use the symbol $ as an expression returning the index or key of the last element in expression-1.
+For lists and strings the index must be between 1 and the length of the sequence, inclusive; if it is not, then `E_RANGE` is raised. The value of the indexing expression is the index'th element in the sequence. For maps, the key must be present, if it is not, then E\_RANGE is raised. Within `expression-2` you can use the symbol ^ as an expression returning the index or key of the first element in the sequence and you can use the symbol $ as an expression returning the index or key of the last element in expression-1.
 
 ```
 "fob"\[2\]                =>  "o"
@@ -1117,21 +1117,21 @@ is possible because $ in this case represents the 3rd index of the list next to 
 It often happens that one wants to change just one particular slot of a list or string, which is stored in a variable or a property. This can be done conveniently using an _indexed assignment_ having one of the following forms:
 
 ```
-variable\[index-expr\] = result-expr
-object-expr.name\[index-expr\] = result-expr
-object-expr.(name-expr)\[index-expr\] = result-expr
-$name\[index-expr\] = result-expr
+`variable`\[`index-expr`\] = `result-expr`
+`object-expr`.`name`\[`index-expr`\] = `result-expr`
+`object-expr`.(`name-expr`)\[`index-expr`\] = `result-expr`
+$`name`\[`index-expr`\] = `result-expr`
 ```
 
 The first form writes into a variable, and the last three forms write into a property. The usual errors (`E_TYPE`, `E_INVIND`, `E_PROPNF` and `E_PERM` for lack of read/write permission on the property) may be raised, just as in reading and writing any object property; see the discussion of object property expressions below for details.
 
-Correspondingly, if variable does not yet have a value (i.e., it has never been assigned to), `E_VARNF` will be raised.
+Correspondingly, if `variable` does not yet have a value (i.e., it has never been assigned to), `E_VARNF` will be raised.
 
-If index-expr is not an integer, or if the value of variable or the property is not a list or string, `E_TYPE` is raised. If result-expr is a string, but not of length 1, `E_INVARG` is raised. Now suppose index-expr evaluates to an integer n. If n is outside the range of the list or string (i.e. smaller than 1 or greater than the length of the list or string), `E_RANGE` is raised. Otherwise, the actual assignment takes place.
+If `index-expr` is not an integer, or if the value of `variable` or the property is not a list or string, `E_TYPE` is raised. If `result-expr` is a string, but not of length 1, `E_INVARG` is raised. Now suppose `index-expr` evaluates to an integer `n`. If `n` is outside the range of the list or string (i.e. smaller than 1 or greater than the length of the list or string), `E_RANGE` is raised. Otherwise, the actual assignment takes place.
 
-For lists, the variable or the property is assigned a new list that is identical to the original one except at the n\-th position, where the new list contains the result of result-expr instead. For strings, the variable or the property is assigned a new string that is identical to the original one, except the n\-th character is changed to be result-expr.
+For lists, the variable or the property is assigned a new list that is identical to the original one except at the `n`\-th position, where the new list contains the result of `result-expr` instead. For strings, the variable or the property is assigned a new string that is identical to the original one, except the `n`\-th character is changed to be `result-expr`.
 
-The assignment expression itself returns the value of result-expr. For the following examples, assume that `l` initially contains the list `{1, 2, 3}` and that `s` initially contains the string "foobar":
+The assignment expression itself returns the value of `result-expr`. For the following examples, assume that `l` initially contains the list `{1, 2, 3}` and that `s` initially contains the string "foobar":
 
 ```
 l\[5\] = 3          =>   E\_RANGE (error)
@@ -1153,7 +1153,7 @@ Note: (error) is only used for formatting and identification purposes in these e
 
 Note: The `$` expression may also be used in indexed assignments with the same meaning as before.
 
-Fine point: After an indexed assignment, the variable or property contains a _new_ list or string, a copy of the original list in all but the n\-th place, where it contains a new value. In programming-language jargon, the original list is not mutated, and there is no aliasing. (Indeed, no MOO value is mutable and no aliasing ever occurs.)
+Fine point: After an indexed assignment, the variable or property contains a _new_ list or string, a copy of the original list in all but the `n`\-th place, where it contains a new value. In programming-language jargon, the original list is not mutated, and there is no aliasing. (Indeed, no MOO value is mutable and no aliasing ever occurs.)
 
 In the list case, indexed assignment can be nested to many levels, to work on nested lists. Assume that `l` initially contains the list:
 
@@ -1183,10 +1183,10 @@ The first two examples raise `E_RANGE` because 7 is out of the range of `l` and 
 The range expression extracts a specified subsequence from a list or string:
 
 ```
-expression-1\[expression-2..expression-3\]
+`expression-1`\[`expression-2`..`expression-3`\]
 ```
 
-The three expressions are evaluated in order. Expression-1 must return a list or string (the _sequence_) and the other two expressions must return integers (the _low_ and _high_ indices, respectively); otherwise, `E_TYPE` is raised. The `$` expression can be used in either or both of expression-2 and expression-3 just as before, meaning the length of the value of expression-1.
+The three expressions are evaluated in order. `Expression-1` must return a list or string (the _sequence_) and the other two expressions must return integers (the _low_ and _high_ indices, respectively); otherwise, `E_TYPE` is raised. The `$` expression can be used in either or both of `expression-2` and `expression-3` just as before, meaning the length of the value of `expression-1`.
 
 If the low index is greater than the high index, then the empty string or list is returned, depending on whether the sequence is a string or a list. Otherwise, both indices must be between 1 and the length of the sequence; `E_RANGE` is raised if they are not. A new list or string is returned that contains just the elements of the sequence with indices between the low and high bounds.
 
@@ -1204,37 +1204,37 @@ If the low index is greater than the high index, then the empty string or list i
 The subrange assigment replaces a specified subsequence of a list or string with a supplied subsequence. The allowed forms are:
 
 ```
-variable\[start-index-expr..end-index-expr\] = result-expr
-object-expr.name\[start-index-expr..end-index-expr\] = result-expr
-object-expr.(name-expr)\[start-index-expr..end-index-expr\] = result-expr
-$name\[start-index-expr..end-index-expr\] = result-expr
+`variable`\[`start-index-expr`..`end-index-expr`\] = `result-expr`
+`object-expr`.`name`\[`start-index-expr`..`end-index-expr`\] = `result-expr`
+`object-expr`.(`name-expr`)\[`start-index-expr`..`end-index-expr`\] = `result-expr`
+$`name`\[`start-index-expr`..`end-index-expr`\] = `result-expr`
 ```
 
-As with indexed assigments, the first form writes into a variable, and the last three forms write into a property. The same errors (`E_TYPE`, `E_INVIND`, `E_PROPNF` and `E_PERM` for lack of read/write permission on the property) may be raised. If variable does not yet have a value (i.e., it has never been assigned to), `E_VARNF` will be raised.
+As with indexed assigments, the first form writes into a variable, and the last three forms write into a property. The same errors (`E_TYPE`, `E_INVIND`, `E_PROPNF` and `E_PERM` for lack of read/write permission on the property) may be raised. If `variable` does not yet have a value (i.e., it has never been assigned to), `E_VARNF` will be raised.
 
-As before, the `$` expression can be used in either start-index-expr or end-index-expr, meaning the length of the original value of the expression just before the `[...]` part.
+As before, the `$` expression can be used in either `start-index-expr` or `end-index-expr`, meaning the length of the original value of the expression just before the `[...]` part.
 
-If start-index-expr or end-index-expr is not an integer, if the value of variable or the property is not a list or string, or result-expr is not the same type as variable or the property, `E_TYPE` is raised. `E_RANGE` is raised if end-index-expr is less than zero or if start-index-expr is greater than the length of the list or string plus one. Note: the length of result-expr does not need to be the same as the length of the specified range.
+If `start-index-expr` or `end-index-expr` is not an integer, if the value of `variable` or the property is not a list or string, or `result-expr` is not the same type as `variable` or the property, `E_TYPE` is raised. `E_RANGE` is raised if `end-index-expr` is less than zero or if `start-index-expr` is greater than the length of the list or string plus one. Note: the length of `result-expr` does not need to be the same as the length of the specified range.
 
 In precise terms, the subrange assigment
 
 ```
-v\[start..end\] = value
+`v`\[`start`..`end`\] = `value`
 ```
 
 is equivalent to
 
 ```
-v = {@v\[1..start - 1\], @value, @v\[end + 1..$\]}
+`v` = {@`v`\[1..`start` - 1\], @`value`, @`v`\[`end` + 1..$\]}
 ```
 
-if v is a list and to
+if `v` is a list and to
 
 ```
-v = v\[1..start - 1\] + value + v\[end + 1..$\]
+`v` = `v`\[1..`start` - 1\] + `value` + `v`\[`end` + 1..$\]
 ```
 
-if v is a string. The assigment expression itself returns the value of result-expr.
+if `v` is a string. The assigment expression itself returns the value of `result-expr`.
 
 Note: The use of preceeding a list with the @ symbol is covered in just a bit.
 
@@ -1264,10 +1264,10 @@ s                      =>   "testfubarbaz"
 As was mentioned earlier, lists can be constructed by writing a comma-separated sequence of expressions inside curly braces:
 
 ```
-{expression-1, expression-2, ..., expression-N}
+{`expression-1`, `expression-2`, ..., `expression-N`}
 ```
 
-The resulting list has the value of expression-1 as its first element, that of expression-2 as the second, etc.
+The resulting list has the value of `expression-1` as its first element, that of `expression-2` as the second, etc.
 
 ```
 {3 < 4, 3 <= 4, 3 >= 4, 3 > 4}  =>  {1, 1, 0, 0}
@@ -1287,10 +1287,10 @@ If the splicing operator (`@`) precedes an expression whose value is not a list,
 The list membership expression tests whether or not a given MOO value is an element of a given list and, if so, with what index:
 
 ```
-expression-1 in expression-2
+`expression-1` in `expression-2`
 ```
 
-Expression-2 must return a list; otherwise, `E_TYPE` is raised. If the value of expression-1 is in that list, then the index of its first occurrence in the list is returned; otherwise, the `in` expression returns 0.
+`Expression-2` must return a list; otherwise, `E_TYPE` is raised. If the value of `expression-1` is in that list, then the index of its first occurrence in the list is returned; otherwise, the `in` expression returns 0.
 
 ```
 2 in {5, 8, 2, 3}               =>  3
@@ -1319,24 +1319,24 @@ This approach gets pretty tedious, both to read and to write, and it's prone to 
 MOO provides a special kind of assignment expression, called _scattering assignment_ made just for cases such as these. A scattering assignment expression looks like this:
 
 ```
-{target, ...} = expr
+{`target`, ...} = `expr`
 ```
 
-where each target describes a place to store elements of the list that results from evaluating expr. A target has one of the following forms:
+where each `target` describes a place to store elements of the list that results from evaluating `expr`. A `target` has one of the following forms:
 
-`variable`
+`` `variable` ``
 
 This is the simplest target, just a simple variable; the list element in the corresponding position is assigned to the variable. This is called a _required_ target, since the assignment is required to put one of the list elements into the variable.
 
-`?variable`
+``?`variable` ``
 
 This is called an _optional_ target, since it doesn't always get assigned an element. If there are any list elements left over after all of the required targets have been accounted for (along with all of the other optionals to the left of this one), then this variable is treated like a required one and the list element in the corresponding position is assigned to the variable. If there aren't enough elements to assign one to this target, then no assignment is made to this variable, leaving it with whatever its previous value was.
 
-`?variable = default-expr`
+``?`variable` = `default-expr` ``
 
-This is also an optional target, but if there aren't enough list elements available to assign one to this target, the result of evaluating default-expr is assigned to it instead. Thus, default-expr provides a _default value_ for the variable. The default value expressions are evaluated and assigned working from left to right _after_ all of the other assignments have been performed.
+This is also an optional target, but if there aren't enough list elements available to assign one to this target, the result of evaluating `default-expr` is assigned to it instead. Thus, `default-expr` provides a _default value_ for the variable. The default value expressions are evaluated and assigned working from left to right _after_ all of the other assignments have been performed.
 
-`@variable`
+``@`variable` ``
 
 By analogy with the `@` syntax in list construction, this variable is assigned a list of all of the 'leftover' list elements in this part of the list after all of the other targets have been filled in. It is assigned the empty list if there aren't any elements left over. This is called a _rest_ target, since it gets the rest of the elements. There may be at most one rest target in each scattering assignment expression.
 
@@ -1376,18 +1376,18 @@ Fine point: If you are familiar with JavaScript, the 'rest' and 'spread' functio
 Usually, one can read the value of a property on an object with a simple expression:
 
 ```
-expression.name
+`expression`.`name`
 ```
 
-Expression must return an object number; if not, `E_TYPE` is raised. If the object with that number does not exist, `E_INVIND` is raised. Otherwise, if the object does not have a property with that name, then `E_PROPNF` is raised. Otherwise, if the named property is not readable by the owner of the current verb, then `E_PERM` is raised. Finally, assuming that none of these terrible things happens, the value of the named property on the given object is returned.
+`Expression` must return an object number; if not, `E_TYPE` is raised. If the object with that number does not exist, `E_INVIND` is raised. Otherwise, if the object does not have a property with that name, then `E_PROPNF` is raised. Otherwise, if the named property is not readable by the owner of the current verb, then `E_PERM` is raised. Finally, assuming that none of these terrible things happens, the value of the named property on the given object is returned.
 
 I said "usually" in the paragraph above because that simple expression only works if the name of the property obeys the same rules as for the names of variables (i.e., consists entirely of letters, digits, and underscores, and doesn't begin with a digit). Property names are not restricted to this set, though. Also, it is sometimes useful to be able to figure out what property to read by some computation. For these more general uses, the following syntax is also allowed:
 
 ```
-expression-1.(expression-2)
+`expression-1`.(`expression-2`)
 ```
 
-As before, expression-1 must return an object number. Expression-2 must return a string, the name of the property to be read; `E_TYPE` is raised otherwise. Using this syntax, any property can be read, regardless of its name.
+As before, `expression-1` must return an object number. `Expression-2` must return a string, the name of the property to be read; `E_TYPE` is raised otherwise. Using this syntax, any property can be read, regardless of its name.
 
 Note that, as with almost everything in MOO, case is not significant in the names of properties. Thus, the following expressions are all equivalent:
 
@@ -1400,13 +1400,13 @@ foo.("bAr")
 The ToastCore database uses several properties on `#0`, the _system object_, for various special purposes. For example, the value of `#0.room` is the "generic room" object, `#0.exit` is the "generic exit" object, etc. This allows MOO programs to refer to these useful objects more easily (and more readably) than using their object numbers directly. To make this usage even easier and more readable, the expression
 
 ```
-$name
+$`name`
 ```
 
-(where name obeys the rules for variable names) is an abbreviation for
+(where `name` obeys the rules for variable names) is an abbreviation for
 
 ```
-#0.name
+#0.`name`
 ```
 
 Thus, for example, the value `$nothing` mentioned earlier is really `#-1`, the value of `#0.nothing`.
@@ -1426,32 +1426,32 @@ MOO provides a large number of useful functions for performing a wide variety of
 The syntax of a call to a function is as follows:
 
 ```
-name(expr-1, expr-2, ..., expr-N)
+`name`(`expr-1`, `expr-2`, ..., `expr-N`)
 ```
 
-where name is the name of one of the built-in functions. The expressions between the parentheses, called _arguments_, are each evaluated in turn and then given to the named function to use in its appropriate way. Most functions require that a specific number of arguments be given; otherwise, `E_ARGS` is raised. Most also require that certain of the arguments have certain specified types (e.g., the `length()` function requires a list or a string as its argument); `E_TYPE` is raised if any argument has the wrong type.
+where `name` is the name of one of the built-in functions. The expressions between the parentheses, called _arguments_, are each evaluated in turn and then given to the named function to use in its appropriate way. Most functions require that a specific number of arguments be given; otherwise, `E_ARGS` is raised. Most also require that certain of the arguments have certain specified types (e.g., the `length()` function requires a list or a string as its argument); `E_TYPE` is raised if any argument has the wrong type.
 
 As with list construction, the splicing operator `@` can precede any argument expression. The value of such an expression must be a list; `E_TYPE` is raised otherwise. The elements of this list are passed as individual arguments, in place of the list as a whole.
 
 Verbs can also call other verbs, usually using this syntax:
 
 ```
-expr-0:name(expr-1, expr-2, ..., expr-N)
+`expr-0`:`name`(`expr-1`, `expr-2`, ..., `expr-N`)
 ```
 
-Expr-0 must return an object number; `E_TYPE` is raised otherwise. If the object with that number does not exist, `E_INVIND` is raised. If this task is too deeply nested in verbs calling verbs calling verbs, then `E_MAXREC` is raised; the default limit is 50 levels, but this can be changed from within the database; see the chapter on server assumptions about the database for details. If neither the object nor any of its ancestors defines a verb matching the given name, `E_VERBNF` is raised. Otherwise, if none of these nasty things happens, the named verb on the given object is called; the various built-in variables have the following initial values in the called verb:
+`Expr-0` must return an object number; `E_TYPE` is raised otherwise. If the object with that number does not exist, `E_INVIND` is raised. If this task is too deeply nested in verbs calling verbs calling verbs, then `E_MAXREC` is raised; the default limit is 50 levels, but this can be changed from within the database; see the chapter on server assumptions about the database for details. If neither the object nor any of its ancestors defines a verb matching the given name, `E_VERBNF` is raised. Otherwise, if none of these nasty things happens, the named verb on the given object is called; the various built-in variables have the following initial values in the called verb:
 
 `this`
 
-an object, the value of expr-0
+an object, the value of `expr-0`
 
 `verb`
 
-a string, the name used in calling this verb
+a string, the `name` used in calling this verb
 
 `args`
 
-a list, the values of expr-1, expr-2, etc.
+a list, the values of `expr-1`, `expr-2`, etc.
 
 `caller`
 
@@ -1463,26 +1463,26 @@ an object, the same value as it had initially in the calling verb or, if the cal
 
 All other built-in variables (`argstr`, `dobj`, etc.) are initialized with the same values they have in the calling verb.
 
-As with the discussion of property references above, I said "usually" at the beginning of the previous paragraph because that syntax is only allowed when the name follows the rules for allowed variable names. Also as with property reference, there is a syntax allowing you to compute the name of the verb:
+As with the discussion of property references above, I said "usually" at the beginning of the previous paragraph because that syntax is only allowed when the `name` follows the rules for allowed variable names. Also as with property reference, there is a syntax allowing you to compute the name of the verb:
 
 ```
-expr-0:(expr-00)(expr-1, expr-2, ..., expr-N)
+`expr-0`:(`expr-00`)(`expr-1`, `expr-2`, ..., `expr-N`)
 ```
 
-The expression expr-00 must return a string; `E_TYPE` is raised otherwise.
+The expression `expr-00` must return a string; `E_TYPE` is raised otherwise.
 
 The splicing operator (`@`) can be used with verb-call arguments, too, just as with the arguments to built-in functions.
 
 In many databases, a number of important verbs are defined on `#0`, the _system object_. As with the `$foo` notation for properties on `#0`, the server defines a special syntax for calling verbs on `#0`:
 
 ```
-$name(expr-1, expr-2, ..., expr-N)
+$`name`(`expr-1`, `expr-2`, ..., `expr-N`)
 ```
 
-(where name obeys the rules for variable names) is an abbreviation for
+(where `name` obeys the rules for variable names) is an abbreviation for
 
 ```
-#0:name(expr-1, expr-2, ..., expr-N)
+#0:`name`(`expr-1`, `expr-2`, ..., `expr-N`)
 ```
 
 #### Catching Errors in Expressions
@@ -1490,16 +1490,16 @@ $name(expr-1, expr-2, ..., expr-N)
 It is often useful to be able to _catch_ an error that an expression raises, to keep the error from aborting the whole task, and to keep on running as if the expression had returned some other value normally. The following expression accomplishes this:
 
 ```
-\`\` expr-1 ! codes => expr-2 '
+\`\` `expr-1` ! `codes` => `expr-2` '
 ```
 
 Note: The open- and close-quotation marks in the previous line are really part of the syntax; you must actually type them as part of your MOO program for this kind of expression.
 
-The codes part is either the keyword `ANY` or else a comma-separated list of expressions, just like an argument list. As in an argument list, the splicing operator (`@`) can be used here. The `=> expr-2` part of the error-catching expression is optional.
+The `codes` part is either the keyword `ANY` or else a comma-separated list of expressions, just like an argument list. As in an argument list, the splicing operator (`@`) can be used here. The ``=> `expr-2` `` part of the error-catching expression is optional.
 
-First, the codes part is evaluated, yielding a list of error codes that should be caught if they're raised; if codes is `ANY`, then it is equivalent to the list of all possible MOO values.
+First, the `codes` part is evaluated, yielding a list of error codes that should be caught if they're raised; if `codes` is `ANY`, then it is equivalent to the list of all possible MOO values.
 
-Next, expr-1 is evaluated. If it evaluates normally, without raising an error, then its value becomes the value of the entire error-catching expression. If evaluating expr-1 results in an error being raised, then call that error E. If E is in the list resulting from evaluating codes, then E is considered _caught_ by this error-catching expression. In such a case, if expr-2 was given, it is evaluated to get the outcome of the entire error-catching expression; if expr-2 was omitted, then E becomes the value of the entire expression. If E is _not_ in the list resulting from codes, then this expression does not catch the error at all and it continues to be raised, possibly to be caught by some piece of code either surrounding this expression or higher up on the verb-call stack.
+Next, `expr-1` is evaluated. If it evaluates normally, without raising an error, then its value becomes the value of the entire error-catching expression. If evaluating `expr-1` results in an error being raised, then call that error `E`. If `E` is in the list resulting from evaluating `codes`, then `E` is considered _caught_ by this error-catching expression. In such a case, if `expr-2` was given, it is evaluated to get the outcome of the entire error-catching expression; if `expr-2` was omitted, then `E` becomes the value of the entire expression. If `E` is _not_ in the list resulting from `codes`, then this expression does not catch the error at all and it continues to be raised, possibly to be caught by some piece of code either surrounding this expression or higher up on the verb-call stack.
 
 Here are some examples of the use of this kind of expression:
 
@@ -1591,10 +1591,10 @@ It doesn't do anything at all, but it does it very quickly.
 The next simplest statement is also one of the most common, the expression statement, consisting of any expression followed by a semicolon:
 
 ```
-expression;
+`expression`;
 ```
 
-The given expression is evaluated and the resulting value is ignored. Commonly-used kinds of expressions for such statements include assignments and verb calls. Of course, there's no use for such a statement unless the evaluation of expression has some side-effect, such as changing the value of some variable or property, printing some text on someone's screen, etc.
+The given expression is evaluated and the resulting value is ignored. Commonly-used kinds of expressions for such statements include assignments and verb calls. Of course, there's no use for such a statement unless the evaluation of `expression` has some side-effect, such as changing the value of some variable or property, printing some text on someone's screen, etc.
 
 ```
 #42.weight = 40;
@@ -1610,38 +1610,38 @@ obj:verbname();
 The `if` statement allows you to decide whether or not to perform some statements based on the value of an arbitrary expression:
 
 ```
-if (expression)
-  statements
+if (`expression`)
+  `statements`
 endif
 ```
 
-Expression is evaluated and, if it returns a true value, the statements are executed in order; otherwise, nothing more is done.
+`Expression` is evaluated and, if it returns a true value, the statements are executed in order; otherwise, nothing more is done.
 
 One frequently wants to perform one set of statements if some condition is true and some other set of statements otherwise. The optional `else` phrase in an `if` statement allows you to do this:
 
 ```
-if (expression)
-  statements-1
+if (`expression`)
+  `statements-1`
 else
-  statements-2
+  `statements-2`
 endif
 ```
 
-This statement is executed just like the previous one, except that statements-1 are executed if expression returns a true value and statements-2 are executed otherwise.
+This statement is executed just like the previous one, except that `statements-1` are executed if `expression` returns a true value and `statements-2` are executed otherwise.
 
 Sometimes, one needs to test several conditions in a kind of nested fashion:
 
 ```
-if (expression-1)
-  statements-1
+if (`expression-1`)
+  `statements-1`
 else
-  if (expression-2)
-    statements-2
+  if (`expression-2`)
+    `statements-2`
   else
-    if (expression-3)
-      statements-3
+    if (`expression-3`)
+      `statements-3`
     else
-      statements-4
+      `statements-4`
     endif
   endif
 endif
@@ -1650,33 +1650,33 @@ endif
 Such code can easily become tedious to write and difficult to read. MOO provides a somewhat simpler notation for such cases:
 
 ```
-if (expression-1)
-  statements-1
-elseif (expression-2)
-  statements-2
-elseif (expression-3)
-  statements-3
+if (`expression-1`)
+  `statements-1`
+elseif (`expression-2`)
+  `statements-2`
+elseif (`expression-3`)
+  `statements-3`
 else
-  statements-4
+  `statements-4`
 endif
 ```
 
-Note that `elseif` is written as a single word, without any spaces. This simpler version has the very same meaning as the original: evaluate expression-i for i equal to 1, 2, and 3, in turn, until one of them returns a true value; then execute the statements-i associated with that expression. If none of the expression-i return a true value, then execute statements-4.
+Note that `elseif` is written as a single word, without any spaces. This simpler version has the very same meaning as the original: evaluate `expression-i` for `i` equal to 1, 2, and 3, in turn, until one of them returns a true value; then execute the `statements-i` associated with that expression. If none of the `expression-i` return a true value, then execute `statements-4`.
 
 Any number of `elseif` phrases can appear, each having this form:
 
 ```
-elseif (expression) 
-    statements
+elseif (`expression`) 
+    `statements`
 ```
 
 The complete syntax of the `if` statement, therefore, is as follows:
 
 ```
-if (expression)
-  statements
-zero-or-more-elseif-phrases
-an-optional-else-phrase
+if (`expression`)
+  `statements`
+`zero-or-more-elseif-phrases`
+`an-optional-else-phrase`
 endif
 ```
 
@@ -1691,12 +1691,12 @@ Note: In some programming languages this is referred to as a foreach loop. The s
 To perform some statements once for each element of a given list, use this syntax:
 
 ```
-for variable in (expression)
-  statements
+for `variable` in (`expression`)
+  `statements`
 endfor
 ```
 
-The expression is evaluated and should return a list; if it does not, `E_TYPE` is raised. The statements are then executed once for each element of that list in turn; each time, the given variable is assigned the value of the element in question. For example, consider the following statements:
+The expression is evaluated and should return a list; if it does not, `E_TYPE` is raised. The `statements` are then executed once for each element of that list in turn; each time, the given `variable` is assigned the value of the element in question. For example, consider the following statements:
 
 ```
 odds = {1, 3, 5, 7, 9};
@@ -1734,12 +1734,12 @@ endfor
 To perform a set of statements once for each integer or object number in a given range, use this syntax:
 
 ```
-for variable in \[expression-1..expression-2\]
-  statements
+for `variable` in \[`expression-1`..`expression-2`\]
+  `statements`
 endfor
 ```
 
-The two expressions are evaluated in turn and should either both return integers or both return object numbers; `E_TYPE` is raised otherwise. The statements are then executed once for each integer (or object number, as appropriate) greater than or equal to the value of expression-1 and less than or equal to the result of expression-2, in increasing order. Each time, the given variable is assigned the integer or object number in question. For example, consider the following statements:
+The two expressions are evaluated in turn and should either both return integers or both return object numbers; `E_TYPE` is raised otherwise. The `statements` are then executed once for each integer (or object number, as appropriate) greater than or equal to the value of `expression-1` and less than or equal to the result of `expression-2`, in increasing order. Each time, the given variable is assigned the integer or object number in question. For example, consider the following statements:
 
 ```
 evens = {};
@@ -1769,12 +1769,12 @@ endfor
 The final kind of loop in MOO executes a set of statements repeatedly as long as a given condition remains true:
 
 ```
-while (expression)
-  statements
+while (`expression`)
+  `statements`
 endwhile
 ```
 
-The expression is evaluated and, if it returns a true value, the statements are executed; then, execution of the `while` statement begins all over again with the evaluation of the expression. That is, execution alternates between evaluating the expression and executing the statements until the expression returns a false value. The following example code has precisely the same effect as the loop just shown above:
+The expression is evaluated and, if it returns a true value, the `statements` are executed; then, execution of the `while` statement begins all over again with the evaluation of the expression. That is, execution alternates between evaluating the expression and executing the statements until the expression returns a false value. The following example code has precisely the same effect as the loop just shown above:
 
 ```
 evens = {};
@@ -1788,22 +1788,22 @@ endwhile
 Fine point: It is also possible to give a _name_ to a `while` loop.
 
 ```
-while name (expression)
-  statements
+while `name` (`expression`)
+  `statements`
 endwhile
 ```
 
 which has precisely the same effect as
 
 ```
-while (name = expression)
-  statements
+while (`name` = `expression`)
+  `statements`
 endwhile
 ```
 
 This naming facility is only really useful in conjunction with the `break` and `continue` statements, described in the next section.
 
-With each kind of loop, it is possible that the statements in the body of the loop will never be executed at all. For iteration over lists, this happens when the list returned by the expression is empty. For iteration on integers, it happens when expression-1 returns a larger integer than expression-2. Finally, for the `while` loop, it happens if the expression returns a false value the very first time it is evaluated.
+With each kind of loop, it is possible that the statements in the body of the loop will never be executed at all. For iteration over lists, this happens when the list returned by the expression is empty. For iteration on integers, it happens when `expression-1` returns a larger integer than `expression-2`. Finally, for the `while` loop, it happens if the expression returns a false value the very first time it is evaluated.
 
 Warning: With `while` loops it is especially important to make sure you do not create an infinite loop. That is, a loop that will never terminate because it's expression will never become false.
 
@@ -1818,10 +1818,10 @@ break;
 or
 
 ```
-break name;
+break `name`;
 ```
 
-Each `break` statement indicates a specific surrounding loop; if name is not given, the statement refers to the innermost one. If it is given, name must be the name appearing right after the `for` or `while` keyword of the desired enclosing loop. When the `break` statement is executed, the indicated loop is immediately terminated and executing continues just as if the loop had completed its iterations normally.
+Each `break` statement indicates a specific surrounding loop; if `name` is not given, the statement refers to the innermost one. If it is given, `name` must be the name appearing right after the `for` or `while` keyword of the desired enclosing loop. When the `break` statement is executed, the indicated loop is immediately terminated and executing continues just as if the loop had completed its iterations normally.
 
 MOO also allows you to terminate just the current iteration of a loop, making it immediately go on to the next one, if any. The `continue` statement does this; it has precisely the same forms as the `break` statement:
 
@@ -1832,7 +1832,7 @@ continue;
 or
 
 ```
-continue name;
+continue `name`;
 ```
 
 An example that sums up a list of integers, excluding any integer equal to four:
@@ -1879,12 +1879,12 @@ return;
 or
 
 ```
-return expression;
+return `expression`;
 ```
 
-When it is executed, execution of the current verb is terminated immediately after evaluating the given expression, if any. The verb-call expression that started the execution of this verb then returns either the value of expression or the integer 0, if no expression was provided.
+When it is executed, execution of the current verb is terminated immediately after evaluating the given `expression`, if any. The verb-call expression that started the execution of this verb then returns either the value of `expression` or the integer 0, if no `expression` was provided.
 
-We could modify the example given above. Imagine a verb called has\_object which takes an object (that we want to find) as it's first argument and a list of objects (to search) as it's second argument:
+We could modify the example given above. Imagine a verb called `has_object` which takes an object (that we want to find) as it's first argument and a list of objects (to search) as it's second argument:
 
 ```
 {seek\_obj, list\_of\_objects} = args;
@@ -1895,7 +1895,7 @@ for obj in (list\_of\_objects)
 endfor
 ```
 
-The verb above could be called with `obj_with_verb:has_object(#18657, {#1, #3, #4, #3000})` and it would return `false` (0) if the object was not found in the list. It would return `true` (1) if the object was found in the list.
+The verb above could be called with `` `obj_with_verb`:`has_object`(`#18657`, `{#1, #3, #4, #3000}`)`` and it would return `false` (0) if the object was not found in the list. It would return `true` (1) if the object was found in the list.
 
 Of course we could write this much simplier (and get the index of the object in the list at the same time):
 
@@ -1910,30 +1910,30 @@ Normally, whenever a piece of MOO code raises an error, the entire task is abort
 
 ```
 try
-  statements-0
-except variable-1 (codes-1)
-  statements-1
-except variable-2 (codes-2)
-  statements-2
+  `statements-0`
+except `variable-1` (`codes-1`)
+  `statements-1`
+except `variable-2` (`codes-2`)
+  `statements-2`
 ...
 endtry
 ```
 
-where the variables may be omitted and each codes part is either the keyword `ANY` or else a comma-separated list of expressions, just like an argument list. As in an argument list, the splicing operator (`@`) can be used here. There can be anywhere from 1 to 255 `except` clauses.
+where the `variable`s may be omitted and each `codes` part is either the keyword `ANY` or else a comma-separated list of expressions, just like an argument list. As in an argument list, the splicing operator (`@`) can be used here. There can be anywhere from 1 to 255 `except` clauses.
 
-First, each codes part is evaluated, yielding a list of error codes that should be caught if they're raised; if a codes is `ANY`, then it is equivalent to the list of all possible MOO values.
+First, each `codes` part is evaluated, yielding a list of error codes that should be caught if they're raised; if a `codes` is `ANY`, then it is equivalent to the list of all possible MOO values.
 
-Next, statements-0 is executed; if it doesn't raise an error, then that's all that happens for the entire `try`\-`except` statement. Otherwise, let E be the error it raises. From top to bottom, E is searched for in the lists resulting from the various codes parts; if it isn't found in any of them, then it continues to be raised, possibly to be caught by some piece of code either surrounding this `try`\-`except` statement or higher up on the verb-call stack.
+Next, `statements-0` is executed; if it doesn't raise an error, then that's all that happens for the entire `try`\-`except` statement. Otherwise, let `E` be the error it raises. From top to bottom, `E` is searched for in the lists resulting from the various `codes` parts; if it isn't found in any of them, then it continues to be raised, possibly to be caught by some piece of code either surrounding this `try`\-`except` statement or higher up on the verb-call stack.
 
-If E is found first in codes-i, then variable-i (if provided) is assigned a value containing information about the error being raised and statements-i is executed. The value assigned to variable-i is a list of four elements:
+If `E` is found first in `codes-i`, then `variable-i` (if provided) is assigned a value containing information about the error being raised and `statements-i` is executed. The value assigned to `variable-i` is a list of four elements:
 
 ```
-{code, message, value, traceback}
+{`code`, `message`, `value`, `traceback`}
 ```
 
-where code is E, the error being raised, message and value are as provided by the code that raised the error, and traceback is a list like that returned by the `callers()` function, including line numbers. The traceback list contains entries for every verb from the one that raised the error through the one containing this `try`\-`except` statement.
+where `code` is `E`, the error being raised, `message` and `value` are as provided by the code that raised the error, and `traceback` is a list like that returned by the `callers()` function, including line numbers. The `traceback` list contains entries for every verb from the one that raised the error through the one containing this `try`\-`except` statement.
 
-Unless otherwise mentioned, all of the built-in errors raised by expressions, statements, and functions provide `tostr(code)` as message and zero as value.
+Unless otherwise mentioned, all of the built-in errors raised by expressions, statements, and functions provide ``tostr(`code`)`` as `message` and zero as `value`.
 
 Here's an example of the use of this kind of statement:
 
@@ -1963,17 +1963,17 @@ Whenever an error is raised, it is usually the case that at least some MOO code 
 
 ```
 try
-  statements-1
+  `statements-1`
 finally
-  statements-2
+  `statements-2`
 endtry
 ```
 
-First, statements-1 is executed; if it completes without raising an error, returning from this verb, or terminating the current iteration of a surrounding loop (we call these possibilities _transferring control_), then statements-2 is executed and that's all that happens for the entire `try`\-`finally` statement.
+First, `statements-1` is executed; if it completes without raising an error, returning from this verb, or terminating the current iteration of a surrounding loop (we call these possibilities _transferring control_), then `statements-2` is executed and that's all that happens for the entire `try`\-`finally` statement.
 
-Otherwise, the process of transferring control is interrupted and statments-2 is executed. If statements-2 itself completes without transferring control, then the interrupted control transfer is resumed just where it left off. If statements-2 does transfer control, then the interrupted transfer is simply forgotten in favor of the new one.
+Otherwise, the process of transferring control is interrupted and `statments-2` is executed. If `statements-2` itself completes without transferring control, then the interrupted control transfer is resumed just where it left off. If `statements-2` does transfer control, then the interrupted transfer is simply forgotten in favor of the new one.
 
-In short, this statement ensures that statements-2 is executed after control leaves statements-1 for whatever reason; it can thus be used to make sure that some piece of cleanup code is run even if statements-1 doesn't simply run normally to completion.
+In short, this statement ensures that `statements-2` is executed after control leaves `statements-1` for whatever reason; it can thus be used to make sure that some piece of cleanup code is run even if `statements-1` doesn't simply run normally to completion.
 
 Here's an example:
 
@@ -1994,20 +1994,20 @@ It is sometimes useful to have some sequence of statements execute at a later ti
 The `fork` statement is intended for just such situations and has the following syntax:
 
 ```
-fork (expression)
-  statements
+fork (`expression`)
+  `statements`
 endfork
 ```
 
-The `fork` statement first executes the expression, which must return an integer or float; call that value n. It then creates a new MOO _task_ that will, after at least n seconds (or sub seconds in the case of a float like 0.1), execute the statements. When the new task begins, all variables will have the values they had at the time the `fork` statement was executed. The task executing the `fork` statement immediately continues execution. The concept of tasks is discussed in detail in the next section.
+The `fork` statement first executes the expression, which must return an integer or float; call that value `n`. It then creates a new MOO _task_ that will, after at least `n` seconds (or sub seconds in the case of a float like 0.1), execute the statements. When the new task begins, all variables will have the values they had at the time the `fork` statement was executed. The task executing the `fork` statement immediately continues execution. The concept of tasks is discussed in detail in the next section.
 
 By default, there is no limit to the number of tasks any player may fork, but such a limit can be imposed from within the database. See the chapter on server assumptions about the database for details.
 
 Occasionally, one would like to be able to kill a forked task before it even starts; for example, some player might have caught the object that was thrown into the air, so no message should be printed about it hitting the ground. If a variable name is given after the `fork` keyword, like this:
 
 ```
-fork name (expression)
-  statements
+fork `name` (`expression`)
+  `statements`
 endfork
 ```
 
@@ -2101,7 +2101,7 @@ One of the most important facilities in an object-oriented programming language 
 
 pass -- calls the verb with the same name as the current verb but as defined on the parent of the object that defines the current verb.
 
-value `pass` (arg, ...)
+`value` `pass` (`arg`, ...)
 
 Often, it is useful for a child object to define a verb that _augments_ the behavior of a verb on its parent object. For example, in the ToastCore database, the root object (which is an ancestor of every other object) defines a verb called `description` that simply returns the value of `this.description`; this verb is used by the implementation of the `look` command. In many cases, a programmer would like the description of some object to include some non-constant part; for example, a sentence about whether or not the object was 'awake' or 'sleeping'. This sentence should be added onto the end of the normal description. The programmer would like to have a means of calling the normal `description` verb and then appending the sentence onto the end of that description. The function `pass()` is for exactly such situations.
 
@@ -2125,9 +2125,9 @@ There are several functions for performing primitive operations on MOO values, a
 
 **Function: `typeof`**
 
-typeof -- Takes any MOO value and returns an integer representing the type of value.
+typeof -- Takes any MOO value and returns an integer representing the type of `value`.
 
-int `typeof` (value)
+`int` `typeof` (`value`)
 
 The result is the same as the initial value of one of these built-in variables: `INT`, `FLOAT`, `STR`, `LIST`, `OBJ`, or `ERR`. Thus, one usually writes code like this:
 
@@ -2147,7 +2147,7 @@ because the former is much more readable than the latter.
 
 tostr -- Converts all of the given MOO values into strings and returns the concatenation of the results.
 
-str `tostr` (value, ...)
+`str` `tostr` (`value`, ...)
 
 ```
 tostr(17)                  =>   "17"
@@ -2163,9 +2163,9 @@ Warning `tostr()` does not do a good job of converting lists into strings; all l
 
 **Function: `toliteral`**
 
-Returns a string containing a MOO literal expression that, when evaluated, would be equal to value.
+Returns a string containing a MOO literal expression that, when evaluated, would be equal to `value`.
 
-str `toliteral` (value)
+`str` `toliteral` (`value`)
 
 ```
 toliteral(17)         =>   "17"
@@ -2180,9 +2180,9 @@ toliteral(E\_PERM)     =>   "E\_PERM"
 
 toint -- Converts the given MOO value into an integer and returns that integer.
 
-int `toint` (value)
+`int` `toint` (`value`)
 
-Floating-point numbers are rounded toward zero, truncating their fractional parts. Object numbers are converted into the equivalent integers. Strings are parsed as the decimal encoding of a real number which is then converted to an integer. Errors are converted into integers obeying the same ordering (with respect to `<=` as the errors themselves. `toint()` raises `E_TYPE` if value is a list. If value is a string but the string does not contain a syntactically-correct number, then `toint()` returns 0.
+Floating-point numbers are rounded toward zero, truncating their fractional parts. Object numbers are converted into the equivalent integers. Strings are parsed as the decimal encoding of a real number which is then converted to an integer. Errors are converted into integers obeying the same ordering (with respect to `<=` as the errors themselves. `toint()` raises `E_TYPE` if `value` is a list. If `value` is a string but the string does not contain a syntactically-correct number, then `toint()` returns 0.
 
 ```
 toint(34.7)        =>   34
@@ -2198,7 +2198,7 @@ toint(E\_TYPE)      =>   1
 
 toobj -- Converts the given MOO value into an object number and returns that object number.
 
-obj `toobj` (value)
+`obj` `toobj` (`value`)
 
 The conversions are very similar to those for `toint()` except that for strings, the number _may_ be preceded by `#`.
 
@@ -2213,9 +2213,9 @@ toobj({1, 2})     => E\_TYPE (error)
 
 tofloat -- Converts the given MOO value into a floating-point number and returns that number.
 
-float `tofloat` (value)
+`float` `tofloat` (`value`)
 
-Integers and object numbers are converted into the corresponding integral floating-point numbers. Strings are parsed as the decimal encoding of a real number which is then represented as closely as possible as a floating-point number. Errors are first converted to integers as in `toint()` and then converted as integers are. `tofloat()` raises `E_TYPE` if value is a list. If value is a string but the string does not contain a syntactically-correct number, then `tofloat()` returns 0.
+Integers and object numbers are converted into the corresponding integral floating-point numbers. Strings are parsed as the decimal encoding of a real number which is then represented as closely as possible as a floating-point number. Errors are first converted to integers as in `toint()` and then converted as integers are. `tofloat()` raises `E_TYPE` if `value` is a list. If `value` is a string but the string does not contain a syntactically-correct number, then `tofloat()` returns 0.
 
 ```
 tofloat(34)          =>   34.0
@@ -2227,11 +2227,11 @@ tofloat(E\_TYPE)      =>   1.0
 
 **Function: `equal`**
 
-equal -- Returns true if value1 is completely indistinguishable from value2.
+equal -- Returns true if `value1` is completely indistinguishable from `value2`.
 
-int `equal` (value, value2)
+`int` `equal` (`value`, `value2`)
 
-This is much the same operation as `value1 == value2` except that, unlike `==`, the `equal()` function does not treat upper- and lower-case characters in strings as equal and thus, is case-sensitive.
+This is much the same operation as `` `value1` == `value2` `` except that, unlike `==`, the `equal()` function does not treat upper- and lower-case characters in strings as equal and thus, is case-sensitive.
 
 ```
 "Foo" == "foo"         =>   1
@@ -2241,15 +2241,15 @@ equal("Foo", "Foo")    =>   1
 
 **Function: `value_bytes`**
 
-value\_bytes -- Returns the number of bytes of the server's memory required to store the given value.
+value\_bytes -- Returns the number of bytes of the server's memory required to store the given `value`.
 
-int `value_bytes` (value)
+`int` `value_bytes` (`value`)
 
 **Function: `value_hash`**
 
-value\_hash -- Returns the same string as `string_hash(toliteral(value))`.
+value\_hash -- Returns the same string as ``string_hash(toliteral(`value`))``.
 
-str `value_hash` (value)
+`str` `value_hash` (`value`)
 
 See the description of `string_hash()` for details.
 
@@ -2257,11 +2257,11 @@ See the description of `string_hash()` for details.
 
 **Function: `random`**
 
-random -- An integer is chosen randomly from the range `[1..mod]` and returned.
+random -- An integer is chosen randomly from the range ``[1..`mod`]`` and returned.
 
-int `random` (\[int mod\])
+`int` `random` (\[int `mod`\])
 
-mod must be a positive integer; otherwise, `E_INVARG` is raised. If mod is not provided, it defaults to the largest MOO integer, 2147483647.
+`mod` must be a positive integer; otherwise, `E_INVARG` is raised. If `mod` is not provided, it defaults to the largest MOO integer, 2147483647.
 
 Warning: The `random()` function is not very random. You should augment it's randomness with something like this: `random() % 100 + 1` for better randomness.
 
@@ -2269,7 +2269,7 @@ Warning: The `random()` function is not very random. You should augment it's ran
 
 min -- Return the smallest of it's arguments.
 
-int `min` (int x, ...)
+`int` `min` (int `x`, ...)
 
 All of the arguments must be numbers of the same kind (i.e., either integer or floating-point); otherwise `E_TYPE` is raised.
 
@@ -2277,135 +2277,135 @@ All of the arguments must be numbers of the same kind (i.e., either integer or f
 
 max -- Return the largest of it's arguments.
 
-int `max` (int x, ...)
+`int` `max` (int `x`, ...)
 
 All of the arguments must be numbers of the same kind (i.e., either integer or floating-point); otherwise `E_TYPE` is raised.
 
 **Function: `abs`**
 
-abs -- Returns the absolute value of x.
+abs -- Returns the absolute value of `x`.
 
-int `abs` (int x)
+`int` `abs` (int `x`)
 
-If x is negative, then the result is `-x`; otherwise, the result is x. The number x can be either integer or floating-point; the result is of the same kind.
+If `x` is negative, then the result is ``-`x` ``; otherwise, the result is `x`. The number `x` can be either integer or floating-point; the result is of the same kind.
 
 **Function: `floatstr`**
 
-floatstr -- Converts x into a string with more control than provided by either `tostr()` or `toliteral()`.
+floatstr -- Converts `x` into a string with more control than provided by either `tostr()` or `toliteral()`.
 
-str `floatstr` (float x, int precision \[, scientific\])
+`str` `floatstr` (float `x`, int `precision` \[, `scientific`\])
 
-Precision is the number of digits to appear to the right of the decimal point, capped at 4 more than the maximum available precision, a total of 19 on most machines; this makes it possible to avoid rounding errors if the resulting string is subsequently read back as a floating-point value. If scientific is false or not provided, the result is a string in the form `"MMMMMMM.DDDDDD"`, preceded by a minus sign if and only if x is negative. If scientific is provided and true, the result is a string in the form `"M.DDDDDDe+EEE"`, again preceded by a minus sign if and only if x is negative.
+`Precision` is the number of digits to appear to the right of the decimal point, capped at 4 more than the maximum available precision, a total of 19 on most machines; this makes it possible to avoid rounding errors if the resulting string is subsequently read back as a floating-point value. If `scientific` is false or not provided, the result is a string in the form `"MMMMMMM.DDDDDD"`, preceded by a minus sign if and only if `x` is negative. If `scientific` is provided and true, the result is a string in the form `"M.DDDDDDe+EEE"`, again preceded by a minus sign if and only if `x` is negative.
 
 **Function: `sqrt`**
 
-sqrt -- Returns the square root of x.
+sqrt -- Returns the square root of `x`.
 
-float `sqrt` (float x)
+`float` `sqrt` (float `x`)
 
-Raises `E_INVARG` if x is negative.
+Raises `E_INVARG` if `x` is negative.
 
 **Function: `sin`**
 
-sin -- Returns the sine of x.
+sin -- Returns the sine of `x`.
 
-float `sin` (float x)
+`float` `sin` (float `x`)
 
 **Function: `cos`**
 
-cos -- Returns the cosine of x.
+cos -- Returns the cosine of `x`.
 
-float `cos` (float x)
+`float` `cos` (float `x`)
 
 **Function: `tangent`**
 
-tangent -- Returns the tangent of x.
+tangent -- Returns the tangent of `x`.
 
-float `tangent` (float x)
+`float` `tangent` (float `x`)
 
 **Function: `asin`**
 
-asin -- Returns the arc-sine (inverse sine) of x, in the range `[-pi/2..pi/2]`
+asin -- Returns the arc-sine (inverse sine) of `x`, in the range `[-pi/2..pi/2]`
 
-float `asin` (float x)
+`float` `asin` (float `x`)
 
-Raises `E_INVARG` if x is outside the range `[-1.0..1.0]`.
+Raises `E_INVARG` if `x` is outside the range `[-1.0..1.0]`.
 
 **Function: `acos`**
 
-acos -- Returns the arc-cosine (inverse cosine) of x, in the range `[0..pi]`
+acos -- Returns the arc-cosine (inverse cosine) of `x`, in the range `[0..pi]`
 
-float `acos` (float x)
+`float` `acos` (float `x`)
 
-Raises `E_INVARG` if x is outside the range `[-1.0..1.0]`.
+Raises `E_INVARG` if `x` is outside the range `[-1.0..1.0]`.
 
 **Function: `atan`**
 
-atan -- Returns the arc-tangent (inverse tangent) of y in the range `[-pi/2..pi/2]`.
+atan -- Returns the arc-tangent (inverse tangent) of `y` in the range `[-pi/2..pi/2]`.
 
-float `atan` (float y \[, float x\])
+`float` `atan` (float `y` \[, float `x`\])
 
-if x is not provided, or of `y/x` in the range `[-pi..pi]` if x is provided.
+if `x` is not provided, or of `` `y`/`x` `` in the range `[-pi..pi]` if `x` is provided.
 
 **Function: `sinh`**
 
-sinh -- Returns the hyperbolic sine of x.
+sinh -- Returns the hyperbolic sine of `x`.
 
-float `sinh` (float x)
+`float` `sinh` (float `x`)
 
 **Function: `cosh`**
 
-cosh -- Returns the hyperbolic cosine of x.
+cosh -- Returns the hyperbolic cosine of `x`.
 
-float `cosh` (float x)
+`float` `cosh` (float `x`)
 
 **Function: `tanh`**
 
-tanh -- Returns the hyperbolic tangent of x.
+tanh -- Returns the hyperbolic tangent of `x`.
 
-float `tanh` (float x)
+`float` `tanh` (float `x`)
 
 **Function: `exp`**
 
-exp -- Returns e raised to the power of x.
+exp -- Returns `e` raised to the power of `x`.
 
-float `exp` (float x)
+`float` `exp` (float `x`)
 
 **Function: `log`**
 
-log -- Returns the natural logarithm of x.
+log -- Returns the natural logarithm of `x`.
 
-float `log` (float x)
+`float` `log` (float `x`)
 
-Raises `E_INVARG` if x is not positive.
+Raises `E_INVARG` if `x` is not positive.
 
 **Function: `log10`**
 
-log10 -- Returns the base 10 logarithm of x.
+log10 -- Returns the base 10 logarithm of `x`.
 
-float `log10` (float x)
+`float` `log10` (float `x`)
 
-Raises `E_INVARG` if x is not positive.
+Raises `E_INVARG` if `x` is not positive.
 
 **Function: `ceil`**
 
-ceil -- Returns the smallest integer not less than x, as a floating-point number.
+ceil -- Returns the smallest integer not less than `x`, as a floating-point number.
 
-float `ceil` (float x)
+`float` `ceil` (float `x`)
 
 **Function: `floor`**
 
-floor -- Returns the largest integer not greater than x, as a floating-point number.
+floor -- Returns the largest integer not greater than `x`, as a floating-point number.
 
-float `floor` (float x)
+`float` `floor` (float `x`)
 
 **Function: `trunc`**
 
-trunc -- Returns the integer obtained by truncating x at the decimal point, as a floating-point number.
+trunc -- Returns the integer obtained by truncating `x` at the decimal point, as a floating-point number.
 
-float `trunc` (float x)
+`float` `trunc` (float `x`)
 
-For negative x, this is equivalent to `ceil()`; otherwise it is equivalent to `floor()`.
+For negative `x`, this is equivalent to `ceil()`; otherwise it is equivalent to `floor()`.
 
 ##### Regular Expressions
 
@@ -2417,7 +2417,7 @@ Regular expressions have a syntax in which a few characters are special construc
 
 For example, `f` is not a special character, so it is ordinary, and therefore `f` is a regular expression that matches the string `f` and no other string. (It does _not_, for example, match the string `ff`.) Likewise, `o` is a regular expression that matches only `o`.
 
-Any two regular expressions a and b can be concatenated. The result is a regular expression which matches a string if a matches some amount of the beginning of that string and b matches the rest of the string.
+Any two regular expressions `a` and `b` can be concatenated. The result is a regular expression which matches a string if `a` matches some amount of the beginning of that string and `b` matches the rest of the string.
 
 As a simple example, we can concatenate the regular expressions `f` and `o` to get the regular expression `fo`, which matches only the string `fo`. Still trivial.
 
@@ -2475,7 +2475,7 @@ No new special characters will ever be defined. All extensions to the regular ex
 
 `%|`
 
-specifies an alternative. Two regular expressions a and b with `%|` in between form an expression that matches anything that either a or b will match.
+specifies an alternative. Two regular expressions `a` and `b` with `%|` in between form an expression that matches anything that either `a` or `b` will match.
 
 Thus, `foo%|bar` matches either `foo` or `bar` but no other string.
 
@@ -2493,9 +2493,9 @@ is a grouping construct that serves three purposes:
 
 This last application is not a consequence of the idea of a parenthetical grouping; it is a separate feature that happens to be assigned as a second meaning to the same `%( ... %)` construct because there is no conflict in practice between the two meanings. Here is an explanation of this feature:
 
-`%digit`
+``%`digit` ``
 
-After the end of a `%( ... %)` construct, the matcher remembers the beginning and end of the text matched by that construct. Then, later on in the regular expression, you can use `%` followed by digit to mean "match the same text matched by the digit'th `%( ... %)` construct in the pattern." The `%( ... %)` constructs are numbered in the order that their `%(`'s appear in the pattern.
+After the end of a `%( ... %)` construct, the matcher remembers the beginning and end of the text matched by that construct. Then, later on in the regular expression, you can use `%` followed by `digit` to mean "match the same text matched by the `digit`'th `%( ... %)` construct in the pattern." The `%( ... %)` constructs are numbered in the order that their `%(`'s appear in the pattern.
 
 The strings matching the first nine `%( ... %)` constructs appearing in a regular expression are assigned numbers 1 through 9 in order of their beginnings. `%1` through `%9` may be used to refer to the text matched by the corresponding `%( ... %)` construct.
 
@@ -2531,9 +2531,9 @@ matches any character that is not a word constituent.
 
 **Function: `length`**
 
-length -- Returns the number of characters in string.
+length -- Returns the number of characters in `string`.
 
-int `length` (str string)
+`int` `length` (str `string`)
 
 It is also permissible to pass a list to `length()`; see the description in the next section.
 
@@ -2544,11 +2544,11 @@ length("")      =>   0
 
 **Function: `strsub`**
 
-strsub -- Replaces all occurrences of what in subject with with, performing string substitution.
+strsub -- Replaces all occurrences of `what` in `subject` with `with`, performing string substitution.
 
-str `strsub` (str subject, str what, str with \[, int case-matters\])
+`str` `strsub` (str `subject`, str `what`, str `with` \[, int `case-matters`\])
 
-The occurrences are found from left to right and all substitutions happen simultaneously. By default, occurrences of what are searched for while ignoring the upper/lower case distinction. If case-matters is provided and true, then case is treated as significant in all comparisons.
+The occurrences are found from left to right and all substitutions happen simultaneously. By default, occurrences of `what` are searched for while ignoring the upper/lower case distinction. If `case-matters` is provided and true, then case is treated as significant in all comparisons.
 
 ```
 strsub("%n is a fink.", "%n", "Fred")   =>   "Fred is a fink."
@@ -2558,11 +2558,11 @@ strsub("foobar", "OB", "b", 1)          =>   "foobar"
 
 **Function: `index`**
 
-index -- Returns the index of the first character of the first occurrence of str2 in str1.
+index -- Returns the index of the first character of the first occurrence of `str2` in `str1`.
 
-int `index` (str str1, str str2, \[, int case-matters\])
+`int` `index` (str `str1`, str `str2`, \[, int `case-matters`\])
 
-If str2 does not occur in str1 at all, zero is returned. By default the search for an occurrence of str2 is done while ignoring the upper/lower case distinction. If case-matters is provided and true, then case is treated as significant in all comparisons.
+If `str2` does not occur in `str1` at all, zero is returned. By default the search for an occurrence of `str2` is done while ignoring the upper/lower case distinction. If `case-matters` is provided and true, then case is treated as significant in all comparisons.
 
 ```
 index("foobar", "o")        =>   2
@@ -2573,11 +2573,11 @@ index("Foobar", "foo", 1)   =>   0
 
 **Function: `rindex`**
 
-rindex -- Returns the index of the first character of the last occurrence of str2 in str1.
+rindex -- Returns the index of the first character of the last occurrence of `str2` in `str1`.
 
-int `rindex` (str str1, str str2, \[, int case-matters\])
+`int` `rindex` (str `str1`, str `str2`, \[, int `case-matters`\])
 
-If str2 does not occur in str1 at all, zero is returned. By default the search for an occurrence of str2 is done while ignoring the upper/lower case distinction. If case-matters is provided and true, then case is treated as significant in all comparisons.
+If `str2` does not occur in `str1` at all, zero is returned. By default the search for an occurrence of `str2` is done while ignoring the upper/lower case distinction. If `case-matters` is provided and true, then case is treated as significant in all comparisons.
 
 ```
 rindex("foobar", "o")       =>   3
@@ -2587,17 +2587,17 @@ rindex("foobar", "o")       =>   3
 
 strcmp -- Performs a case-sensitive comparison of the two argument strings.
 
-int `strcmp` (str str1, str str2)
+`int` `strcmp` (str `str1`, str `str2`)
 
-If str1 is [lexicographically](https://en.wikipedia.org/wiki/Lexicographical_order) less than str2, the `strcmp()` returns a negative integer. If the two strings are identical, `strcmp()` returns zero. Otherwise, `strcmp()` returns a positive integer. The ASCII character ordering is used for the comparison.
+If `str1` is [lexicographically](https://en.wikipedia.org/wiki/Lexicographical_order) less than `str2`, the `strcmp()` returns a negative integer. If the two strings are identical, `strcmp()` returns zero. Otherwise, `strcmp()` returns a positive integer. The ASCII character ordering is used for the comparison.
 
 **Function: `decode_binary`**
 
-decode\_binary -- Returns a list of strings and/or integers representing the bytes in the binary string bin\_string in order.
+decode\_binary -- Returns a list of strings and/or integers representing the bytes in the binary string `bin_string` in order.
 
-list `decode_binary` (str bin-string \[, int fully\])
+`list` `decode_binary` (str `bin-string` \[, int `fully`\])
 
-If fully is false or omitted, the list contains an integer only for each non-printing, non-space byte; all other characters are grouped into the longest possible contiguous substrings. If fully is provided and true, the list contains only integers, one for each byte represented in bin\_string. Raises `E_INVARG` if bin\_string is not a properly-formed binary string. (See the early section on MOO value types for a full description of binary strings.)
+If `fully` is false or omitted, the list contains an integer only for each non-printing, non-space byte; all other characters are grouped into the longest possible contiguous substrings. If `fully` is provided and true, the list contains only integers, one for each byte represented in `bin_string`. Raises `E_INVARG` if `bin_string` is not a properly-formed binary string. (See the early section on MOO value types for a full description of binary strings.)
 
 ```
 decode\_binary("foo")               =>   {"foo"}
@@ -2611,7 +2611,7 @@ decode\_binary("foo~0D~0A", 1)      =>   {102, 111, 111, 13, 10}
 
 encode\_binary -- Translates each integer and string in turn into its binary string equivalent, returning the concatenation of all these substrings into a single binary string.
 
-str `encode_binary` (arg, ...)
+`str` `encode_binary` (`arg`, ...)
 
 Each argument must be an integer between 0 and 255, a string, or a list containing only legal arguments for this function. This function (See the early section on MOO value types for a full description of binary strings.)
 
@@ -2623,23 +2623,23 @@ encode\_binary("foo", 10, "bar", 13)       =>   "foo~0Abar~0D"
 
 **Function: `match`**
 
-match -- Searches for the first occurrence of the regular expression pattern in the string subject
+match -- Searches for the first occurrence of the regular expression `pattern` in the string `subject`
 
-list `match` (str subject, str pattern \[, int case-matters\])
+`list` `match` (str `subject`, str `pattern` \[, int `case-matters`\])
 
-If pattern is syntactically malformed, then `E_INVARG` is raised. The process of matching can in some cases consume a great deal of memory in the server; should this memory consumption become excessive, then the matching process is aborted and `E_QUOTA` is raised.
+If `pattern` is syntactically malformed, then `E_INVARG` is raised. The process of matching can in some cases consume a great deal of memory in the server; should this memory consumption become excessive, then the matching process is aborted and `E_QUOTA` is raised.
 
-If no match is found, the empty list is returned; otherwise, these functions return a list containing information about the match (see below). By default, the search ignores upper-/lower-case distinctions. If case-matters is provided and true, then case is treated as significant in all comparisons.
+If no match is found, the empty list is returned; otherwise, these functions return a list containing information about the match (see below). By default, the search ignores upper-/lower-case distinctions. If `case-matters` is provided and true, then case is treated as significant in all comparisons.
 
 The list that `match()` returns contains the details about the match made. The list is in the form:
 
 ```
-{start, end, replacements, subject}
+{`start`, `end`, `replacements`, `subject`}
 ```
 
-where start is the index in subject of the beginning of the match, end is the index of the end of the match, replacements is a list described below, and subject is the same string that was given as the first argument to `match()`.
+where `start` is the index in `subject` of the beginning of the match, `end` is the index of the end of the match, `replacements` is a list described below, and `subject` is the same string that was given as the first argument to `match()`.
 
-The replacements list is always nine items long, each item itself being a list of two integers, the start and end indices in string matched by some parenthesized sub-pattern of pattern. The first item in replacements carries the indices for the first parenthesized sub-pattern, the second item carries those for the second sub-pattern, and so on. If there are fewer than nine parenthesized sub-patterns in pattern, or if some sub-pattern was not used in the match, then the corresponding item in replacements is the list {0, -1}. See the discussion of `%)`, below, for more information on parenthesized sub-patterns.
+The `replacements` list is always nine items long, each item itself being a list of two integers, the start and end indices in `string` matched by some parenthesized sub-pattern of `pattern`. The first item in `replacements` carries the indices for the first parenthesized sub-pattern, the second item carries those for the second sub-pattern, and so on. If there are fewer than nine parenthesized sub-patterns in `pattern`, or if some sub-pattern was not used in the match, then the corresponding item in `replacements` is the list {0, -1}. See the discussion of `%)`, below, for more information on parenthesized sub-patterns.
 
 ```
 match("foo", "^f\*o$")        =>  {}
@@ -2651,23 +2651,23 @@ match("foobar", "f%(o\*%)b")
 
 **Function: `rmatch`**
 
-rmatch -- Searches for the last occurrence of the regular expression pattern in the string subject
+rmatch -- Searches for the last occurrence of the regular expression `pattern` in the string `subject`
 
-list `rmatch` (str subject, str pattern \[, int case-matters\])
+`list` `rmatch` (str `subject`, str `pattern` \[, int `case-matters`\])
 
-If pattern is syntactically malformed, then `E_INVARG` is raised. The process of matching can in some cases consume a great deal of memory in the server; should this memory consumption become excessive, then the matching process is aborted and `E_QUOTA` is raised.
+If `pattern` is syntactically malformed, then `E_INVARG` is raised. The process of matching can in some cases consume a great deal of memory in the server; should this memory consumption become excessive, then the matching process is aborted and `E_QUOTA` is raised.
 
-If no match is found, the empty list is returned; otherwise, these functions return a list containing information about the match (see below). By default, the search ignores upper-/lower-case distinctions. If case-matters is provided and true, then case is treated as significant in all comparisons.
+If no match is found, the empty list is returned; otherwise, these functions return a list containing information about the match (see below). By default, the search ignores upper-/lower-case distinctions. If `case-matters` is provided and true, then case is treated as significant in all comparisons.
 
 The list that `match()` returns contains the details about the match made. The list is in the form:
 
 ```
-{start, end, replacements, subject}
+{`start`, `end`, `replacements`, `subject`}
 ```
 
-where start is the index in subject of the beginning of the match, end is the index of the end of the match, replacements is a list described below, and subject is the same string that was given as the first argument to `match()`.
+where `start` is the index in `subject` of the beginning of the match, `end` is the index of the end of the match, `replacements` is a list described below, and `subject` is the same string that was given as the first argument to `match()`.
 
-The replacements list is always nine items long, each item itself being a list of two integers, the start and end indices in string matched by some parenthesized sub-pattern of pattern. The first item in replacements carries the indices for the first parenthesized sub-pattern, the second item carries those for the second sub-pattern, and so on. If there are fewer than nine parenthesized sub-patterns in pattern, or if some sub-pattern was not used in the match, then the corresponding item in replacements is the list {0, -1}. See the discussion of `%)`, below, for more information on parenthesized sub-patterns.
+The `replacements` list is always nine items long, each item itself being a list of two integers, the start and end indices in `string` matched by some parenthesized sub-pattern of `pattern`. The first item in `replacements` carries the indices for the first parenthesized sub-pattern, the second item carries those for the second sub-pattern, and so on. If there are fewer than nine parenthesized sub-patterns in `pattern`, or if some sub-pattern was not used in the match, then the corresponding item in `replacements` is the list {0, -1}. See the discussion of `%)`, below, for more information on parenthesized sub-patterns.
 
 ```
 rmatch("foobar", "o\*b")      =>  {4, 4, {{0, -1}, ...}, "foobar"}
@@ -2675,13 +2675,13 @@ rmatch("foobar", "o\*b")      =>  {4, 4, {{0, -1}, ...}, "foobar"}
 
 **Function: `substitute`**
 
-substitute -- Performs a standard set of substitutions on the string template, using the information contained in subs, returning the resulting, transformed template.
+substitute -- Performs a standard set of substitutions on the string `template`, using the information contained in `subs`, returning the resulting, transformed `template`.
 
-str `substitute` (str template, list subs)
+`str` `substitute` (str `template`, list `subs`)
 
-Subs should be a list like those returned by `match()` or `rmatch()` when the match succeeds; otherwise, `E_INVARG` is raised.
+`Subs` should be a list like those returned by `match()` or `rmatch()` when the match succeeds; otherwise, `E_INVARG` is raised.
 
-In template, the strings `%1` through `%9` will be replaced by the text matched by the first through ninth parenthesized sub-patterns when `match()` or `rmatch()` was called. The string `%0` in template will be replaced by the text matched by the pattern as a whole when `match()` or `rmatch()` was called. The string `%%` will be replaced by a single `%` sign. If `%` appears in template followed by any other character, `E_INVARG` will be raised.
+In `template`, the strings `%1` through `%9` will be replaced by the text matched by the first through ninth parenthesized sub-patterns when `match()` or `rmatch()` was called. The string `%0` in `template` will be replaced by the text matched by the pattern as a whole when `match()` or `rmatch()` was called. The string `%%` will be replaced by a single `%` sign. If `%` appears in `template` followed by any other character, `E_INVARG` will be raised.
 
 ```
 subs = match("\*\*\* Welcome to ToastStunt!!!", "%(%w\*%) to %(%w\*%)");
@@ -2691,11 +2691,11 @@ substitute("I thank you for your %1 here in %2.", subs)
 
 **Function: `crypt`**
 
-crypt -- Encrypts the given text using the standard UNIX encryption method.
+crypt -- Encrypts the given `text` using the standard UNIX encryption method.
 
-str `crypt` (str text \[, str salt\])
+`str` `crypt` (str `text` \[, str `salt`\])
 
-If provided, salt should be a string at least two characters long, the first two characters of which will be used as the extra encryption "salt" in the algorithm. If salt is not provided, a random pair of characters is used. In any case, the salt used is also returned as the first two characters of the resulting encrypted string.
+If provided, `salt` should be a string at least two characters long, the first two characters of which will be used as the extra encryption "salt" in the algorithm. If `salt` is not provided, a random pair of characters is used. In any case, the salt used is also returned as the first two characters of the resulting encrypted string.
 
 Aside from the possibly-random selection of the salt, the encryption algorithm is entirely deterministic. In particular, you can test whether or not a given string is the same as the one used to produce a given piece of encrypted text; simply extract the first two characters of the encrypted text and pass the candidate string and those two characters to `crypt()`. If the result is identical to the given encrypted text, then you've got a match.
 
@@ -2713,20 +2713,20 @@ string\_hash -- Returns a 32-character hexadecimal string.
 
 binary\_hash -- Returns a 32-character hexadecimal string.
 
-str `string_hash` (str string)
+`str` `string_hash` (str `string`)
 
-str `binary_hash` (str bin-string)
+`str` `binary_hash` (str `bin-string`)
 
-Returns the result of applying the MD5 cryptographically secure hash function to the contents of the string string or the binary string bin-string. MD5, like other such functions, has the property that, if
+Returns the result of applying the MD5 cryptographically secure hash function to the contents of the string `string` or the binary string `bin-string`. MD5, like other such functions, has the property that, if
 
 ```
-string\_hash(x) == string\_hash(y)
+string\_hash(`x`) == string\_hash(`y`)
 ```
 
 then, almost certainly,
 
 ```
-equal(x, y)
+equal(`x`, `y`)
 ```
 
 This can be useful, for example, in certain networking applications: after sending a large piece of text across a connection, also send the result of applying `string_hash()` to the text; if the destination site also applies `string_hash()` to the text and gets the same result, you can be quite confident that the large text has arrived unchanged.
@@ -2735,9 +2735,9 @@ This can be useful, for example, in certain networking applications: after sendi
 
 **Function: `length`**
 
-length -- Returns the number of elements in list.
+length -- Returns the number of elements in `list`.
 
-int `length` (list list)
+`int` `length` (list `list`)
 
 It is also permissible to pass a string to `length()`; see the description in the previous section.
 
@@ -2748,11 +2748,11 @@ length({})          =>   0
 
 **Function: `is_member`**
 
-is\_member -- Returns true if there is an element of list that is completely indistinguishable from value.
+is\_member -- Returns true if there is an element of `list` that is completely indistinguishable from `value`.
 
-int `is_member` (value, list list)
+`int` `is_member` (`value`, list `list`)
 
-This is much the same operation as "`value in list`" except that, unlike `in`, the `is_member()` function does not treat upper- and lower-case characters in strings as equal.
+This is much the same operation as "`` `value` in `list` ``" except that, unlike `in`, the `is_member()` function does not treat upper- and lower-case characters in strings as equal.
 
 ```
 "Foo" in {1, "foo", #24}            =>   2
@@ -2763,25 +2763,25 @@ is\_member("Foo", {1, "Foo", #24})   =>   2
 **Function: `listinsert`**  
 **Function: `listappend`**
 
-listinsert -- This functions return a copy of list with value added as a new element.
+listinsert -- This functions return a copy of `list` with `value` added as a new element.
 
-listappend -- This functions return a copy of list with value added as a new element.
+listappend -- This functions return a copy of `list` with `value` added as a new element.
 
-list `listinsert` (list list, value \[, int index\])
+`list` `listinsert` (list `list`, `value` \[, int `index`\])
 
-list `listappend` (list list, value \[, int index\])
+`list` `listappend` (list `list`, `value` \[, int `index`\])
 
-`listinsert()` and `listappend()` add value before and after (respectively) the existing element with the given index, if provided.
+`listinsert()` and `listappend()` add `value` before and after (respectively) the existing element with the given `index`, if provided.
 
 The following three expressions always have the same value:
 
 ```
-listinsert(list, element, index)
-listappend(list, element, index - 1)
-{@list\[1..index - 1\], element, @list\[index..length(list)\]}
+listinsert(`list`, `element`, `index`)
+listappend(`list`, `element`, `index` - 1)
+{@`list`\[1..`index` - 1\], `element`, @`list`\[`index`..length(`list`)\]}
 ```
 
-If index is not provided, then `listappend()` adds the value at the end of the list and `listinsert()` adds it at the beginning; this usage is discouraged, however, since the same intent can be more clearly expressed using the list-construction expression, as shown in the examples below.
+If `index` is not provided, then `listappend()` adds the `value` at the end of the list and `listinsert()` adds it at the beginning; this usage is discouraged, however, since the same intent can be more clearly expressed using the list-construction expression, as shown in the examples below.
 
 ```
 x = {1, 2, 3};
@@ -2795,11 +2795,11 @@ listinsert(x, 4)      =>   {4, 1, 2, 3}
 
 **Function: `listdelete`**
 
-listdelete -- Returns a copy of list with the indexth element removed.
+listdelete -- Returns a copy of `list` with the `index`th element removed.
 
-list `listdelete` (list list, int index)
+`list` `listdelete` (list `list`, int `index`)
 
-If index is not in the range `[1..length(list)]`, then `E_RANGE` is raised.
+If `index` is not in the range ``[1..length(`list`)]``, then `E_RANGE` is raised.
 
 ```
 x = {"foo", "bar", "baz"};
@@ -2808,11 +2808,11 @@ listdelete(x, 2)   =>   {"foo", "baz"}
 
 **Function: `listset`**
 
-listset -- Returns a copy of list with the indexth element replaced by value.
+listset -- Returns a copy of `list` with the `index`th element replaced by `value`.
 
-list `listset` (list list, value, int index)
+`list` `listset` (list `list`, `value`, int `index`)
 
-If index is not in the range `[1..length(list)]`, then `E_RANGE` is raised.
+If `index` is not in the range ``[1..length(`list`)]``, then `E_RANGE` is raised.
 
 ```
 x = {"foo", "bar", "baz"};
@@ -2824,15 +2824,15 @@ This function exists primarily for historical reasons; it was used heavily befor
 **Function: `setadd`**  
 **Function: `setremove`**
 
-setadd -- Returns a copy of list with the given value added.
+setadd -- Returns a copy of `list` with the given `value` added.
 
-setremove -- Returns a copy of list with the given value removed.
+setremove -- Returns a copy of `list` with the given `value` removed.
 
-list `setadd` (list list, value)
+`list` `setadd` (list `list`, `value`)
 
-list `setremove` (list list, value)
+`list` `setremove` (list `list`, `value`)
 
-`setadd()` only adds value if it is not already an element of list; list is thus treated as a mathematical set. value is added at the end of the resulting list, if at all. Similarly, `setremove()` returns a list identical to list if value is not an element. If value appears more than once in list, only the first occurrence is removed in the returned copy.
+`setadd()` only adds `value` if it is not already an element of `list`; `list` is thus treated as a mathematical set. `value` is added at the end of the resulting list, if at all. Similarly, `setremove()` returns a list identical to `list` if `value` is not an element. If `value` appears more than once in `list`, only the first occurrence is removed in the returned copy.
 
 ```
 setadd({1, 2, 3}, 3)         =>   {1, 2, 3}
@@ -2850,17 +2850,17 @@ Objects are, of course, the main focus of most MOO programming and, largely due 
 
 **Function: `create`**
 
-create -- Creates and returns a new object whose parent is parent and whose owner is as described below.
+create -- Creates and returns a new object whose parent is `parent` and whose owner is as described below.
 
-obj `create` (obj parent \[, obj owner\])
+`obj` `create` (obj `parent` \[, obj `owner`\])
 
-Either the given parent object must be `#-1` or valid and fertile (i.e., its `f` bit must be set) or else the programmer must own parent or be a wizard; otherwise `E_PERM` is raised. `E_PERM` is also raised if owner is provided and not the same as the programmer, unless the programmer is a wizard. After the new object is created, its `initialize` verb, if any, is called with no arguments.
+Either the given `parent` object must be `#-1` or valid and fertile (i.e., its `f` bit must be set) or else the programmer must own `parent` or be a wizard; otherwise `E_PERM` is raised. `E_PERM` is also raised if `owner` is provided and not the same as the programmer, unless the programmer is a wizard. After the new object is created, its `initialize` verb, if any, is called with no arguments.
 
 The new object is assigned the least non-negative object number that has not yet been used for a created object. Note that no object number is ever reused, even if the object with that number is recycled.
 
 This is not strictly true, especially if you are using ToastCore and the `$recycler`, which is a great idea. If you don't, you end up with extremely high object numbers. However, if you plan on reusing object numbers you need to consider this carefully in your code. You do not want to include object numbers in your code if this is the case, as object numbers could change. Use corified references instead (IE: `@prop #0.my_object #objnum` allows you to use $my\_object in your code. If the object number ever changes, you can change the reference without updating all of your code.)
 
-The owner of the new object is either the programmer (if owner is not provided), the new object itself (if owner was given as `#-1`), or owner (otherwise).
+The owner of the new object is either the programmer (if `owner` is not provided), the new object itself (if `owner` was given as `#-1`), or `owner` (otherwise).
 
 The other built-in properties of the new object are initialized as follows:
 
@@ -2877,29 +2877,29 @@ f            0
 
 The function `is_player()` returns false for newly created objects.
 
-In addition, the new object inherits all of the other properties on parent. These properties have the same permission bits as on parent. If the `c` permissions bit is set, then the owner of the property on the new object is the same as the owner of the new object itself; otherwise, the owner of the property on the new object is the same as that on parent. The initial value of every inherited property is _clear_; see the description of the built-in function `clear_property()` for details.
+In addition, the new object inherits all of the other properties on `parent`. These properties have the same permission bits as on `parent`. If the `c` permissions bit is set, then the owner of the property on the new object is the same as the owner of the new object itself; otherwise, the owner of the property on the new object is the same as that on `parent`. The initial value of every inherited property is _clear_; see the description of the built-in function `clear_property()` for details.
 
 If the intended owner of the new object has a property named `ownership_quota` and the value of that property is an integer, then `create()` treats that value as a _quota_. If the quota is less than or equal to zero, then the quota is considered to be exhausted and `create()` raises `E_QUOTA` instead of creating an object. Otherwise, the quota is decremented and stored back into the `ownership_quota` property as a part of the creation of the new object.
 
 **Function: `chparent`**
 
-chparent -- Changes the parent of object to be new-parent.
+chparent -- Changes the parent of `object` to be `new-parent`.
 
-none `chparent` (obj object, obj new-parent)
+`none` `chparent` (obj `object`, obj `new-parent`)
 
-If object is not valid, or if new-parent is neither valid nor equal to `#-1`, then `E_INVARG` is raised. If the programmer is neither a wizard or the owner of object, or if new-parent is not fertile (i.e., its `f` bit is not set) and the programmer is neither the owner of new-parent nor a wizard, then `E_PERM` is raised. If new-parent is equal to `object` or one of its current ancestors, `E_RECMOVE` is raised. If object or one of its descendants defines a property with the same name as one defined either on new-parent or on one of its ancestors, then `E_INVARG` is raised.
+If `object` is not valid, or if `new-parent` is neither valid nor equal to `#-1`, then `E_INVARG` is raised. If the programmer is neither a wizard or the owner of `object`, or if `new-parent` is not fertile (i.e., its `f` bit is not set) and the programmer is neither the owner of `new-parent` nor a wizard, then `E_PERM` is raised. If `new-parent` is equal to `object` or one of its current ancestors, `E_RECMOVE` is raised. If `object` or one of its descendants defines a property with the same name as one defined either on `new-parent` or on one of its ancestors, then `E_INVARG` is raised.
 
-Changing an object's parent can have the effect of removing some properties from and adding some other properties to that object and all of its descendants (i.e., its children and its children's children, etc.). Let common be the nearest ancestor that object and new-parent have in common before the parent of object is changed. Then all properties defined by ancestors of object under common (that is, those ancestors of object that are in turn descendants of common) are removed from object and all of its descendants. All properties defined by new-parent or its ancestors under common are added to object and all of its descendants. As with `create()`, the newly-added properties are given the same permission bits as they have on new-parent, the owner of each added property is either the owner of the object it's added to (if the `c` permissions bit is set) or the owner of that property on new-parent, and the value of each added property is _clear_; see the description of the built-in function `clear_property()` for details. All properties that are not removed or added in the reparenting process are completely unchanged.
+Changing an object's parent can have the effect of removing some properties from and adding some other properties to that object and all of its descendants (i.e., its children and its children's children, etc.). Let `common` be the nearest ancestor that `object` and `new-parent` have in common before the parent of `object` is changed. Then all properties defined by ancestors of `object` under `common` (that is, those ancestors of `object` that are in turn descendants of `common`) are removed from `object` and all of its descendants. All properties defined by `new-parent` or its ancestors under `common` are added to `object` and all of its descendants. As with `create()`, the newly-added properties are given the same permission bits as they have on `new-parent`, the owner of each added property is either the owner of the object it's added to (if the `c` permissions bit is set) or the owner of that property on `new-parent`, and the value of each added property is _clear_; see the description of the built-in function `clear_property()` for details. All properties that are not removed or added in the reparenting process are completely unchanged.
 
-If new-parent is equal to `#-1`, then object is given no parent at all; it becomes a new root of the parent/child hierarchy. In this case, all formerly inherited properties on object are simply removed.
+If `new-parent` is equal to `#-1`, then `object` is given no parent at all; it becomes a new root of the parent/child hierarchy. In this case, all formerly inherited properties on `object` are simply removed.
 
 **Function: `valid`**
 
 valid -- Return a non-zero integer if object is valid and not yet recycled.
 
-int `valid` (obj object)
+`int` `valid` (obj `object`)
 
-Returns a non-zero integer (i.e., a true value) if object is a valid object (one that has been created and not yet recycled) and zero (i.e., a false value) otherwise.
+Returns a non-zero integer (i.e., a true value) if `object` is a valid object (one that has been created and not yet recycled) and zero (i.e., a false value) otherwise.
 
 ```
 valid(#0)    =>   1
@@ -2908,41 +2908,41 @@ valid(#-1)   =>   0
 
 **Function: `parent`**
 
-parent -- return the parent of object
+parent -- return the parent of `object`
 
-obj `parent` (obj object)
+`obj` `parent` (obj `object`)
 
 **Function: `children`**
 
-children -- return a list of the children of object.
+children -- return a list of the children of `object`.
 
-list `children` (obj object)
+`list` `children` (obj `object`)
 
 **Function: `recycle`**
 
-recycle -- destroy object irrevocably.
+recycle -- destroy `object` irrevocably.
 
-none `recycle` (obj object)
+`none` `recycle` (obj `object`)
 
-The given object is destroyed, irrevocably. The programmer must either own object or be a wizard; otherwise, `E_PERM` is raised. If object is not valid, then `E_INVARG` is raised. The children of object are reparented to the parent of object. Before object is recycled, each object in its contents is moved to `#-1` (implying a call to object's `exitfunc` verb, if any) and then object's `recycle` verb, if any, is called with no arguments.
+The given `object` is destroyed, irrevocably. The programmer must either own `object` or be a wizard; otherwise, `E_PERM` is raised. If `object` is not valid, then `E_INVARG` is raised. The children of `object` are reparented to the parent of `object`. Before `object` is recycled, each object in its contents is moved to `#-1` (implying a call to `object`'s `exitfunc` verb, if any) and then `object`'s `recycle` verb, if any, is called with no arguments.
 
-After object is recycled, if the owner of the former object has a property named `ownership_quota` and the value of that property is a integer, then `recycle()` treats that value as a _quota_ and increments it by one, storing the result back into the `ownership_quota` property.>
+After `object` is recycled, if the owner of the former object has a property named `ownership_quota` and the value of that property is a integer, then `recycle()` treats that value as a _quota_ and increments it by one, storing the result back into the `ownership_quota` property.>
 
 **Function: `object_bytes`**
 
-object\_bytes -- Returns the number of bytes of the server's memory required to store the given object.
+object\_bytes -- Returns the number of bytes of the server's memory required to store the given `object`.
 
-int `object_bytes` (obj object)
+`int` `object_bytes` (obj `object`)
 
 The space calculation includes the space used by the values of all of the objects non-clear properties and by the verbs and properties defined directly on the object.
 
-Raises `E_INVARG` if object is not a valid object and `E_PERM` if the programmer is not a wizard.
+Raises `E_INVARG` if `object` is not a valid object and `E_PERM` if the programmer is not a wizard.
 
 **Function: `max_object`**
 
 max\_object -- Returns the largest object number ever assigned to a created object.
 
-obj `max_object` ()
+`obj` `max_object` ()
 
 Note that the object with this number may no longer exist; it may have been recycled. The next object created will be assigned the object number one larger than the value of `max_object()`.
 
@@ -2952,113 +2952,113 @@ The next object getting the number one larger than `max_object()` only applies i
 
 **Function: `move`**
 
-move -- Changes what's location to be where.
+move -- Changes `what`'s location to be `where`.
 
-none `move` (obj what, obj where)
+`none` `move` (obj `what`, obj `where`)
 
 This is a complex process because a number of permissions checks and notifications must be performed. The actual movement takes place as described in the following paragraphs.
 
-what should be a valid object and where should be either a valid object or `#-1` (denoting a location of 'nowhere'); otherwise `E_INVARG` is raised. The programmer must be either the owner of what or a wizard; otherwise, `E_PERM` is raised.
+`what` should be a valid object and `where` should be either a valid object or `#-1` (denoting a location of 'nowhere'); otherwise `E_INVARG` is raised. The programmer must be either the owner of `what` or a wizard; otherwise, `E_PERM` is raised.
 
-If where is a valid object, then the verb-call
-
-```
-where:accept(what)
-```
-
-is performed before any movement takes place. If the verb returns a false value and the programmer is not a wizard, then where is considered to have refused entrance to what; `move()` raises `E_NACC`. If where does not define an `accept` verb, then it is treated as if it defined one that always returned false.
-
-If moving what into where would create a loop in the containment hierarchy (i.e., what would contain itself, even indirectly), then `E_RECMOVE` is raised instead.
-
-The `location` property of what is changed to be where, and the `contents` properties of the old and new locations are modified appropriately. Let old-where be the location of what before it was moved. If old-where is a valid object, then the verb-call
+If `where` is a valid object, then the verb-call
 
 ```
-old-where:exitfunc(what)
+`where`:accept(`what`)
 ```
 
-is performed and its result is ignored; it is not an error if old-where does not define a verb named `exitfunc`. Finally, if where and what are still valid objects, and where is still the location of what, then the verb-call
+is performed before any movement takes place. If the verb returns a false value and the programmer is not a wizard, then `where` is considered to have refused entrance to `what`; `move()` raises `E_NACC`. If `where` does not define an `accept` verb, then it is treated as if it defined one that always returned false.
+
+If moving `what` into `where` would create a loop in the containment hierarchy (i.e., `what` would contain itself, even indirectly), then `E_RECMOVE` is raised instead.
+
+The `location` property of `what` is changed to be `where`, and the `contents` properties of the old and new locations are modified appropriately. Let `old-where` be the location of `what` before it was moved. If `old-where` is a valid object, then the verb-call
 
 ```
-where:enterfunc(what)
+`old-where`:exitfunc(`what`)
 ```
 
-is performed and its result is ignored; again, it is not an error if where does not define a verb named `enterfunc`.
+is performed and its result is ignored; it is not an error if `old-where` does not define a verb named `exitfunc`. Finally, if `where` and `what` are still valid objects, and `where` is still the location of `what`, then the verb-call
+
+```
+`where`:enterfunc(`what`)
+```
+
+is performed and its result is ignored; again, it is not an error if `where` does not define a verb named `enterfunc`.
 
 ##### Operations on Properties
 
 **Function: `properties`**
 
-properties -- Returns a list of the names of the properties defined directly on the given object, not inherited from its parent.
+properties -- Returns a list of the names of the properties defined directly on the given `object`, not inherited from its parent.
 
-list `properties` (obj object)
+`list` `properties` (obj `object`)
 
-If object is not valid, then `E_INVARG` is raised. If the programmer does not have read permission on object, then `E_PERM` is raised.
+If `object` is not valid, then `E_INVARG` is raised. If the programmer does not have read permission on `object`, then `E_PERM` is raised.
 
 **Function: `property_info`**
 
 property\_info -- Get the owner and permission bits for the property named prop-name on the given object
 
-list `property_info` (obj object, str prop-name)
+`list` `property_info` (obj `object`, str `prop-name`)
 
-If object is not valid, then `E_INVARG` is raised. If object has no non-built-in property named prop-name, then `E_PROPNF` is raised. If the programmer does not have read (write) permission on the property in question, then `property_info()` raises `E_PERM`.
+If `object` is not valid, then `E_INVARG` is raised. If `object` has no non-built-in property named `prop-name`, then `E_PROPNF` is raised. If the programmer does not have read (write) permission on the property in question, then `property_info()` raises `E_PERM`.
 
 **Function: `set_property_info`**
 
 set\_property\_info -- Set the owner and permission bits for the property named prop-name on the given object
 
-none `set_property_info` (obj object, str prop-name, list info)
+`none` `set_property_info` (obj `object`, str `prop-name`, list `info`)
 
-If object is not valid, then `E_INVARG` is raised. If object has no non-built-in property named prop-name, then `E_PROPNF` is raised. If the programmer does not have read (write) permission on the property in question, then `set_property_info()` raises `E_PERM`. Property info has the following form:
+If `object` is not valid, then `E_INVARG` is raised. If `object` has no non-built-in property named `prop-name`, then `E_PROPNF` is raised. If the programmer does not have read (write) permission on the property in question, then `set_property_info()` raises `E_PERM`. Property info has the following form:
 
 ```
-{owner, perms \[, new-name\]}
+{`owner`, `perms` \[, `new-name`\]}
 ```
 
-where owner is an object, perms is a string containing only characters from the set `r`, `w`, and `c`, and new-name is a string; new-name is never part of the value returned by `property_info()`, but it may optionally be given as part of the value provided to `set_property_info()`. This list is the kind of value returned by property\_info() and expected as the third argument to `set_property_info()`; the latter function raises `E_INVARG` if owner is not valid, if perms contains any illegal characters, or, when new-name is given, if prop-name is not defined directly on object or new-name names an existing property defined on object or any of its ancestors or descendants.
+where `owner` is an object, `perms` is a string containing only characters from the set `r`, `w`, and `c`, and `new-name` is a string; `new-name` is never part of the value returned by `property_info()`, but it may optionally be given as part of the value provided to `set_property_info()`. This list is the kind of value returned by property\_info() and expected as the third argument to `set_property_info()`; the latter function raises `E_INVARG` if `owner` is not valid, if `perms` contains any illegal characters, or, when `new-name` is given, if `prop-name` is not defined directly on `object` or `new-name` names an existing property defined on `object` or any of its ancestors or descendants.
 
 **Function: `add_property`**
 
-add\_property -- Defines a new property on the given object
+add\_property -- Defines a new property on the given `object`
 
-none `add_property` (obj object, str prop-name, value, list info)
+`none` `add_property` (obj `object`, str `prop-name`, `value`, list `info`)
 
-The property is inherited by all of its descendants; the property is named prop-name, its initial value is value, and its owner and initial permission bits are given by info in the same format as is returned by `property_info()`, described above.
+The property is inherited by all of its descendants; the property is named `prop-name`, its initial value is `value`, and its owner and initial permission bits are given by `info` in the same format as is returned by `property_info()`, described above.
 
-If object is not valid or info does not specify a valid owner and well-formed permission bits or object or its ancestors or descendants already defines a property named prop-name, then `E_INVARG` is raised. If the programmer does not have write permission on object or if the owner specified by info is not the programmer and the programmer is not a wizard, then `E_PERM` is raised.
+If `object` is not valid or `info` does not specify a valid owner and well-formed permission bits or `object` or its ancestors or descendants already defines a property named `prop-name`, then `E_INVARG` is raised. If the programmer does not have write permission on `object` or if the owner specified by `info` is not the programmer and the programmer is not a wizard, then `E_PERM` is raised.
 
 **Function: `delete_property`**
 
-delete\_property -- Removes the property named prop-name from the given object and all of its descendants.
+delete\_property -- Removes the property named `prop-name` from the given `object` and all of its descendants.
 
-none `>delete_property` (obj object, str prop-name)
+`none` `>delete_property` (obj `object`, str `prop-name`)
 
-If object is not valid, then `E_INVARG` is raised. If the programmer does not have write permission on object, then `E_PERM` is raised. If object does not directly define a property named prop-name (as opposed to inheriting one from its parent), then `E_PROPNF` is raised.
+If `object` is not valid, then `E_INVARG` is raised. If the programmer does not have write permission on `object`, then `E_PERM` is raised. If `object` does not directly define a property named `prop-name` (as opposed to inheriting one from its parent), then `E_PROPNF` is raised.
 
 **Function: `is_clear_property`**
 
 is\_clear\_property -- Test the specified property for clear
 
-int `is_clear_property` (obj object, str prop-name)
+`int` `is_clear_property` (obj `object`, str `prop-name`)
 
 **Function: `clear_property`**
 
 clear\_property -- Set the specified property to clear
 
-none `clear_property` (obj object, str prop-name)
+`none` `clear_property` (obj `object`, str `prop-name`)
 
-These two functions test for clear and set to clear, respectively, the property named prop-name on the given object. If object is not valid, then `E_INVARG` is raised. If object has no non-built-in property named prop-name, then `E_PROPNF` is raised. If the programmer does not have read (write) permission on the property in question, then `is_clear_property()` (`clear_property()`) raises `E_PERM`.
+These two functions test for clear and set to clear, respectively, the property named `prop-name` on the given `object`. If `object` is not valid, then `E_INVARG` is raised. If `object` has no non-built-in property named `prop-name`, then `E_PROPNF` is raised. If the programmer does not have read (write) permission on the property in question, then `is_clear_property()` (`clear_property()`) raises `E_PERM`.
 
-If a property is clear, then when the value of that property is queried the value of the parent's property of the same name is returned. If the parent's property is clear, then the parent's parent's value is examined, and so on. If object is the definer of the property prop-name, as opposed to an inheritor of the property, then `clear_property()` raises `E_INVARG`.
+If a property is clear, then when the value of that property is queried the value of the parent's property of the same name is returned. If the parent's property is clear, then the parent's parent's value is examined, and so on. If `object` is the definer of the property `prop-name`, as opposed to an inheritor of the property, then `clear_property()` raises `E_INVARG`.
 
 ##### Operations on Verbs
 
 **Function: `verbs`**
 
-verbs -- Returns a list of the names of the verbs defined directly on the given object, not inherited from its parent
+verbs -- Returns a list of the names of the verbs defined directly on the given `object`, not inherited from its parent
 
-list verbs (obj object)
+`list` verbs (obj `object`)
 
-If object is not valid, then `E_INVARG` is raised. If the programmer does not have read permission on object, then `E_PERM` is raised.
+If `object` is not valid, then `E_INVARG` is raised. If the programmer does not have read permission on `object`, then `E_PERM` is raised.
 
 Most of the remaining operations on verbs accept a string containing the verb's name to identify the verb in question. Because verbs can have multiple names and because an object can have multiple verbs with the same name, this practice can lead to difficulties. To most unambiguously refer to a particular verb, one can instead use a positive integer, the index of the verb in the list returned by `verbs()`, described above.
 
@@ -3070,7 +3070,7 @@ For example, suppose that `verbs(#34)` returns this list:
 
 Object `#34` has two verbs named `foo` defined on it (this may not be an error, if the two verbs have different command syntaxes). To refer unambiguously to the first one in the list, one uses the integer 1; to refer to the other one, one uses 4.
 
-In the function descriptions below, an argument named verb-desc is either a string containing the name of a verb or else a positive integer giving the index of that verb in its defining object's `verbs()` list.
+In the function descriptions below, an argument named `verb-desc` is either a string containing the name of a verb or else a positive integer giving the index of that verb in its defining object's `verbs()` list.
 
 For historical reasons, there is also a second, inferior mechanism for referring to verbs with numbers, but its use is strongly discouraged. If the property `$server_options.support_numeric_verbname_strings` exists with a true value, then functions on verbs will also accept a numeric string (e.g., `"4"`) as a verb descriptor. The decimal integer in the string works more-or-less like the positive integers described above, but with two significant differences:
 
@@ -3082,47 +3082,47 @@ Clearly, this older mechanism is more difficult and risky to use; new code shoul
 
 **Function: `verb_info`**
 
-verb\_info -- Get the owner, permission bits, and name(s) for the verb as specified by verb-desc on the given object
+verb\_info -- Get the owner, permission bits, and name(s) for the verb as specified by `verb-desc` on the given `object`
 
-list `verb_info` (obj object, str verb-desc)
+`list` `verb_info` (obj `object`, str `verb-desc`)
 
 **Function: `set_verb_info`**
 
-set\_verb\_info -- Set the owner, permissions bits, and names(s) for the verb as verb-desc on the given object
+set\_verb\_info -- Set the owner, permissions bits, and names(s) for the verb as `verb-desc` on the given `object`
 
-none `set_verb_info` (obj object, str verb-desc, list info)
+`none` `set_verb_info` (obj `object`, str `verb-desc`, list `info`)
 
-If object is not valid, then `E_INVARG` is raised. If object does not define a verb as specified by verb-desc, then `E_VERBNF` is raised. If the programmer does not have read (write) permission on the verb in question, then `verb_info()` (`set_verb_info()`) raises `E_PERM`.
+If `object` is not valid, then `E_INVARG` is raised. If `object` does not define a verb as specified by `verb-desc`, then `E_VERBNF` is raised. If the programmer does not have read (write) permission on the verb in question, then `verb_info()` (`set_verb_info()`) raises `E_PERM`.
 
 Verb info has the following form:
 
 ```
-{owner, perms, names}
+{`owner`, `perms`, `names`}
 ```
 
-where owner is an object, perms is a string containing only characters from the set `r`, `w`, `x`, and `d`, and names is a string. This is the kind of value returned by `verb_info()` and expected as the third argument to `set_verb_info()`. `set_verb_info()` raises `E_INVARG` if owner is not valid, if perms contains any illegal characters, or if names is the empty string or consists entirely of spaces; it raises `E_PERM` if owner is not the programmer and the programmer is not a wizard.
+where `owner` is an object, `perms` is a string containing only characters from the set `r`, `w`, `x`, and `d`, and `names` is a string. This is the kind of value returned by `verb_info()` and expected as the third argument to `set_verb_info()`. `set_verb_info()` raises `E_INVARG` if `owner` is not valid, if `perms` contains any illegal characters, or if `names` is the empty string or consists entirely of spaces; it raises `E_PERM` if `owner` is not the programmer and the programmer is not a wizard.
 
 **Function: `verb_args`**
 
-verb\_args -- get the direct-object, preposition, and indirect-object specifications for the verb as specified by verb-desc on the given object.
+verb\_args -- get the direct-object, preposition, and indirect-object specifications for the verb as specified by `verb-desc` on the given `object`.
 
-list `verb_args` (obj object, str verb-desc)
+`list` `verb_args` (obj `object`, str `verb-desc`)
 
 **Function: `set_verb_args`**
 
-verb\_args -- set the direct-object, preposition, and indirect-object specifications for the verb as specified by verb-desc on the given object.
+verb\_args -- set the direct-object, preposition, and indirect-object specifications for the verb as specified by `verb-desc` on the given `object`.
 
-none `set_verb_args` (obj object, str verb-desc, list args)
+`none` `set_verb_args` (obj `object`, str `verb-desc`, list `args`)
 
-If object is not valid, then `E_INVARG` is raised. If object does not define a verb as specified by verb-desc, then `E_VERBNF` is raised. If the programmer does not have read (write) permission on the verb in question, then the function raises `E_PERM`.
+If `object` is not valid, then `E_INVARG` is raised. If `object` does not define a verb as specified by `verb-desc`, then `E_VERBNF` is raised. If the programmer does not have read (write) permission on the verb in question, then the function raises `E_PERM`.
 
 Verb args specifications have the following form:
 
 ```
-{dobj, prep, iobj}
+{`dobj`, `prep`, `iobj`}
 ```
 
-where dobj and iobj are strings drawn from the set `"this"`, `"none"`, and `"any"`, and prep is a string that is either `"none"`, `"any"`, or one of the prepositional phrases listed much earlier in the description of verbs in the first chapter. This is the kind of value returned by `verb_args()` and expected as the third argument to `set_verb_args()`. Note that for `set_verb_args()`, prep must be only one of the prepositional phrases, not (as is shown in that table) a set of such phrases separated by `/` characters. `set_verb_args` raises `E_INVARG` if any of the dobj, prep, or iobj strings is illegal.
+where `dobj` and `iobj` are strings drawn from the set `"this"`, `"none"`, and `"any"`, and `prep` is a string that is either `"none"`, `"any"`, or one of the prepositional phrases listed much earlier in the description of verbs in the first chapter. This is the kind of value returned by `verb_args()` and expected as the third argument to `set_verb_args()`. Note that for `set_verb_args()`, `prep` must be only one of the prepositional phrases, not (as is shown in that table) a set of such phrases separated by `/` characters. `set_verb_args` raises `E_INVARG` if any of the `dobj`, `prep`, or `iobj` strings is illegal.
 
 ```
 verb\_args($container, "take")
@@ -3132,51 +3132,51 @@ set\_verb\_args($container, "take", {"any", "from", "this"})
 
 **Function: `add_verb`**
 
-add\_verb -- defines a new verb on the given object
+add\_verb -- defines a new verb on the given `object`
 
-none `add_verb` (obj object, list info, list args)
+`none` `add_verb` (obj `object`, list `info`, list `args`)
 
-The new verb's owner, permission bits and name(s) are given by info in the same format as is returned by `verb_info()`, described above. The new verb's direct-object, preposition, and indirect-object specifications are given by args in the same format as is returned by `verb_args`, described above. The new verb initially has the empty program associated with it; this program does nothing but return an unspecified value.
+The new verb's owner, permission bits and name(s) are given by `info` in the same format as is returned by `verb_info()`, described above. The new verb's direct-object, preposition, and indirect-object specifications are given by `args` in the same format as is returned by `verb_args`, described above. The new verb initially has the empty program associated with it; this program does nothing but return an unspecified value.
 
-If object is not valid, or info does not specify a valid owner and well-formed permission bits and verb names, or args is not a legitimate syntax specification, then `E_INVARG` is raised. If the programmer does not have write permission on object or if the owner specified by info is not the programmer and the programmer is not a wizard, then `E_PERM` is raised.
+If `object` is not valid, or `info` does not specify a valid owner and well-formed permission bits and verb names, or `args` is not a legitimate syntax specification, then `E_INVARG` is raised. If the programmer does not have write permission on `object` or if the owner specified by `info` is not the programmer and the programmer is not a wizard, then `E_PERM` is raised.
 
 **Function: `delete_verb`**
 
-delete\_verb -- removes the verb as specified by verb-desc from the given object
+delete\_verb -- removes the verb as specified by `verb-desc` from the given `object`
 
-none `delete_verb` (obj object, str verb-desc)
+`none` `delete_verb` (obj `object`, str `verb-desc`)
 
-If object is not valid, then `E_INVARG` is raised. If the programmer does not have write permission on object, then `E_PERM` is raised. If object does not define a verb as specified by verb-desc, then `E_VERBNF` is raised.
+If `object` is not valid, then `E_INVARG` is raised. If the programmer does not have write permission on `object`, then `E_PERM` is raised. If `object` does not define a verb as specified by `verb-desc`, then `E_VERBNF` is raised.
 
 **Function: `verb_code`**
 
-verb\_code -- get the MOO-code program associated with the verb as specified by verb-desc on object
+verb\_code -- get the MOO-code program associated with the verb as specified by `verb-desc` on `object`
 
-list `verb_code` (obj object, str verb-desc \[, fully-paren \[, indent\]\])
+`list` `verb_code` (obj `object`, str `verb-desc` \[, `fully-paren` \[, `indent`\]\])
 
 **Function: `set_verb_code`**
 
-set\_verb\_code -- set the MOO-code program associated with the verb as specified by verb-desc on object
+set\_verb\_code -- set the MOO-code program associated with the verb as specified by `verb-desc` on `object`
 
-list `set_verb_code` (obj object, str verb-desc, list code)
+`list` `set_verb_code` (obj `object`, str `verb-desc`, list `code`)
 
-The program is represented as a list of strings, one for each line of the program; this is the kind of value returned by `verb_code()` and expected as the third argument to `set_verb_code()`. For `verb_code()`, the expressions in the returned code are usually written with the minimum-necessary parenthesization; if full-paren is true, then all expressions are fully parenthesized.
+The program is represented as a list of strings, one for each line of the program; this is the kind of value returned by `verb_code()` and expected as the third argument to `set_verb_code()`. For `verb_code()`, the expressions in the returned code are usually written with the minimum-necessary parenthesization; if `full-paren` is true, then all expressions are fully parenthesized.
 
-Also for `verb_code()`, the lines in the returned code are usually not indented at all; if indent is true, each line is indented to better show the nesting of statements.
+Also for `verb_code()`, the lines in the returned code are usually not indented at all; if `indent` is true, each line is indented to better show the nesting of statements.
 
-If object is not valid, then `E_INVARG` is raised. If object does not define a verb as specified by verb-desc, then `E_VERBNF` is raised. If the programmer does not have read (write) permission on the verb in question, then `verb_code()` (`set_verb_code()`) raises `E_PERM`. If the programmer is not, in fact. a programmer, then `E_PERM` is raised.
+If `object` is not valid, then `E_INVARG` is raised. If `object` does not define a verb as specified by `verb-desc`, then `E_VERBNF` is raised. If the programmer does not have read (write) permission on the verb in question, then `verb_code()` (`set_verb_code()`) raises `E_PERM`. If the programmer is not, in fact. a programmer, then `E_PERM` is raised.
 
-For `set_verb_code()`, the result is a list of strings, the error messages generated by the MOO-code compiler during processing of code. If the list is non-empty, then `set_verb_code()` did not install code; the program associated with the verb in question is unchanged.
+For `set_verb_code()`, the result is a list of strings, the error messages generated by the MOO-code compiler during processing of `code`. If the list is non-empty, then `set_verb_code()` did not install `code`; the program associated with the verb in question is unchanged.
 
 **Function: `disassemble`**
 
-disassemble -- returns a (longish) list of strings giving a listing of the server's internal "compiled" form of the verb as specified by verb-desc on object
+disassemble -- returns a (longish) list of strings giving a listing of the server's internal "compiled" form of the verb as specified by `verb-desc` on `object`
 
-list `disassemble` (obj object, str verb-desc)
+`list` `disassemble` (obj `object`, str `verb-desc`)
 
 This format is not documented and may indeed change from release to release, but some programmers may nonetheless find the output of `disassemble()` interesting to peruse as a way to gain a deeper appreciation of how the server works.
 
-If object is not valid, then `E_INVARG` is raised. If object does not define a verb as specified by verb-desc, then `E_VERBNF` is raised. If the programmer does not have read permission on the verb in question, then `disassemble()` raises `E_PERM`.
+If `object` is not valid, then `E_INVARG` is raised. If `object` does not define a verb as specified by `verb-desc`, then `E_VERBNF` is raised. If the programmer does not have read permission on the verb in question, then `disassemble()` raises `E_PERM`.
 
 ##### Operations on Player Objects
 
@@ -3184,27 +3184,27 @@ If object is not valid, then `E_INVARG` is raised. If object does not define a v
 
 players -- returns a list of the object numbers of all player objects in the database
 
-list `players` ()
+`list` `players` ()
 
 **Function: `is_player`**
 
-is\_player -- returns a true value if the given object is a player object and a false value otherwise.
+is\_player -- returns a true value if the given `object` is a player object and a false value otherwise.
 
-int `is_player` (obj object)
+`int` `is_player` (obj `object`)
 
-If object is not valid, `E_INVARG` is raised.
+If `object` is not valid, `E_INVARG` is raised.
 
 **Function: `set_player_flag`**
 
-set\_player\_flag -- confers or removes the "player object" status of the given object, depending upon the truth value of value
+set\_player\_flag -- confers or removes the "player object" status of the given `object`, depending upon the truth value of `value`
 
-none `set_player_flag` (obj object, value)
+`none` `set_player_flag` (obj `object`, `value`)
 
-If object is not valid, `E_INVARG` is raised. If the programmer is not a wizard, then `E_PERM` is raised.
+If `object` is not valid, `E_INVARG` is raised. If the programmer is not a wizard, then `E_PERM` is raised.
 
-If value is true, then object gains (or keeps) "player object" status: it will be an element of the list returned by `players()`, the expression `is_player(object)` will return true, and the server will treat a call to `$do_login_command()` that returns object as logging in the current connection.
+If `value` is true, then `object` gains (or keeps) "player object" status: it will be an element of the list returned by `players()`, the expression ``is_player(`object`)`` will return true, and the server will treat a call to `$do_login_command()` that returns `object` as logging in the current connection.
 
-If value is false, the object loses (or continues to lack) "player object" status: it will not be an element of the list returned by `players()`, the expression `is_player(object)` will return false, and users cannot connect to object by name when they log into the server. In addition, if a user is connected to object at the time that it loses "player object" status, then that connection is immediately broken, just as if `boot_player(object)` had been called (see the description of `boot_player()` below).
+If `value` is false, the `object` loses (or continues to lack) "player object" status: it will not be an element of the list returned by `players()`, the expression ``is_player(`object`)`` will return false, and users cannot connect to `object` by name when they log into the server. In addition, if a user is connected to `object` at the time that it loses "player object" status, then that connection is immediately broken, just as if ``boot_player(`object`)`` had been called (see the description of `boot_player()` below).
 
 ##### Operations on Network Connections
 
@@ -3212,53 +3212,53 @@ If value is false, the object loses (or continues to lack) "player object" statu
 
 connected\_players -- returns a list of the object numbers of those player objects with currently-active connections
 
-list `connected_players` (\[include-all\])
+`list` `connected_players` (\[`include-all`\])
 
-If include-all is provided and true, then the list includes the object numbers associated with _all_ current connections, including ones that are outbound and/or not yet logged-in.
+If `include-all` is provided and true, then the list includes the object numbers associated with _all_ current connections, including ones that are outbound and/or not yet logged-in.
 
 **Function: `connected_seconds`**
 
-connected\_seconds -- return the number of seconds that the currently-active connection to player has existed
+connected\_seconds -- return the number of seconds that the currently-active connection to `player` has existed
 
-int `connected_seconds` (obj player)
+`int` `connected_seconds` (obj `player`)
 
 **Function: `idle_seconds`**
 
-idle\_seconds -- return the number of seconds that the currently-active connection to player has been idle
+idle\_seconds -- return the number of seconds that the currently-active connection to `player` has been idle
 
-int `idle_seconds` (obj player)
+`int` `idle_seconds` (obj `player`)
 
-If player is not the object number of a player object with a currently-active connection, then `E_INVARG` is raised.
+If `player` is not the object number of a player object with a currently-active connection, then `E_INVARG` is raised.
 
 **Function: `notify`**
 
-notify -- enqueues string for output (on a line by itself) on the connection conn
+notify -- enqueues `string` for output (on a line by itself) on the connection `conn`
 
-none `notify` (obj conn, str string \[, no-flush\])
+`none` `notify` (obj `conn`, str `string` \[, `no-flush`\])
 
-If the programmer is not conn or a wizard, then `E_PERM` is raised. If conn is not a currently-active connection, then this function does nothing. Output is normally written to connections only between tasks, not during execution.
+If the programmer is not `conn` or a wizard, then `E_PERM` is raised. If `conn` is not a currently-active connection, then this function does nothing. Output is normally written to connections only between tasks, not during execution.
 
-The server will not queue an arbitrary amount of output for a connection; the `MAX_QUEUED_OUTPUT` compilation option (in `options.h`) controls the limit. When an attempt is made to enqueue output that would take the server over its limit, it first tries to write as much output as possible to the connection without having to wait for the other end. If that doesn't result in the new output being able to fit in the queue, the server starts throwing away the oldest lines in the queue until the new ouput will fit. The server remembers how many lines of output it has 'flushed' in this way and, when next it can succeed in writing anything to the connection, it first writes a line like `>> Network buffer overflow: X lines of output to you have been lost <<` where X is the number of flushed lines.
+The server will not queue an arbitrary amount of output for a connection; the `MAX_QUEUED_OUTPUT` compilation option (in `options.h`) controls the limit. When an attempt is made to enqueue output that would take the server over its limit, it first tries to write as much output as possible to the connection without having to wait for the other end. If that doesn't result in the new output being able to fit in the queue, the server starts throwing away the oldest lines in the queue until the new ouput will fit. The server remembers how many lines of output it has 'flushed' in this way and, when next it can succeed in writing anything to the connection, it first writes a line like ``>> Network buffer overflow: `X` lines of output to you have been lost <<`` where `X` is the number of flushed lines.
 
-If no-flush is provided and true, then `notify()` never flushes any output from the queue; instead it immediately returns false. `Notify()` otherwise always returns true.
+If `no-flush` is provided and true, then `notify()` never flushes any output from the queue; instead it immediately returns false. `Notify()` otherwise always returns true.
 
 **Function: `buffered_output_length`**
 
-buffered\_output\_length -- returns the number of bytes currently buffered for output to the connection conn
+buffered\_output\_length -- returns the number of bytes currently buffered for output to the connection `conn`
 
-int `buffered_output_length` (\[obj conn\])
+`int` `buffered_output_length` (\[obj `conn`\])
 
-If conn is not provided, returns the maximum number of bytes that will be buffered up for output on any connection.
+If `conn` is not provided, returns the maximum number of bytes that will be buffered up for output on any connection.
 
 **Function: `read`**
 
-read -- reads and returns a line of input from the connection conn (or, if not provided, from the player that typed the command that initiated the current task)
+read -- reads and returns a line of input from the connection `conn` (or, if not provided, from the player that typed the command that initiated the current task)
 
-str `read` (\[obj conn \[, non-blocking\]\])
+`str` `read` (\[obj `conn` \[, `non-blocking`\]\])
 
-If non-blocking is false or not provided, this function suspends the current task, resuming it when there is input available to be read. If non-blocking is provided and true, this function never suspends the calling task; if there is no input currently available for input, `read()` simply returns 0 immediately.
+If `non-blocking` is false or not provided, this function suspends the current task, resuming it when there is input available to be read. If `non-blocking` is provided and true, this function never suspends the calling task; if there is no input currently available for input, `read()` simply returns 0 immediately.
 
-If player is provided, then the programmer must either be a wizard or the owner of `player`; if `player` is not provided, then `read()` may only be called by a wizard and only in the task that was last spawned by a command from the connection in question. Otherwise, `E_PERM` is raised.
+If `player` is provided, then the programmer must either be a wizard or the owner of `player`; if `player` is not provided, then `read()` may only be called by a wizard and only in the task that was last spawned by a command from the connection in question. Otherwise, `E_PERM` is raised.
 
 If the given `player` is not currently connected and has no pending lines of input, or if the connection is closed while a task is waiting for input but before any lines of input are received, then `read()` raises `E_INVARG`.
 
@@ -3278,40 +3278,40 @@ to allow commands once again to be read and interpreted normally.
 
 **Function: `force_input`**
 
-force\_input -- inserts the string line as an input task in the queue for the connection conn, just as if it had arrived as input over the network
+force\_input -- inserts the string `line` as an input task in the queue for the connection `conn`, just as if it had arrived as input over the network
 
-none `force_input` (obj conn, str line \[, at-front\])
+`none` `force_input` (obj `conn`, str `line` \[, `at-front`\])
 
-If at\_front is provided and true, then the new line of input is put at the front of conn's queue, so that it will be the very next line of input processed even if there is already some other input in that queue. Raises `E_INVARG` if conn does not specify a current connection and `E_PERM` if the programmer is neither conn nor a wizard.
+If `at_front` is provided and true, then the new line of input is put at the front of `conn`'s queue, so that it will be the very next line of input processed even if there is already some other input in that queue. Raises `E_INVARG` if `conn` does not specify a current connection and `E_PERM` if the programmer is neither `conn` nor a wizard.
 
 **Function: `flush_input`**
 
-flush\_input -- performs the same actions as if the connection conn's defined flush command had been received on that connection
+flush\_input -- performs the same actions as if the connection `conn`'s defined flush command had been received on that connection
 
-none `flush_input` (obj conn \[show-messages\])
+`none` `flush_input` (obj `conn` \[`show-messages`\])
 
-I.E., removes all pending lines of input from conn's queue and, if show-messages is provided and true, prints a message to conn listing the flushed lines, if any. See the chapter on server assumptions about the database for more information about a connection's defined flush command.
+I.E., removes all pending lines of input from `conn`'s queue and, if `show-messages` is provided and true, prints a message to `conn` listing the flushed lines, if any. See the chapter on server assumptions about the database for more information about a connection's defined flush command.
 
 **Function: `output_delimiters`**
 
-output\_delimiters -- returns a list of two strings, the current _output prefix_ and _output suffix_ for player.
+output\_delimiters -- returns a list of two strings, the current _output prefix_ and _output suffix_ for `player`.
 
-list `output_delimiters` (obj player)
+`list` `output_delimiters` (obj `player`)
 
-If player does not have an active network connection, then `E_INVARG` is raised. If either string is currently undefined, the value `""` is used instead. See the discussion of the `PREFIX` and `SUFFIX` commands in the next chapter for more information about the output prefix and suffix.
+If `player` does not have an active network connection, then `E_INVARG` is raised. If either string is currently undefined, the value `""` is used instead. See the discussion of the `PREFIX` and `SUFFIX` commands in the next chapter for more information about the output prefix and suffix.
 
 **Function: `boot_player`**
 
-boot\_player -- marks for disconnection any currently-active connection to the given player
+boot\_player -- marks for disconnection any currently-active connection to the given `player`
 
-none `boot_player` (obj player)
+`none` `boot_player` (obj `player`)
 
-The connection will not actually be closed until the currently-running task returns or suspends, but all MOO functions (such as `notify()`, `connected_players()`, and the like) immediately behave as if the connection no longer exists. If the programmer is not either a wizard or the same as player, then `E_PERM` is raised. If there is no currently-active connection to player, then this function does nothing.
+The connection will not actually be closed until the currently-running task returns or suspends, but all MOO functions (such as `notify()`, `connected_players()`, and the like) immediately behave as if the connection no longer exists. If the programmer is not either a wizard or the same as `player`, then `E_PERM` is raised. If there is no currently-active connection to `player`, then this function does nothing.
 
 If there was a currently-active connection, then the following verb call is made when the connection is actually closed:
 
 ```
-$user\_disconnected(player)
+$user\_disconnected(`player`)
 ```
 
 It is not an error if this verb does not exist; the call is simply skipped.
@@ -3320,80 +3320,80 @@ It is not an error if this verb does not exist; the call is simply skipped.
 
 connection\_name -- returns a network-specific string identifying the connection being used by the given player
 
-str `connection_name` (obj player)
+`str` `connection_name` (obj `player`)
 
-If the programmer is not a wizard and not player, then `E_PERM` is raised. If player is not currently connected, then `E_INVARG` is raised.
+If the programmer is not a wizard and not `player`, then `E_PERM` is raised. If `player` is not currently connected, then `E_INVARG` is raised.
 
 For the TCP/IP networking configurations, for in-bound connections, the string has the form:
 
 ```
-"port lport from host, port port"
+"port `lport` from `host`, port `port`"
 ```
 
-where lport is the decimal TCP listening port on which the connection arrived, host is either the name or decimal TCP address of the host from which the player is connected, and port is the decimal TCP port of the connection on that host.
+where `lport` is the decimal TCP listening port on which the connection arrived, `host` is either the name or decimal TCP address of the host from which the player is connected, and `port` is the decimal TCP port of the connection on that host.
 
 For outbound TCP/IP connections, the string has the form
 
 ```
-"port lport to host, port port"
+"port `lport` to `host`, port `port`"
 ```
 
-where lport is the decimal local TCP port number from which the connection originated, host is either the name or decimal TCP address of the host to which the connection was opened, and port is the decimal TCP port of the connection on that host.
+where `lport` is the decimal local TCP port number from which the connection originated, `host` is either the name or decimal TCP address of the host to which the connection was opened, and `port` is the decimal TCP port of the connection on that host.
 
 For the System V 'local' networking configuration, the string is the UNIX login name of the connecting user or, if no such name can be found, something of the form:
 
 ```
-"User #number"
+"User #`number`"
 ```
 
-where number is a UNIX numeric user ID.
+where `number` is a UNIX numeric user ID.
 
 For the other networking configurations, the string is the same for all connections and, thus, useless.
 
 **Function: `set_connection_option`**
 
-set\_connection\_option -- controls a number of optional behaviors associated the connection conn
+set\_connection\_option -- controls a number of optional behaviors associated the connection `conn`
 
-none `set_connection_option` (obj conn, str option, value)
+`none` `set_connection_option` (obj `conn`, str `option`, `value`)
 
-Raises `E_INVARG` if conn does not specify a current connection and `E_PERM` if the programmer is neither conn nor a wizard.
+Raises `E_INVARG` if `conn` does not specify a current connection and `E_PERM` if the programmer is neither `conn` nor a wizard.
 
-The following values for option are currently supported:
+The following values for `option` are currently supported:
 
 `"hold-input"`  
 
-If value is true, then input received on conn will never be treated as a command; instead, it will remain in the queue until retrieved by a call to `read()`.
+If `value` is true, then input received on `conn` will never be treated as a command; instead, it will remain in the queue until retrieved by a call to `read()`.
 
 `"client-echo"`  
-Send the Telnet Protocol `WONT ECHO` or `WILL ECHO` command, depending on whether value is true or false, respectively. For clients that support the Telnet Protocol, this should toggle whether or not the client echoes locally the characters typed by the user. Note that the server itself never echoes input characters under any circumstances. (This option is only available under the TCP/IP networking configurations.)
+Send the Telnet Protocol `WONT ECHO` or `WILL ECHO` command, depending on whether `value` is true or false, respectively. For clients that support the Telnet Protocol, this should toggle whether or not the client echoes locally the characters typed by the user. Note that the server itself never echoes input characters under any circumstances. (This option is only available under the TCP/IP networking configurations.)
 
 `"binary"`  
-If value is true, then both input from and output to conn can contain arbitrary bytes. Input from a connection in binary mode is not broken into lines at all; it is delivered to either the read() function or the built-in command parser as _binary strings_, in whatever size chunks come back from the operating system. (See the early section on MOO value types for a description of the binary string representation.) For output to a connection in binary mode, the second argument to 'notify()' must be a binary string; if it is malformed, E\_INVARG is raised.
+If `value` is true, then both input from and output to `conn` can contain arbitrary bytes. Input from a connection in binary mode is not broken into lines at all; it is delivered to either the read() function or the built-in command parser as _binary strings_, in whatever size chunks come back from the operating system. (See the early section on MOO value types for a description of the binary string representation.) For output to a connection in binary mode, the second argument to 'notify()' must be a binary string; if it is malformed, E\_INVARG is raised.
 
 `"flush-command"`  
-If value is a non-empty string, then it becomes the new _flush_ command for this connection, by which the player can flush all queued input that has not yet been processed by the server. If value is not a non-empty string, then conn is set to have no flush command at all. The default value of this option can be set via the property `$server_options.default_flush_command`; see the chapter on server assumptions about the database for details.
+If `value` is a non-empty string, then it becomes the new _flush_ command for this connection, by which the player can flush all queued input that has not yet been processed by the server. If `value` is not a non-empty string, then `conn` is set to have no flush command at all. The default value of this option can be set via the property `$server_options.default_flush_command`; see the chapter on server assumptions about the database for details.
 
 **Function: `connection_options`**
 
-connection\_options -- returns a list of `{name, value}` pairs describing the current settings of all of the allowed options for the connection conn
+connection\_options -- returns a list of ``{`name`, `value`}`` pairs describing the current settings of all of the allowed options for the connection `conn`
 
-list `connection_options` (obj conn)
+`list` `connection_options` (obj `conn`)
 
-Raises `E_INVARG` if conn does not specify a current connection and `E_PERM` if the programmer is neither conn nor a wizard.
+Raises `E_INVARG` if `conn` does not specify a current connection and `E_PERM` if the programmer is neither `conn` nor a wizard.
 
 **Function: `connection_option`**
 
-connection\_option -- returns the current setting of the option name for the connection conn
+connection\_option -- returns the current setting of the option `name` for the connection `conn`
 
-value `>connection_option` (obj conn, str name)
+`value` `>connection_option` (obj `conn`, str `name`)
 
-Raises `E_INVARG` if conn does not specify a current connection and `E_PERM` if the programmer is neither conn nor a wizard.
+Raises `E_INVARG` if `conn` does not specify a current connection and `E_PERM` if the programmer is neither `conn` nor a wizard.
 
 **Function: `open_network_connection`**
 
 open\_network\_connection -- establishes a network connection to the place specified by the arguments and more-or-less pretends that a new, normal player connection has been established from there
 
-obj `open_network_connection` (value, ...)
+`obj` `open_network_connection` (`value`, ...)
 
 The new connection, as usual, will not be logged in initially and will have a negative object number associated with it for use with `read()`, `notify()`, and `boot_player()`. This object number is the value returned by this function.
 
@@ -3409,23 +3409,23 @@ It is worth mentioning one tricky point concerning the use of this function. Sin
 
 listen -- create a new point at which the server will listen for network connections, just as it does normally
 
-value `listen` (obj object, point \[, print-messages\])
+`value` `listen` (obj `object`, `point` \[, `print-messages`\])
 
-Object is the object whose verbs `do_login_command`, `do_command`, `do_out_of_band_command`, `user_connected`, `user_created`, `user_reconnected`, `user_disconnected`, and `user_client_disconnected` will be called at appropriate points, just as these verbs are called on `#0` for normal connections. (See the chapter on server assumptions about the database for the complete story on when these functions are called.) Point is a network-configuration-specific parameter describing the listening point. If print-messages is provided and true, then the various database-configurable messages (also detailed in the chapter on server assumptions) will be printed on connections received at the new listening point. `Listen()` returns canon, a 'canonicalized' version of point, with any configuration-specific defaulting or aliasing accounted for.
+`Object` is the object whose verbs `do_login_command`, `do_command`, `do_out_of_band_command`, `user_connected`, `user_created`, `user_reconnected`, `user_disconnected`, and `user_client_disconnected` will be called at appropriate points, just as these verbs are called on `#0` for normal connections. (See the chapter on server assumptions about the database for the complete story on when these functions are called.) `Point` is a network-configuration-specific parameter describing the listening point. If `print-messages` is provided and true, then the various database-configurable messages (also detailed in the chapter on server assumptions) will be printed on connections received at the new listening point. `Listen()` returns `canon`, a 'canonicalized' version of `point`, with any configuration-specific defaulting or aliasing accounted for.
 
-This raises `E_PERM` if the programmer is not a wizard, `E_INVARG` if object is invalid or there is already a listening point described by point, and `E_QUOTA` if some network-configuration-specific error occurred.
+This raises `E_PERM` if the programmer is not a wizard, `E_INVARG` if `object` is invalid or there is already a listening point described by `point`, and `E_QUOTA` if some network-configuration-specific error occurred.
 
-For the TCP/IP configurations, point is a TCP port number on which to listen and canon is equal to point unless point is zero, in which case canon is a port number assigned by the operating system.
+For the TCP/IP configurations, `point` is a TCP port number on which to listen and `canon` is equal to `point` unless `point` is zero, in which case `canon` is a port number assigned by the operating system.
 
-For the local multi-user configurations, point is the UNIX file name to be used as the connection point and canon is always equal to point.
+For the local multi-user configurations, `point` is the UNIX file name to be used as the connection point and `canon` is always equal to `point`.
 
-In the single-user configuration, the can be only one listening point at a time; point can be any value at all and canon is always zero.
+In the single-user configuration, the can be only one listening point at a time; `point` can be any value at all and `canon` is always zero.
 
 **Function: `unlisten`**
 
-unlisten -- stop listening for connections on the point described by canon, which should be the second element of some element of the list returned by `listeners()`
+unlisten -- stop listening for connections on the point described by `canon`, which should be the second element of some element of the list returned by `listeners()`
 
-none `unlisten` (canon)
+`none` `unlisten` (`canon`)
 
 Raises `E_PERM` if the programmer is not a wizard and `E_INVARG` if there does not exist a listener with that description.
 
@@ -3433,15 +3433,15 @@ Raises `E_PERM` if the programmer is not a wizard and `E_INVARG` if there does n
 
 listeners -- returns a list describing all existing listening points, including the default one set up automatically by the server when it was started (unless that one has since been destroyed by a call to `unlisten()`)
 
-list `listeners` ()
+`list` `listeners` ()
 
 Each element of the list has the following form:
 
 ```
-{object, canon, print-messages}
+{`object`, `canon`, `print-messages`}
 ```
 
-where object is the first argument given in the call to `listen()` to create this listening point, print-messages is true if the third argument in that call was provided and true, and canon was the value returned by that call. (For the initial listening point, object is `#0`, canon is determined by the command-line arguments or a network-configuration-specific default, and print-messages is true.)
+where `object` is the first argument given in the call to `listen()` to create this listening point, `print-messages` is true if the third argument in that call was provided and true, and `canon` was the value returned by that call. (For the initial listening point, `object` is `#0`, `canon` is determined by the command-line arguments or a network-configuration-specific default, and `print-messages` is true.)
 
 Please note that there is nothing special about the initial listening point created by the server when it starts; you can use `unlisten()` on it just as if it had been created by `listen()`. This can be useful; for example, under one of the TCP/IP configurations, you might start up your server on some obscure port, say 12345, connect to it by yourself for a while, and then open it up to normal users by evaluating the statments:
 
@@ -3455,13 +3455,13 @@ unlisten(12345); listen(#0, 7777, 1)
 
 time -- returns the current time, represented as the number of seconds that have elapsed since midnight on 1 January 1970, Greenwich Mean Time
 
-int `time` ()
+`int` `time` ()
 
 **Function: `ctime`**
 
-ctime -- interprets time as a time, using the same representation as given in the description of `time()`, above, and converts it into a 28-character, human-readable string
+ctime -- interprets `time` as a time, using the same representation as given in the description of `time()`, above, and converts it into a 28-character, human-readable string
 
-str `ctime` (\[int time\])
+`str` `ctime` (\[int `time`\])
 
 The string will be in the following format:
 
@@ -3475,43 +3475,43 @@ If the current day of the month is less than 10, then an extra blank appears bet
 Mon Apr  1 14:10:43 1991 PST
 ```
 
-If time is not provided, then the current time is used.
+If `time` is not provided, then the current time is used.
 
-Note that `ctime()` interprets time for the local time zone of the computer on which the MOO server is running.
+Note that `ctime()` interprets `time` for the local time zone of the computer on which the MOO server is running.
 
 ##### MOO-Code Evaluation and Task Manipulation
 
 **Function: `raise`**
 
-raise -- raises code as an error in the same way as other MOO expressions, statements, and functions do
+raise -- raises `code` as an error in the same way as other MOO expressions, statements, and functions do
 
-none `raise` (code \[, str message \[, value\]\])
+`none` `raise` (`code` \[, str `message` \[, `value`\]\])
 
-Message, which defaults to the value of `tostr(code)`, and value, which defaults to zero, are made available to any `try`\-`except` statements that catch the error. If the error is not caught, then message will appear on the first line of the traceback printed to the user.
+`Message`, which defaults to the value of ``tostr(`code`)``, and `value`, which defaults to zero, are made available to any `try`\-`except` statements that catch the error. If the error is not caught, then `message` will appear on the first line of the traceback printed to the user.
 
 **Function: `call_function`**
 
-call\_function -- calls the built-in function named func-name, passing the given arguments, and returns whatever that function returns
+call\_function -- calls the built-in function named `func-name`, passing the given arguments, and returns whatever that function returns
 
-value `call_function` (str func-name, arg, ...)
+`value` `call_function` (str `func-name`, `arg`, ...)
 
-Raises `E_INVARG` if func-name is not recognized as the name of a known built-in function. This allows you to compute the name of the function to call and, in particular, allows you to write a call to a built-in function that may or may not exist in the particular version of the server you're using.
+Raises `E_INVARG` if `func-name` is not recognized as the name of a known built-in function. This allows you to compute the name of the function to call and, in particular, allows you to write a call to a built-in function that may or may not exist in the particular version of the server you're using.
 
 **Function: `function_info`**
 
 function\_info -- returns descriptions of the built-in functions available on the server
 
-list `function_info` (\[str name\])
+`list` `function_info` (\[str `name`\])
 
-If name is provided, only the description of the function with that name is returned. If name is omitted, a list of descriptions is returned, one for each function available on the server. Raised `E_INVARG` if name is provided but no function with that name is available on the server.
+If `name` is provided, only the description of the function with that name is returned. If `name` is omitted, a list of descriptions is returned, one for each function available on the server. Raised `E_INVARG` if `name` is provided but no function with that name is available on the server.
 
 Each function description is a list of the following form:
 
 ```
-{name, min-args, max-args, types
+{`name`, `min-args`, `max-args`, `types`
 ```
 
-where name is the name of the built-in function, min-args is the minimum number of arguments that must be provided to the function, max-args is the maximum number of arguments that can be provided to the function or `-1` if there is no maximum, and types is a list of max-args integers (or min-args if max-args is `-1`), each of which represents the type of argument required in the corresponding position. Each type number is as would be returned from the `typeof()` built-in function except that `-1` indicates that any type of value is acceptable and `-2` indicates that either integers or floating-point numbers may be given. For example, here are several entries from the list:
+where `name` is the name of the built-in function, `min-args` is the minimum number of arguments that must be provided to the function, `max-args` is the maximum number of arguments that can be provided to the function or `-1` if there is no maximum, and `types` is a list of `max-args` integers (or `min-args` if `max-args` is `-1`), each of which represents the type of argument required in the corresponding position. Each type number is as would be returned from the `typeof()` built-in function except that `-1` indicates that any type of value is acceptable and `-2` indicates that either integers or floating-point numbers may be given. For example, here are several entries from the list:
 
 ```
 {"listdelete", 2, 2, {4, 0}}
@@ -3525,9 +3525,9 @@ where name is the name of the built-in function, min-args is the minimum number 
 
 **Function: `eval`**
 
-eval -- the MOO-code compiler processes string as if it were to be the program associated with some verb and, if no errors are found, that fictional verb is invoked
+eval -- the MOO-code compiler processes `string` as if it were to be the program associated with some verb and, if no errors are found, that fictional verb is invoked
 
-list `eval` (str string)
+`list` `eval` (str `string`)
 
 If the programmer is not, in fact, a programmer, then `E_PERM` is raised. The normal result of calling `eval()` is a two element list. The first element is true if there were no compilation errors and false otherwise. The second element is either the result returned from the fictional verb (if there were no compilation errors) or a list of the compiler's error messages (otherwise).
 
@@ -3557,11 +3557,11 @@ eval("return 3 + 4;")   =>   {1, 7}
 
 **Function: `set_task_perms`**
 
-set\_task\_perms -- changes the permissions with which the currently-executing verb is running to be those of who
+set\_task\_perms -- changes the permissions with which the currently-executing verb is running to be those of `who`
 
-one `set_task_perms` (obj who)
+`one` `set_task_perms` (obj `who`)
 
-If the programmer is neither who nor a wizard, then `E_PERM` is raised.
+If the programmer is neither `who` nor a wizard, then `E_PERM` is raised.
 
 Note: This does not change the owner of the currently-running verb, only the permissions of this particular invocation. It is used in verbs owned by wizards to make themselves run with lesser (usually non-wizard) permissions.
 
@@ -3569,7 +3569,7 @@ Note: This does not change the owner of the currently-running verb, only the per
 
 caller\_perms -- returns the permissions in use by the verb that called the currently-executing verb
 
-obj `caller_perms` ()
+`obj` `caller_perms` ()
 
 If the currently-executing verb was not called by another verb (i.e., it is the first verb called in a command or server task), then `caller_perms()` returns `#-1`.
 
@@ -3577,13 +3577,13 @@ If the currently-executing verb was not called by another verb (i.e., it is the 
 
 ticks\_left -- return the number of ticks left to the current task before it will be forcibly terminated
 
-int `ticks_left` ()
+`int` `ticks_left` ()
 
 **Function: `seconds_left`**
 
 seconds\_left -- return the number of seconds left to the current task before it will be forcibly terminated
 
-int `seconds_left` ()
+`int` `seconds_left` ()
 
 These are useful, for example, in deciding when to call `suspend()` to continue a long-lived computation.
 
@@ -3591,21 +3591,21 @@ These are useful, for example, in deciding when to call `suspend()` to continue 
 
 task\_id -- returns the non-zero, non-negative integer identifier for the currently-executing task
 
-int `task_id` ()
+`int` `task_id` ()
 
 Such integers are randomly selected for each task and can therefore safely be used in circumstances where unpredictability is required.
 
 **Function: `suspend`**
 
-suspend -- suspends the current task, and resumes it after at least seconds seconds
+suspend -- suspends the current task, and resumes it after at least `seconds` seconds
 
-value `suspend` (\[int seconds\])
+`value` `suspend` (\[int `seconds`\])
 
-If seconds is not provided, the task is suspended indefinitely; such a task can only be resumed by use of the `resume()` function.
+If `seconds` is not provided, the task is suspended indefinitely; such a task can only be resumed by use of the `resume()` function.
 
-When the task is resumed, it will have a full quota of ticks and seconds. This function is useful for programs that run for a long time or require a lot of ticks. If seconds is negative, then `E_INVARG` is raised. `Suspend()` returns zero unless it was resumed via `resume()`, in which case it returns the second argument given to that function.
+When the task is resumed, it will have a full quota of ticks and seconds. This function is useful for programs that run for a long time or require a lot of ticks. If `seconds` is negative, then `E_INVARG` is raised. `Suspend()` returns zero unless it was resumed via `resume()`, in which case it returns the second argument given to that function.
 
-In some sense, this function forks the 'rest' of the executing task. However, there is a major difference between the use of `suspend(seconds)` and the use of the `fork (seconds)`. The `fork` statement creates a new task (a _forked task_) while the currently-running task still goes on to completion, but a `suspend()` suspends the currently-running task (thus making it into a _suspended task_). This difference may be best explained by the following examples, in which one verb calls another:
+In some sense, this function forks the 'rest' of the executing task. However, there is a major difference between the use of ``suspend(`seconds`)`` and the use of the ``fork (`seconds`)``. The `fork` statement creates a new task (a _forked task_) while the currently-running task still goes on to completion, but a `suspend()` suspends the currently-running task (thus making it into a _suspended task_). This difference may be best explained by the following examples, in which one verb calls another:
 
 ```
 .program   #0:caller\_A
@@ -3642,62 +3642,62 @@ By default, there is no limit to the number of tasks any player may suspend, but
 
 **Function: `resume`**
 
-resume -- immediately ends the suspension of the suspended task with the given task-id; that task's call to `suspend()` will return value, which defaults to zero
+resume -- immediately ends the suspension of the suspended task with the given `task-id`; that task's call to `suspend()` will return `value`, which defaults to zero
 
-none `resume` (int task-id \[, value\])
+`none` `resume` (int `task-id` \[, `value`\])
 
-If value is of type `ERR`, it will be raised, rather than returned, in the suspended task. `Resume()` raises `E_INVARG` if task-id does not specify an existing suspended task and `E_PERM` if the programmer is neither a wizard nor the owner of the specified task.
+If `value` is of type `ERR`, it will be raised, rather than returned, in the suspended task. `Resume()` raises `E_INVARG` if `task-id` does not specify an existing suspended task and `E_PERM` if the programmer is neither a wizard nor the owner of the specified task.
 
 **Function: `queue_info`**
 
-queue\_info -- if player is omitted, returns a list of object numbers naming all players that currently have active task queues inside the server
+queue\_info -- if `player` is omitted, returns a list of object numbers naming all players that currently have active task queues inside the server
 
-list `queue_info` (\[obj player\])
+`list` `queue_info` (\[obj `player`\])
 
-If player is provided, returns the number of background tasks currently queued for that user. It is guaranteed that `queue_info(X)` will return zero for any X not in the result of `queue_info()`.
+If `player` is provided, returns the number of background tasks currently queued for that user. It is guaranteed that ``queue_info(`X`)`` will return zero for any `X` not in the result of `queue_info()`.
 
 **Function: `queued_tasks`**
 
 queued\_tasks -- returns information on each of the background tasks (i.e., forked, suspended or reading) owned by the programmer (or, if the programmer is a wizard, all queued tasks)
 
-list `queued_tasks` ()
+`list` `queued_tasks` ()
 
 The returned value is a list of lists, each of which encodes certain information about a particular queued task in the following format:
 
 ```
-{task-id, start-time, x, y,
- programmer, verb-loc, verb-name, line, this}
+{`task-id`, `start-time`, `x`, `y`,
+ `programmer`, `verb-loc`, `verb-name`, `line`, `this`}
 ```
 
-where task-id is an integer identifier for this queued task, start-time is the time after which this task will begin execution (in `time()` format), x and y are obsolete values that are no longer interesting, programmer is the permissions with which this task will begin execution (and also the player who _owns_ this task), verb-loc is the object on which the verb that forked this task was defined at the time, verb-name is that name of that verb, line is the number of the first line of the code in that verb that this task will execute, and this is the value of the variable `this` in that verb.
+where `task-id` is an integer identifier for this queued task, `start-time` is the time after which this task will begin execution (in `time()` format), `x` and `y` are obsolete values that are no longer interesting, `programmer` is the permissions with which this task will begin execution (and also the player who _owns_ this task), `verb-loc` is the object on which the verb that forked this task was defined at the time, `verb-name` is that name of that verb, `line` is the number of the first line of the code in that verb that this task will execute, and `this` is the value of the variable `this` in that verb.
 
-For reading tasks, start-time is `-1`.
+For reading tasks, `start-time` is `-1`.
 
-The x and y fields are now obsolete and are retained only for backward-compatibility reasons. They may be reused for new purposes in some future version of the server.
+The `x` and `y` fields are now obsolete and are retained only for backward-compatibility reasons. They may be reused for new purposes in some future version of the server.
 
 **Function: `kill_task`**
 
-kill\_task -- removes the task with the given task-id from the queue of waiting tasks
+kill\_task -- removes the task with the given `task-id` from the queue of waiting tasks
 
-none `kill_task` (int task-id)
+`none` `kill_task` (int `task-id`)
 
-If the programmer is not the owner of that task and not a wizard, then `E_PERM` is raised. If there is no task on the queue with the given task-id, then `E_INVARG` is raised.
+If the programmer is not the owner of that task and not a wizard, then `E_PERM` is raised. If there is no task on the queue with the given `task-id`, then `E_INVARG` is raised.
 
 **Function: `callers`**
 
 callers -- returns information on each of the verbs and built-in functions currently waiting to resume execution in the current task
 
-list `callers` (\[include-line-numbers\])
+`list` `callers` (\[`include-line-numbers`\])
 
 When one verb or function calls another verb or function, execution of the caller is temporarily suspended, pending the called verb or function returning a value. At any given time, there could be several such pending verbs and functions: the one that called the currently executing verb, the verb or function that called that one, and so on. The result of `callers()` is a list, each element of which gives information about one pending verb or function in the following format:
 
 ```
-{this, verb-name, programmer, verb-loc, player, line-number}
+{`this`, `verb-name`, `programmer`, `verb-loc`, `player`, `line-number`}
 ```
 
-For verbs, this is the initial value of the variable `this` in that verb, verb-name is the name used to invoke that verb, programmer is the player with whose permissions that verb is running, verb-loc is the object on which that verb is defined, player is the initial value of the variable `player` in that verb, and line-number indicates which line of the verb's code is executing. The line-number element is included only if the include-line-numbers argument was provided and true.
+For verbs, `this` is the initial value of the variable `this` in that verb, `verb-name` is the name used to invoke that verb, `programmer` is the player with whose permissions that verb is running, `verb-loc` is the object on which that verb is defined, `player` is the initial value of the variable `player` in that verb, and `line-number` indicates which line of the verb's code is executing. The `line-number` element is included only if the `include-line-numbers` argument was provided and true.
 
-For functions, this, programmer, and verb-loc are all `#-1`, verb-name is the name of the function, and line-number is an index used internally to determine the current state of the built-in function. The simplest correct test for a built-in function entry is
+For functions, `this`, `programmer`, and `verb-loc` are all `#-1`, `verb-name` is the name of the function, and `line-number` is an index used internally to determine the current state of the built-in function. The simplest correct test for a built-in function entry is
 
 ```
 (VERB-LOC == #-1  &&  PROGRAMMER == #-1  &&  VERB-name != "")
@@ -3707,11 +3707,11 @@ The first element of the list returned by `callers()` gives information on the v
 
 **Function: `task_stack`**
 
-task\_stack -- returns information like that returned by the `callers()` function, but for the suspended task with the given task-id; the include-line-numbers argument has the same meaning as in `callers()`
+task\_stack -- returns information like that returned by the `callers()` function, but for the suspended task with the given `task-id`; the `include-line-numbers` argument has the same meaning as in `callers()`
 
-list `task_stack` (int task-id \[, include-line-numbers\])
+`list` `task_stack` (int `task-id` \[, `include-line-numbers`\])
 
-Raises `E_INVARG` if task-id does not specify an existing suspended task and `E_PERM` if the programmer is neither a wizard nor the owner of the specified task.
+Raises `E_INVARG` if `task-id` does not specify an existing suspended task and `E_PERM` if the programmer is neither a wizard nor the owner of the specified task.
 
 ##### Administrative Operations
 
@@ -3719,25 +3719,25 @@ Raises `E_INVARG` if task-id does not specify an existing suspended task and `E_
 
 server\_version -- returns a string giving the version number of the running MOO server
 
-str `server_version` ()
+`str` `server_version` ()
 
 **Function: `server_log`**
 
-server\_log -- the text in message is sent to the server log with a distinctive prefix (so that it can be distinguished from server-generated messages)
+server\_log -- the text in `message` is sent to the server log with a distinctive prefix (so that it can be distinguished from server-generated messages)
 
-none server\_log (str message \[, is-error\])
+`none` server\_log (str `message` \[, `is-error`\])
 
-If the programmer is not a wizard, then `E_PERM` is raised. If is-error is provided and true, then message is marked in the server log as an error.
+If the programmer is not a wizard, then `E_PERM` is raised. If `is-error` is provided and true, then `message` is marked in the server log as an error.
 
 **Function: `renumber`**
 
-renumber -- the object number of the object currently numbered object is changed to be the least nonnegative object number not currently in use and the new object number is returned
+renumber -- the object number of the object currently numbered `object` is changed to be the least nonnegative object number not currently in use and the new object number is returned
 
-obj `renumber` (obj object)
+`obj` `renumber` (obj `object`)
 
-If object is not valid, then `E_INVARG` is raised. If the programmer is not a wizard, then `E_PERM` is raised. If there are no unused nonnegative object numbers less than object, then object is returned and no changes take place.
+If `object` is not valid, then `E_INVARG` is raised. If the programmer is not a wizard, then `E_PERM` is raised. If there are no unused nonnegative object numbers less than `object`, then `object` is returned and no changes take place.
 
-The references to object in the parent/children and location/contents hierarchies are updated to use the new object number, and any verbs, properties and/or objects owned by object are also changed to be owned by the new object number. The latter operation can be quite time consuming if the database is large. No other changes to the database are performed; in particular, no object references in property values or verb code are updated.
+The references to `object` in the parent/children and location/contents hierarchies are updated to use the new object number, and any verbs, properties and/or objects owned by `object` are also changed to be owned by the new object number. The latter operation can be quite time consuming if the database is large. No other changes to the database are performed; in particular, no object references in property values or verb code are updated.
 
 This operation is intended for use in making new versions of the ToastCore database from the then-current ToastStunt database, and other similar situations. Its use requires great care.
 
@@ -3745,7 +3745,7 @@ This operation is intended for use in making new versions of the ToastCore datab
 
 reset\_max\_object -- the server's idea of the highest object number ever used is changed to be the highest object number of a currently-existing object, thus allowing reuse of any higher numbers that refer to now-recycled objects
 
-none `reset_max_object` ()
+`none` `reset_max_object` ()
 
 If the programmer is not a wizard, then `E_PERM` is raised.
 
@@ -3755,15 +3755,15 @@ This operation is intended for use in making new versions of the ToastCore datab
 
 memory\_usage -- on some versions of the server, this returns statistics concerning the server consumption of system memory
 
-list `memory_usage` ()
+`list` `memory_usage` ()
 
 The result is a list of lists, each in the following format:
 
 ```
-{block-size, nused, nfree}
+{`block-size`, `nused`, `nfree`}
 ```
 
-where block-size is the size in bytes of a particular class of memory fragments, nused is the number of such fragments currently in use in the server, and nfree is the number of such fragments that have been reserved for use but are currently free.
+where `block-size` is the size in bytes of a particular class of memory fragments, `nused` is the number of such fragments currently in use in the server, and `nfree` is the number of such fragments that have been reserved for use but are currently free.
 
 On servers for which such statistics are not available, `memory_usage()` returns `{}`. The compilation option `USE_GNU_MALLOC` controls whether or not statistics are available; if the option is not provided, statistics are not available.
 
@@ -3771,7 +3771,7 @@ On servers for which such statistics are not available, `memory_usage()` returns
 
 dump\_database -- requests that the server checkpoint the database at its next opportunity
 
-none `dump_database` ()
+`none` `dump_database` ()
 
 It is not normally necessary to call this function; the server automatically checkpoints the database at regular intervals; see the chapter on server assumptions about the database for details. If the programmer is not a wizard, then `E_PERM` is raised.
 
@@ -3779,7 +3779,7 @@ It is not normally necessary to call this function; the server automatically che
 
 db\_disk\_size -- returns the total size, in bytes, of the most recent full representation of the database as one or more disk files
 
-int `db_disk_size` ()
+`int` `db_disk_size` ()
 
 Raises `E_QUOTA` if, for some reason, no such on-disk representation is currently available.
 
@@ -3787,9 +3787,9 @@ Raises `E_QUOTA` if, for some reason, no such on-disk representation is currentl
 
 shutdown -- requests that the server shut itself down at its next opportunity
 
-none `shutdown` (\[str message\])
+`none` `shutdown` (\[str `message`\])
 
-Before doing so, a notice (incorporating message, if provided) is printed to all connected players. If the programmer is not a wizard, then `E_PERM` is raised.
+Before doing so, a notice (incorporating `message`, if provided) is printed to all connected players. If the programmer is not a wizard, then `E_PERM` is raised.
 
 ### Server Commands and Database Assumptions
 
@@ -3810,8 +3810,8 @@ Every MOO network connection has associated with it two strings, the `output pre
 The `PREFIX` and `SUFFIX` commands are used to set and clear these strings. They have the following simple syntax:
 
 ```
-PREFIX  output-prefix
-SUFFIX  output-suffix
+PREFIX  `output-prefix`
+SUFFIX  `output-suffix`
 ```
 
 That is, all text after the command name and any following spaces is used as the new value of the appropriate string. If there is no non-blank text after the command string, then the corresponding string is cleared. For compatibility with some general MUD client programs, the server also recognizes `OUTPUTPREFIX` as a synonym for `PREFIX` and `OUTPUTSUFFIX` as a synonym for `SUFFIX`.
@@ -3821,7 +3821,7 @@ These commands are intended for use by programs connected to the MOO, so that th
 ```
 PREFIX >>MOO-Prefix<<
 SUFFIX >>MOO-Suffix<<
-@list object:verb without numbers
+@list `object`:`verb` without numbers
 PREFIX
 SUFFIX
 ```
@@ -3835,8 +3835,8 @@ The built-in function `output_delimiters()` can be used by MOO code to find out 
 The `.program` command is a common way for programmers to associate a particular MOO-code program with a particular verb. It has the following syntax:
 
 ```
-.program object:verb
-...several lines of MOO code...
+.program `object`:`verb`
+...`several lines of MOO code`...
 .
 ```
 
@@ -3844,11 +3844,11 @@ That is, after typing the `.program` command, then all lines of input from the p
 
 If, at the time the line containing only a dot is processed, (a) the player is not a programmer, (b) the player does not have write permission on the named verb, or (c) the property `$server_options.protect_set_verb_code` exists and has a true value and the player is not a wizard, then an error message is printed and the named verb's program is not changed.
 
-In the `.program` command, object may have one of three forms:
+In the `.program` command, `object` may have one of three forms:
 
 *   The name of some object visible to the player. This is exactly like the kind of matching done by the server for the direct and indirect objects of ordinary commands. See the chapter on command parsing for details. Note that the special names `me` and `here` may be used.
-*   An object number, in the form `#number`.
-*   A _system property_ (that is, a property on `#0`), in the form `$name`. In this case, the current value of `#0.name` must be a valid object.
+*   An object number, in the form ``#`number` ``.
+*   A _system property_ (that is, a property on `#0`), in the form ``$`name` ``. In this case, the current value of ``#0.`name` `` must be a valid object.
 
 #### Flushing Unprocessed Input
 
@@ -3934,13 +3934,13 @@ The maximum number of seconds to wait for a network hostname/address lookup.
 
 The maximum number of seconds to wait for an outbound network connection to successfully open.
 
-`protect_property`
+``protect_`property` ``
 
-Restrict reading of built-in property to wizards.
+Restrict reading of built-in `property` to wizards.
 
-`protect_function`
+``protect_`function` ``
 
-Restrict use of built-in function to wizards.
+Restrict use of built-in `function` to wizards.
 
 `support_numeric_verbname_strings`
 
@@ -3991,7 +3991,7 @@ This connection arrived when the server really couldn't accept any more connecti
 
 This in-bound network connection was idle and un-logged-in for at least `CONNECT_TIMEOUT` seconds (as defined in the file `options.h` when the server was compiled).
 
-Fine point: If the network connection in question was received at a listening point (established by the `listen()` function) handled by an object obj other than `#0`, then system messages for that connection are looked for on `obj.server_options`; if that property does not exist, then `$server_options` is used instead.
+Fine point: If the network connection in question was received at a listening point (established by the `listen()` function) handled by an object `obj` other than `#0`, then system messages for that connection are looked for on `` `obj`.server_options``; if that property does not exist, then `$server_options` is used instead.
 
 #### Checkpointing the Database
 
@@ -4010,10 +4010,10 @@ $checkpoint\_started()
 When the checkpointing process is complete, the server makes the following verb call:
 
 ```
-$checkpoint\_finished(success)
+$checkpoint\_finished(`success`)
 ```
 
-where success is true if and only if the checkpoint was successfully written on the disk. Checkpointing can fail for a number of reasons, usually due to exhaustion of various operating system resources such as virtual memory or disk space. It is not an error if either of these verbs does not exist; the corresponding call is simply skipped.
+where `success` is true if and only if the checkpoint was successfully written on the disk. Checkpointing can fail for a number of reasons, usually due to exhaustion of various operating system resources such as virtual memory or disk space. It is not an error if either of these verbs does not exist; the corresponding call is simply skipped.
 
 ### Networking
 
@@ -4048,22 +4048,22 @@ In that call, the variable `player` will have as its value the negative object n
 If `$do_login_command()` returns a valid player object and the connection is still open, then the connection is considered to have _logged into_ that player. The server then makes one of the following verbs calls, depending on the player object that was returned:
 
 ```
-$user\_created(player)
-$user\_connected(player)
-$user\_reconnected(player)
+$user\_created(`player`)
+$user\_connected(`player`)
+$user\_reconnected(`player`)
 ```
 
 The first of these is used if the returned object number is greater than the value returned by the `max_object()` function before `$do_login_command()` was invoked, that is, it is called if the returned object appears to have been freshly created. If this is not the case, then one of the other two verb calls is used. The `$user_connected()` call is used if there was no existing active connection for the returned player object. Otherwise, the `$user_reconnected()` call is used instead.
 
 Fine point: If a user reconnects and the user's old and new connections are on two different listening points being handled by different objects (see the description of the `listen()` function for more details), then `user_client_disconnected` is called for the old connection and `user_connected` for the new one.
 
-If an in-bound network connection does not successfully log in within a certain period of time, the server will automatically shut down the connection, thereby freeing up the resources associated with maintaining it. Let L be the object handling the listening point on which the connection was received (or `#0` if the connection came in on the initial listening point). To discover the timeout period, the server checks on `L.server_options` or, if it doesn't exist, on `$server_options` for a `connect_timeout` property. If one is found and its value is a positive integer, then that's the number of seconds the server will use for the timeout period. If the `connect_timeout` property exists but its value isn't a positive integer, then there is no timeout at all. If the property doesn't exist, then the default timeout is 300 seconds.
+If an in-bound network connection does not successfully log in within a certain period of time, the server will automatically shut down the connection, thereby freeing up the resources associated with maintaining it. Let `L` be the object handling the listening point on which the connection was received (or `#0` if the connection came in on the initial listening point). To discover the timeout period, the server checks on `` `L`.server_options`` or, if it doesn't exist, on `$server_options` for a `connect_timeout` property. If one is found and its value is a positive integer, then that's the number of seconds the server will use for the timeout period. If the `connect_timeout` property exists but its value isn't a positive integer, then there is no timeout at all. If the property doesn't exist, then the default timeout is 300 seconds.
 
 When any network connection (even an un-logged-in or outbound one) is terminated, by either the server or the client, then one of the following two verb calls is made:
 
 ```
-$user\_disconnected(player)
-$user\_client\_disconnected(player)
+$user\_disconnected(`player`)
+$user\_client\_disconnected(`player`)
 ```
 
 The first is used if the disconnection is due to actions taken by the server (e.g., a use of the `boot_player()` function or the un-logged-in timeout described above) and the second if the disconnection was initiated by the client side.
@@ -4144,18 +4144,18 @@ The specific handler verb, and the set of arguments it is passed, differs for th
 If an error is raised and not caught, then the verb-call
 
 ```
-$handle\_uncaught\_error(code, msg, value, traceback, formatted)
+$handle\_uncaught\_error(`code`, `msg`, `value`, `traceback`, `formatted`)
 ```
 
-is made, where code, msg, value, and traceback are the values that would have been passed to a handler in a `try`\-`except` statement and formatted is a list of strings being the lines of error and traceback output that will be printed to the player if `$handle_uncaught_error` returns false without suspending.
+is made, where `code`, `msg`, `value`, and `traceback` are the values that would have been passed to a handler in a `try`\-`except` statement and `formatted` is a list of strings being the lines of error and traceback output that will be printed to the player if `$handle_uncaught_error` returns false without suspending.
 
 If a task runs out of ticks or seconds, then the verb-call
 
 ```
-$handle\_task\_timeout(resource, traceback, formatted)
+$handle\_task\_timeout(`resource`, `traceback`, `formatted`)
 ```
 
-is made, where resource is the appropriate one of the strings `"ticks"` or `"seconds"`, and traceback and formatted are as above.
+is made, where `resource` is the appropriate one of the strings `"ticks"` or `"seconds"`, and `traceback` and `formatted` are as above.
 
 ### Matching in Command Parsing
 
@@ -4163,9 +4163,9 @@ In the process of matching the direct and indirect object strings in a command t
 
 ### Restricting Access to Built-in Properties and Functions
 
-Whenever verb code attempts to read the value of a built-in property prop on any object, the server checks to see if the property `$server_options.protect_prop` exists and has a true value. If so, then `E_PERM` is raised if the programmer is not a wizard.
+Whenever verb code attempts to read the value of a built-in property `prop` on any object, the server checks to see if the property ``$server_options.protect_`prop` `` exists and has a true value. If so, then `E_PERM` is raised if the programmer is not a wizard.
 
-Whenever verb code calls a built-in function `func()` and the caller is not the object `#0`, the server checks to see if the property `$server_options.protect_func` exists and has a true value. If so, then the server next checks to see if the verb `$bf_func()` exists; if that verb exists, then the server calls it _instead_ of the built-in function, returning or raising whatever that verb returns or raises. If the `$bf_func()` does not exist and the programmer is not a wizard, then the server immediately raises `E_PERM`, _without_ actually calling the function. Otherwise (if the caller is `#0`, if `$server_options.protect_func` either doesn't exist or has a false value, or if `$bf_func()` exists but the programmer is a wizard), then the built-in function is called normally.
+Whenever verb code calls a built-in function `` `func`()`` and the caller is not the object `#0`, the server checks to see if the property ``$server_options.protect_`func` `` exists and has a true value. If so, then the server next checks to see if the verb ``$bf_`func`()`` exists; if that verb exists, then the server calls it _instead_ of the built-in function, returning or raising whatever that verb returns or raises. If the ``$bf_`func`()`` does not exist and the programmer is not a wizard, then the server immediately raises `E_PERM`, _without_ actually calling the function. Otherwise (if the caller is `#0`, if ``$server_options.protect_`func` `` either doesn't exist or has a false value, or if ``$bf_`func`()`` exists but the programmer is a wizard), then the built-in function is called normally.
 
 ### Creating and Recycling Objects
 
