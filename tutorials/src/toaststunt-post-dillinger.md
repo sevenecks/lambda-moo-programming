@@ -1325,7 +1325,7 @@ $name(expr-1, expr-2, ..., expr-N)
 It is often useful to be able to _catch_ an error that an expression raises, to keep the error from aborting the whole task, and to keep on running as if the expression had returned some other value normally. The following expression accomplishes this:
 
 ```
-`` expr-1 ! codes => expr-2 '
+` expr-1 ! codes => expr-2 '
 ```
 
 Note: The open- and close-quotation marks in the previous line are really part of the syntax; you must actually type them as part of your MOO program for this kind of expression.
@@ -1339,24 +1339,24 @@ Next, expr-1 is evaluated. If it evaluates normally, without raising an error, t
 Here are some examples of the use of this kind of expression:
 
 ```
-``x + 1 ! E_TYPE => 0'
+`x + 1 ! E_TYPE => 0'
 ```
 
 Returns `x + 1` if `x` is an integer, returns `0` if `x` is not an integer, and raises `E_VARNF` if `x` doesn't have a value.
 
 ```
-``x.y ! E_PROPNF, E_PERM => 17'
+`x.y ! E_PROPNF, E_PERM => 17'
 ```
 
 Returns `x.y` if that doesn't cause an error, `17` if `x` doesn't have a `y` property or that property isn't readable, and raises some other kind of error (like `E_INVIND`) if `x.y` does.
 
 ```
-``1 / 0 ! ANY'
+`1 / 0 ! ANY'
 ```
 
 Returns `E_DIV`.
 
-Note: It's important to mention how powerful this compact syntax for writing error catching code can be.  When used properly you can write very complex and elegant code. For example imagine that you have a set of objects from different parents, some of which define a specific verb, and some of which do not. If for instance, your code wants to perform some function _if_ the verb exists, you can write ``obj:verbname() ! ANY => 0' to allow the MOO to attempt to execute that verb and then if it fails, catch the error and continue operations normally.
+Note: It's important to mention how powerful this compact syntax for writing error catching code can be.  When used properly you can write very complex and elegant code. For example imagine that you have a set of objects from different parents, some of which define a specific verb, and some of which do not. If for instance, your code wants to perform some function _if_ the verb exists, you can write `obj:verbname() ! ANY => 0' to allow the MOO to attempt to execute that verb and then if it fails, catch the error and continue operations normally.
 
 #### Parentheses and Operator Precedence
 
