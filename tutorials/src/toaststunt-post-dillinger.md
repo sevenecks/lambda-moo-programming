@@ -820,11 +820,11 @@ Integers, floats, object numbers, strings, and error values can also be compared
 As with the equality operators, these return 1 when their operands are in the appropriate relation and 0 otherwise:
 
 ```
-3 &lt; 4           =&gt;  1
-3 &lt; 4.0         =&gt;  E_TYPE (an error)
-#34 &gt;= #32      =&gt;  1
-&quot;foo&quot; &lt;= &quot;Boo&quot;  =&gt;  0
-E_DIV &gt; E_TYPE  =&gt;  1
+3 < 4           =>  1
+3 < 4.0         =>  E_TYPE (an error)
+#34 >= #32      =>  1
+"foo" <= "Boo"  =>  0
+E_DIV > E_TYPE  =>  1
 ```
 
 Note that, as with the equality operators, strings are compared case-insensitively. To perform a case-sensitive string comparison, use the `strcmp` function described later. Also note that the error values are ordered as given in the table in the section on values. If the operands to these four comparison operators are of different types (even integers and floating-point numbers are considered different types), or if they are lists, then `E_TYPE` is raised.
@@ -923,13 +923,13 @@ except that, as with `&&`, expression-1 is only evaluated once.
 These two operators behave very much like "and" and "or" in English:
 
 ```
-1 &amp;&amp; 1                  =&gt;  1
-0 &amp;&amp; 1                  =&gt;  0
-0 &amp;&amp; 0                  =&gt;  0
-1 || 1                  =&gt;  1
-0 || 1                  =&gt;  1
-0 || 0                  =&gt;  0
-17 &lt;= 23  &amp;&amp;  23 &lt;= 27  =&gt;  1
+1 && 1                  =>  1
+0 && 1                  =>  0
+0 && 0                  =>  0
+1 || 1                  =>  1
+0 || 1                  =>  1
+0 || 0                  =>  0
+17 <= 23  &&  23 <= 27  =>  1
 ```
 
 #### Indexing into Lists, Maps and Strings
@@ -1126,7 +1126,7 @@ As was mentioned earlier, lists can be constructed by writing a comma-separated 
 The resulting list has the value of expression-1 as its first element, that of expression-2 as the second, etc.
 
 ```
-{3 &lt; 4, 3 &lt;= 4, 3 &gt;= 4, 3 &gt; 4}  =&gt;  {1, 1, 0, 0}
+{3 < 4, 3 <= 4, 3 >= 4, 3 > 4}  =>  {1, 1, 0, 0}
 ```
 
 Additionally, one may precede any of these expressions by the splicing operator, `@`. Such an expression must return a list; rather than the old list itself becoming an element of the new list, all of the elements of the old list are included in the new list. This concept is easy to understand, but hard to explain in words, so here are some examples. For these examples, assume that the variable `a` has the value `{2, 3, 4}` and that `b` has the value `{"Foo", "Bar"}`:
@@ -1381,8 +1381,8 @@ The table below gives the relative precedence of all of the MOO operators; opera
 ^
 *       /       %
 +       -
-==      !=      &lt;       &lt;=      &gt;       &gt;=      in
-&amp;&amp;      ||
+==      !=      <       <=      >       >=      in
+&&      ||
 ... ? ... | ... (the conditional expression)
 =
 ```
@@ -1390,13 +1390,13 @@ The table below gives the relative precedence of all of the MOO operators; opera
 Thus, the horrendous expression
 
 ```
-x = a &lt; b &amp;&amp; c &gt; d + e * f ? w in y | - q - r
+x = a < b && c > d + e * f ? w in y | - q - r
 ```
 
 would be grouped as follows:
 
 ```
-x = (((a &lt; b) &amp;&amp; (c &gt; (d + (e * f)))) ? (w in y) | ((- q) - r))
+x = (((a < b) && (c > (d + (e * f)))) ? (w in y) | ((- q) - r))
 ```
 
 It is best to keep expressions simpler than this and to use parentheses liberally to make your meaning clear to other humans.
@@ -3420,8 +3420,8 @@ That is, all text after the command name and any following spaces is used as the
 These commands are intended for use by programs connected to the MOO, so that they can issue MOO commands and reliably determine the beginning and end of the resulting output. For example, one editor-based client program sends this sequence of commands on occasion:
 
 ```
-PREFIX &gt;&gt;MOO-Prefix&lt;&lt;
-SUFFIX &gt;&gt;MOO-Suffix&lt;&lt;
+PREFIX >>MOO-Prefix<<
+SUFFIX >>MOO-Suffix<<
 @list object:verb without numbers
 PREFIX
 SUFFIX
