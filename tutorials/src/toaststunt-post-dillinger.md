@@ -168,7 +168,7 @@ ToastStunt is a network-accessible, multi-user, programmable, interactive system
 
 Participants (usually referred to as _players_) connect to ToastStunt using Telnet, SSH, or some other, more specialized, [mud client](https://en.wikipedia.org/wiki/MUD_client). Upon connection, they are usually presented with a _welcome message_ explaining how to either create a new _character_ or connect to an existing one. Characters are the embodiment of players in the virtual reality that is ToastStunt.
 
-Note: No one really connects to a MOO using just a telnet client these days. MOO Clients and MUD Clients are incredibly common, and can connect on the telnet port. See the resources section for more information on these. There are even some web based clients ([dome-client](https://github.com/JavaChilly/dome-client.js)) out there that use websockets to connect to a MOO directly from the browser. And ToastStunt offers secure connections
+> Note: No one really connects to a MOO using just a telnet client these days. MOO Clients and MUD Clients are incredibly common, and can connect on the telnet port. See the resources section for more information on these. There are even some web based clients ([dome-client](https://github.com/JavaChilly/dome-client.js)) out there that use websockets to connect to a MOO directly from the browser. And ToastStunt offers secure connections
     using TLS.
 
 Having connected to a character, players then give one-line commands that are parsed and interpreted by ToastStunt as appropriate. Such commands may cause changes in the virtual reality, such as the location of a character, or may simply report on the current state of that reality, such as the appearance of some object.
@@ -179,7 +179,7 @@ Almost every command is parsed by the server into a call on a MOO procedure, or 
 
 In the next chapter, I describe the structure and contents of a ToastStunt database. The following chapter gives a complete description of how the server performs its primary duty: parsing the commands typed by players.  Next, I describe the complete syntax and semantics of the MOO programming language. Finally, I describe all of the database conventions assumed by the server.
 
-Note: For the most part, this manual describes only those aspects of ToastStunt that are entirely independent of the contents of the database. It does not describe, for example, the commands or programming interfaces present in the ToastCore database. There are exceptions to this, for situations where it seems prudent to delve deeper into these areas.
+> Note: For the most part, this manual describes only those aspects of ToastStunt that are entirely independent of the contents of the database. It does not describe, for example, the commands or programming interfaces present in the ToastCore database. There are exceptions to this, for situations where it seems prudent to delve deeper into these areas.
 
 ## The ToastStunt Database
 
@@ -253,7 +253,7 @@ In programs, we write a reference to a particular object by putting a hash mark 
 #495
 ```
 
-Note: Referencing object numbers in your code should be discouraged. An object only exists until it is recycled. It is technically possible for an object number to change under some circumstances. Thus, you should use a corified reference to an object ($my_special_object) instead. More on corified references later.
+> Note: Referencing object numbers in your code should be discouraged. An object only exists until it is recycled. It is technically possible for an object number to change under some circumstances. Thus, you should use a corified reference to an object ($my_special_object) instead. More on corified references later.
 
 Object numbers are always integers.
 
@@ -305,7 +305,7 @@ Another important value in MOO programs is _lists_. A list is a sequence of arbi
  "Thursday", "Friday", "Saturday"}
 ```
 
-Note: It doesn't matter that we put a line-break in the middle of the list. This is true in general in MOO: anywhere that a space can go, a line-break can go, with the same meaning. The only exception is inside character strings, where line-breaks are not allowed.
+> Note: It doesn't matter that we put a line-break in the middle of the list. This is true in general in MOO: anywhere that a space can go, a line-break can go, with the same meaning. The only exception is inside character strings, where line-breaks are not allowed.
 
 The final type in MOO is a _map_. It is sometimes called a hashmap, assosciate array, or dictionary in other programming languages. A map is written as a set of key -> value pairs, for example: `["key" -> "value", 0 -> {}, #15840 -> []]`. Keys must be unique.
 
@@ -322,7 +322,7 @@ The key of a map can be:
 
 The value of a map can be an valid MOO type including another map.
 
-Note: Finding a value in a list is BigO(n) as a it uses a linear search. Maps are much more effective and are BigO(1) for retrieving a specific value by key.
+> Note: Finding a value in a list is BigO(n) as a it uses a linear search. Maps are much more effective and are BigO(1) for retrieving a specific value by key.
 
 ### Objects in the MOO Database
 
@@ -410,7 +410,7 @@ The final kind of piece making up an object is _verbs_. A verb is a named MOO pr
 
 It is also possible for MOO programs to invoke the verbs defined on objects. Some verbs, in fact, are designed to be used only from inside MOO code; they do not correspond to any particular player command at all. Thus, verbs in MOO are like the _procedures_ or _methods_ found in some other programming languages.
 
-Note: There are even more ways to refer to _verbs_ and their counterparts in other programming language: _procedure_, _function_, _subroutine_, _subprogram_, and _method_ are the primary onces. However, in _Object Oriented Programming_ abbreviated _OOP_ you may primarily know them as methods.
+> Note: There are even more ways to refer to _verbs_ and their counterparts in other programming language: _procedure_, _function_, _subroutine_, _subprogram_, and _method_ are the primary onces. However, in _Object Oriented Programming_ abbreviated _OOP_ you may primarily know them as methods.
 
 As with properties, every verb has an owner and a set of permission bits. The owner of a verb can change its program, its permission bits, and its argument specifiers (discussed below). Only a wizard can change the owner of a verb.
 
@@ -424,7 +424,7 @@ The execute bit determines whether or not the verb can be invoked from within a 
 
 The setting of the debug bit determines what happens when the verb's program does something erroneous, like subtracting a number from a character string.  If the `d` bit is set, then the server _raises_ an error value; such raised errors can be _caught_ by certain other pieces of MOO code. If the error is not caught, however, the server aborts execution of the command and, by default, prints an error message on the terminal of the player whose command is being executed. (See the chapter on server assumptions about the database for details on how uncaught errors are handled.)  If the `d` bit is not set, then no error is raised, no message is printed, and the command is not aborted; instead the error value is returned as the result of the erroneous operation.
 
-Note: The `d` bit exists only for historical reasons; it used to be the only way for MOO code to catch and handle errors. With the introduction of the `try` -`except` statement and the error-catching expression, the `d` bit is no longer useful. All new verbs should have the `d` bit set, using the newer facilities for error handling if desired. Over time, old verbs written assuming the `d` bit would not be set should be changed to use the new facilities instead.
+> Note: The `d` bit exists only for historical reasons; it used to be the only way for MOO code to catch and handle errors. With the introduction of the `try` -`except` statement and the error-catching expression, the `d` bit is no longer useful. All new verbs should have the `d` bit set, using the newer facilities for error handling if desired. Over time, old verbs written assuming the `d` bit would not be set should be changed to use the new facilities instead.
 
 In addition to an owner and some permission bits, every verb has three _argument specifiers_, one each for the `direct object`, the `preposition`, and the `indirect object`. The direct and indirect specifiers are each drawn from this set: `this`, `any`, or `none`. The preposition specifier is `none`, `any`, or one of the items in this list:
 
@@ -523,7 +523,7 @@ The next step is to try to find MOO objects that are named by the direct and ind
 
 First, if an object string is empty, then the corresponding object is the special object `#-1` (aka `$nothing` in ToastCore). If an object string has the form of an object number (i.e., a hash mark (`#`) followed by digits), and the object with that number exists, then that is the named object. If the object string is either `"me"` or `"here"`, then the player object itself or its location is used, respectively.
 
-Note: $nothing is considered a `corified` object.  This means that a _property_ has been created on `#0` named `nothing` with the value of `#-1`. For example (after creating the property): `;#0.nothing = #-1`
+> Note: $nothing is considered a `corified` object.  This means that a _property_ has been created on `#0` named `nothing` with the value of `#-1`. For example (after creating the property): `;#0.nothing = #-1`
 
 This allows you to reference the `#-1` object via it's corified reference of `$nothing`. In practice this can be very useful as you can use corified references in your code (and should!) instead of object numbers.
 
@@ -602,7 +602,7 @@ for x in (players())
 endfor
 ```
 
-Note: In practice, the only style of comments you will use is quoted strings of text. Get used to it. Another thing of note is that these strings ARE evaluated. Nothing is done with the results of the evaluation, because the value is not stored anywhere-- however, it may be prudent to keep string comments out of nested loops to make your code a bit faster.
+> Note: In practice, the only style of comments you will use is quoted strings of text. Get used to it. Another thing of note is that these strings ARE evaluated. Nothing is done with the results of the evaluation, because the value is not stored anywhere-- however, it may be prudent to keep string comments out of nested loops to make your code a bit faster.
 
 ### MOO Language Expressions
 
@@ -618,7 +618,7 @@ is an expression that generates (or "has" or "returns") the value 7.  There are 
 
 Most kinds of expressions can, under some circumstances, cause an error to be generated. For example, the expression `x / y` will generate the error `E_DIV` if `y` is equal to zero. When an expression generates an error, the behavior of the server is controlled by setting of the `d` (debug) bit on the verb containing that expression. If the `d` bit is not set, then the error is effectively squelched immediately upon generation; the error value is simply returned as the value of the expression that generated it.
 
-Note: This error-squelching behavior is very error prone, since it affects _all_ errors, including ones the programmer may not have anticipated. The `d` bit exists only for historical reasons; it was once the only way for MOO programmers to catch and handle errors. The error-catching expression and the `try` -`except` statement, both described below, are far better ways of accomplishing the same thing.
+> Note: This error-squelching behavior is very error prone, since it affects _all_ errors, including ones the programmer may not have anticipated. The `d` bit exists only for historical reasons; it was once the only way for MOO programmers to catch and handle errors. The error-catching expression and the `try` -`except` statement, both described below, are far better ways of accomplishing the same thing.
 
 If the `d` bit is set, as it usually is, then the error is _raised_ and can be caught and handled either by code surrounding the expression in question or by verbs higher up on the chain of calls leading to the current verb. If the error is not caught, then the server aborts the entire task and, by default, prints a message to the current player. See the descriptions of the error-catching expression and the `try`-`except` statement for the details of how errors can be caught, and the chapter on server assumptions about the database for details on the handling of uncaught errors.
 
@@ -850,9 +850,9 @@ All other values are false:
 * all error values
 * the bool 'false'
 
-Note: Objects are considered false. If you need to evaluate if a value is of the type object, you can use `typeof(potential_object) == OBJ` however, keep in mind that this does not mean that the object referenced actually exists. IE: #100000000 will return true, but that does not mean that object exists in your MOO.
+> Note: Objects are considered false. If you need to evaluate if a value is of the type object, you can use `typeof(potential_object) == OBJ` however, keep in mind that this does not mean that the object referenced actually exists. IE: #100000000 will return true, but that does not mean that object exists in your MOO.
 
-Note: Don't get confused between values evaluating to true or false, and the boolean values of true and `false`.
+> Note: Don't get confused between values evaluating to true or false, and the boolean values of true and `false`.
 
 There are four kinds of expressions and two kinds of statements that depend upon this classification of MOO values. In describing them, I sometimes refer to the _truth value_ of a MOO value; this is just _true_ or _false_, the category into which that MOO value is classified.
 
@@ -862,7 +862,7 @@ The conditional expression in MOO has the following form:
 expression-1 ? expression-2 | expression-3
 ```
 
-Note: This is commonly refered to as a ternary statement in most programming languages. In MOO the commonly used ! is replaced with a |.
+> Note: This is commonly refered to as a ternary statement in most programming languages. In MOO the commonly used ! is replaced with a |.
 
 First, expression-1 is evaluated. If it returns a true value, then expression-2 is evaluated and whatever it returns is returned as the value of the conditional expression as a whole. If expression-1 returns a false value, then expression-3 is evaluated instead and its value is used as that of the conditional expression.
 
@@ -889,7 +889,7 @@ If the value of expression is true, `!` returns 0; otherwise, it returns 1:
 
 The negation operator is usually read as "not."
 
-Note: The "negation" or "not" operator is commonly referred to as "bang" in modern parlance.
+> Note: The "negation" or "not" operator is commonly referred to as "bang" in modern parlance.
 
 It is frequently useful to test more than one condition to see if some or all of them are true. MOO provides two operators for this:
 
@@ -902,7 +902,7 @@ These operators are usually read as "and" and "or," respectively.
 
 The `&&` operator first evaluates expression-1. If it returns a true value, then expression-2 is evaluated and its value becomes the value of the `&&` expression as a whole; otherwise, the value of expression-1 is used as the value of the `&&` expression.
 
-Note: expression-2 is only evaluated if expression-1 returns a true value.
+> Note: expression-2 is only evaluated if expression-1 returns a true value.
 
 The `&&` expression is equivalent to the conditional expression:
 
@@ -1005,9 +1005,9 @@ m                 =>   ["foo" -> "bar"]
 m[1] = "baz"      =>   ["foo" -> "baz"]
 ```
 
-Note: (error) is only used for formatting and identification purposes in these examples and is not present in an actual raised error on the MOO.
+> Note: (error) is only used for formatting and identification purposes in these examples and is not present in an actual raised error on the MOO.
 
-Note: The `$` expression may also be used in indexed assignments with the same meaning as before.
+> Note: The `$` expression may also be used in indexed assignments with the same meaning as before.
 
 Fine point: After an indexed assignment, the variable or property contains a _new_ list or string, a copy of the original list in all but the n-th place, where it contains a new value. In programming-language jargon, the original list is not mutated, and there is no aliasing. (Indeed, no MOO value is mutable and no aliasing ever occurs.)
 
@@ -1092,7 +1092,7 @@ v = v[1..start - 1] + value + v[end + 1..$]
 
 if v is a string. The assigment expression itself returns the value of result-expr.
 
-Note: The use of preceeding a list with the @ symbol is covered in just a bit.
+> Note: The use of preceeding a list with the @ symbol is covered in just a bit.
 
 For the following examples, assume that `l` initially contains the list `{1, 2, 3}` and that `s` initially contains the string "foobar":
 
@@ -1328,7 +1328,7 @@ It is often useful to be able to _catch_ an error that an expression raises, to 
 ` expr-1 ! codes => expr-2 '
 ```
 
-Note: The open- and close-quotation marks in the previous line are really part of the syntax; you must actually type them as part of your MOO program for this kind of expression.
+> Note: The open- and close-quotation marks in the previous line are really part of the syntax; you must actually type them as part of your MOO program for this kind of expression.
 
 The codes part is either the keyword `ANY` or else a comma-separated list of expressions, just like an argument list. As in an argument list, the splicing operator (`@`) can be used here. The `=> expr-2` part of the error-catching expression is optional.
 
@@ -1356,7 +1356,7 @@ Returns `x.y` if that doesn't cause an error, `17` if `x` doesn't have a `y` pro
 
 Returns `E_DIV`.
 
-Note: It's important to mention how powerful this compact syntax for writing error catching code can be.  When used properly you can write very complex and elegant code. For example imagine that you have a set of objects from different parents, some of which define a specific verb, and some of which do not. If for instance, your code wants to perform some function _if_ the verb exists, you can write `obj:verbname() ! ANY => 0' to allow the MOO to attempt to execute that verb and then if it fails, catch the error and continue operations normally.
+> Note: It's important to mention how powerful this compact syntax for writing error catching code can be.  When used properly you can write very complex and elegant code. For example imagine that you have a set of objects from different parents, some of which define a specific verb, and some of which do not. If for instance, your code wants to perform some function _if_ the verb exists, you can write `obj:verbname() ! ANY => 0' to allow the MOO to attempt to execute that verb and then if it fails, catch the error and continue operations normally.
 
 #### Parentheses and Operator Precedence
 
@@ -1409,7 +1409,7 @@ Statements are MOO constructs that, in contrast to expressions, perform some use
 
 Statements do not return values, but some kinds of statements can, under certain circumstances described below, generate errors. If such an error is generated in a verb whose `d` (debug) bit is not set, then the error is ignored and the statement that generated it is simply skipped; execution proceeds with the next statement.
 
-Note: This error-ignoring behavior is very error prone, since it affects _all_ errors, including ones the programmer may not have anticipated. The `d` bit exists only for historical reasons; it was once the only way for MOO programmers to catch and handle errors. The error-catching expression and the `try` -`except` statement are far better ways of accomplishing the same thing.
+> Note: This error-ignoring behavior is very error prone, since it affects _all_ errors, including ones the programmer may not have anticipated. The `d` bit exists only for historical reasons; it was once the only way for MOO programmers to catch and handle errors. The error-catching expression and the `try` -`except` statement are far better ways of accomplishing the same thing.
 
 If the `d` bit is set, as it usually is, then the error is _raised_ and can be caught and handled either by code surrounding the expression in question or by verbs higher up on the chain of calls leading to the current verb. If the error is not caught, then the server aborts the entire task and, by default, prints a message to the current player. See the descriptions of the error-catching expression and the `try`-`except` statement for the details of how errors can be caught, and the chapter on server assumptions about the database for details on the handling of uncaught errors.
 
@@ -1848,7 +1848,7 @@ endfork
 
 then that variable is assigned the _task ID_ of the newly-created task.  The value of this variable is visible both to the task executing the fork statement and to the statements in the newly-created task. This ID can be passed to the `kill_task()` function to keep the task from running and will be the value of `task_id()` once the task begins execution.
 
-Note: This feature has other uses as well. The MOO is single threaded (though ToastStunt supports some built-ins executing on other threads), which means that complex logic (verbs that call verbs that call verbs ...) can cause the MOO to _lag_. For instance, let's say when your user tosses their ball up, you want to calculate a complex trejectory involve the ball and other objects in the room. These calculations are costly and done in another verb, they take time to be performed. However, you want some actions to happen both before the calculations (everyone in the room seeing the ball is thrown into the air) and after the ball has left the players hands (the player reaches into their pocket and pulls out a new ball). If there is no `fork()` then the calculations need to complete before the verb can continue execution, which means the player won't pull out a fresh ball until after the calculations are complete. A `fork()` allows the player to throw the ball, the MOO to `fork()` the task, which allows execution of the verb to continue right away and the user to pull out a new ball, without experiencing the delay that the calculations being returned (without a `fork()`) would have inccured.
+> Note: This feature has other uses as well. The MOO is single threaded (though ToastStunt supports some built-ins executing on other threads), which means that complex logic (verbs that call verbs that call verbs ...) can cause the MOO to _lag_. For instance, let's say when your user tosses their ball up, you want to calculate a complex trejectory involve the ball and other objects in the room. These calculations are costly and done in another verb, they take time to be performed. However, you want some actions to happen both before the calculations (everyone in the room seeing the ball is thrown into the air) and after the ball has left the players hands (the player reaches into their pocket and pulls out a new ball). If there is no `fork()` then the calculations need to complete before the verb can continue execution, which means the player won't pull out a fresh ball until after the calculations are complete. A `fork()` allows the player to throw the ball, the MOO to `fork()` the task, which allows execution of the verb to continue right away and the user to pull out a new ball, without experiencing the delay that the calculations being returned (without a `fork()`) would have inccured.
 
 An example of this:
 
@@ -3187,7 +3187,7 @@ set_task_perms -- changes the permissions with which the currently-executing ver
 one `set_task_perms` (obj who)
 
 If the programmer is neither who nor a wizard, then `E_PERM` is raised.
-Note: This does not change the owner of the currently-running verb, only the permissions of this particular invocation. It is used in verbs owned by wizards to make themselves run with lesser (usually non-wizard) permissions.
+> Note: This does not change the owner of the currently-running verb, only the permissions of this particular invocation. It is used in verbs owned by wizards to make themselves run with lesser (usually non-wizard) permissions.
 **Function: `caller_perms`**
 
 caller_perms -- returns the permissions in use by the verb that called the currently-executing verb
@@ -3611,7 +3611,7 @@ The first is used if the disconnection is due to actions taken by the server (e.
 
 It is not an error if any of these five verbs do not exist; the corresponding call is simply skipped.
 
-Note: Only one network connection can be controlling a given player object at a given time; should a second connection attempt to log in as that player, the first connection is unceremoniously closed (and `$user_reconnected()` called, as described above). This makes it easy to recover from various kinds of network problems that leave connections open but inaccessible.
+> Note: Only one network connection can be controlling a given player object at a given time; should a second connection attempt to log in as that player, the first connection is unceremoniously closed (and `$user_reconnected()` called, as described above). This makes it easy to recover from various kinds of network problems that leave connections open but inaccessible.
 
 When the network connection is first established, the null command is automatically entered by the server, resulting in an initial call to `$do_login_command()` with no arguments. This signal can be used by the verb to print out a welcome message, for example.
 
