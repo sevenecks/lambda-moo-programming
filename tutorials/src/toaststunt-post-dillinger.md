@@ -566,30 +566,20 @@ So, the server considers several objects in turn, checking each of their verbs i
 
 At long last, we have a program to run in response to the command typed by the player. When the code for the program begins execution, the following built-in variables will have the indicated values:
 
-<dl>
-    <dt>player</dt>
-    <dd>an object, the player who typed the command</dd>
-    <dt>this</dt>
-    <dd>an object, the object on which this verb was found</dd>
-    <dt>caller</dt>
-    <dd>an object, the same as <code>player</code></dd>
-    <dt>verb</dt>
-    <dd>a string, the first word of the command</dd>
-    <dt>argstr</dt>
-    <dd>a string, everything after the first word of the command</dd>
-    <dt>args</dt>
-    <dd>a list of strings, the words in <code>argstr</code></dd>
-    <dt>dobjstr</dt>
-    <dd>a string, the direct object string found during parsing</dd>
-    <dt>dobj</dt>
-    <dd>an object, the direct object value found during matching</dd>
-    <dt>prepstr</dt>
-    <dd>a string, the prepositional phrase found during parsing</dd>
-    <dt>iobjstr</dt>
-    <dd>a string, the indirect object string</dd>
-    <dt>iobj</dt>
-    <dd>an object, the indirect object value</dd>
-</dl>
+| Variable  | Value |
+| ------------- | ------------- |
+| player | an object, the player who typed the command |
+| this | an object, the object on which this verb was found |
+| caller | an object, the same as <code>player</code> |
+| verb | a string, the first word of the command |
+| argstr | a string, everything after the first word of the command |
+| args | a list of strings, the words in <code>argstr</code> |
+| dobjstr | a string, the direct object string found during parsing |
+| dobj | an object, the direct object value found during matching |
+| prepstr | a string, the prepositional phrase found during parsing |
+| iobjstr | a string, the indirect object string |
+| iobj | an object, the indirect object value |
+
 
 The value returned by the program, if any, is ignored by the server.
 
@@ -700,43 +690,28 @@ A variable name is itself an expression; its value is the value of the named var
 
 The values of some of these variables always start out the same:
 
-<dl>
-    <dt><code>INT</code></dt>
-    <dd>an integer, the type code for integers (see the description of the function <code>typeof()</code>, below)</dd>
-    <dt><code>FLOAT</code></dt>
-    <dd>an integer, the type code for floating-point numbers</dd>
-    <dt><code>OBJ</code>
-    <dd>an integer, the type code for objects</dd>
-    <dt><code>STR</code></dt>
-    <dd>an integer, the type code for strings</dd>
-    <dt><code>LIST</code></dt>
-    <dd>an integer, the type code for lists</dd>
-    <dt><code>ERR</code></dt>
-    <dd>an integer, the type code for error values</dd>
-    <dt><code>BOOL</code></dt>
-    <dd>an integer, the type code for bool values</dd>
-    <dt><code>MAP</code></dt>
-    <dd>an integer, the type code for map values</dd>
-    <dt><code>WAIF</code></dt>
-    <dd>an integer, the type code for WAIF values</dd>
-    <dt><code>ANON</code></dt>
-    <dd>an integer, the type code for anonymous object values</dd>
-</dt></dl>
+| Variable  | Initial Value |
+| ------------- | ------------- |
+| <code>INT</code> | an integer, the type code for integers (see the description of the function <code>typeof()</code>, below) |
+| <code>FLOAT</code> | an integer, the type code for floating-point numbers |
+| <code>OBJ</code> | an integer, the type code for objects |
+| <code>STR</code> | an integer, the type code for strings |
+| <code>LIST</code> | an integer, the type code for lists |
+| <code>ERR</code> | an integer, the type code for error values |
+| <code>BOOL</code> | an integer, the type code for bool values |
+| <code>MAP</code> | an integer, the type code for map values |
+| <code>WAIF</code> | an integer, the type code for WAIF values |
+| <code>ANON</code> | an integer, the type code for anonymous object values |
 
 For others, the general meaning of the value is consistent, though the value itself is different for different situations:
 
-<dl>
-    <dt><code>player</code></dt>
-    <dd>an object, the player who typed the command that started the task that involved running this piece of code.</dd>
-    <dt><code>this</code></dt>
-    <dd>an object, the object on which the currently-running verb was found.</dd>
-    <dt><code>caller</code></dt>
-    <dd>an object, the object on which the verb that called the currently-running verb was found. For the first verb called for a given command, <code>caller</code> has the same value as <code>player</code>.</dd>
-    <dt><code>verb</code></dt>
-    <dd>a string, the name by which the currently-running verb was identified.</dd>
-    <dt><code>args</code></dt>
-    <dd>a list, the arguments given to this verb. For the first verb called for a given command, this is a list of strings, the words on the command line.</dd>
-</dl>
+| Variable  |  Value |
+| ------------- | ------------- |
+| <code>player</code> | an object, the player who typed the command that started the task that involved running this piece of code.
+| <code>this</code> | an object, the object on which the currently-running verb was found.
+| <code>caller</code> | an object, the object on which the verb that called the currently-running verb was found. For the first verb called for a given command, <code>caller</code> has the same value as <code>player</code>.
+| <code>verb</code> | a string, the name by which the currently-running verb was identified.
+| <code>args</code> | a list, the arguments given to this verb. For the first verb called for a given command, this is a list of strings, the words on the command line.
 
 The rest of the so-called "built-in" variables are only really meaningful for the first verb called for a given command. Their semantics is given in the discussion of command parsing, above.
 
@@ -833,26 +808,22 @@ Warning: Comparing floating point numbers for equality can be tricky. Sometimes 
 
 Integers, floats, object numbers, strings, and error values can also be compared for ordering purposes using the following operators:
 
-<dl>
-    <dt>&lt;</dt>
-    <dd>meaning &quot;less than&quot;</dd>
-    <dt>&lt;=</dt>
-    <dd>&quot;less than or equal&quot;</dd>
-    <dt>&gt;=</dt>
-    <dd>&quot;greater than or equal&quot;</dd>
-    <dt>&gt;</dt>
-    <dd>&quot;greater than&quot;</dd>
-</dl>
+| Operator  | Meaning |
+| ------------- | ------------- |
+| &lt; | meaning &quot;less than&quot; |
+| &lt;= | &quot;less than or equal&quot; |
+| &gt;= | &quot;greater than or equal&quot; |
+| &gt; | &quot;greater than&quot; |
 
 As with the equality operators, these return 1 when their operands are in the appropriate relation and 0 otherwise:
 
-<pre>
+```
 3 &lt; 4           =&gt;  1
 3 &lt; 4.0         =&gt;  E_TYPE (an error)
 #34 &gt;= #32      =&gt;  1
 &quot;foo&quot; &lt;= &quot;Boo&quot;  =&gt;  0
 E_DIV &gt; E_TYPE  =&gt;  1
-</pre>
+```
 
 Note that, as with the equality operators, strings are compared case-insensitively. To perform a case-sensitive string comparison, use the `strcmp` function described later. Also note that the error values are ordered as given in the table in the section on values. If the operands to these four comparison operators are of different types (even integers and floating-point numbers are considered different types), or if they are lists, then `E_TYPE` is raised.
 
@@ -1207,16 +1178,12 @@ MOO provides a special kind of assignment expression, called _scattering assignm
 
 where each target describes a place to store elements of the list that results from evaluating expr. A target has one of the following forms:
 
-<dl>
-    <dt><code>variable</code></dt>
-    <dd>This is the simplest target, just a simple variable; the list element in the corresponding position is assigned to the variable. This is called a <em>required</em> target, since the assignment is required to put one of the list elements into the variable.</dd>
-    <dt><code>?variable</code></dt>
-    <dd>This is called an <em>optional</em> target, since it doesn&apos;t always get assigned an element. If there are any list elements left over after all of the required targets have been accounted for (along with all of the other optionals to the left of this one), then this variable is treated like a required one and the list element in the corresponding position is assigned to the variable. If there aren&apos;t enough elements to assign one to this target, then no assignment is made to this variable, leaving it with whatever its previous value was.</dd>
-    <dt><code>?variable = default-expr</code></dt>
-    <dd>This is also an optional target, but if there aren&apos;t enough list elements available to assign one to this target, the result of evaluating default-expr is assigned to it instead. Thus, default-expr provides a <em>default value</em> for the variable. The default value expressions are evaluated and assigned working from left to right <em>after</em> all of the other assignments have been performed.</dd>
-    <dt><code>@variable</code></dt>
-    <dd>By analogy with the <code>@</code> syntax in list construction, this variable is assigned a list of all of the &apos;leftover&apos; list elements in this part of the list after all of the other targets have been filled in. It is assigned the empty list if there aren&apos;t any elements left over. This is called a <em>rest</em> target, since it gets the rest of the elements. There may be at most one rest target in each scattering assignment expression.</dd>
-</dl>
+| Target  | Description |
+| ------------- | ------------- |
+| <code>variable</code> | This is the simplest target, just a simple variable; the list element in the corresponding position is assigned to the variable. This is called a <em>required</em> target, since the assignment is required to put one of the list elements into the variable. |
+| <code>?variable</code> | This is called an <em>optional</em> target, since it doesn&apos;t always get assigned an element. If there are any list elements left over after all of the required targets have been accounted for (along with all of the other optionals to the left of this one), then this variable is treated like a required one and the list element in the corresponding position is assigned to the variable. If there aren&apos;t enough elements to assign one to this target, then no assignment is made to this variable, leaving it with whatever its previous value was. |
+| <code>?variable = default-expr</code> | This is also an optional target, but if there aren&apos;t enough list elements available to assign one to this target, the result of evaluating default-expr is assigned to it instead. Thus, default-expr provides a <em>default value</em> for the variable. The default value expressions are evaluated and assigned working from left to right <em>after</em> all of the other assignments have been performed. |
+| <code>@variable</code> | By analogy with the <code>@</code> syntax in list construction, this variable is assigned a list of all of the &apos;leftover&apos; list elements in this part of the list after all of the other targets have been filled in. It is assigned the empty list if there aren&apos;t any elements left over. This is called a <em>rest</em> target, since it gets the rest of the elements. There may be at most one rest target in each scattering assignment expression. |
 
 If there aren't enough list elements to fill all of the required targets, or if there are more than enough to fill all of the required and optional targets but there isn't a rest target to take the leftover ones, then `E_ARGS` is raised.
 
