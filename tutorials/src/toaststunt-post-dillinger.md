@@ -280,41 +280,23 @@ _Errors_ are, by far, the least frequently used values in MOO. In the normal cas
 | ------------- | ------------- |
 | E_NONE | No error |
 | E_TYPE | Type mismatch |
-E_DIV
-Division by zero
-E_PERM
-Permission denied
-E_PROPNF
-Property not found
-E_VERBNF
-Verb not found
-E_VARNF
-Variable not found
-E_INVIND
-Invalid indirection
-E_RECMOVE
-Recursive move
-E_MAXREC
-Too many verb calls
-E_RANGE
-Range error
-E_ARGS
-Incorrect number of arguments
-E_NACC
-Move refused by destination
-E_INVARG
-Invalid argument
-E_QUOTA
-Resource limit exceeded
-E_FLOAT
-Floating-point arithmetic error
-E_FILE
-File system error
-E_EXEC
-Exec error
-E_INTRPT
-Interrupted
-
+| E_DIV | Division by zero |
+| E_PERM | Permission denied |
+| E_PROPNF | Property not found |
+| E_VERBNF | Verb not found |
+| E_VARNF | Variable not found |
+| E_INVIND | Invalid indirection |
+| E_RECMOVE | Recursive move |
+| E_MAXREC | Too many verb calls |
+| E_RANGE | Range error |
+| E_ARGS | Incorrect number of arguments |
+| E_NACC | Move refused by destination |
+| E_INVARG | Invalid argument |
+| E_QUOTA | Resource limit exceeded |
+| E_FLOAT | Floating-point arithmetic error |
+| E_FILE | File system error |
+| E_EXEC | Exec error |
+| E_INTRPT | Interrupted |
 
 Another important value in MOO programs is _lists_. A list is a sequence of arbitrary MOO values, possibly including other lists. In programs, lists are written in mathematical set notation with each of the elements written out in order, separated by commas, the whole enclosed in curly braces (`{` and `}`). For example, a list of the names of the days of the week is written like this:
 
