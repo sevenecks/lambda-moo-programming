@@ -3497,32 +3497,20 @@ Many optional behaviors of the server can be controlled from within the database
 
 The specific properties searched for are each described in the appropriate section below, but here is a brief list of all of the relevant properties for ease of reference:
 
-<dl>
-    <dt><code>bg_seconds</code></dt>
-    <dd>The number of seconds allotted to background tasks.</dd>
-    <dt><code>bg_ticks</code>
-    <dd>The number of ticks allotted to background tasks.</dd>
-    <dt><code>connect_timeout</code></dt>
-    <dd>The maximum number of seconds to allow an un-logged-in in-bound connection to remain open.</dd>
-    <dt><code>default_flush_command</code></dt>
-    <dd>The initial setting of each new connection&apos;s flush command.</dd>
-    <dt><code>fg_seconds</code></dt>
-    <dd>The number of seconds allotted to foreground tasks.</dd>
-    <dt><code>fg_ticks</code></dt>
-    <dd>The number of ticks allotted to foreground tasks.</dd>
-    <dt><code>max_stack_depth</code></dt>
-    <dd>The maximum number of levels of nested verb calls.</dd>
-    <dt><code>name_lookup_timeout</code></dt>
-    <dd>The maximum number of seconds to wait for a network hostname/address lookup.</dd>
-    <dt><code>outbound_connect_timeout</code></dt>
-    <dd>The maximum number of seconds to wait for an outbound network connection to successfully open.</dd>
-    <dt><code>protect_property</code></dt>
-    <dd>Restrict reading of built-in property to wizards.</dd>
-    <dt><code>protect_function</code></dt>
-    <dd>Restrict use of built-in function to wizards.</dd>
-    <dt><code>support_numeric_verbname_strings</code></dt>
-    <dd>Enables use of an obsolete verb-naming mechanism.</dd>
-</dt></dl>
+| Property  | Description |
+| ------------- | ------------- |
+| <code>bg_seconds</code> | The number of seconds allotted to background tasks. |
+| <code>bg_ticks</code> | The number of ticks allotted to background tasks. |
+| <code>connect_timeout</code> | The maximum number of seconds to allow an un-logged-in in-bound connection to remain open. |
+| <code>default_flush_command</code> | The initial setting of each new connection&apos;s flush command. |
+| <code>fg_seconds</code> | The number of seconds allotted to foreground tasks. |
+| <code>fg_ticks</code> | The number of ticks allotted to foreground tasks. |
+| <code>max_stack_depth</code> | The maximum number of levels of nested verb calls. |
+| <code>name_lookup_timeout</code> | The maximum number of seconds to wait for a network hostname/address lookup. |
+| <code>outbound_connect_timeout</code> | The maximum number of seconds to wait for an outbound network connection to successfully open. |
+| <code>protect_property</code> | Restrict reading of built-in property to wizards. |
+| <code>protect_function</code> | Restrict use of built-in function to wizards. |
+| <code>support_numeric_verbname_strings</code> | Enables use of an obsolete verb-naming mechanism. |
 
 #### Server Messages Set in the Database
 
@@ -3530,32 +3518,17 @@ There are a number of circumstances under which the server itself generates mess
 
 The following list covers all of the customizable messages, showing for each the name of the relevant property on `$server_options`, the default message, and the circumstances under which the message is printed:
 
-<dl>
-    <dt><code>boot_msg = &quot;*** Disconnected ***&quot;</code></dt>
-    <dd> The function <code>boot_player()</code> was called on this connection.</dd>
-    <dt><code>connect_msg = &quot;*** Connected ***&quot;</code></dt>
-    <dd> The user object that just logged in on this connection existed before <code>$do_login_command()</code> was called.</dd>
-    <dt><code>create_msg = &quot;*** Created ***&quot;</code></dt>
-    <dd> The user object that just logged in on this connection did not exist before <code>$do_login_command()</code> was called.</dd>
-    <dt><code>recycle_msg = &quot;*** Recycled ***&quot;</code></dt>
-    <dd>The logged-in user of this connection has been recycled or renumbered (via the renumber() function).</dd>
-    <dt><code>redirect_from_msg = &quot;*** Redirecting connection to new port ***&quot;</code></dt>
-    <dd> The logged-in user of this connection has just logged in on some other connection.</dd>
-    <dt><code>redirect_to_msg = &quot;*** Redirecting old connection to this port ***&quot;</code></dt>
-    <dd> The user who just logged in on this connection was already logged in on some other connection.</dd>
-    <dt><code>server_full_msg</code></dt>
-    <dd> Default:
+| Default Message  | Description |
+| ------------- | ------------- |
+| <code>boot_msg = &quot;*** Disconnected ***&quot;</code> | The function <code>boot_player()</code> was called on this connection. |
+| <code>connect_msg = &quot;*** Connected ***&quot;</code> | The user object that just logged in on this connection existed before <code>$do_login_command()</code> was called. |
+| <code>create_msg = &quot;*** Created ***&quot;</code> | The user object that just logged in on this connection did not exist before <code>$do_login_command()</code> was called. |
+| <code>recycle_msg = &quot;*** Recycled ***&quot;</code> | The logged-in user of this connection has been recycled or renumbered (via the renumber() function). |
+| <code>redirect_from_msg = &quot;*** Redirecting connection to new port ***&quot;</code> | The logged-in user of this connection has just logged in on some other connection. |
+| <code>redirect_to_msg = &quot;*** Redirecting old connection to this port ***&quot;</code> | The user who just logged in on this connection was already logged in on some other connection. |
+| <code>server_full_msg</code> Default:  *** Sorry, but the server cannot accept any more connections right now.<br> *** Please try again later.  | This connection arrived when the server really couldn&apos;t accept any more connections, due to running out of a critical operating system resource. |
+| <code>timeout_msg = &quot;*** Timed-out waiting for login. ***&quot;</code> | This in-bound network connection was idle and un-logged-in for at least <code>CONNECT_TIMEOUT</code> seconds (as defined in the file <code>options.h</code> when the server was compiled). |
 
-```
-*** Sorry, but the server cannot accept any more connections right now.
-*** Please try again later.
-```
-
-    This connection arrived when the server really couldn&apos;t accept any more
-    connections, due to running out of a critical operating system resource.</dd>
-    <dt><code>timeout_msg = &quot;*** Timed-out waiting for login. ***&quot;</code></dt>
-    <dd> This in-bound network connection was idle and un-logged-in for at least <code>CONNECT_TIMEOUT</code> seconds (as defined in the file <code>options.h</code> when the server was compiled).</dd>
-</dl>
 Fine point: If the network connection in question was received at a listening point (established by the `listen()` function) handled by an object obj other than `#0`, then system messages for that connection are looked for on `obj.server_options`; if that property does not exist, then `$server_options` is used instead.
 
 #### Checkpointing the Database
