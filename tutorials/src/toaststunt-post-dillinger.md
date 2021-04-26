@@ -1521,7 +1521,7 @@ MOO provides three different kinds of looping statements, allowing you to have a
 
 ##### The for-in loop
 
-Note: In some programming languages this is referred to as a foreach loop. The syntax and usage is roughly the same.
+> Note: In some programming languages this is referred to as a foreach loop. The syntax and usage is roughly the same.
 
 To perform some statements once for each element of a given list, use this syntax:
 
