@@ -920,7 +920,7 @@ except that, as with `&&`, expression-1 is only evaluated once.
 
 These two operators behave very much like "and" and "or" in English:
 
-<pre>
+```
 1 &amp;&amp; 1                  =&gt;  1
 0 &amp;&amp; 1                  =&gt;  0
 0 &amp;&amp; 0                  =&gt;  0
@@ -928,7 +928,7 @@ These two operators behave very much like "and" and "or" in English:
 0 || 1                  =&gt;  1
 0 || 0                  =&gt;  0
 17 &lt;= 23  &amp;&amp;  23 &lt;= 27  =&gt;  1
-</pre>
+```
 
 #### Indexing into Lists, Maps and Strings
 
@@ -1123,9 +1123,9 @@ As was mentioned earlier, lists can be constructed by writing a comma-separated 
 
 The resulting list has the value of expression-1 as its first element, that of expression-2 as the second, etc.
 
-<pre>
+```
 {3 &lt; 4, 3 &lt;= 4, 3 &gt;= 4, 3 &gt; 4}  =&gt;  {1, 1, 0, 0}
-</pre>
+```
 
 Additionally, one may precede any of these expressions by the splicing operator, `@`. Such an expression must return a list; rather than the old list itself becoming an element of the new list, all of the elements of the old list are included in the new list. This concept is easy to understand, but hard to explain in words, so here are some examples. For these examples, assume that the variable `a` has the value `{2, 3, 4}` and that `b` has the value `{"Foo", "Bar"}`:
 
@@ -1379,7 +1379,7 @@ If you leave out the parentheses, MOO will figure out how to group the expressio
 
 The table below gives the relative precedence of all of the MOO operators; operators on higher lines in the table have higher precedence and those on the same line have identical precedence:
 
-<pre>
+```
 !       - (without a left operand)
 ^
 *       /       %
@@ -1388,19 +1388,19 @@ The table below gives the relative precedence of all of the MOO operators; opera
 &amp;&amp;      ||
 ... ? ... | ... (the conditional expression)
 =
-</pre>
+```
 
 Thus, the horrendous expression
 
-<pre>
+```
 x = a &lt; b &amp;&amp; c &gt; d + e * f ? w in y | - q - r
-</pre>
+```
 
 would be grouped as follows:
 
-<pre>
+```
 x = (((a &lt; b) &amp;&amp; (c &gt; (d + (e * f)))) ? (w in y) | ((- q) - r))
-</pre>
+```
 
 It is best to keep expressions simpler than this and to use parentheses liberally to make your meaning clear to other humans.
 
@@ -3477,13 +3477,13 @@ That is, all text after the command name and any following spaces is used as the
 
 These commands are intended for use by programs connected to the MOO, so that they can issue MOO commands and reliably determine the beginning and end of the resulting output. For example, one editor-based client program sends this sequence of commands on occasion:
 
-<pre>
+```
 PREFIX &gt;&gt;MOO-Prefix&lt;&lt;
 SUFFIX &gt;&gt;MOO-Suffix&lt;&lt;
 @list object:verb without numbers
 PREFIX
 SUFFIX
-</pre>
+```
 
 The effect of which, in a ToastCore-derived database, is to print out the code for the named verb preceded by a line containing only `>>MOO-Prefix<<` and followed by a line containing only `>>MOO-Suffix<<`. This enables the editor to reliably extract the program text from the MOO output and show it to the user in a separate editor window. There are many other possible uses.
 
@@ -3605,10 +3605,11 @@ The following list covers all of the customizable messages, showing for each the
     <dd> The user who just logged in on this connection was already logged in on some other connection.</dd>
     <dt><code>server_full_msg</code></dt>
     <dd> Default:
-<pre>
+
+```
 *** Sorry, but the server cannot accept any more connections right now.
 *** Please try again later.
-</pre>
+```
 
     This connection arrived when the server really couldn&apos;t accept any more
     connections, due to running out of a critical operating system resource.</dd>
