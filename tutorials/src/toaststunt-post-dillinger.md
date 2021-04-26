@@ -739,11 +739,11 @@ changes the value of `x` to be 17 and returns 30.
 All of the usual simple operations on numbers are available to MOO programs:
 
 ```
-* +
-* -
-* *
-* /
-* %
++
+-
+*
+/
+%
 ```
 
 These are, in order, addition, subtraction, multiplication, division, and remainder. In the following table, the expressions on the left have the corresponding values on the right:
