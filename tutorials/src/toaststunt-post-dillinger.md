@@ -12,31 +12,13 @@ Copyright © 2004 by Roger F. Crew.
 
 Copyright © 2011, 2012, 2013 by Todd Sundsted.
 
-Copyright © 2017, 2018, 2019, 2020, 2021 by Brendan Butts.
+Copyright © 2017, 2018, 2019, 2020, 2021 by [Brendan Butts](http://github.com/sevenecks).
 
-LambdaMOO Programming Manual Originally written <time>March, 1997</time>:
-
-<address>
-by Pavel Curtis, aka Haakon, aka Lambda
-</address>
+Copyright © 2021 By [lisdude](http://github.com/lisdude)
 
 Portions adapted from the [Stunt Programmers Manual](http://stunt.io/ProgrammersManual.html) by Todd Sundsted Copyright © 2011, 2012, 2013 by Todd Sundsted.
 
-Updated <time>June, 2019</time> ([CHANGE LOG](https://github.com/SevenEcks/lambda-moo-programming/blob/master/CHANGELOG.md)):
-
-<address>
-By [Brendan Butts](http://github.com/sevenecks) , aka Slither, aka Fengshui
-</address>
-
-Hard forked for ToastStunt <time>April, 2021</time> ([CHANGE LOG](https://github.com/SevenEcks/lambda-moo-programming/blob/master/CHANGELOG.md)):
-
-<address>
-By [Brendan Butts](http://github.com/sevenecks) , aka Slither, aka Fengshui
-</address>
-
-<address>
-By [lisdude](http://github.com/lisdude)
-</address>
+Hard forked for ToastStunt April, 2021 ([CHANGE LOG](https://github.com/SevenEcks/lambda-moo-programming/blob/master/CHANGELOG.md)):
 
 Permission is granted to make and distribute verbatim copies of this manual provided the copyright notice and this permission notice are preserved on all copies.
 
@@ -255,7 +237,7 @@ Finally, to include a backslash in a string, double it:
 
 MOO strings may not include special ASCII characters like carriage-return, line-feed, bell, etc. The only non-printing characters allowed are spaces and tabs.
 
-Fine point: There is a special kind of string used for representing the arbitrary bytes used in general, binary input and output. In a _binary string_, any byte that isn't an ASCII printing character or the space character is represented as the three-character substring "~XX", where XX is the hexadecimal representation of the byte; the input character '~' is represented by the three-character substring "~7E". This special representation is used by the functions `encode_binary()` and `decode_binary()` and by the functions `notify()` and `read()` with network connections that are in binary mode. See the descriptions of the `set_connection_option()`, `encode_binary()`, and `decode_binary()` functions for more details.
+Fine point: There is a special kind of string used for representing the arbitrary bytes used in general, binary input and output. In a _binary string_, any byte that isn't an ASCII printing character or the space character is represented as the three-character substring "\~XX", where XX is the hexadecimal representation of the byte; the input character '~' is represented by the three-character substring "~7E". This special representation is used by the functions `encode_binary()` and `decode_binary()` and by the functions `notify()` and `read()` with network connections that are in binary mode. See the descriptions of the `set_connection_option()`, `encode_binary()`, and `decode_binary()` functions for more details.
 
 MOO strings can be 'indexed into' using square braces and an integer index (much the same way you can with lists):
 
