@@ -352,26 +352,17 @@ The parent/child hierarchy is used for classifying objects into general classes 
 
 A _property_ is a named "slot" in an object that can hold an arbitrary MOO value. Every object has eight built-in properties whose values are constrained to be of particular types. In addition, an object can have any number of other properties, none of which have type constraints. The built-in properties are as follows:
 
-<dl>
-    <dt>name</dt>
-    <dd>a string, the usual name for this object</dd>
-    <dt>owner</dt>
-    <dd>an object, the player who controls access to it</dd>
-    <dt>location</dt>
-    <dd>an object, where the object is in virtual reality</dd>
-    <dt>contents</dt>
-    <dd>a list of objects, the inverse of <code>location</code></dd>
-    <dt>programmer</dt>
-    <dd>a bit, does the object have programmer rights?</dd>
-    <dt>wizard</dt>
-    <dd>a bit, does the object have wizard rights?</dd>
-    <dt>r</dt>
-    <dd>a bit, is the object publicly readable?</dd>
-    <dt>w</dt>
-    <dd>a bit, is the object publicly writable?</dd>
-    <dt>f</dt>
-    <dd>a bit, is the object fertile?</dd>
-</dl>
+| Property  | Description |
+| ------------- | ------------- |
+| name | a string, the usual name for this object |
+| owner | an object, the player who controls access to it |
+| location | an object, where the object is in virtual reality |
+| contents | a list of objects, the inverse of <code>location</code> |
+| programmer | a bit, does the object have programmer rights? |
+| wizard | a bit, does the object have wizard rights? |
+| r | a bit, is the object publicly readable? |
+| w | a bit, is the object publicly writable? |
+| f | a bit, is the object fertile? |
 
 The `name` property is used to identify the object in various printed messages. It can only be set by a wizard or by the owner of the object. For player objects, the `name` property can only be set by a wizard; this allows the wizards, for example, to check that no two players have the same name.
 
