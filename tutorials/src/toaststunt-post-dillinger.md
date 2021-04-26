@@ -276,46 +276,45 @@ _WAIFs_ TODO: Documentation
 
 _Errors_ are, by far, the least frequently used values in MOO. In the normal case, when a program attempts an operation that is erroneous for some reason (for example, trying to add a number to a character string), the server stops running the program and prints out an error message. However, it is possible for a program to stipulate that such errors should not stop execution; instead, the server should just let the value of the operation be an error value. The program can then test for such a result and take some appropriate kind of recovery action. In programs, error values are written as words beginning with `E_`. The complete list of error values, along with their associated messages, is as follows:
 
-<dl>
-    <dt>E_NONE</dt>
-    <dd>No error</dd>
-    <dt>E_TYPE</dt>
-    <dd>Type mismatch</dd>
-    <dt>E_DIV</dt>
-    <dd>Division by zero</dd>
-    <dt>E_PERM</dt>
-    <dd>Permission denied</dd>
-    <dt>E_PROPNF</dt>
-    <dd>Property not found</dd>
-    <dt>E_VERBNF</dt>
-    <dd>Verb not found</dd>
-    <dt>E_VARNF</dt>
-    <dd>Variable not found</dd>
-    <dt>E_INVIND</dt>
-    <dd>Invalid indirection</dd>
-    <dt>E_RECMOVE</dt>
-    <dd>Recursive move</dd>
-    <dt>E_MAXREC</dt>
-    <dd>Too many verb calls</dd>
-    <dt>E_RANGE</dt>
-    <dd>Range error</dd>
-    <dt>E_ARGS</dt>
-    <dd>Incorrect number of arguments</dd>
-    <dt>E_NACC</dt>
-    <dd>Move refused by destination</dd>
-    <dt>E_INVARG</dt>
-    <dd>Invalid argument</dd>
-    <dt>E_QUOTA</dt>
-    <dd>Resource limit exceeded</dd>
-    <dt>E_FLOAT</dt>
-    <dd>Floating-point arithmetic error</dd>
-    <dt>E_FILE</dt>
-    <dd>File system error</dd>
-    <dd>E_EXEC</dd>
-    <dt>Exec error</dt>
-    <dd>E_INTRPT</dd>
-    <dt>Interrupted</dt>
-</dl>
+| Error | Description |
+| ------------- | ------------- |
+| E_NONE | No error |
+| E_TYPE | Type mismatch |
+E_DIV
+Division by zero
+E_PERM
+Permission denied
+E_PROPNF
+Property not found
+E_VERBNF
+Verb not found
+E_VARNF
+Variable not found
+E_INVIND
+Invalid indirection
+E_RECMOVE
+Recursive move
+E_MAXREC
+Too many verb calls
+E_RANGE
+Range error
+E_ARGS
+Incorrect number of arguments
+E_NACC
+Move refused by destination
+E_INVARG
+Invalid argument
+E_QUOTA
+Resource limit exceeded
+E_FLOAT
+Floating-point arithmetic error
+E_FILE
+File system error
+E_EXEC
+Exec error
+E_INTRPT
+Interrupted
+
 
 Another important value in MOO programs is _lists_. A list is a sequence of arbitrary MOO values, possibly including other lists. In programs, lists are written in mathematical set notation with each of the elements written out in order, separated by commas, the whole enclosed in curly braces (`{` and `}`). For example, a list of the names of the days of the week is written like this:
 
