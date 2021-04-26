@@ -2224,7 +2224,7 @@ The following are the characters and character sequences that have special meani
 | <code>+</code> | <code>+</code> is like <code>*</code> except that at least one match for the preceding pattern is required for <code>+</code>. Thus, <code>c[ad]+r</code> does not match <code>cr</code> but does match anything else that <code>c[ad]*r</code> would match. |
 | <code>?</code> | <code>?</code> is like <code>*</code> except that it allows either zero or one match for the preceding pattern. Thus, <code>c[ad]?r</code> matches <code>cr</code> or <code>car</code> or <code>cdr</code>, and nothing else. |
 | <code>[ ... ]</code> | <code>[</code> begins a <em>character set</em>, which is terminated by a <code>]</code>. In the simplest case, the characters between the two brackets form the set. Thus, <code>[ad]</code> matches either <code>a</code> or <code>d</code>, and <code>[ad]*</code> matches any string of <code>a</code>&apos;s and <code>d</code>&apos;s (including the empty string), from which it follows that <code>c[ad]*r</code> matches <code>car</code>, etc.<br>Character ranges can also be included in a character set, by writing two characters with a <code>-</code> between them. Thus, <code>[a-z]</code> matches any lower-case letter. Ranges may be intermixed freely with individual characters, as in <code>[a-z$%.]</code>, which matches any lower case letter or <code>$</code>, <code>%</code> or period.<br> Note that the usual special characters are not special any more inside a character set. A completely different set of special characters exists inside character sets: <code>]</code>, <code>-</code> and <code>^</code>.<br> To include a <code>]</code> in a character set, you must make it the first character.  For example, <code>[]a]</code> matches <code>]</code> or <code>a</code>. To include a <code>-</code>, you must use it in a context where it cannot possibly indicate a range: that is, as the first character, or immediately after a range.
-| <code>[^ ... ]</code> | <p><code>[^</code> begins a <em>complement character set</em>, which matches any character except the ones specified. Thus, <code>[^a-z0-9A-Z]</code> matches all characters <em>except</em> letters and digits.</p><br><code>^</code> is not special in a character set unless it is the first character.  The character following the <code>^</code> is treated as if it were first (it may be a <code>-</code> or a <code>]</code>). |
+| <code>[^ ... ]</code> | <code>[^</code> begins a <em>complement character set</em>, which matches any character except the ones specified. Thus, <code>[^a-z0-9A-Z]</code> matches all characters <em>except</em> letters and digits.<br><code>^</code> is not special in a character set unless it is the first character.  The character following the <code>^</code> is treated as if it were first (it may be a <code>-</code> or a <code>]</code>). |
 | <code>^</code> | is a special character that matches the empty string -- but only if at the beginning of the string being matched. Otherwise it fails to match anything.  Thus, <code>^foo</code> matches a <code>foo</code> which occurs at the beginning of the string. |
 | <code>$</code> | is similar to <code>^</code> but matches only at the <em>end</em> of the string. Thus, <code>xx*$</code> matches a string of one or more <code>x</code>&apos;s at the end of the string. |
 | <code>%</code> | has two functions: it quotes the above special characters (including <code>%</code>), and it introduces additional special constructs.<br> Because <code>%</code> quotes special characters, <code>%$</code> is a regular expression that matches only <code>$</code>, and <code>%[</code> is a regular expression that matches only <code>[</code>, and so on.<br> For the most part, <code>%</code> followed by any character matches only that character. However, there are several exceptions: characters that, when preceded by <code>%</code>, are special constructs. Such characters are always ordinary when encountered on their own.<br>  No new special characters will ever be defined. All extensions to the regular expression syntax are made by defining new two-character constructs that begin with <code>%</code>. |
@@ -3643,16 +3643,13 @@ Next, it checks for the existence of the verb `$server_started()`. If there is s
 
 As described earlier, in the section describing MOO tasks, the server places limits on the number of seconds for which any task may run continuously and the number of "ticks," or low-level operations, any task may execute in one unbroken period. By default, foreground tasks may use 30,000 ticks and five seconds, and background tasks may use 15,000 ticks and three seconds. These defaults can be overridden from within the database by defining any or all of the following properties on `$server_options` and giving them integer values:
 
-<dl>
-    <dt><code>bg_seconds</code></dt>
-    <dd>The number of seconds allotted to background tasks.</dd>
-    <dt><code>bg_ticks</code></dt>
-    <dd>The number of ticks allotted to background tasks.</dd>
-    <dt><code>fg_seconds</code></dt>
-    <dd>The number of seconds allotted to foreground tasks.</dd>
-    <dt><code>fg_ticks</code></dt>
-    <dd>The number of ticks allotted to foreground tasks.</dd>
-</dl>
+
+| Property  | Description |
+| ------------- | ------------- |
+| <code>bg_seconds</code> | The number of seconds allotted to background tasks. |
+| <code>bg_ticks</code> | The number of ticks allotted to background tasks. |
+| <code>fg_seconds</code> | The number of seconds allotted to foreground tasks. |
+| <code>fg_ticks</code> | The number of ticks allotted to foreground tasks. |
 
 The server ignores the values of `fg_ticks` and `bg_ticks` if they are less than 100 and similarly ignores `fg_seconds` and `bg_seconds` if their values are less than 1. This may help prevent utter disaster should you accidentally give them uselessly-small values.
 
