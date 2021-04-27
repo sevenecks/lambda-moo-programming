@@ -416,7 +416,7 @@ As with properties, every verb has an owner and a set of permission bits. The ow
 
 The owner of a verb also determines the permissions with which that verb runs; that is, the program in a verb can do whatever operations the owner of that verb is allowed to do and no others. Thus, for example, a verb owned by a wizard must be written very carefully, since wizards are allowed to do just about anything.
 
-Warning: This is serious business. The MOO has a variety of checks in place for permissions (at the object, verb and property levels) that are all but ignored when a verb is executing with a wizard's permisisons. You may want to create a non-wizard character and give them the programmer bit, and write much of your code there, leaving the wizard bit for things that actually require access to everything, despite permissions.
+> Warning: This is serious business. The MOO has a variety of checks in place for permissions (at the object, verb and property levels) that are all but ignored when a verb is executing with a wizard's permisisons. You may want to create a non-wizard character and give them the programmer bit, and write much of your code there, leaving the wizard bit for things that actually require access to everything, despite permissions.
 
 The permission bits on verbs are drawn from this set: `r` (read), `w` (write), `x` (execute), and `d` (debug). Read permission lets non-owners see the program for a verb and, symmetrically, write permission lets them change that program. The other two bits are not, properly speaking, permission bits at all; they have a universal effect, covering both the owner and non-owners.
 
@@ -803,9 +803,9 @@ false == true                       =>  0
 
 Note that integers and floating-point numbers are never equal to one another, even in the _obvious_ cases. Also note that comparison of strings (and list values containing strings) is case-insensitive; that is, it does not distinguish between the upper- and lower-case version of letters. To test two values for case-sensitive equality, use the `equal` function described later.
 
-Warning: It is easy (and very annoying) to confuse the equality-testing operator (`==`) with the assignment operator (`=`), leading to nasty, hard-to-find bugs. Don't do this.
+> Warning: It is easy (and very annoying) to confuse the equality-testing operator (`==`) with the assignment operator (`=`), leading to nasty, hard-to-find bugs. Don't do this.
 
-Warning: Comparing floating point numbers for equality can be tricky. Sometimes two floating point numbers will appear the same but be rounded up or down at some meaningfuly bit, and thus will not be exactly equal. This is especially true when comparing a number in memory (assigned to a variable) to a number that is formed from reading a value from a player, or pulled from a property. Be wary of this, if you ever encounter it, as it can be
+> Warning: Comparing floating point numbers for equality can be tricky. Sometimes two floating point numbers will appear the same but be rounded up or down at some meaningfuly bit, and thus will not be exactly equal. This is especially true when comparing a number in memory (assigned to a variable) to a number that is formed from reading a value from a player, or pulled from a property. Be wary of this, if you ever encounter it, as it can be
     tediuous to debug.
 
 Integers, floats, object numbers, strings, and error values can also be compared for ordering purposes using the following operators:
@@ -936,7 +936,7 @@ These two operators behave very much like "and" and "or" in English:
 
 Strings, lists, and maps can be seen as ordered sequences of MOO values. In the case of strings, each is a sequence of single-character strings; that is, one can view the string `"bar"` as a sequence of the strings `"b"`, `"a"`, and `"r"`. MOO allows you to refer to the elements of lists, maps, and strings by number, by the _index_ of that element in the list or string. The first element has index 1, the second has index 2, and so on.
 
-Warning: It is very important to note that unlike many programming languages (which use 0 as the starting index), MOO uses 1.
+> Warning: It is very important to note that unlike many programming languages (which use 0 as the starting index), MOO uses 1.
 
 ##### Extracting an Element by Index
 
@@ -1640,7 +1640,7 @@ This naming facility is only really useful in conjunction with the `break` and `
 
 With each kind of loop, it is possible that the statements in the body of the loop will never be executed at all. For iteration over lists, this happens when the list returned by the expression is empty. For iteration on integers, it happens when expression-1 returns a larger integer than expression-2. Finally, for the `while` loop, it happens if the expression returns a false value the very first time it is evaluated.
 
-Warning: With `while` loops it is especially important to make sure you do not create an infinite loop. That is, a loop that will never terminate because it's expression will never become false.
+> Warning: With `while` loops it is especially important to make sure you do not create an infinite loop. That is, a loop that will never terminate because it's expression will never become false.
 
 #### Terminating One or All Iterations of a Loop
 
@@ -2085,7 +2085,7 @@ random -- An integer is chosen randomly from the range `[1..mod]` and returned.
 int `random` ([int mod])
 
 mod must be a positive integer; otherwise, `E_INVARG` is raised.  If mod is not provided, it defaults to the largest MOO integer, 2147483647.
-Warning: The `random()` function is not very random.  You should augment it's randomness with something like this: `random() % 100 + 1` for better randomness.
+> Warning: The `random()` function is not very random.  You should augment it's randomness with something like this: `random() % 100 + 1` for better randomness.
 
 **Function: `min`**
 
