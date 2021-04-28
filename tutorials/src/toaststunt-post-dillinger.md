@@ -42,12 +42,10 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
 ## Table of Contents
 
 * [Foreword](#foreword)
-*
   - [What is ToastStunt?](#what-is-toaststunt)
 * [ToastStunt Resources](#toaststunt-resources)
 * [Introduction](#introduction)
 * [The ToastCore Database](#toaststunt-database)
-*
   - [MOO Value Types](#moo-value-types)
     + [Integer Type](#integer-type)
     + [Real Number Type](#real-number-type)
@@ -60,15 +58,12 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
     + [List Type](#list-type)
     + [Map Type](#map-type)
   - [Objects in the MOO Database](#objects-in-the-moo-database)
-  -
     + [Fundamental Object Attributes](#fundamental-object-attributes)
     + [Properties on Objects](#properties-on-objects)
     + [Verbs on Objects](#verbs-on-objects)
 * [The Built-in Command Parser](#the-built-in-command-parser)
 * [The MOO Programming Language](#the-moo-programming-language)
-*
   - [MOO Language Expressions](#moo-language-expressions)
-  -
     + [Errors While Evaluating Expressions](#errors-while-evaluating-expressions)
     + [Writing Values Directly in Verbs](#writing-values-directly-in-verbs)
     + [Naming Values Within a Verb](#naming-values-within-a-verb)
@@ -76,7 +71,6 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
     + [Comparing Values](#comparing-values)
     + [Values as True and False](#values-as-true-or-false)
     + [Indexing into Lists and Strings](#indexing-into-lists-and-strings)
-    +
       * [Extracting an Element from a List or String](#extracting-an-element-from-a-list-or-string)
       * [Extracting a Subsequence of a List or String](#extracting-a-subsequence-of-a-list-or-string)
       * [Replacing a Subsequence of a List or String](#replacing-a-subsequence-of-a-list-or-string)
@@ -87,12 +81,10 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
   - [Catching Errors in Expressions](#catching-errors-in-expressions)
   - [Parentheses and Operator Precedence](#parentheses-and-operator-precedence)
 * [MOO Language Statements](#moo-langauge-statements)
-*
   - [Errors While Executing Statements](#errors-while-executing-statements)
   - [Simple Statements](#simple-statements)
   - [Statements for Testing Conditions](#statements-for-testing-conditionals)
   - [Statements for Looping](#statements-for-looping)
-  -
     + [The for-in loop](#the-for-in-loop)
     + [The For-Range Loop](#the-for-range-loop)
     + [The While Loop](#the-while-loop)
@@ -104,16 +96,13 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
   - [Executing Statements at a Later Time](#executing-statements-at-a-later-time)
 * [MOO Tasks](#moo-tasks)
 * [Built-in Functions](#built-in-functions)
-*
   - [Object-Oriented Programming](#object-oriented-programming)
   - [Manipulating MOO Values](#manipulating-moo-values)
-  -
     + [General Operations Applicable to all Values](#general-operations-applicable-to-all-values)
     + [Operations on Numbers](#operations-on-numbers)
     + [Regular Expressions](#regular-expressions)
     + [Operations on Strings](#operations-on-strings)
   - [Manipulating Objects](#manipulating-objects)
-  -
     + [Fundamental Operations on Objects](#fundamental-operations-on-objects)
     + [Object Movement](#object-movement)
     + [Operations on Properties](#operations-on-properties)
@@ -125,19 +114,16 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
 * [Working with WAIFs](#working-with-waifs)
   - [The WAIF Verb and Property Namespace](#the-waif-verb-and-property-namespace)
 * [Server Commands and Database Assumptions](#server-commands-and-database-assumptions)
-*
   - [Built-in Commands](#bult-in-commands)
   - [Command-Output Delimiters](#command-output-delimiters)
   - [Programming](#programming)
   - [Flushing Unprocessed Input](#flushing-unprocessed-input)
   - [Initial Punctuation in Commands](#initial-punctuation-in-commands)
 * [Server Assumptions About the Database](#server-assumptions-about-the-database)
-*
   - [Server Options Set in the Database](#server-options-set-in-the-database)
   - [Server Messages Set in the Database](#server-messages-set-in-the-database)
   - [Checkpointing the Database](#checkpointing-the-database)
 * [Networking](#networking)
-*
   - [Accepting and Initiating Network Connections](#accepting-and-initiating-network-connections)
   - [Associating Network Connections with Players](#associating-network-connections-with-playes)
 * [The First Tasks Run By the Server](#the-first-tasks-run-by-the-server)
