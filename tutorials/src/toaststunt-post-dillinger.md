@@ -122,8 +122,8 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
     + [Operations Involving Times and Dates](#operations-involving-times-and-dates)
     + [MOO-Code Evaluation and Task Manipulation](#moo-code-evaluation-and-task-management)
     + [Administrative Operations](#administrative-questions)
-  - [Working with WAIFs](#working-with-waifs)
-    + [The WAIF Verb and Property Namespace](#the-waif-verb-and-property-namespace)
+* [Working with WAIFs](#working-with-waifs)
+  - [The WAIF Verb and Property Namespace](#the-waif-verb-and-property-namespace)
 * [Server Commands and Database Assumptions](#server-commands-and-database-assumptions)
 *
   - [Built-in Commands](#bult-in-commands)
@@ -3439,7 +3439,7 @@ none `shutdown` ([str message])
 
 Before doing so, a notice (incorporating message, if provided) is printed to all connected players. If the programmer is not a wizard, then `E_PERM` is raised.
 
-#### Working with WAIFs
+### Working with WAIFs
 
 TODO: ensure the headers in this section are in the table of contents
 
@@ -3477,7 +3477,7 @@ A WAIF's properties and behavior are a hybrid of several existing MOO types. It 
 - WAIFs do not participate in the .location/.contents hierarchy, as manipulated by move(). A WAIF class could define these properties, however (as described below).
 -  WAIFs do not have OBJ flags such as .r or .wizard.
 
-##### The WAIF Verb and Property Namespace
+#### The WAIF Verb and Property Namespace
 
 In order to separate the verbs and properties defined for WAIFs of an object, WAIFs only inherit verbs and properties whose names begin with : (a colon). To say that another way, the following mapping is applied:
 
