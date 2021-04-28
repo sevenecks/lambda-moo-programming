@@ -18,6 +18,8 @@ Copyright © 2021 By [lisdude](http://github.com/lisdude)
 
 Portions adapted from the [Stunt Programmers Manual](http://stunt.io/ProgrammersManual.html) by Todd Sundsted Copyright © 2011, 2012, 2013 by Todd Sundsted.
 
+Portions adapated from the [WAIF documentation](http://ben.com/MOO/waif.html) and [WAIF Programmers Manual](http://ben.com/MOO/waif-progman.html) by Ben Jackson.
+
 Hard forked for ToastStunt April, 2021 ([CHANGE LOG](https://github.com/SevenEcks/lambda-moo-programming/blob/master/CHANGELOG.md)):
 
 Permission is granted to make and distribute verbatim copies of this manual provided the copyright notice and this permission notice are preserved on all copies.
@@ -110,6 +112,7 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
     + [Operations Involving Times and Dates](#operations-involving-times-and-dates)
     + [MOO-Code Evaluation and Task Manipulation](#moo-code-evaluation-and-task-management)
     + [Administrative Operations](#administrative-questions)
+  - [Working with WAIFs](#working-with-waifs)
 * [Server Commands and Database Assumptions](#server-commands-and-database-assumptions)
 *
   - [Built-in Commands](#bult-in-commands)
@@ -166,10 +169,9 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
 
 ToastStunt is a network-accessible, multi-user, programmable, interactive system well-suited to the construction of text-based adventure games, conferencing systems, and other collaborative software. Its most common use, however, is as a multi-participant, low-bandwidth virtual reality, and it is with this focus in mind that I describe it here.
 
-Participants (usually referred to as _players_) connect to ToastStunt using Telnet, SSH, or some other, more specialized, [mud client](https://en.wikipedia.org/wiki/MUD_client). Upon connection, they are usually presented with a _welcome message_ explaining how to either create a new _character_ or connect to an existing one. Characters are the embodiment of players in the virtual reality that is ToastStunt.
+Participants (usually referred to as _players_) connect to ToastStunt using a telnet, SSH, or specialized [mud client](https://en.wikipedia.org/wiki/MUD_client). Upon connection, they are usually presented with a _welcome message_ explaining how to either create a new _character_ or connect to an existing one. Characters are the embodiment of players in the virtual reality that is ToastStunt.
 
-> Note: No one really connects to a MOO using just a telnet client these days. MOO Clients and MUD Clients are incredibly common, and can connect on the telnet port. See the resources section for more information on these. There are even some web based clients ([dome-client](https://github.com/JavaChilly/dome-client.js)) out there that use websockets to connect to a MOO directly from the browser. And ToastStunt offers secure connections
-    using TLS.
+> Note: No one really connects to a MOO using just a telnet client these days. MUD Clients are incredibly common, and can connect on the telnet (or SSH) port. See the resources section for more information on these. There are even some web based clients ([dome-client](https://github.com/JavaChilly/dome-client.js)) out there that use websockets to connect to a MOO directly from the browser. And ToastStunt can be configured to offer secure connections using TLS.
 
 Having connected to a character, players then give one-line commands that are parsed and interpreted by ToastStunt as appropriate. Such commands may cause changes in the virtual reality, such as the location of a character, or may simply report on the current state of that reality, such as the appearance of some object.
 
@@ -195,7 +197,7 @@ There are only a few kinds of values that MOO programs can manipulate:
 * objects (in the virtual reality)
 * anonymous object
 * bool
-* waif
+* WAIF
 * errors (arising during program execution)
 * lists (of all of the above, including lists)
 * maps (of all of the above, including lists and maps)
@@ -272,7 +274,22 @@ true  == 5 evaluates to false
 false == -43 evaluates to false
 ```
 
-_WAIFs_ TODO: Documentation
+_WAIFs_ are lightweight objects. A WAIF is a value which you can store in a property or a variable or inside a LIST or another WAIF. A WAIF is smaller in size (measured in bytes) than a regular object, and it is faster to create and destroy. It is also reference counted, which means it is destroyed automatically when it is no longer in use. 
+
+TODO: Confirm this 4 bytes number on a WAIF v List in toast
+WAIFs are smaller than typical objects, and faster to create. A WAIF has two builtin OBJ properties, .class and .owner. A WAIF is only ever going to be 4 bytes larger than a LIST with the same values.
+
+OBJs grow by value_bytes(value) - value_bytes(0) for every propery you set (that is, every property which becomes non-clear and takes on its own value distinct from the parent). LISTs and WAIFs both grow by value_bytes(value) for each new list element (in a LIST) or each property you set (in a WAIF). So a WAIF is never more than 4 bytes larger than a LIST which holds the same values, except WAIFs give each value a name (property name) but LISTs only give them numbers.
+
+Essentially you should consider a WAIF as something you can make thousands of in a verb without a second thought. You might make a mailing list with 1000 messages, each a WAIF (instead of a LIST) but you most likely wouldn't use 1000 objects.
+
+You create and destroy OBJs explicitly with the builtins create() and recycle() (or allocate them from a pool using verbs in the core). They stay around no matter what you do until you destroy them.
+
+All of the other types you use in MOO (that require allocated memory) are reference counted. However you create them, they stay around as long as you keep them in a property or a variable somewhere, and when they are no longer used, they silently disappear, and you can't get them back. 
+
+Consider using a WAIF whenever you want to collect values together and give each value a meaningful name instead of just an index into a LIST. 
+
+We will go into more detail on WAIFs later.
 
 _Errors_ are, by far, the least frequently used values in MOO. In the normal case, when a program attempts an operation that is erroneous for some reason (for example, trying to add a number to a character string), the server stops running the program and prints out an error message. However, it is possible for a program to stipulate that such errors should not stop execution; instead, the server should just let the value of the operation be an error value. The program can then test for such a result and take some appropriate kind of recovery action. In programs, error values are written as words beginning with `E_`. The complete list of error values, along with their associated messages, is as follows:
 
@@ -3391,6 +3408,81 @@ shutdown -- requests that the server shut itself down at its next opportunity
 none `shutdown` ([str message])
 
 Before doing so, a notice (incorporating message, if provided) is printed to all connected players. If the programmer is not a wizard, then `E_PERM` is raised.
+
+#### Working with WAIFs
+
+TODO: ensure the headers in this section are in the table of contents
+
+The MOO object structure is unique in that all classes are instances and all instances are (potentially) classes. This means that instances carry a lot of baggage that is only useful in the event that they become classes. Also, every object comes with a set of builtin properties and attributes which are primarily useful for building VR things. My idea of a lightweight object is something which is exclusively an instance. It lacks many of the things that "real MOO objects" have for their roles as classes and VR objects:
+
+- names
+- location/contents information
+- children
+- flags
+- verb definitions
+- property definitions
+- weak references (?)
+- explicit destruction 
+
+Stripped to its core, then, a WAIF has the following attributes:
+
+- Class (like a parent)
+- Owner (for permissions information)
+- Property values 
+
+A WAIF's properties and behavior are a hybrid of several existing MOO types. It is instructive to compare them:
+
+- WAIFs are refcounted values, like LISTs. After they are created, they exist as long as they are stored in a variable or property somewhere. When the last reference is gone the WAIF is destroyed with no notice.
+- There is no syntax for creating a literal WAIF. They can only be created with a builtin.
+- There is no syntax for referring to an existing WAIF. You can only use one by accessing a property or a variable where it has been stored.
+- WAIFs can change, like objects. When you change a WAIF, all references to the WAIF will see the change (like OBJ, unlike LIST).
+- You can call verbs and reference properties on WAIFs. These are inherited from its class object (with the mapping described below).
+- WAIFs are cheap to create, about the same as LISTs.
+- WAIFs are small. A WAIF with all clear properties (like right after it is created) is only a few bytes longer than a LIST big enough to hold {class, owner}. If you assign a value to a property it grows the same amount a LIST would if you appended a value to it.
+- WAIF property acesses are controlled like OBJ property accesses. Having a reference to a WAIF doesn't mean you can see what's inside it.
+- WAIFs can never define new verbs or properties.
+- WAIFs can never have any children.
+- WAIFs can't change class or ownership.
+- The only builtin properties of a WAIF are .owner and .class.
+- WAIFs do not participate in the .location/.contents hierarchy, as manipulated by move(). A WAIF class could define these properties, however (as described below).
+-  WAIFs do not have OBJ flags such as .r or .wizard.
+
+##### The WAIF verb/property Namespace
+
+In order to separate the verbs and properties defined for WAIFs of an object, WAIFs only inherit verbs and properties whose names begin with : (a colon). To say that another way, the following mapping is applied:
+
+`waif:verb(@args)` becomes `waif.class:(":"+verb)(@args)`
+
+Inside the WAIF verb (hereinafter called a _method_) the local variable `verb` does not have the additional colon. The value of `this` is the WAIF itself (it can determine what object it's on with `this.class`). If the method calls another verb on a WAIF or an OBJ, `caller` will be the WAIF.
+
+`waif.prop` is defined by `waif.class.(":"+prop)`
+
+The property definition provides ownership and permissions flags for the property as well as its default value, as with any OBJ. Of course the actual property value is part of the WAIF itself and can be changed during the WAIFs lifetime.
+
+In the case of +c properties, the WAIF owner is considered to be the property owner.
+
+In ToastCore you will find a corified reference of `$waif` which is pre-configured for you to begin creating WAIFs or Generic OBJs that you can then use to create WAIFs with. Here's @display output for the skeletal $waif:
+
+```
+TODO: add toastcore @display $waif
+```
+
+This MOO OBJ `$waif` defines a verb `new` which is just like the verbs you're already familiar with. In this case, it creates a new WAIF:
+
+```
+set_task_perms(caller_perms());
+w = new_waif();
+w:initialize(@args);
+return w;
+```
+
+The `new_waif()` builtin creates a new WAIF whose class is the calling object and whose owner is the perms of the calling verb. This wizardly version causes it to be owned by the caller of the verb.
+
+Once the WAIF has been created, you can call verbs on it. Notice how the WAIF inherits `$waif::initialize`. Notice that it cannot inherit `$waif:new` because that verb's name does not start with a colon.
+
+The generic waif is fertile (`$waif.f == 1`) so that new waif classes can be derived from it. OBJ fertility is irrelevant when creating a WAIF. The ability to do that is restricted to the object itself (since `new_waif()` always returns a WAIF of class=caller).
+
+There is no string format for a WAIF. `tostr()` just returns {waif}. `toliteral()` currently returns some more information, but it's just for debugging purposes. There is no towaif(). If you want to refer to a WAIF you have to read it directly from a variable or a property somewhere. If you cannot read it out of a property (or call a verb that returns it) you can't access it. There is no way to construct a WAIF reference from another type.
 
 ### Server Commands and Database Assumptions
 
