@@ -250,6 +250,12 @@ MOO strings can be 'indexed into' using square braces and an integer index (much
 "this is a string"[4] -> "s"
 ```
 
+There is syntatic sugar that allows you to do:
+```
+"Sli" in "Slither"
+```
+as a shortcut for the index() built-in function.
+
 #### Object Type
 
 _Objects_ are the backbone of the MOO database and, as such, deserve a great deal of discussion; the entire next section is devoted to them. For now, let it suffice to say that every object has a number, unique to that object.
@@ -284,7 +290,7 @@ false == -43 evaluates to false
 ```
 
 #### WAIF Type
-_WAIFs_ are lightweight objects. A WAIF is a value which you can store in a property or a variable or inside a LIST or another WAIF. A WAIF is smaller in size (measured in bytes) than a regular object, and it is faster to create and destroy. It is also reference counted, which means it is destroyed automatically when it is no longer in use. 
+_WAIFs_ are lightweight objects. A WAIF is a value which you can store in a property or a variable or inside a LIST or another WAIF. A WAIF is smaller in size (measured in bytes) than a regular object, and it is faster to create and destroy. It is also reference counted, which means it is destroyed automatically when it is no longer in use. An empty WAIF is 72 bytes, empty list is 64 bytes. A WAIF will always be 8 bytes larger than a LIST (on 64bit, 4 bytes on 32bit) with the same values in it. 
 
 TODO: Confirm this 4 bytes number on a WAIF v List in toast
 WAIFs are smaller than typical objects, and faster to create. A WAIF has two builtin OBJ properties, .class and .owner. A WAIF is only ever going to be 4 bytes larger than a LIST with the same values.
@@ -1935,8 +1941,8 @@ A _task_ is an execution of a MOO program. There are five kinds of tasks in Toas
 
 * Every time a player types a command, a task is created to execute that command; we call these _command tasks_.
 * Whenever a player connects or disconnects from the MOO, the server starts a task to do whatever processing is necessary, such as printing out `Munchkin has connected` to all of the players in the same room; these are called _server tasks_.
-* The `fork` statement in the programming language creates a task whose execution is delayed for at least some given number of seconds; these are _forked tasks_.
-* The `suspend()` function suspends the execution of the current task. A snapshot is taken of whole state of the execution, and the execution will be resumed later. These are called _suspended tasks_.
+* The `fork` statement in the programming language creates a task whose execution is delayed for at least some given number of seconds; these are _forked tasks_. Sub-second forking is possible (eg. 0.1)
+* The `suspend()` function suspends the execution of the current task. A snapshot is taken of whole state of the execution, and the execution will be resumed later. These are called _suspended tasks_. Sub-second suspending is possible.
 * The `read()` function also suspends the execution of the current task, in this case waiting for the player to type a line of input. When the line is received, the task resumes with the `read()` function returning the input line as result. These are called _reading tasks_.
 
 The last three kinds of tasks above are collectively known as _queued tasks_ or _background tasks_, since they may not run immediately.
@@ -3248,7 +3254,7 @@ Such integers are randomly selected for each task and can therefore safely be us
 **Function: `suspend`**
 
 suspend -- suspends the current task, and resumes it after at least seconds seconds
-value `suspend` ([int seconds])
+value `suspend` ([int|float seconds])
 
 If seconds is not provided, the task is suspended indefinitely; such a task can only be resumed by use of the `resume()` function.
 
@@ -3429,6 +3435,8 @@ Before doing so, a notice (incorporating message, if provided) is printed to all
 
 TODO: ensure the headers in this section are in the table of contents
 
+> ToastStunt WAIFs are not the same as LambdaMOO WAIFs. The server executable has a -w option for converting LambdaMOO style WAIFs to the new style
+
 The MOO object structure is unique in that all classes are instances and all instances are (potentially) classes. This means that instances carry a lot of baggage that is only useful in the event that they become classes. Also, every object comes with a set of builtin properties and attributes which are primarily useful for building VR things. My idea of a lightweight object is something which is exclusively an instance. It lacks many of the things that "real MOO objects" have for their roles as classes and VR objects:
 
 - names
@@ -3499,6 +3507,14 @@ Once the WAIF has been created, you can call verbs on it. Notice how the WAIF in
 The generic waif is fertile (`$waif.f == 1`) so that new waif classes can be derived from it. OBJ fertility is irrelevant when creating a WAIF. The ability to do that is restricted to the object itself (since `new_waif()` always returns a WAIF of class=caller).
 
 There is no string format for a WAIF. `tostr()` just returns {waif}. `toliteral()` currently returns some more information, but it's just for debugging purposes. There is no towaif(). If you want to refer to a WAIF you have to read it directly from a variable or a property somewhere. If you cannot read it out of a property (or call a verb that returns it) you can't access it. There is no way to construct a WAIF reference from another type.
+
+#### Additional Details on WAIFs
+
+* When a WAIF is destroyed the MOO will Call the `recycle` verb on the WAIF, if it exists.
+* A WAIF has its own type so you can do: `typeof(some_waif) == WAIF)``
+* TODO: Waif dict patch (so waif[x] and waif[x] = y will call the :_index and :_set_index verbs on the WAIF)
+* The waif_stats() built-in will show how many instances of each class of WAIF exist, how many WAIFs are pending recycling, and how many WAIFs in total exist
+* TODO: Parser recognition for waif properties (e.g. thing.:property)
 
 ### Server Commands and Database Assumptions
 
