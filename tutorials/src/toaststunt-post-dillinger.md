@@ -70,10 +70,10 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
     + [Arithmetic Operators](#arithmetic-operators)
     + [Comparing Values](#comparing-values)
     + [Values as True and False](#values-as-true-or-false)
-    + [Indexing into Lists and Strings](#indexing-into-lists-and-strings)
-      * [Extracting an Element from a List or String](#extracting-an-element-from-a-list-or-string)
-      * [Extracting a Subsequence of a List or String](#extracting-a-subsequence-of-a-list-or-string)
-      * [Replacing a Subsequence of a List or String](#replacing-a-subsequence-of-a-list-or-string)
+    + [Indexing into Lists, Maps and Strings](#indexing-into-lists-maps-and-strings)
+      * [Extracting an Element from a List, Map or String](#extracting-an-element-from-a-list-map-or-string)
+      * [Extracting a Subsequence of a List, Map or String](#extracting-a-subsequence-of-a-list-map-or-string)
+      * [Replacing a Subsequence of a List, Map or String](#replacing-a-subsequence-of-a-list-map-or-string)
   - [Other Operations on Lists](#other-operations-on-lists)
   - [Spreading List Elements Among Variables](#spreading-list-elements-among-variables)
   - [Getting and Setting the Values of Properties](#getting-and-setting-the-values-of-properties)
@@ -365,27 +365,35 @@ The value of a map can be an valid MOO type including another map.
 
 ### Objects in the MOO Database
 
-Objects are, in a sense, the whole point of the MOO programming language.  They are used to represent objects in the virtual reality, like people, rooms, exits, and other concrete things. Because of this, MOO makes a bigger deal out of creating objects than it does for other kinds of value, like integers.
+//TODO: more details on anonymous objects.
 
-Numbers always exist, in a sense; you have only to write them down in order to operate on them. With objects, it is different. The object with number `#958` does not exist just because you write down its number. An explicit operation, the `create()` function described later, is required to bring an object into existence. Symmetrically, once created, objects continue to exist until they are explicitly destroyed by the `recycle()` function (also described later).
+There are anonymous objects and permanent objects in ToastStunt. Throughout this guide when we discuss `objects` we are typically referring to `permanent objects` and not `anonymous objects`. When discussing anonymous objects we will call them out specifically.
 
-The identifying number associated with an object is unique to that object. It was assigned when the object was created and will never be reused, even if the object is destroyed. Thus, if we create an object and it is assigned the number `#1076`, the next object to be created will be assigned `#1077`, even if `#1076` is destroyed in the meantime.
+Objects encapsulate state and behavior – as they do in other object-oriented programming languages. Permanent objects are also used to represent objects in the virtual reality, like people, rooms, exits, and other concrete things. Because of this, MOO makes a bigger deal out of creating objects than it does for other kinds of values, like integers. 
+
+Numbers always exist, in a sense; you have only to write them down in order to operate on them. With permanent objects, it is different. The permanent object with number `#958` does not exist just because you write down its number. An explicit operation, the `create()` function described later, is required to bring an object into existence. Symmetrically, once created, permanent objects and anonymous objects continue to exist until they are explicitly destroyed by the `recycle()` function (also described later) or in the case of anonymous objects, until there are no more references to the anonymous object.
+
+The identifying number associated with a permanent object is unique to that object. It was assigned when the object was created and will never be reused, even if the object is destroyed. Thus, if we create an object and it is assigned the number `#1076`, the next object to be created will be assigned `#1077`, even if `#1076` is destroyed in the meantime.
 
 The above limitation led to design of systems to manage object reuse. The `$recycler` is one example of such a system. This is **not** present in the `minimal.db` which is included in the ToastStunt source, however it is present in the latest dump of the [ToastCore DB](http://lambda.moo.mud.org/pub/MOO/) which is the recommended starting point for new development.
 
-Every object is made up of three kinds of pieces that together define its behavior: _attributes_, _properties_, and _verbs_.
+Anonymous and permanent objects are made up of three kinds of pieces that together define its behavior: _attributes_, _properties_, and _verbs_.
 
 #### Fundamental Object Attributes
 
 There are three fundamental _attributes_ to every object:
 
 1. A flag (either true or false) specifying whether or not the object represents a player
-2. The object that is its _parent_
+//TODO: can we confirm that this is correct?
+2. ToastStunt: A list of object that are its parents LambdaMOO: The object that is its _parent_
 3. A list of the objects that are its _children_; that is, those objects for which this object is their parent.
 
-The act of creating a character sets the player attribute of an object and only a wizard (using the function `set_player_flag()`) can change that setting. Only characters have the player bit set to 1.
+The act of creating a character sets the player attribute of an object and only a wizard (using the function `set_player_flag()`) can change that setting. Only characters have the player bit set to 1. Only permanent objects can be players.
 
-The parent/child hierarchy is used for classifying objects into general classes and then sharing behavior among all members of that class. For example, the ToastCore database contains an object representing a sort of "generic" room.  All other rooms are _descendants_ (i.e., children or children's children, or ...) of that one. The generic room defines those pieces of behavior that are common to all rooms; other rooms specialize that behavior for their own purposes. The notion of classes and specialization is the very essence of what is meant by _object-oriented_ programming. Only the functions `create()`, `recycle()`, `chparent()`, and `renumber()` can change the parent and children attributes.
+The parent/child hierarchy is used for classifying objects into general classes and then sharing behavior among all members of that class. For example, the ToastCore database contains an object representing a sort of "generic" room.  All other rooms are _descendants_ (i.e., children or children's children, or ...) of that one. The generic room defines those pieces of behavior that are common to all rooms; other rooms specialize that behavior for their own purposes. The notion of classes and specialization is the very essence of what is meant by _object-oriented_ programming. 
+
+//TODO: need to confirm this is correct
+Only the functions `create()`, `recycle()`, `chparent()`, `chparents()` and `renumber()` can change the parent and children attributes.
 
 #### Properties on Objects
 
@@ -402,6 +410,7 @@ A _property_ is a named "slot" in an object that can hold an arbitrary MOO value
 | r | a bit, is the object publicly readable? |
 | w | a bit, is the object publicly writable? |
 | f | a bit, is the object fertile? |
+| a | a bit, can this be a parent of anonymous objects? |
 
 The `name` property is used to identify the object in various printed messages. It can only be set by a wizard or by the owner of the object. For player objects, the `name` property can only be set by a wizard; this allows the wizards, for example, to check that no two players have the same name.
 
@@ -417,7 +426,9 @@ The `r` bit controls whether or not players other than the owner of this object 
 
 Symmetrically, the `w` bit controls whether or not non-owners can add or delete properties and/or verbs on this object. The `r` and `w` bits can only be set by a wizard or by the owner of the object.
 
-The `f` bit specifies whether or not this object is _fertile_, whether or not players other than the owner of this object can create new objects with this one as the parent. It also controls whether or not non-owners can use the `chparent()` built-in function to make this object the parent of an existing object. The `f` bit can only be set by a wizard or by the owner of the object.
+The `f` bit specifies whether or not this object is _fertile_, whether or not players other than the owner of this object can create new objects with this one as the parent. It also controls whether or not non-owners can use the `chparent()` or `chparents()` built-in function to make this object the parent of an existing object. The `f` bit can only be set by a wizard or by the owner of the object.
+
+The `a` bit specifies whether or not this object can be used as a parent of an anonymous object created by a player other than the owner of this object. It works similarly to the `f` bit, but governs the creation of anonymous objects only. 
 
 All of the built-in properties on any object can, by default, be read by any player. It is possible, however, to override this behavior from within the database, making any of these properties readable only by wizards. See the chapter on server assumptions about the database for details.
 
@@ -437,7 +448,7 @@ Recall that every object has all of the properties that its parent does and perh
 
 As an example of where this can be useful, the ToastCore database ensures that every player has a `password` property containing the encrypted version of the player's connection password. For security reasons, we don't want other players to be able to see even the encrypted version of the password, so we turn off the `r` permission bit. To ensure that the password is only set in a consistent way (i.e., to the encrypted version of a player's password), we don't want to let anyone but a wizard change the property. Thus, in the parent object for all players, we made a wizard the owner of the password property and set the permissions to the empty string, `""`. That is, non-owners cannot read or write the property and, because the `c` bit is not set, the wizard who owns the property on the parent class also owns it on all of the descendants of that class.
 
-> Warning: The MOO will only hash the first 8 characters of a password. In practice this means that the passwords `password` and `password12345` are exactly the same and either one can be used to login.
+> Warning:  In classic LambdaMOO only the first 8 characters of a password were hashed. In practice this meant that the passwords `password` and `password12345` were exactly the same and either one can be used to login. This was fixed in ToastStunt. If you are upgrading from LambdaMOO, you will need to log in with only the first 8 characters of the password (and then reset your password to something more secure).
 
 Another, perhaps more down-to-earth example arose when a character named Ford started building objects he called "radios" and another character, yduJ, wanted to own one. Ford kindly made the generic radio object fertile, allowing yduJ to create a child object of it, her own radio. Radios had a property called `channel` that identified something corresponding to the frequency to which the radio was tuned. Ford had written nice programs on radios (verbs, discussed below) for turning the channel selector on the front of the radio, which would make a corresponding change in the value of the `channel` property. However, whenever anyone tried to turn the channel selector on yduJ's radio, they got a permissions error. The problem concerned the ownership of the `channel` property.
 
@@ -505,7 +516,15 @@ Note that English articles (i.e., `the`, `a`, and `an`) are not generally used i
 
 To have any of this make real sense, it is important to understand precisely how the server decides what to do when a player types a command.
 
-First, the server checks whether or not the first non-blank character in the command is one of the following:
+But first, we mention the three situations in which a line typed by a player is not treated as an ordinary command:
+
+1. The line may exactly match the connection’s defined flush command, if any (`.flush` by default), in which case all pending lines of input are cleared and nothing further is done with the flush command itself. Likewise, any line may be flushed by a subsequent flush command before the server otherwise gets a chance to process it. For more on this, see Flushing Unprocessed Input.
+2. The line may begin with a prefix that qualifies it for out-of-band processing and thence, perhaps, as an out-of-band command. For more on this, see Out-of-band Processing.
+3. The connection may be subject to a read() call (see section Operations on Network Connections) or there may be a .program command in progress (see section The .program Command), either of which will consume the line accordingly. Also note that if connection option "hold-input" has been set, all in-band lines typed by the player are held at this point for future reading, even if no reading task is currently active. 
+
+Otherwise, we (finally) have an actual command line that can undergo normal command parsing as follows:
+
+The server checks whether or not the first non-blank character in the command is one of the following: 
 
 * `"`
 * `:`
@@ -562,13 +581,7 @@ The next step is to try to find MOO objects that are named by the direct and ind
 
 First, if an object string is empty, then the corresponding object is the special object `#-1` (aka `$nothing` in ToastCore). If an object string has the form of an object number (i.e., a hash mark (`#`) followed by digits), and the object with that number exists, then that is the named object. If the object string is either `"me"` or `"here"`, then the player object itself or its location is used, respectively.
 
-> Note: $nothing is considered a `corified` object.  This means that a _property_ has been created on `#0` named `nothing` with the value of `#-1`. For example (after creating the property): `;#0.nothing = #-1`
-
-This allows you to reference the `#-1` object via it's corified reference of `$nothing`. In practice this can be very useful as you can use corified references in your code (and should!) instead of object numbers.
-
-Among other benefits this allows you to write your code (which references other objects) once and then swap out the corified reference, pointing to a different object.
-
-For instance if you have a new errror logging system and you want to replace the old $error_logger reference with your new one, you wont have to find all the references to the old error logger object number in your code. You can just change the property on `#0` to reference the new object.
+> Note: $nothing is considered a `corified` object.  This means that a _property_ has been created on `#0` named `nothing` with the value of `#-1`. For example (after creating the property): `;#0.nothing = #-1` This allows you to reference the `#-1` object via it's corified reference of `$nothing`. In practice this can be very useful as you can use corified references in your code (and should!) instead of object numbers. Among other benefits this allows you to write your code (which references other objects) once and then swap out the corified reference, pointing to a different object. For instance if you have a new errror logging system and you want to replace the old $error_logger reference with your new one, you wont have to find all the references to the old error logger object number in your code. You can just change the property on `#0` to reference the new object.  
 
 Otherwise, the server considers all of the objects whose location is either the player (i.e., the objects the player is "holding", so to speak) or the room the player is in (i.e., the objects in the same room as the player); it will try to match the object string against the various names for these objects.
 
@@ -643,6 +656,8 @@ endfor
 
 > Note: In practice, the only style of comments you will use is quoted strings of text. Get used to it. Another thing of note is that these strings ARE evaluated. Nothing is done with the results of the evaluation, because the value is not stored anywhere-- however, it may be prudent to keep string comments out of nested loops to make your code a bit faster.
 
+> Warning: ToastStunt has an option your can turn on in options.h (#define BYTECODE_REDUCE_REF /* */) which will optimize your verb code, if this option is on then string literals will be removed and you may get incorrect line numbers in your tracebacks.
+
 ### MOO Language Expressions
 
 Expressions are those pieces of MOO code that generate values; for example, the MOO code
@@ -669,6 +684,7 @@ The simplest kind of expression is a literal MOO value, just as described in the
 * #893
 * "This is a character string."
 * E_TYPE
+* ["key" -> "value"]
 * {"This", "is", "a", "list", "of", "words"}
 
 In the case of lists, like the last example above, note that the list expression contains other expressions, several character strings in this case. In general, those expressions can be of any kind at all, not necessarily literal values. For example,
@@ -805,7 +821,10 @@ Note that integer division in MOO throws away the remainder and that the result 
 
 Fine point: Integers and floating-point numbers cannot be mixed in any particular use of these arithmetic operators; unlike some other programming languages, MOO does not automatically coerce integers into floating-point numbers. You can use the `tofloat()` function to perform an explicit conversion.
 
-The `+` operator can also be used to append two strings. The expression `"foo" + "bar"`
+The `+` operator can also be used to append two strings. The expression 
+
+`"foo" + "bar"`
+
 has the value `"foobar"`
 
 Unless both operands to an arithmetic operator are numbers of the same kind (or, for `+`, both strings), the error value `E_TYPE` is raised. If the right-hand operand for the division or remainder operators (`/` or `%`) is zero, the error value `E_DIV` is raised.
@@ -885,13 +904,13 @@ All other values are false:
 * the floating-point numbers `0.0` and `-0.0`
 * the empty string (`""`)
 * the empty list (`{}`)
-* all object numbers
+* all object numbers & object refewrences
 * all error values
 * the bool 'false'
 
 > Note: Objects are considered false. If you need to evaluate if a value is of the type object, you can use `typeof(potential_object) == OBJ` however, keep in mind that this does not mean that the object referenced actually exists. IE: #100000000 will return true, but that does not mean that object exists in your MOO.
 
-> Note: Don't get confused between values evaluating to true or false, and the boolean values of true and `false`.
+> Note: Don't get confused between values evaluating to true or false, and the boolean values of `true` and `false`.
 
 There are four kinds of expressions and two kinds of statements that depend upon this classification of MOO values. In describing them, I sometimes refer to the _truth value_ of a MOO value; this is just _true_ or _false_, the category into which that MOO value is classified.
 
@@ -925,8 +944,6 @@ If the value of expression is true, `!` returns 0; otherwise, it returns 1:
 ! "foo"     =>  0
 ! (3 >= 4)  =>  1
 ```
-
-The negation operator is usually read as "not."
 
 > Note: The "negation" or "not" operator is commonly referred to as "bang" in modern parlance.
 
@@ -1022,11 +1039,15 @@ The first form writes into a variable, and the last three forms write into a pro
 
 Correspondingly, if variable does not yet have a value (i.e., it has never been assigned to), `E_VARNF` will be raised.
 
+If index-expr is not an integer (for lists and strings) or is a collection value (for maps), or if the value of `variable` or the property is not a list, map or string, `E_TYPE` is raised. If `result-expr` is a string, but not of length 1, E_INVARG is raised. Suppose `index-expr` evaluates to a value `k`. If `k` is an integer and is outside the range of the list or string (i.e. smaller than 1 or greater than the length of the list or string), `E_RANGE` is raised. If `k` is not a valid key of the map, `E_RANGE` is raised. Otherwise, the actual assignment takes place. 
+
+For lists, the variable or the property is assigned a new list that is identical to the original one except at the k-th position, where the new list contains the result of result-expr instead. Likewise for maps, the variable or the property is assigned a new map that is identical to the original one except for the k key, where the new map contains the result of result-expr instead. For strings, the variable or the property is assigned a new string that is identical to the original one, except the k-th character is changed to be result-expr.
+
 If index-expr is not an integer, or if the value of variable or the property is not a list or string, `E_TYPE` is raised. If result-expr is a string, but not of length 1, `E_INVARG` is raised. Now suppose index-expr evaluates to an integer n. If n is outside the range of the list or string (i.e. smaller than 1 or greater than the length of the list or string), `E_RANGE` is raised. Otherwise, the actual assignment takes place.
 
 For lists, the variable or the property is assigned a new list that is identical to the original one except at the n-th position, where the new list contains the result of result-expr instead. For strings, the variable or the property is assigned a new string that is identical to the original one, except the n-th character is changed to be result-expr.
 
-The assignment expression itself returns the value of result-expr. For the following examples, assume that `l` initially contains the list `{1, 2, 3}` and that `s` initially contains the string "foobar":
+The assignment expression itself returns the value of result-expr. For the following examples, assume that `l` initially contains the list `{1, 2, 3}`, that `m` initially contains the map `["one" -> 1, "two" -> 2]` and that `s` initially contains the string "foobar": 
 
 ```
 l[5] = 3          =>   E_RANGE (error)
@@ -1050,10 +1071,10 @@ m[1] = "baz"      =>   ["foo" -> "baz"]
 
 Fine point: After an indexed assignment, the variable or property contains a _new_ list or string, a copy of the original list in all but the n-th place, where it contains a new value. In programming-language jargon, the original list is not mutated, and there is no aliasing. (Indeed, no MOO value is mutable and no aliasing ever occurs.)
 
-In the list case, indexed assignment can be nested to many levels, to work on nested lists. Assume that `l` initially contains the list:
+In the list and map case, indexed assignment can be nested to many levels, to work on nested lists and maps. Assume that `l` initially contains the following 
 
 ```
-{{1, 2, 3}, {4, 5, 6}, "foo"}
+{{1, 2, 3}, {4, 5, 6}, "foo", ["bar" -> "baz"]}
 ```
 
 in the following examples:
@@ -1064,26 +1085,27 @@ l[1][8] = 35         =>   E_RANGE (error)
 l[3][2] = 7          =>   E_TYPE (error)
 l[1][1][1] = 3       =>   E_TYPE (error)
 l[2][2] = -l[2][2]   =>   -5
-l                    =>   {{1, 2, 3}, {4, -5, 6}, "foo"}
+l                    =>   {{1, 2, 3}, {4, -5, 6}, "foo", ["bar" -> "baz"]}
 l[2] = "bar"         =>   "bar"
-l                    =>   {{1, 2, 3}, "bar", "foo"}
+l                    =>   {{1, 2, 3}, "bar", "foo", ["bar" -> "baz"]}
 l[2][$] = "z"        =>   "z"
-l                    =>   {{1, 2, 3}, "baz", "foo"}
+l                    =>   {{1, 2, 3}, "baz", "foo", ["bar" -> "baz"]}
+l[$][^] = #3         =>   #3
+l                    =>   {{1, 2, 3}, "baz", "foo", ["bar" -> #3]}
 ```
 
-The first two examples raise `E_RANGE` because 7 is out of the range of `l` and 8 is out of the range of `l[1]`. The next two examples raise `E_TYPE` because `l[3]` and `l[1][1]` are not lists.
+The first two examples raise E_RANGE because 7 is out of the range of `l` and 8 is out of the range of `l[1]`. The next two examples raise `E_TYPE` because `l[3]` and `l[1][1]` are not lists. 
 
-##### Extracting a Subsequence of a List or String
-
-The range expression extracts a specified subsequence from a list or string:
+##### Extracting a Subsequence of a List, Map or String
+The range expression extracts a specified subsequence from a list, map or string:
 
 ```
 expression-1[expression-2..expression-3]
 ```
 
-The three expressions are evaluated in order. Expression-1 must return a list or string (the _sequence_) and the other two expressions must return integers (the _low_ and _high_ indices, respectively); otherwise, `E_TYPE` is raised. The `$` expression can be used in either or both of expression-2 and expression-3 just as before, meaning the length of the value of expression-1.
+The three expressions are evaluated in order. Expression-1 must return a list, map or string (the _sequence_) and the other two expressions must return integers (the _low_ and _high_ indices, respectively) for lists and strings, or non-collection values (the `begin` and `end` keys in the ordered map, respectively) for maps; otherwise, `E_TYPE` is raised. The `^` and `$` expression can be used in either or both of expression-2 and expression-3 just as before.
 
-If the low index is greater than the high index, then the empty string or list is returned, depending on whether the sequence is a string or a list.  Otherwise, both indices must be between 1 and the length of the sequence; `E_RANGE` is raised if they are not. A new list or string is returned that contains just the elements of the sequence with indices between the low and high bounds.
+If the low index is greater than the high index, then the empty string, list or map is returned, depending on whether the sequence is a string, list or map.  Otherwise, both indices must be between 1 and the length of the sequence (for lists or strings) or valid keys (ofr maps); `E_RANGE` is raised if they are not. A new list, map or string is returned that contains just the elements of the sequence with indices between the low/high and high/end bounds.
 
 ```
 "foobar"[2..$]                       =>  "oobar"
@@ -1092,11 +1114,12 @@ If the low index is greater than the high index, then the empty string or list i
 {"one", "two", "three"}[$ - 1..$]    =>  {"two", "three"}
 {"one", "two", "three"}[3..3]        =>  {"three"}
 {"one", "two", "three"}[17..12]      =>  {}
+[1 -> "one", 2 -> "two"][1..1]       =>  [1 -> "one"]
 ```
 
-##### Replacing a Subsequence of a List or String
+##### Replacing a Subsequence of a List, Map or String
 
-The subrange assigment replaces a specified subsequence of a list or string with a supplied subsequence. The allowed forms are:
+The subrange assigment replaces a specified subsequence of a list, map or string with a supplied subsequence. The allowed forms are:
 
 ```
 variable[start-index-expr..end-index-expr] = result-expr
@@ -1105,11 +1128,9 @@ object-expr.(name-expr)[start-index-expr..end-index-expr] = result-expr
 $name[start-index-expr..end-index-expr] = result-expr
 ```
 
-As with indexed assigments, the first form writes into a variable, and the last three forms write into a property. The same errors (`E_TYPE`, `E_INVIND`, `E_PROPNF` and `E_PERM` for lack of read/write permission on the property) may be raised. If variable does not yet have a value (i.e., it has never been assigned to), `E_VARNF` will be raised.
+As with indexed assigments, the first form writes into a variable, and the last three forms write into a property. The same errors (`E_TYPE`, `E_INVIND`, `E_PROPNF` and `E_PERM` for lack of read/write permission on the property) may be raised. If variable does not yet have a value (i.e., it has never been assigned to), `E_VARNF` will be raised. As before, the `^` and `$` expression can be used in either start-index-expr or end-index-expr.
 
-As before, the `$` expression can be used in either start-index-expr or end-index-expr, meaning the length of the original value of the expression just before the `[...]` part.
-
-If start-index-expr or end-index-expr is not an integer, if the value of variable or the property is not a list or string, or result-expr is not the same type as variable or the property, `E_TYPE` is raised. `E_RANGE` is raised if end-index-expr is less than zero or if start-index-expr is greater than the length of the list or string plus one. Note: the length of result-expr does not need to be the same as the length of the specified range.
+If start-index-expr or end-index-expr is not an integer (for lists and strings) or a collection value (for maps), if the value of variable or the property is not a list, map, or string, or result-expr is not the same type as variable or the property, `E_TYPE` is raised.For lists and strings,  `E_RANGE` is raised if end-index-expr is less than zero or if start-index-expr is greater than the length of the list or string plus one. Note: the length of result-expr does not need to be the same as the length of the specified range. For maps, `E_RANGE` is raised if `start-index-expr` or `end-index-expr` are not keys in the map.
 
 In precise terms, the subrange assigment
 
@@ -1129,11 +1150,15 @@ if v is a list and to
 v = v[1..start - 1] + value + v[end + 1..$]
 ```
 
-if v is a string. The assigment expression itself returns the value of result-expr.
+if v is a string. 
+
+There is no literal representation of the operation if v is a map. In this case the range given by start-index-expr and end-index-expr is removed, and the the values in result-expr are added.
+
+The assigment expression itself returns the value of result-expr.
 
 > Note: The use of preceeding a list with the @ symbol is covered in just a bit.
 
-For the following examples, assume that `l` initially contains the list `{1, 2, 3}` and that `s` initially contains the string "foobar":
+For the following examples, assume that `l` initially contains the list `{1, 2, 3}`, that `m` initially contains the map [1 -> "one", 2 -> "two", 3 -> "three"] and that `s` initially contains the string "foobar":
 
 ```
 l[5..6] = {7, 8}       =>   E_RANGE (error)
@@ -1152,6 +1177,8 @@ s[1..3] = "fu"         =>   "fu"
 s                      =>   "fubarbaz"
 s[1..0] = "test"       =>   "test"
 s                      =>   "testfubarbaz"
+m[1..2] = ["abc" -> #1]=>   ["abc" -> #1]
+m                      =>   [3 -> "three", "abc" -> #1]
 ```
 
 #### Other Operations on Lists
@@ -1256,6 +1283,8 @@ Using scattering assignment, the example at the begining of this section could b
 ```
 
 Fine point: If you are familiar with JavaScript, the 'rest' and 'spread' functionality should look pretty familiar. It is good MOO programming style to use a scattering assignment at the top of nearly every verb (at least ones that are 'this none this'), since it shows so clearly just what kinds of arguments the verb expects.
+
+It is good MOO programming style to use a scattering assignment at the top of nearly every verb, since it shows so clearly just what kinds of arguments the verb expects. 
 
 #### Getting and Setting the Values of Properties
 
