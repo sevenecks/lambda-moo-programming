@@ -10,9 +10,9 @@ Copyright © 2004 by Roger F. Crew.
 
 Copyright © 2011, 2012, 2013 by Todd Sundsted.
 
-Copyright © 2017, 2018, 2019, 2020, 2021 by [Brendan Butts](http://github.com/sevenecks).
+Copyright © 2017, 2018, 2019, 2020, 2022 by [Brendan Butts](http://github.com/sevenecks).
 
-Copyright © 2021 By [lisdude](http://github.com/lisdude)
+Copyright © 2021-2022 By [lisdude](http://github.com/lisdude)
 
 Portions adapted from the [Stunt Programmers Manual](http://stunt.io/ProgrammersManual.html) by Todd Sundsted Copyright © 2011, 2012, 2013 by Todd Sundsted.
 
@@ -30,105 +30,117 @@ TODO: Update this section
 
 ## Versions of This Document
 
-I highly recommend you use the Hosted HTML5 version of this document for anything more than quick references. It is better styled and easier to read. The markdown version exists as for 'quick reference' purposes.
-
-* [GitHub Markdown Version](https://github.com/SevenEcks/lambda-moo-programming/blob/master/tutorials/moo-programmers-manual-updated.md)
+* [GitHub Markdown Version](https://github.com/sevenecks/lambda-moo-programming/)
 * [Hosted HTML5 Version](https://www.sindome.org/moo-manual.html)
 
 For older versions of this document (or for pre-fork LambdaMOO version) please see the resources section.
 
 ## Table of Contents
 
-* [Foreword](#foreword)
-  - [What is ToastStunt?](#what-is-toaststunt)
-* [ToastStunt Resources](#toaststunt-resources)
-* [Introduction](#introduction)
-* [The ToastCore Database](#toaststunt-database)
-  - [MOO Value Types](#moo-value-types)
-    + [Integer Type](#integer-type)
-    + [Real Number Type](#real-number-type)
-    + [String Type](#string-type)
-    + [Object Type](#object-type)
-    + [Anonymous Object Type](#anonymous-object-type)
-    + [Bool Type](#bool-type)
-    + [WAIF Type](#waif-type)
-    + [Error Type](#error-type)
-    + [List Type](#list-type)
-    + [Map Type](#map-type)
-  - [Objects in the MOO Database](#objects-in-the-moo-database)
-    + [Fundamental Object Attributes](#fundamental-object-attributes)
-    + [Properties on Objects](#properties-on-objects)
-    + [Verbs on Objects](#verbs-on-objects)
-* [The Built-in Command Parser](#the-built-in-command-parser)
-* [The MOO Programming Language](#the-moo-programming-language)
-  - [MOO Language Expressions](#moo-language-expressions)
-    + [Errors While Evaluating Expressions](#errors-while-evaluating-expressions)
-    + [Writing Values Directly in Verbs](#writing-values-directly-in-verbs)
-    + [Naming Values Within a Verb](#naming-values-within-a-verb)
-    + [Arithmetic Operators](#arithmetic-operators)
-    + [Comparing Values](#comparing-values)
-    + [Values as True and False](#values-as-true-or-false)
-    + [Indexing into Lists, Maps and Strings](#indexing-into-lists-maps-and-strings)
-      * [Extracting an Element from a List, Map or String](#extracting-an-element-from-a-list-map-or-string)
-      * [Extracting a Subsequence of a List, Map or String](#extracting-a-subsequence-of-a-list-map-or-string)
-      * [Replacing a Subsequence of a List, Map or String](#replacing-a-subsequence-of-a-list-map-or-string)
-  - [Other Operations on Lists](#other-operations-on-lists)
-  - [Spreading List Elements Among Variables](#spreading-list-elements-among-variables)
-  - [Getting and Setting the Values of Properties](#getting-and-setting-the-values-of-properties)
-  - [Calling Built-in Functions and Other Verbs](#calling-built-in-functions-and-other-verbs)
-  - [Catching Errors in Expressions](#catching-errors-in-expressions)
-  - [Parentheses and Operator Precedence](#parentheses-and-operator-precedence)
-* [MOO Language Statements](#moo-langauge-statements)
-  - [Errors While Executing Statements](#errors-while-executing-statements)
-  - [Simple Statements](#simple-statements)
-  - [Statements for Testing Conditions](#statements-for-testing-conditionals)
-  - [Statements for Looping](#statements-for-looping)
-  - [Terminating One or All Iterations of a Loop](#terminating-one-or-all-iterations-of-a-loop)
-  - [Returning a Value from a Verb](#returning-a-value-from-a-verb)
-  - [Returning a Value from a Verb](#returning-a-value-from-a-verb)
-  - [Handling Errors in Statements](#handling-errors-in-statements)
-  - [Cleaning Up After Errors](#cleaning-up-after-errors)
-  - [Executing Statements at a Later Time](#executing-statements-at-a-later-time)
-* [MOO Tasks](#moo-tasks)
-* [Built-in Functions](#built-in-functions)
-  - [Object-Oriented Programming](#object-oriented-programming)
-  - [Manipulating MOO Values](#manipulating-moo-values)
-    + [General Operations Applicable to all Values](#general-operations-applicable-to-all-values)
-    + [Operations on Numbers](#operations-on-numbers)
-    + [Regular Expressions](#regular-expressions)
-    + [Operations on Strings](#operations-on-strings)
-  - [Manipulating Objects](#manipulating-objects)
-    + [Fundamental Operations on Objects](#fundamental-operations-on-objects)
-    + [Object Movement](#object-movement)
-    + [Operations on Properties](#operations-on-properties)
-    + [Operations on Player Objects](#operations-on-player-objects)
-    + [Operations on Network Connections](#operations-on-network-connections)
-    + [Operations Involving Times and Dates](#operations-involving-times-and-dates)
-    + [MOO-Code Evaluation and Task Manipulation](#moo-code-evaluation-and-task-management)
-    + [Administrative Operations](#administrative-questions)
-* [Working with WAIFs](#working-with-waifs)
-  - [The WAIF Verb and Property Namespace](#the-waif-verb-and-property-namespace)
-* [Server Commands and Database Assumptions](#server-commands-and-database-assumptions)
-  - [Built-in Commands](#bult-in-commands)
-  - [Command-Output Delimiters](#command-output-delimiters)
-  - [Programming](#programming)
-  - [Flushing Unprocessed Input](#flushing-unprocessed-input)
-  - [Initial Punctuation in Commands](#initial-punctuation-in-commands)
-* [Server Assumptions About the Database](#server-assumptions-about-the-database)
-  - [Server Options Set in the Database](#server-options-set-in-the-database)
-  - [Server Messages Set in the Database](#server-messages-set-in-the-database)
-  - [Checkpointing the Database](#checkpointing-the-database)
-* [Networking](#networking)
-  - [Accepting and Initiating Network Connections](#accepting-and-initiating-network-connections)
-  - [Associating Network Connections with Players](#associating-network-connections-with-playes)
-* [The First Tasks Run By the Server](#the-first-tasks-run-by-the-server)
-* [Controlling the Execution of Tasks](#controlling-the-execution-of-tasks)
-* [Controlling the Handling of Aborted Tasks](#controlling-the-handling-of-aborted-tasks)
-* [Matching in Command Parsing](#matching-in-command-parsing)
-* [Restricting Access to Built-in Properties and Functions](#restricting-accessing-to-built-in-properties-and-functions)
-* [Creating and Recycling Objects](#creating-and-recycling-objects)
-* [Object Movement Caveats](#object-movement-caveats)
-* [Temporarily Enabling Obsolete Server Features](#temporarily-enabling-obsolete-server-features)
+  * [Foreword](#foreword)
+    + [What is ToastStunt?](#what-is-toaststunt-)
+  * [ToastStunt & MOO Resources](#toaststunt---moo-resources)
+  * [Introduction](#introduction)
+  * [The ToastStunt Database](#the-toaststunt-database)
+    + [MOO Value Types](#moo-value-types)
+      - [Integer Type](#integer-type)
+      - [Real Number Type](#real-number-type)
+      - [String Type](#string-type)
+      - [Object Type](#object-type)
+      - [Anonymous Object Type](#anonymous-object-type)
+      - [Bool Type](#bool-type)
+      - [WAIF Type](#waif-type)
+      - [Error Type](#error-type)
+      - [List Type](#list-type)
+      - [Map Type](#map-type)
+    + [Objects in the MOO Database](#objects-in-the-moo-database)
+      - [Fundamental Object Attributes](#fundamental-object-attributes)
+      - [Properties on Objects](#properties-on-objects)
+      - [Verbs on Objects](#verbs-on-objects)
+  * [The Built-in Command Parser](#the-built-in-command-parser)
+  * [The MOO Programming Language](#the-moo-programming-language)
+    + [MOO Language Expressions](#moo-language-expressions)
+      - [Errors While Evaluating Expressions](#errors-while-evaluating-expressions)
+      - [Writing Values Directly in Verbs](#writing-values-directly-in-verbs)
+      - [Naming Values Within a Verb](#naming-values-within-a-verb)
+      - [Arithmetic Operators](#arithmetic-operators)
+      - [Comparing Values](#comparing-values)
+      - [Values as True and False](#values-as-true-and-false)
+      - [Indexing into Lists, Maps and Strings](#indexing-into-lists--maps-and-strings)
+        * [Extracting an Element by Index](#extracting-an-element-by-index)
+        * [Replacing an Element of a List, Map, or String](#replacing-an-element-of-a-list--map--or-string)
+        * [Extracting a Subsequence of a List, Map or String](#extracting-a-subsequence-of-a-list--map-or-string)
+        * [Replacing a Subsequence of a List, Map or String](#replacing-a-subsequence-of-a-list--map-or-string)
+      - [Other Operations on Lists](#other-operations-on-lists)
+      - [Spreading List Elements Among Variables](#spreading-list-elements-among-variables)
+      - [Getting and Setting the Values of Properties](#getting-and-setting-the-values-of-properties)
+      - [Calling Built-in Functions and Other Verbs](#calling-built-in-functions-and-other-verbs)
+      - [Catching Errors in Expressions](#catching-errors-in-expressions)
+      - [Parentheses and Operator Precedence](#parentheses-and-operator-precedence)
+    + [MOO Language Statements](#moo-language-statements)
+      - [Errors While Executing Statements](#errors-while-executing-statements)
+      - [Simple Statements](#simple-statements)
+      - [Statements for Testing Conditions](#statements-for-testing-conditions)
+      - [Statements for Looping](#statements-for-looping)
+      - [Terminating One or All Iterations of a Loop](#terminating-one-or-all-iterations-of-a-loop)
+      - [Returning a Value from a Verb](#returning-a-value-from-a-verb)
+      - [Handling Errors in Statements](#handling-errors-in-statements)
+      - [Cleaning Up After Errors](#cleaning-up-after-errors)
+      - [Executing Statements at a Later Time](#executing-statements-at-a-later-time)
+    + [MOO Tasks](#moo-tasks)
+    + [Built-in Functions](#built-in-functions)
+      - [Object-Oriented Programming](#object-oriented-programming)
+      - [Manipulating MOO Values](#manipulating-moo-values)
+        * [General Operations Applicable to all Values](#general-operations-applicable-to-all-values)
+        * [Operations on Numbers](#operations-on-numbers)
+        * [Operations on Strings](#operations-on-strings)
+        * [MOO Regular Expressions (Legacy)](#moo-regular-expressions--legacy-)
+        * [Perl Compatible Regular Expressions (PCRE)](#perl-compatible-regular-expressions--pcre-)
+        * [Operations on Lists](#operations-on-lists)
+        * [Operations on Maps](#operations-on-maps)
+      - [Manipulating Objects](#manipulating-objects)
+        * [Fundamental Operations on Objects](#fundamental-operations-on-objects)
+        * [Object Movement](#object-movement)
+        * [Operations on Properties](#operations-on-properties)
+        * [Operations on Verbs](#operations-on-verbs)
+        * [Operations on Player Objects](#operations-on-player-objects)
+        * [Operations on The Server Environment](#operations-on-the-server-environment)
+        * [Operations on Network Connections](#operations-on-network-connections)
+        * [Operations Involving Times and Dates](#operations-involving-times-and-dates)
+        * [MOO-Code Evaluation and Task Manipulation](#moo-code-evaluation-and-task-manipulation)
+        * [Administrative Operations](#administrative-operations)
+    + [Working with WAIFs](#working-with-waifs)
+      - [The WAIF Verb and Property Namespace](#the-waif-verb-and-property-namespace)
+      - [Additional Details on WAIFs](#additional-details-on-waifs)
+    + [Server Commands and Database Assumptions](#server-commands-and-database-assumptions)
+      - [Command Lines That Receive Special Treatment](#command-lines-that-receive-special-treatment)
+        * [Flushing Unprocessed Input](#flushing-unprocessed-input)
+        * [Out-of-Band Processing](#out-of-band-processing)
+        * [Quoted Lines](#quoted-lines)
+        * [Commands](#commands)
+        * [Command-Output Delimiters](#command-output-delimiters)
+      - [The .program Command](#the-program-command)
+      - [Initial Punctuation in Commands](#initial-punctuation-in-commands)
+    + [Server Assumptions About the Database](#server-assumptions-about-the-database)
+      - [Server Options Set in the Database](#server-options-set-in-the-database)
+      - [Server Messages Set in the Database](#server-messages-set-in-the-database)
+      - [Checkpointing the Database](#checkpointing-the-database)
+    + [Networking](#networking)
+      - [Accepting and Initiating Network Connections](#accepting-and-initiating-network-connections)
+      - [Associating Network Connections with Players](#associating-network-connections-with-players)
+      - [Player Input Handlers](#player-input-handlers)
+    + [The First Tasks Run By the Server](#the-first-tasks-run-by-the-server)
+    + [Controlling the Execution of Tasks](#controlling-the-execution-of-tasks)
+    + [Controlling the Handling of Aborted Tasks](#controlling-the-handling-of-aborted-tasks)
+    + [Matching in Command Parsing](#matching-in-command-parsing)
+    + [Restricting Access to Built-in Properties and Functions](#restricting-access-to-built-in-properties-and-functions)
+    + [Creating and Recycling Objects](#creating-and-recycling-objects)
+    + [Object Movement](#object-movement-1)
+    + [Temporarily Enabling Obsolete Server Features](#temporarily-enabling-obsolete-server-features)
+    + [Server Configuration](#server-configuration)
+      - [Server Compilation Options](#server-compilation-options)
+      - [Running the Server](#running-the-server)
+      - [Emergency Wizard Mode](#emergency-wizard-mode)
 
 ***
 
@@ -2014,6 +2026,7 @@ There are several functions for performing primitive operations on MOO values, a
 **Function: `typeof`**
 
 typeof -- Takes any MOO value and returns an integer representing the type of value.
+
 int `typeof` (value)
 
 The result is the same as the initial value of one of these built-in variables: `INT`, `FLOAT`, `STR`, `LIST`, `MAP`,  `OBJ`, or `ERR`.  Thus, one usually writes code like this:
@@ -2059,6 +2072,7 @@ toliteral(1.0/3.0)    =>   "0.333333333333333"
 toliteral(#17)        =>   "#17"
 toliteral("foo")      =>   "\"foo\""
 toliteral({1, 2})     =>   "{1, 2}"
+toliteral([1 -> 2]    =>   "[1 -> 2]"
 toliteral(E_PERM)     =>   "E_PERM"
 ```
 
@@ -2090,7 +2104,7 @@ The conversions are very similar to those for `toint()` except that for strings,
 toobj("34")       =>   #34
 toobj("#34")      =>   #34
 toobj("foo")      =>   #0
-toobj({1, 2})     => E_TYPE (error)
+toobj({1, 2})     =>   E_TYPE (error)
 ```
 
 **Function: `tofloat`**
@@ -2125,22 +2139,112 @@ equal("Foo", "Foo")    =>   1
 
 value_bytes -- Returns the number of bytes of the server's memory required to store the given value.
 int `value_bytes` (value)
+
 **Function: `value_hash`**
 
 value_hash -- Returns the same string as `string_hash(toliteral(value))`.
-str `value_hash` (value)
+str `value_hash` (value, [, str algo])
 
 See the description of `string_hash()` for details.
+
+**Function: `value_hmac`**
+
+value_hmac -- Returns the same string as string_hmac(toliteral(value), key)
+str `value_hmac` (value, STR key [, STR algo [, binary]])
+
+See the description of string_hmac() for details.  
+
+**Function: `generate_json`**
+
+generate_json -- Returns the JSON representation of the MOO value.
+str generate_json (value [, str mode])
+
+Returns the JSON representation of the MOO value.
+
+MOO supports a richer set of values than JSON allows. The optional mode specifies how this function handles the conversion of MOO values into their JSON representation.
+
+The common subset mode, specified by the literal mode string "common-subset", is the default conversion mode. In this mode, only the common subset of types (strings and numbers) are translated with fidelity between MOO types and JSON types. All other types are treated as alternative representations of the string type. This mode is useful for integration with non-MOO applications.
+
+The embedded types mode, specified by the literal mode string "embedded-types", adds type information. Specifically, values other than strings and numbers, which carry implicit type information, are converted into strings with type information appended. The converted string consists of the string representation of the value (as if tostr() were applied) followed by the pipe (|) character and the type. This mode is useful for serializing/deserializing objects and collections of MOO values.
+    
+```
+generate_json([])                                           =>  "{}"
+generate_json(["foo" -> "bar"])                             =>  "{\"foo\":\"bar\"}"
+generate_json(["foo" -> "bar"], "common-subset")            =>  "{\"foo\":\"bar\"}"
+generate_json(["foo" -> "bar"], "embedded-types")           =>  "{\"foo\":\"bar\"}"
+generate_json(["foo" -> 1.1])                               =>  "{\"foo\":1.1}"
+generate_json(["foo" -> 1.1], "common-subset")              =>  "{\"foo\":1.1}"
+generate_json(["foo" -> 1.1], "embedded-types")             =>  "{\"foo\":1.1}"
+generate_json(["foo" -> #1])                                =>  "{\"foo\":\"#1\"}"
+generate_json(["foo" -> #1], "common-subset")               =>  "{\"foo\":\"#1\"}"
+generate_json(["foo" -> #1], "embedded-types")              =>  "{\"foo\":\"#1|obj\"}"
+generate_json(["foo" -> E_PERM])                            =>  "{\"foo\":\"E_PERM\"}"
+generate_json(["foo" -> E_PERM], "common-subset")           =>  "{\"foo\":\"E_PERM\"}"
+generate_json(["foo" -> E_PERM], "embedded-types")          =>  "{\"foo\":\"E_PERM|err\"}"
+```
+
+JSON keys must be strings, so regardless of the mode, the key will be converted to a string value.
+
+```
+generate_json([1 -> 2])                                     =>  "{\"1\":2}"
+generate_json([1 -> 2], "common-subset")                    =>  "{\"1\":2}"
+generate_json([1 -> 2], "embedded-types")                   =>  "{\"1|int\":2}"
+generate_json([#1 -> 2], "embedded-types")                  =>  "{\"#1|obj\":2}"
+```
+
+**Function: `parse_json`**
+
+parse_json -- Returns the MOO value representation of the JSON string. 
+value parse_json (str json [, str mode])
+
+If the specified string is not valid JSON, E_INVARG is raised.
+
+The optional mode specifies how this function handles conversion of MOO values into their JSON representation. The options are the same as for generate_json().
+
+```
+parse_json("{}")                                            =>  []
+parse_json("{\"foo\":\"bar\"}")                             =>  ["foo" -> "bar"]
+parse_json("{\"foo\":\"bar\"}", "common-subset")            =>  ["foo" -> "bar"]
+parse_json("{\"foo\":\"bar\"}", "embedded-types")           =>  ["foo" -> "bar"]
+parse_json("{\"foo\":1.1}")                                 =>  ["foo" -> 1.1]
+parse_json("{\"foo\":1.1}", "common-subset")                =>  ["foo" -> 1.1]
+parse_json("{\"foo\":1.1}", "embedded-types")               =>  ["foo" -> 1.1]
+parse_json("{\"foo\":\"#1\"}")                              =>  ["foo" -> "#1"]
+parse_json("{\"foo\":\"#1\"}", "common-subset")             =>  ["foo" -> "#1"]
+parse_json("{\"foo\":\"#1|obj\"}", "embedded-types")        =>  ["foo" -> #1]
+parse_json("{\"foo\":\"E_PERM\"}")                          =>  ["foo" -> "E_PERM"]
+parse_json("{\"foo\":\"E_PERM\"}", "common-subset")         =>  ["foo" -> "E_PERM"]
+parse_json("{\"foo\":\"E_PERM|err\"}", "embedded-types")    =>  ["foo" -> E_PERM]
+```
+
+In embedded types mode, key values can be converted to MOO types by appending type information. The full set of supported types are obj, str, err, float and int.
+    
+```
+parse_json("{\"1\":2}")                                     =>   ["1" -> 2]
+parse_json("{\"1\":2}", "common-subset")                    =>   ["1" -> 2]
+parse_json("{\"1|int\":2}", "embedded-types")               =>   [1 -> 2]
+parse_json("{\"#1|obj\":2}", "embedded-types")              =>   [#1 -> 2]
+```
+
+//TODO: confirm if this is still true since Toast has bool support.
+JSON defines types that MOO (currently) does not support, such as boolean true and false, and null. These values are always converted to the strings "true", "false" and "null". 
 
 ##### Operations on Numbers
 
 **Function: `random`**
 
-random -- An integer is chosen randomly from the range `[1..mod]` and returned.
-int `random` ([int mod])
+random -- Return a random integer
+int `random` ([int mod, [int range]])
 
-mod must be a positive integer; otherwise, `E_INVARG` is raised.  If mod is not provided, it defaults to the largest MOO integer, 2147483647.
-> Warning: The `random()` function is not very random.  You should augment it's randomness with something like this: `random() % 100 + 1` for better randomness.
+mod must be a positive integer; otherwise, `E_INVARG` is raised.  If mod is not provided, it defaults to the largest MOO integer, which will depend on if you are running 32 or 64bit.
+
+if range is provided then an integer in the range of mod to range (inclusive) is returned.
+
+```
+random(10)                  => integer between 1-10
+random()                    => integer between 1 and maximum integer supported
+random(1, 5000)             => integer between 1 and 5000
+```
 
 **Function: `min`**
 
@@ -2165,8 +2269,7 @@ If x is negative, then the result is `-x`; otherwise, the result is x. The numbe
 
 **Function: `floatstr`**
 
-floatstr -- Converts x into a string with more control than provided by either
-    `tostr()` or `toliteral()`.
+floatstr -- Converts x into a string with more control than provided by either `tostr()` or `toliteral()`.
 str `floatstr` (float x, int precision [, scientific])
 
 Precision is the number of digits to appear to the right of the decimal point, capped at 4 more than the maximum available precision, a total of 19 on most machines; this makes it possible to avoid rounding errors if the resulting string is subsequently read back as a floating-point value. If scientific is false or not provided, the result is a string in the form `"MMMMMMM.DDDDDD"`, preceded by a minus sign if and only if x is negative. If scientific is provided and true, the result is a string in the form `"M.DDDDDDe+EEE"`, again preceded by a minus sign if and only if x is negative.
@@ -2188,12 +2291,12 @@ cos -- Returns the cosine of x.
 float `cos` (float x)
 **Function: `tangent`**
 
-tangent -- Returns the tangent of x.
-float `tangent` (float x)
+tan -- Returns the tangent of x.
+float `tan` (float x)
+
 **Function: `asin`**
 
-asin -- Returns the arc-sine (inverse sine) of x, in the
-    range `[-pi/2..pi/2]`
+asin -- Returns the arc-sine (inverse sine) of x, in the range `[-pi/2..pi/2]`
 float `asin` (float x)
 
 Raises `E_INVARG` if x is outside the range `[-1.0..1.0]`.
@@ -2245,11 +2348,13 @@ Raises `E_INVARG` if x is not positive.
 **Function: `ceil`**
 
 ceil -- Returns the smallest integer not less than x, as a floating-point number.
+
 float `ceil` (float x)
 **Function: `floor`**
 
 floor -- Returns the largest integer not greater than x, as a floating-point number.
 float `floor` (float x)
+
 **Function: `trunc`**
 
 trunc -- Returns the integer obtained by truncating x at the decimal point, as a
@@ -2257,44 +2362,6 @@ trunc -- Returns the integer obtained by truncating x at the decimal point, as a
 float `trunc` (float x)
 
 For negative x, this is equivalent to `ceil()`; otherwise it is equivalent to `floor()`.
-
-##### Regular Expressions
-
-_Regular expression_ matching allows you to test whether a string fits into a specific syntactic shape. You can also search a string for a substring that fits a pattern.
-
-A regular expression describes a set of strings. The simplest case is one that describes a particular string; for example, the string `foo` when regarded as a regular expression matches `foo` and nothing else. Nontrivial regular expressions use certain special constructs so that they can match more than one string. For example, the regular expression `foo%|bar` matches either the string `foo` or the string `bar`; the regular expression `c[ad]*r` matches any of the strings `cr`, `car`, `cdr`, `caar`, `cadddar` and all other such strings with any number of `a`'s and `d`'s.
-
-Regular expressions have a syntax in which a few characters are special constructs and the rest are _ordinary_. An ordinary character is a simple regular expression that matches that character and nothing else. The special characters are `$`, `^`, `.`, `*`, `+`, `?`, `[`, `]` and `%`. Any other character appearing in a regular expression is ordinary, unless a `%` precedes it.
-
-For example, `f` is not a special character, so it is ordinary, and therefore `f` is a regular expression that matches the string `f` and no other string. (It does _not_, for example, match the string `ff`.)  Likewise, `o` is a regular expression that matches only `o`.
-
-Any two regular expressions a and b can be concatenated. The result is a regular expression which matches a string if a matches some amount of the beginning of that string and b matches the rest of the string.
-
-As a simple example, we can concatenate the regular expressions `f` and `o` to get the regular expression `fo`, which matches only the string `fo`. Still trivial.
-
-The following are the characters and character sequences that have special meaning within regular expressions. Any character not mentioned here is not special; it stands for exactly itself for the purposes of searching and matching.
-
-| Character Sequences  | Special Meaning |
-| ------------- | ------------- |
-| <code>.</code> | is a special character that matches any single character. Using concatenation, we can make regular expressions like <code>a.b</code>, which matches any three-character string that begins with <code>a</code> and ends with <code>b</code>. |
-| <code>*</code> | is not a construct by itself; it is a suffix that means that the preceding regular expression is to be repeated as many times as possible. In <code>fo*</code>, the <code>*</code> applies to the <code>o</code>, so <code>fo*</code> matches <code>f</code> followed by any number of <code>o</code>&apos;s. The case of zero <code>o</code>&apos;s is allowed: <code>fo*</code> does match <code>f</code>.  <code>*</code> always applies to the <em>smallest</em> possible preceding expression.  Thus, <code>fo*</code> has a repeating <code>o</code>, not a repeating <code>fo</code>.  The matcher processes a <code>*</code> construct by matching, immediately, as many repetitions as can be found. Then it continues with the rest of the pattern.  If that fails, it backtracks, discarding some of the matches of the <code>*</code>&apos;d construct in case that makes it possible to match the rest of the pattern. For example, matching <code>c[ad]*ar</code> against the string <code>caddaar</code>, the <code>[ad]*</code> first matches <code>addaa</code>, but this does not allow the next <code>a</code> in the pattern to match. So the last of the matches of <code>[ad]</code> is undone and the following <code>a</code> is tried again. Now it succeeds. |
-| <code>+</code> | <code>+</code> is like <code>*</code> except that at least one match for the preceding pattern is required for <code>+</code>. Thus, <code>c[ad]+r</code> does not match <code>cr</code> but does match anything else that <code>c[ad]*r</code> would match. |
-| <code>?</code> | <code>?</code> is like <code>*</code> except that it allows either zero or one match for the preceding pattern. Thus, <code>c[ad]?r</code> matches <code>cr</code> or <code>car</code> or <code>cdr</code>, and nothing else. |
-| <code>[ ... ]</code> | <code>[</code> begins a <em>character set</em>, which is terminated by a <code>]</code>. In the simplest case, the characters between the two brackets form the set. Thus, <code>[ad]</code> matches either <code>a</code> or <code>d</code>, and <code>[ad]*</code> matches any string of <code>a</code>&apos;s and <code>d</code>&apos;s (including the empty string), from which it follows that <code>c[ad]*r</code> matches <code>car</code>, etc.<br>Character ranges can also be included in a character set, by writing two characters with a <code>-</code> between them. Thus, <code>[a-z]</code> matches any lower-case letter. Ranges may be intermixed freely with individual characters, as in <code>[a-z$%.]</code>, which matches any lower case letter or <code>$</code>, <code>%</code> or period.<br> Note that the usual special characters are not special any more inside a character set. A completely different set of special characters exists inside character sets: <code>]</code>, <code>-</code> and <code>^</code>.<br> To include a <code>]</code> in a character set, you must make it the first character.  For example, <code>[]a]</code> matches <code>]</code> or <code>a</code>. To include a <code>-</code>, you must use it in a context where it cannot possibly indicate a range: that is, as the first character, or immediately after a range.
-| <code>[^ ... ]</code> | <code>[^</code> begins a <em>complement character set</em>, which matches any character except the ones specified. Thus, <code>[^a-z0-9A-Z]</code> matches all characters <em>except</em> letters and digits.<br><code>^</code> is not special in a character set unless it is the first character.  The character following the <code>^</code> is treated as if it were first (it may be a <code>-</code> or a <code>]</code>). |
-| <code>^</code> | is a special character that matches the empty string -- but only if at the beginning of the string being matched. Otherwise it fails to match anything.  Thus, <code>^foo</code> matches a <code>foo</code> which occurs at the beginning of the string. |
-| <code>$</code> | is similar to <code>^</code> but matches only at the <em>end</em> of the string. Thus, <code>xx*$</code> matches a string of one or more <code>x</code>&apos;s at the end of the string. |
-| <code>%</code> | has two functions: it quotes the above special characters (including <code>%</code>), and it introduces additional special constructs.<br> Because <code>%</code> quotes special characters, <code>%$</code> is a regular expression that matches only <code>$</code>, and <code>%[</code> is a regular expression that matches only <code>[</code>, and so on.<br> For the most part, <code>%</code> followed by any character matches only that character. However, there are several exceptions: characters that, when preceded by <code>%</code>, are special constructs. Such characters are always ordinary when encountered on their own.<br>  No new special characters will ever be defined. All extensions to the regular expression syntax are made by defining new two-character constructs that begin with <code>%</code>. |
-| <code>%\|</code> | specifies an alternative. Two regular expressions a and b with <code>%|</code> in between form an expression that matches anything that either a or b will match.<br> Thus, <code>foo%|bar</code> matches either <code>foo</code> or <code>bar</code> but no other string. |
-<code>%|</code> applies to the largest possible surrounding expressions. Only a surrounding <code>%( ... %)</code> grouping can limit the grouping power of <code>%|</code>.<br> Full backtracking capability exists for when multiple <code>%|</code>&apos;s are used. |
-| <code>%( ... %)</code> | is a grouping construct that serves three purposes:<br> * To enclose a set of <code>%\|</code> alternatives for other operations. Thus, <code>%(foo%\|bar%)x</code> matches either <code>foox</code> or <code>barx</code>.<br> * To enclose a complicated expression for a following <code>*</code>, <code>+</code>, or <code>?</code> to operate on. Thus, <code>ba%(na%)*</code> matches <code>bananana</code>, etc., with any number of <code>na</code>&apos;s, including none.<br> * To mark a matched substring for future reference.<br> This last application is not a consequence of the idea of a parenthetical grouping; it is a separate feature that happens to be assigned as a second meaning to the same <code>%( ... %)</code> construct because there is no conflict in practice between the two meanings. Here is an explanation of this feature: |
-| <code>%digit</code> | After the end of a <code>%( ... %)</code> construct, the matcher remembers the beginning and end of the text matched by that construct. Then, later on in the regular expression, you can use <code>%</code> followed by digit to mean &quot;match the same text matched by the digit&apos;th <code>%( ... %)</code> construct in the pattern.&quot;  The <code>%( ... %)</code> constructs are numbered in the order that their <code>%(</code>&apos;s appear in the pattern.<br> The strings matching the first nine <code>%( ... %)</code> constructs appearing in a regular expression are assigned numbers 1 through 9 in order of their beginnings. <code>%1</code> through <code>%9</code> may be used to refer to the text matched by the corresponding <code>%( ... %)</code> construct.<br> For example, <code>%(.*%)%1</code> matches any string that is composed of two identical halves. The <code>%(.*%)</code> matches the first half, which may be anything, but the <code>%1</code> that follows must match the same exact text. |
-| <code>%b</code> | matches the empty string, but only if it is at the beginning or end of a word. Thus, <code>%bfoo%b</code> matches any occurrence of <code>foo</code> as a separate word. <code>%bball%(s%|%)%b</code> matches <code>ball</code> or <code>balls</code> as a separate word.<br> For the purposes of this construct and the five that follow, a word is defined to be a sequence of letters and/or digits. |
-| <code>%B</code> | matches the empty string, provided it is <em>not</em> at the beginning or end of a word. |
-| <code>%&lt;</code> | matches the empty string, but only if it is at the beginning of a word. |
-| <code>%&gt;</code> | matches the empty string, but only if it is at the end of a word. |
-| <code>%w</code> | matches any word-constituent character (i.e., any letter or digit). |
-| <code>%W</code> | matches any character that is not a word constituent. |
 
 ##### Operations on Strings
 
@@ -2433,6 +2500,44 @@ The replacements list is always nine items long, each item itself being a list o
 rmatch("foobar", "o*b")      =>  {4, 4, {{0, -1}, ...}, "foobar"}
 ```
 
+##### MOO Regular Expressions (Legacy)
+
+_Regular expression_ matching allows you to test whether a string fits into a specific syntactic shape. You can also search a string for a substring that fits a pattern.
+
+A regular expression describes a set of strings. The simplest case is one that describes a particular string; for example, the string `foo` when regarded as a regular expression matches `foo` and nothing else. Nontrivial regular expressions use certain special constructs so that they can match more than one string. For example, the regular expression `foo%|bar` matches either the string `foo` or the string `bar`; the regular expression `c[ad]*r` matches any of the strings `cr`, `car`, `cdr`, `caar`, `cadddar` and all other such strings with any number of `a`'s and `d`'s.
+
+Regular expressions have a syntax in which a few characters are special constructs and the rest are _ordinary_. An ordinary character is a simple regular expression that matches that character and nothing else. The special characters are `$`, `^`, `.`, `*`, `+`, `?`, `[`, `]` and `%`. Any other character appearing in a regular expression is ordinary, unless a `%` precedes it.
+
+For example, `f` is not a special character, so it is ordinary, and therefore `f` is a regular expression that matches the string `f` and no other string. (It does _not_, for example, match the string `ff`.)  Likewise, `o` is a regular expression that matches only `o`.
+
+Any two regular expressions a and b can be concatenated. The result is a regular expression which matches a string if a matches some amount of the beginning of that string and b matches the rest of the string.
+
+As a simple example, we can concatenate the regular expressions `f` and `o` to get the regular expression `fo`, which matches only the string `fo`. Still trivial.
+
+The following are the characters and character sequences that have special meaning within regular expressions. Any character not mentioned here is not special; it stands for exactly itself for the purposes of searching and matching.
+
+| Character Sequences  | Special Meaning |
+| ------------- | ------------- |
+| <code>.</code> | is a special character that matches any single character. Using concatenation, we can make regular expressions like <code>a.b</code>, which matches any three-character string that begins with <code>a</code> and ends with <code>b</code>. |
+| <code>*</code> | is not a construct by itself; it is a suffix that means that the preceding regular expression is to be repeated as many times as possible. In <code>fo*</code>, the <code>*</code> applies to the <code>o</code>, so <code>fo*</code> matches <code>f</code> followed by any number of <code>o</code>&apos;s. The case of zero <code>o</code>&apos;s is allowed: <code>fo*</code> does match <code>f</code>.  <code>*</code> always applies to the <em>smallest</em> possible preceding expression.  Thus, <code>fo*</code> has a repeating <code>o</code>, not a repeating <code>fo</code>.  The matcher processes a <code>*</code> construct by matching, immediately, as many repetitions as can be found. Then it continues with the rest of the pattern.  If that fails, it backtracks, discarding some of the matches of the <code>*</code>&apos;d construct in case that makes it possible to match the rest of the pattern. For example, matching <code>c[ad]*ar</code> against the string <code>caddaar</code>, the <code>[ad]*</code> first matches <code>addaa</code>, but this does not allow the next <code>a</code> in the pattern to match. So the last of the matches of <code>[ad]</code> is undone and the following <code>a</code> is tried again. Now it succeeds. |
+| <code>+</code> | <code>+</code> is like <code>*</code> except that at least one match for the preceding pattern is required for <code>+</code>. Thus, <code>c[ad]+r</code> does not match <code>cr</code> but does match anything else that <code>c[ad]*r</code> would match. |
+| <code>?</code> | <code>?</code> is like <code>*</code> except that it allows either zero or one match for the preceding pattern. Thus, <code>c[ad]?r</code> matches <code>cr</code> or <code>car</code> or <code>cdr</code>, and nothing else. |
+| <code>[ ... ]</code> | <code>[</code> begins a <em>character set</em>, which is terminated by a <code>]</code>. In the simplest case, the characters between the two brackets form the set. Thus, <code>[ad]</code> matches either <code>a</code> or <code>d</code>, and <code>[ad]*</code> matches any string of <code>a</code>&apos;s and <code>d</code>&apos;s (including the empty string), from which it follows that <code>c[ad]*r</code> matches <code>car</code>, etc.<br>Character ranges can also be included in a character set, by writing two characters with a <code>-</code> between them. Thus, <code>[a-z]</code> matches any lower-case letter. Ranges may be intermixed freely with individual characters, as in <code>[a-z$%.]</code>, which matches any lower case letter or <code>$</code>, <code>%</code> or period.<br> Note that the usual special characters are not special any more inside a character set. A completely different set of special characters exists inside character sets: <code>]</code>, <code>-</code> and <code>^</code>.<br> To include a <code>]</code> in a character set, you must make it the first character.  For example, <code>[]a]</code> matches <code>]</code> or <code>a</code>. To include a <code>-</code>, you must use it in a context where it cannot possibly indicate a range: that is, as the first character, or immediately after a range.
+| <code>[^ ... ]</code> | <code>[^</code> begins a <em>complement character set</em>, which matches any character except the ones specified. Thus, <code>[^a-z0-9A-Z]</code> matches all characters <em>except</em> letters and digits.<br><code>^</code> is not special in a character set unless it is the first character.  The character following the <code>^</code> is treated as if it were first (it may be a <code>-</code> or a <code>]</code>). |
+| <code>^</code> | is a special character that matches the empty string -- but only if at the beginning of the string being matched. Otherwise it fails to match anything.  Thus, <code>^foo</code> matches a <code>foo</code> which occurs at the beginning of the string. |
+| <code>$</code> | is similar to <code>^</code> but matches only at the <em>end</em> of the string. Thus, <code>xx*$</code> matches a string of one or more <code>x</code>&apos;s at the end of the string. |
+| <code>%</code> | has two functions: it quotes the above special characters (including <code>%</code>), and it introduces additional special constructs.<br> Because <code>%</code> quotes special characters, <code>%$</code> is a regular expression that matches only <code>$</code>, and <code>%[</code> is a regular expression that matches only <code>[</code>, and so on.<br> For the most part, <code>%</code> followed by any character matches only that character. However, there are several exceptions: characters that, when preceded by <code>%</code>, are special constructs. Such characters are always ordinary when encountered on their own.<br>  No new special characters will ever be defined. All extensions to the regular expression syntax are made by defining new two-character constructs that begin with <code>%</code>. |
+| <code>%\|</code> | specifies an alternative. Two regular expressions a and b with <code>%|</code> in between form an expression that matches anything that either a or b will match.<br> Thus, <code>foo%|bar</code> matches either <code>foo</code> or <code>bar</code> but no other string. |
+<code>%|</code> applies to the largest possible surrounding expressions. Only a surrounding <code>%( ... %)</code> grouping can limit the grouping power of <code>%|</code>.<br> Full backtracking capability exists for when multiple <code>%|</code>&apos;s are used. |
+| <code>%( ... %)</code> | is a grouping construct that serves three purposes:<br> * To enclose a set of <code>%\|</code> alternatives for other operations. Thus, <code>%(foo%\|bar%)x</code> matches either <code>foox</code> or <code>barx</code>.<br> * To enclose a complicated expression for a following <code>*</code>, <code>+</code>, or <code>?</code> to operate on. Thus, <code>ba%(na%)*</code> matches <code>bananana</code>, etc., with any number of <code>na</code>&apos;s, including none.<br> * To mark a matched substring for future reference.<br> This last application is not a consequence of the idea of a parenthetical grouping; it is a separate feature that happens to be assigned as a second meaning to the same <code>%( ... %)</code> construct because there is no conflict in practice between the two meanings. Here is an explanation of this feature: |
+| <code>%digit</code> | After the end of a <code>%( ... %)</code> construct, the matcher remembers the beginning and end of the text matched by that construct. Then, later on in the regular expression, you can use <code>%</code> followed by digit to mean &quot;match the same text matched by the digit&apos;th <code>%( ... %)</code> construct in the pattern.&quot;  The <code>%( ... %)</code> constructs are numbered in the order that their <code>%(</code>&apos;s appear in the pattern.<br> The strings matching the first nine <code>%( ... %)</code> constructs appearing in a regular expression are assigned numbers 1 through 9 in order of their beginnings. <code>%1</code> through <code>%9</code> may be used to refer to the text matched by the corresponding <code>%( ... %)</code> construct.<br> For example, <code>%(.*%)%1</code> matches any string that is composed of two identical halves. The <code>%(.*%)</code> matches the first half, which may be anything, but the <code>%1</code> that follows must match the same exact text. |
+| <code>%b</code> | matches the empty string, but only if it is at the beginning or end of a word. Thus, <code>%bfoo%b</code> matches any occurrence of <code>foo</code> as a separate word. <code>%bball%(s%|%)%b</code> matches <code>ball</code> or <code>balls</code> as a separate word.<br> For the purposes of this construct and the five that follow, a word is defined to be a sequence of letters and/or digits. |
+| <code>%B</code> | matches the empty string, provided it is <em>not</em> at the beginning or end of a word. |
+| <code>%&lt;</code> | matches the empty string, but only if it is at the beginning of a word. |
+| <code>%&gt;</code> | matches the empty string, but only if it is at the end of a word. |
+| <code>%w</code> | matches any word-constituent character (i.e., any letter or digit). |
+| <code>%W</code> | matches any character that is not a word constituent. |
+
 **Function: `substitute`**
 
 substitute -- Performs a standard set of substitutions on the string template, using the information contained in subs, returning the resulting, transformed template.
@@ -2447,6 +2552,10 @@ subs = match("*** Welcome to ToastStunt!!!", "%(%w*%) to %(%w*%)");
 substitute("I thank you for your %1 here in %2.", subs)
         =>   "I thank you for your Welcome here in ToastStunt."
 ```
+
+##### Perl Compatible Regular Expressions (PCRE)
+
+//TODO: define this section
 
 **Function: `crypt`**
 
@@ -2464,28 +2573,52 @@ crypt("mumble", "J3")   =>   "J3D0.dh.jjmWQ"
 crypt("foobar", "J4")   =>   "J4AcPxOJ4ncq2"
 ```
 
+//TODO: Confirm this is the case with ToastStunt
+> Warning: Note: As of version 1.8.3 (which includes ToastStunt), the entire salt (of any length) is passed to the operating system’s low-level crypt function. It is unlikely, however, that all operating systems will return the same string when presented with a longer salt. Therefore, identical calls to crypt() may generate different results on different platforms, and your password verification systems will fail. Use a salt longer than two characters at your own risk. 
+
 **Function: `string_hash`** <br>
 **Function: `binary_hash`**
 
-string_hash -- Returns a 32-character hexadecimal string.
+string_hash -- Returns a 64-character hexadecimal string.
+binary_hash -- Returns a 64-character hexadecimal string.
+str `string_hash` (str string, [, algo]) 
+str `binary_hash` (str bin-string, [, algo]j)
 
-binary_hash -- Returns a 32-character hexadecimal string.
-str `string_hash` (str string) str `binary_hash` (str bin-string)
+Returns a 64-character hexadecimal string encoding the result of applying the SHA256 cryptographically secure hash function to the contents of the string text or the binary string bin-string. If algo is provided, it specifies the hashing algorithm to use. "MD5", "SHA1" and "SHA256" are all supported.
 
-Returns the result of applying the MD5 cryptographically secure hash function to the contents of the string string or the binary string bin-string. MD5, like other such functions, has the property that, if
+Note that the MD5 hash algorithm is broken from a cryptographic standpoint, as is SHA1. Both are included for interoperability with existing applications (both are still popular).
 
-```
-string_hash(x) == string_hash(y)
-```
+All supported hash functions have the property that, if
+
+`string_hash(x) == string_hash(y)`
 
 then, almost certainly,
 
-```
-equal(x, y)
-```
+`equal(x, y)`
 
-This can be useful, for example, in certain networking applications: after sending a large piece of text across a connection, also send the result of applying `string_hash()` to the text; if the destination site also applies `string_hash()` to the text and gets the same result, you can be quite confident that the large text has arrived unchanged.
+This can be useful, for example, in certain networking applications: after sending a large piece of text across a connection, also send the result of applying string_hash() to the text; if the destination site also applies string_hash() to the text and gets the same result, you can be quite confident that the large text has arrived unchanged. 
 
+**Function: `string_hmac`**
+**Function: `binary_hmac`**
+
+str string_hmac (str text, str key)
+str binary_hmac (str bin-string, str key)
+
+Returns a 64-character hexadecimal string encoding the result of applying the HMAC-SHA256 cryptographically secure HMAC function to the contents of the string text or the binary string bin-string with the specified secret key. Currently, only HMAC-SHA256 is supported.
+
+All cryptographically secure HMACs have the property that, if
+
+`string_hmac(x, a) == string_hmac(y, b)`
+
+then, almost certainly,
+
+`equal(x, y)`
+
+and furthermore,
+
+`equal(a, b)`
+
+This can be useful, for example, in applications that need to verify both the integrity of the message (the text) and the authenticity of the sender (as demonstrated by the possession of the secret key).
 ##### Operations on Lists
 
 **Function: `length`**
@@ -2586,6 +2719,38 @@ setremove({1, 2, 3}, 3)      =>   {1, 2}
 setremove({1, 2, 3}, 4)      =>   {1, 2, 3}
 setremove({1, 2, 3, 2}, 2)   =>   {1, 3, 2}
 ```
+##### Operations on Maps
+
+When using the functions below, it’s helpful to remember that maps are ordered.
+
+**Function: `mapkeys`**
+mapkeys -- returns the keys of the elements of a map.
+list `mapkeys` (map map)
+
+```
+x = ["foo" -> 1, "bar" -> 2, "baz" -> 3];
+mapkeys(x)   =>  {"bar", "baz", "foo"}
+```
+
+**Function: `mapvalues`**
+mapvalues -- returns the values of the elements of a map.
+list `mapvalues` (map map)
+
+Returns the values of the elements of map.
+
+```
+x = ["foo" -> 1, "bar" -> 2, "baz" -> 3];
+mapvalues(x)   ⇒   {2, 3, 1}
+```
+
+**Function: `mapdelete`**
+mapdelete -- Returns a copy of map with the value corresponding to key removed. If key is not a valid key, then E_RANGE is raised.
+map `mapdelete` (map map, key)
+
+```
+x = ["foo" -> 1, "bar" -> 2, "baz" -> 3];
+mapdelete(x, "bar")   ⇒   ["baz" -> 3, "foo" -> 1]
+```
 
 #### Manipulating Objects
 
@@ -2595,13 +2760,17 @@ Objects are, of course, the main focus of most MOO programming and, largely due 
 
 **Function: `create`**
 
-create -- Creates and returns a new object whose parent is parent and whose owner is as described below.
+create -- Creates and returns a new object whose parent (or parents) is parent (or parents) and whose owner is as described below.
 obj `create` (obj parent [, obj owner])
+obj `create` (list parents [, obj owner])
 
-Either the given parent object must be `#-1` or valid and fertile (i.e., its `f` bit must be set) or else the programmer must own parent or be a wizard; otherwise `E_PERM` is raised. `E_PERM` is also raised if owner is provided and not the same as the programmer, unless the programmer is a wizard. After the new object is created, its `initialize` verb, if any, is called with no arguments.
+Creates and returns a new object whose parents are parents (or whose parent is parent) and whose owner is as described below. If any of the given parents objects are neither valid nor #-1 then E_INVARG is raised. The given parents objects must be valid and fertile (i.e., their ‘f’ bit must be set) or else the programmer must own parents or be a wizard; otherwise E_PERM is raised. E_PERM is also raised if owner is provided and not the same as the programmer, unless the programmer is a wizard. After the new object is created, its initialize verb, if any, is called with no arguments.
 
 The new object is assigned the least non-negative object number that has not yet been used for a created object. Note that no object number is ever reused, even if the object with that number is recycled.
-This is not strictly true, especially if you are using ToastCore and the `$recycler`, which is a great idea.  If you don't, you end up with extremely high object numbers. However, if you plan on reusing object numbers you need to consider this carefully in your code. You do not want to include object numbers in your code if this is the case, as object numbers could change. Use corified references instead (IE: ` @prop #0.my_object #objnum` allows you to use $my_object in your code. If the object number ever changes, you can change the reference without updating all of your code.)
+
+//TODO update for ToastCore's built in recycler, or whatever that is.
+
+> Note: This is not strictly true, especially if you are using ToastCore and the `$recycler`, which is a great idea.  If you don't, you end up with extremely high object numbers. However, if you plan on reusing object numbers you need to consider this carefully in your code. You do not want to include object numbers in your code if this is the case, as object numbers could change. Use corified references instead (IE: ` @prop #0.my_object #objnum` allows you to use $my_object in your code. If the object number ever changes, you can change the reference without updating all of your code.)
 
 The owner of the new object is either the programmer (if owner is not provided), the new object itself (if owner was given as `#-1`), or owner (otherwise).
 
@@ -2620,20 +2789,25 @@ f            0
 
 The function `is_player()` returns false for newly created objects.
 
-In addition, the new object inherits all of the other properties on parent. These properties have the same permission bits as on parent. If the `c` permissions bit is set, then the owner of the property on the new object is the same as the owner of the new object itself; otherwise, the owner of the property on the new object is the same as that on parent. The initial value of every inherited property is _clear_; see the description of the built-in function `clear_property()` for details.
+In addition, the new object inherits all of the other properties on parents. These properties have the same permission bits as on its parents. If the `c` permissions bit is set, then the owner of the property on the new object is the same as the owner of the new object itself; otherwise, the owner of the property on the new object is the same as that on parent. The initial value of every inherited property is _clear_; see the description of the built-in function `clear_property()` for details.
 
 If the intended owner of the new object has a property named `ownership_quota` and the value of that property is an integer, then `create()` treats that value as a _quota_. If the quota is less than or equal to zero, then the quota is considered to be exhausted and `create()` raises `E_QUOTA` instead of creating an object.  Otherwise, the quota is decremented and stored back into the `ownership_quota` property as a part of the creation of the new object.
 
 **Function: `chparent`**
+**Function: `chparents`**
 
 chparent -- Changes the parent of object to be new-parent.
+chparents -- Changes the parent of object to be new-parents.
 none `chparent` (obj object, obj new-parent)
+none `chparents` (obj object, list new-parents)
 
 If object is not valid, or if new-parent is neither valid nor equal to `#-1`, then `E_INVARG` is raised. If the programmer is neither a wizard or the owner of object, or if new-parent is not fertile (i.e., its `f` bit is not set) and the programmer is neither the owner of new-parent nor a wizard, then `E_PERM` is raised. If new-parent is equal to `object` or one of its current ancestors, `E_RECMOVE` is raised. If object or one of its descendants defines a property with the same name as one defined either on new-parent or on one of its ancestors, then `E_INVARG` is raised.
 
 Changing an object's parent can have the effect of removing some properties from and adding some other properties to that object and all of its descendants (i.e., its children and its children's children, etc.). Let common be the nearest ancestor that object and new-parent have in common before the parent of object is changed. Then all properties defined by ancestors of object under common (that is, those ancestors of object that are in turn descendants of common) are removed from object and all of its descendants. All properties defined by new-parent or its ancestors under common are added to object and all of its descendants. As with `create()`, the newly-added properties are given the same permission bits as they have on new-parent, the owner of each added property is either the owner of the object it's added to (if the `c` permissions bit is set) or the owner of that property on new-parent, and the value of each added property is _clear_; see the description of the built-in function `clear_property()` for details. All properties that are not removed or added in the reparenting process are completely unchanged.
 
 If new-parent is equal to `#-1`, then object is given no parent at all; it becomes a new root of the parent/child hierarchy. In this case, all formerly inherited properties on object are simply removed.
+
+If new-parents is equal to {}, then object is given no parent at all; it becomes a new root of the parent/child hierarchy. In this case, all formerly inherited properties on object are simply removed.
 
 **Function: `valid`**
 
@@ -2648,9 +2822,13 @@ valid(#-1)   =>   0
 ```
 
 **Function: `parent`**
+**Function: `parents`**
 
 parent -- return the parent of object
+parents -- return the parents of object
 obj `parent` (obj object)
+list `parents` (obj object)
+
 **Function: `children`**
 
 children -- return a list of the children of object.
@@ -2679,8 +2857,8 @@ Raises `E_INVARG` if object is not a valid object and `E_PERM` if the programmer
 max_object -- Returns the largest object number ever assigned to a created object.
 obj `max_object` ()
 
-Note that the object with this number may no longer exist; it may have been recycled.  The next object created will be assigned the object number one larger than the value of `max_object()`.
-The next object getting the number one larger than `max_object()` only applies if you are using built-in functions for creating objects and does not apply if you are using the `$recycler` to create objects.
+//TODO update for how Toast handles recycled objects if it is different
+Note that the object with this number may no longer exist; it may have been recycled.  The next object created will be assigned the object number one larger than the value of `max_object()`. The next object getting the number one larger than `max_object()` only applies if you are using built-in functions for creating objects and does not apply if you are using the `$recycler` to create objects.
 
 ##### Object Movement
 
@@ -2805,7 +2983,9 @@ Clearly, this older mechanism is more difficult and risky to use; new code shoul
 **Function: `verb_info`**
 
 verb_info -- Get the owner, permission bits, and name(s) for the verb as specified by verb-desc on the given object
-list `verb_info` (obj object, str verb-desc) **Function: `set_verb_info`**
+list `verb_info` (obj object, str verb-desc) 
+
+**Function: `set_verb_info`**
 
 set_verb_info -- Set the owner, permissions bits, and names(s) for the verb as verb-desc on the given object
 none `set_verb_info` (obj object, str verb-desc, list info)
@@ -2909,6 +3089,51 @@ If value is true, then object gains (or keeps) "player object" status: it will b
 
 If value is false, the object loses (or continues to lack) "player object" status: it will not be an element of the list returned by `players()`, the expression `is_player(object)` will return false, and users cannot connect to object by name when they log into the server. In addition, if a user is connected to object at the time that it loses "player object" status, then that connection is immediately broken, just as if `boot_player(object)` had been called (see the description of `boot_player()` below).
 
+##### Operations on The Server Environment
+
+**Function: `exec`**
+
+exec -- Asynchronously executes the specified external executable, optionally sending input.
+list `exec` (list command[, str input])
+
+Returns the process return code, output and error. If the programmer is not a wizard, then E_PERM is raised.
+
+The first argument must be a list of strings, or E_INVARG is raised. The first string is the path to the executable and is required. The rest are command line arguments passed to the executable.
+
+The path to the executable may not start with a slash (/) or dot-dot (..), and it may not contain slash-dot (/.) or dot-slash (./), or E_INVARG is raised. If the specified executable does not exist or is not a regular file, E_INVARG is raised.
+
+If the string input is present, it is written to standard input of the executing process.
+
+When the process exits, it returns a list of the form:
+
+`{code, output, error}`
+
+code is the integer process exit status or return code. output and error are strings of data that were written to the standard output and error of the process.
+
+The specified command is executed asynchronously. The function suspends the current task and allows other tasks to run until the command finishes. Tasks suspended this way can be killed with kill_task().
+
+The strings, input, output and error are all MOO binary strings.
+
+All external executables must reside in the executables directory.
+
+```
+exec({"cat", "-?"})                                   ⇒   {1, "", "cat: illegal option -- ?~0Ausage: cat [-benstuv] [file ...]~0A"}
+exec({"cat"}, "foo")                                  ⇒   {0, "foo", ""}
+exec({"echo", "one", "two"})                          ⇒   {0, "one two~0A", ""}
+```
+
+**Function: `getenv`**
+
+getenv -- Returns the value of the named environment variable. 
+str `getenv` (str name)
+
+If no such environment variable exists, 0 is returned. If the programmer is not a wizard, then E_PERM is raised.
+
+```
+getenv("HOME")                                          ⇒   "/home/foobar"
+getenv("XYZZY")      
+```
+
 ##### Operations on Network Connections
 
 **Function: `connected_players`**
@@ -2970,6 +3195,50 @@ set_connection_option(player, "hold-input", 0)
 ```
 
 to allow commands once again to be read and interpreted normally.
+
+**Function: `read_http`**
+
+read_http --Reads lines from the connection conn (or, if not provided, from the player that typed the command that initiated the current task) and attempts to parse the lines as if they are an HTTP request or response.
+map `read_http` (request-or-response [, obj conn])
+
+request-or-response must be either the string "request" or "response". It dictates the type of parsing that will be done.
+
+Just like read(), if conn is provided, then the programmer must either be a wizard or the owner of conn; if conn is not provided, then read_http() may only be called by a wizard and only in the task that was last spawned by a command from the connection in question. Otherwise, E_PERM is raised. Likewise, if conn is not currently connected and has no pending lines of input, or if the connection is closed while a task is waiting for input but before any lines of input are received, then read_http() raises E_INVARG.
+
+If parsing fails because the request or response is syntactically incorrect, read_http() will return a map with the single key "error" and a list of values describing the reason for the error. If parsing succeeds, read_http() will return a map with an appropriate subset of the following keys, with values parsed from the HTTP request or response: "method", "uri", "headers", "body", "status" and "upgrade".
+
+> Fine point: read_http() assumes the input strings are binary strings. When called interactively, as in the example below, the programmer must insert the literal line terminators or parsing will fail.
+
+The following example interactively reads an HTTP request from the player’s connection.
+
+```
+read_http("request", player)
+GET /path HTTP/1.1~0D~0A
+Host: example.com~0D~0A
+~0D~0A
+```
+
+In this example, the string ~0D~0A ends the request. The call returns the following (the request has no body):
+
+```
+["headers" -> ["Host" -> "example.com"], "method" -> "GET", "uri" -> "/path"]
+```
+
+The following example interactively reads an HTTP response from the player’s connection.
+
+```
+read_http("response", player)
+HTTP/1.1 200 Ok~0D~0A
+Content-Length: 10~0D~0A
+~0D~0A
+1234567890
+```
+
+The call returns the following:
+
+```
+["body" -> "1234567890", "headers" -> ["Content-Length" -> "10"], "status" -> 200]
+```
 
 **Function: `force_input`**
 
@@ -3045,67 +3314,129 @@ For the other networking configurations, the string is the same for all connecti
 set_connection_option -- controls a number of optional behaviors associated the connection conn
 none `set_connection_option` (obj conn, str option, value)
 
-Raises `E_INVARG` if conn does not specify a current connection and `E_PERM` if the programmer is neither conn nor a wizard.
+Raises E_INVARG if conn does not specify a current connection and E_PERM if the programmer is neither conn nor a wizard. Unless otherwise specified below, options can only be set (value is true) or unset (otherwise). The following values for option are currently supported: 
 
 The following values for option are currently supported:
 
-`"hold-input"`<br>
+`"binary"`
+When set, the connection is in binary mode, in which case both input from and output to conn can contain arbitrary bytes. Input from a connection in binary mode is not broken into lines at all; it is delivered to either the read() function or normal command parsing as binary strings, in whatever size chunks come back from the operating system. (See fine point on binary strings, for a description of the binary string representation.) For output to a connection in binary mode, the second argument to ‘notify()’ must be a binary string; if it is malformed, E_INVARG is raised.
 
-If value is true, then input received on conn will never be treated as a command; instead, it will remain in the queue until retrieved by a call to `read()`.
+> Fine point: If the connection mode is changed at any time when there is pending input on the connection, said input will be delivered as per the previous mode (i.e., when switching out of binary mode, there may be pending “lines” containing tilde-escapes for embedded linebreaks, tabs, tildes and other characters; when switching into binary mode, there may be pending lines containing raw tabs and from which nonprintable characters have been silently dropped as per normal mode. Only during the initial invocation of $do_login_command() on an incoming connection or immediately after the call to open_network_connection() that creates an outgoing connection is there guaranteed not to be pending input. At other times you will probably want to flush any pending input immediately after changing the connection mode. 
 
-`"client-echo"`<br>
-Send the Telnet Protocol `WONT ECHO` or `WILL ECHO` command, depending on whether value is true or false, respectively. For clients that support the Telnet Protocol, this should toggle whether or not the client echoes locally the characters typed by the user. Note that the server itself never echoes input characters under any circumstances. (This option is only available under the TCP/IP networking configurations.)
+`"hold-input"`
 
-`"binary"`<br>
-If value is true, then both input from and output to conn can contain arbitrary bytes. Input from a connection in binary mode is not broken into lines at all; it is delivered to either the read() function or the built-in command parser as _binary strings_, in whatever size chunks come back from the operating system. (See the early section on MOO value types for a description of the binary string representation.)  For output to a connection in binary mode, the second argument to 'notify()' must be a binary string; if it is malformed, E_INVARG is raised.
+When set, no input received on conn will be treated as a command; instead, all input remains in the queue until retrieved by calls to read() or until this connection option is unset, at which point command processing resumes. Processing of out-of-band input lines is unaffected by this option. 
 
-`"flush-command"`<br>
-If value is a non-empty string, then it becomes the new _flush_ command for this connection, by which the player can flush all queued input that has not yet been processed by the server. If value is not a non-empty string, then conn is set to have no flush command at all. The default value of this option can be set via the property `$server_options.default_flush_command`; see the chapter on server assumptions about the database for details.
+ `"disable-oob"`
+
+When set, disables all out of band processing (see section Out-of-Band Processing). All subsequent input lines until the next command that unsets this option will be made available for reading tasks or normal command parsing exactly as if the out-of-band prefix and the out-of-band quoting prefix had not been defined for this server.
+
+`"client-echo"`
+The setting of this option is of no significance to the server. However calling set_connection_option() for this option sends the Telnet Protocol ‘WONT ECHO’ or ‘WILL ECHO’ according as value is true or false, respectively. For clients that support the Telnet Protocol, this should toggle whether or not the client echoes locally the characters typed by the user. Note that the server itself never echoes input characters under any circumstances. (This option is only available under the TCP/IP networking configurations.) 
+
+`"flush-command"`
+This option is string-valued. If the string is non-empty, then it is the flush command for this connection, by which the player can flush all queued input that has not yet been processed by the server. If the string is empty, then conn has no flush command at all. set_connection_option also allows specifying a non-string value which is equivalent to specifying the empty string. The default value of this option can be set via the property $server_options.default_flush_command; see Flushing Unprocessed Input for details. 
+
+`"intrinsic-commands"`
+
+This option value is a list of strings, each being the name of one of the available server intrinsic commands (see section Command Lines That Receive Special Treatment). Commands not on the list are disabled, i.e., treated as normal MOO commands to be handled by $do_command and/or the built-in command parser
+
+set_connection_option also allows specifying an integer value which, if zero, is equivalent to specifying the empty list, and otherwise is taken to be the list of all available intrinsic commands (the default setting).
+
+Thus, one way to make the verbname ‘PREFIX’ available as an ordinary command is as follows:
+
+```
+set_connection_option(
+  player, "intrinsic-commands",
+  setremove(connection_option(player,
+                              "intrinsic-commands"),
+            "PREFIX"));
+```
+
+Note that connection_option() always returns the list, even if set_connection_option was previously called with a numeric value. Thus,
+
+```
+save = connection_option(player,"intrinsic-commands");
+set_connection_option(player, "intrinsic-commands, 1);
+full_list = connection_option(player,"intrinsic-commands");
+set_connection_option(player,"intrinsic-commands", save);
+return full_list;
+```
+
+is a way of getting the full list of intrinsic commands available in the server while leaving the current connection unaffected. 
 
 **Function: `connection_options`**
 
-connection_options -- returns a list of `{name, value}` pairs describing the
-current settings of all of the allowed options for the connection conn
+connection_options -- returns a list of `{name, value}` pairs describing the current settings of all of the allowed options for the connection conn
 list `connection_options` (obj conn)
 
 Raises `E_INVARG` if conn does not specify a current connection and `E_PERM` if the programmer is neither conn nor a wizard.
 
 **Function: `connection_option`**
 
-connection_option -- returns the current setting of the option name for the connection conn
-value `>connection_option` (obj conn, str name)
+connection_option -- returns the current setting of the option name for the connection conn value `>connection_option` (obj conn, str name)
 
 Raises `E_INVARG` if conn does not specify a current connection and `E_PERM` if the programmer is neither conn nor a wizard.
 
 **Function: `open_network_connection`**
 
 open_network_connection -- establishes a network connection to the place specified by the arguments and more-or-less pretends that a new, normal player connection has been established from there
-obj `open_network_connection` (value, ...)
+obj `open_network_connection` (STR host, INT port [, MAP options])
 
-The new connection, as usual, will not be logged in initially and will have a negative object number associated with it for use with `read()`, `notify()`, and `boot_player()`. This object number is the value returned by this function.
+Establishes a network connection to the place specified by the arguments and more-or-less pretends that a new, normal player connection has been established from there.  The new connection, as usual, will not be logged in initially and will have a negative object number associated with it for use with `read()', `notify()', and `boot_player()'.  This object number is the value returned by this function.
 
-If the programmer is not a wizard or if the `OUTBOUND_NETWORK` compilation option was not used in building the server, then `E_PERM` is raised. If the network connection cannot be made for some reason, then other errors will be returned, depending upon the particular network implementation in use.
+If the programmer is not a wizard or if the `OUTBOUND_NETWORK' compilation option was not used in building the server, then `E_PERM' is raised.
 
-For the TCP/IP network implementations (the only ones as of this writing that support outbound connections), there must be two arguments, a string naming a host (possibly using the numeric Internet syntax) and an integer specifying a TCP port. If a connection cannot be made because the host does not exist, the port does not exist, the host is not reachable or refused the connection, `E_INVARG` is raised. If the connection cannot be made for other reasons, including resource limitations, then `E_QUOTA` is raised.
+`host` refers to a string naming a host (possibly a numeric IP address) and `port` is an integer referring to a TCP port number.  If a connection cannot be made because the host does not exist, the port does not exist, the host is not reachable or refused the connection, `E_INVARG' is raised.  If the connection cannot be made for other reasons, including resource limitations, then `E_QUOTA' is raised.
 
-The outbound connection process involves certain steps that can take quite a long time, during which the server is not doing anything else, including responding to user commands and executing MOO tasks. See the chapter on server assumptions about the database for details about how the server limits the amount of time it will wait for these steps to successfully complete.
+Optionally, you can specify a map with any or all of the following options:
 
-It is worth mentioning one tricky point concerning the use of this function.  Since the server treats the new connection pretty much like any normal player connection, it will naturally try to parse any input from that connection as commands in the usual way. To prevent this treatment, you should use `set_connection_option()` to set the `"hold-input"` option true on the connection.
+  listener: An object whose listening verbs will be called at appropriate points. (See HELP LISTEN() for more details.)
+
+  tls:      If true, establish a secure TLS connection.
+
+  ipv6:     If true, utilize the IPv6 protocol rather than the IPv4 protocol.
+
+The outbound connection process involves certain steps that can take quite a long time, during which the server is not doing anything else, including responding to user commands and executing MOO tasks.  See the chapter on server assumptions about the database for details about how the server limits the amount of time it will wait for these steps to successfully complete.
+
+It is worth mentioning one tricky point concerning the use of this function.  Since the server treats the new connection pretty much like any normal player connection, it will naturally try to parse any input from that connection as commands in the usual way.  To prevent this treatment, you should use `set_connection_option()' to set the `hold-input' option true on the connection.
+
+Example:
+
+```
+open_network_connection("2607:5300:60:4be0::", 1234, ["ipv6" -> 1, "listener" -> #6, "tls" -> 1])
+```
+
+Open a new connection to the IPv6 address 2607:5300:60:4be0:: on port 1234 using TLS. Relevant verbs will be called on #6.
 
 **Function: `listen`**
 
 listen -- create a new point at which the server will listen for network connections, just as it does normally
-value `listen` (obj object, point [, print-messages])
+value `listen` (obj object, port [, MAP options])
 
-Object is the object whose verbs `do_login_command`, `do_command`, `do_out_of_band_command`, `user_connected`, `user_created`, `user_reconnected`, `user_disconnected`, and `user_client_disconnected` will be called at appropriate points, just as these verbs are called on `#0` for normal connections. (See the chapter on server assumptions about the database for the complete story on when these functions are called.)  Point is a network-configuration-specific parameter describing the listening point. If print-messages is provided and true, then the various database-configurable messages (also detailed in the chapter on server assumptions) will be printed on connections received at the new listening point. `Listen()` returns canon, a 'canonicalized' version of point, with any configuration-specific defaulting or aliasing accounted for.
+Create a new point at which the server will listen for network connections, just as it does normally. `Object` is the object whose verbs `do_login_command', `do_command', `do_out_of_band_command', `user_connected', `user_created', `user_reconnected', `user_disconnected', and `user_client_disconnected' will be called at appropriate points as these verbs are called on #0 for normal connections. (See the chapter in the LambdaMOO Programmer's Manual on server assumptions about the database for the complete story on when these functions are called.) `Port` is a TCP port number on which to listen. The listen() function will return `port` unless `port` is zero, in which case the return value is a port number assigned by the operating system.
 
-This raises `E_PERM` if the programmer is not a wizard, `E_INVARG` if object is invalid or there is already a listening point described by point, and `E_QUOTA` if some network-configuration-specific error occurred.
+An optional third argument allows you to set various miscellaneous options for the listening point. These are:
 
-For the TCP/IP configurations, point is a TCP port number on which to listen and canon is equal to point unless point is zero, in which case canon is a port number assigned by the operating system.
+  print-messages: If true, the various database-configurable messages (also detailed in the chapter on server assumptions) will be printed on connections received at the new listening port.
 
-For the local multi-user configurations, point is the UNIX file name to be used as the connection point and canon is always equal to point.
+  ipv6:           Use the IPv6 protocol rather than IPv4.
 
-In the single-user configuration, the can be only one listening point at a time; point can be any value at all and canon is always zero.
+  tls:            Only accept valid secure TLS connections.
+
+  certificate:    The full path to a TLS certificate. NOTE: Requires the TLS option also be specified and true. This option is only necessary if the certificate differs from the one specified in options.h.
+
+  key:            The full path to a TLS private key. NOTE: Requires the TLS option also be specified and true. This option is only necessary if the key differs from the one specified in options.h.
+
+listen() raises E_PERM if the programmer is not a wizard, E_INVARG if <object> is invalid or there is already a listening point described by <point>, and E_QUOTA if some network-configuration-specific error occurred.
+
+Example:
+
+```
+listen(#0, 1234, ["ipv6" -> 1, "tls" -> 1, "certificate" -> "/etc/certs/something.pem", "key" -> "/etc/certs/privkey.pem", "print-messages" -> 1]
+```
+
+Listen for IPv6 connections on port 1234 and print messages as appropriate. These connections must be TLS and will use the private key and certificate found in /etc/certs.
 
 **Function: `unlisten`**
 
@@ -3212,13 +3543,7 @@ When the fictional verb is invoked, the various built-in variables have values a
 
 player    the same as in the calling verb
 this      #-1
-caller    the same as the initial value of
-
-```
-this
-```
-
- in the calling verb
+caller    the same as the initial value of this in the calling verb
 
 args      {}
 argstr    ""
@@ -3333,15 +3658,16 @@ list `queued_tasks` ()
 The returned value is a list of lists, each of which encodes certain information about a particular queued task in the following format:
 
 ```
-{task-id, start-time, x, y,
- programmer, verb-loc, verb-name, line, this}
+{task-id, start-time, x, y, programmer, verb-loc, verb-name, line, this, task-size}
 ```
 
-where task-id is an integer identifier for this queued task, start-time is the time after which this task will begin execution (in `time()` format), x and y are obsolete values that are no longer interesting, programmer is the permissions with which this task will begin execution (and also the player who _owns_ this task), verb-loc is the object on which the verb that forked this task was defined at the time, verb-name is that name of that verb, line is the number of the first line of the code in that verb that this task will execute, and this is the value of the variable `this` in that verb.
-
-For reading tasks, start-time is `-1`.
+where task-id is an integer identifier for this queued task, start-time is the time after which this task will begin execution (in time() format), x and y are obsolete values that are no longer interesting, programmer is the permissions with which this task will begin execution (and also the player who owns this task), verb-loc is the object on which the verb that forked this task was defined at the time, verb-name is that name of that verb, line is the number of the first line of the code in that verb that this task will execute, this is the value of the variable ‘this’ in that verb, and task-size is the size of the task in bytes. For reading tasks, start-time is -1. 
 
 The x and y fields are now obsolete and are retained only for backward-compatibility reasons. They may be reused for new purposes in some future version of the server.
+
+The task-size variable was introduced in version 1.8.3.
+
+> Warning: If you are upgrading to ToastStunt from a version of LambdaMOO prior to 1.8.1 you will need to dump your database, reboot into LambdaMOO emergency mode, and kill all your queued_tasks() before dumping the DB again. Otherwise, your DB will not boot into ToastStunt.
 
 **Function: `kill_task`**
 
@@ -3384,6 +3710,13 @@ Raises `E_INVARG` if task-id does not specify an existing suspended task and `E_
 
 server_version -- returns a string giving the version number of the running MOO server
 str `server_version` ()
+
+**Function `load_server_options`**
+load_server_options -- This causes the server to consult the current values of properties on $server_options, updating the corresponding serveroption settings
+none `load_server_options` ()
+
+For more information see section Server Options Set in the Database.. If the programmer is not a wizard, then E_PERM is raised.
+
 **Function: `server_log`**
 
 server_log -- the text in message is sent to the server log with a distinctive prefix (so that it can be distinguished from server-generated messages)
@@ -3446,6 +3779,19 @@ shutdown -- requests that the server shut itself down at its next opportunity
 none `shutdown` ([str message])
 
 Before doing so, a notice (incorporating message, if provided) is printed to all connected players. If the programmer is not a wizard, then `E_PERM` is raised.
+
+**Function: `verb_cache_stats`**
+**Function: `log_cache_stats`**
+list verb_cache_stats ()
+none log_cache_stats ()
+
+The server caches verbname-to-program lookups to improve performance. These functions respectively return or write to the server log file the current cache statistics. For verb_cache_stats the return value will be a list of the form
+
+```
+{hits, negative_hits, misses, table_clears, histogram},
+```
+
+though this may change in future server releases. The cache is invalidated by any builtin function call that may have an effect on verb lookups (e.g., delete_verb()). 
 
 ### Working with WAIFs
 
@@ -3536,15 +3882,71 @@ There is no string format for a WAIF. `tostr()` just returns {waif}. `toliteral(
 
 This chapter describes all of the commands that are built into the server and every property and verb in the database specifically accessed by the server.  Aside from what is listed here, no assumptions are made by the server concerning the contents of the database.
 
-#### Built-in Commands
+#### Command Lines That Receive Special Treatment
 
-As was mentioned in the chapter on command parsing, there are five commands whose interpretation is fixed by the server: `PREFIX`, `OUTPUTPREFIX`, `SUFFIX`, `OUTPUTSUFFIX`, and `.program`. The first four of these are intended for use by programs that connect to the MOO, so-called 'client' programs. The `.program` command is used by programmers to associate a MOO program with a particular verb. The server can, in addition, recognize a sixth special command on any or all connections, the `flush` command.
+As was mentioned in the chapter on command parsing, there are a number of commands and special prefixes whose interpretation is fixed by the server. Examples include the flush command and the five intrinsic commands (PREFIX, OUTPUTPREFIX, SUFFIX, OUTPUTSUFFIX, and .program).
 
-The server also performs special processing on command lines that begin with certain punctuation characters.
+This section discusses all of these built-in pieces of the command-interpretation process in the order in which they occur.
 
-This section discusses these built-in pieces of the command-interpretation process.
+##### Flushing Unprocessed Input
 
-#### Command-Output Delimiters
+It sometimes happens that a user changes their mind about having typed one or more lines of input and would like to ‘untype’ them before the server actually gets around to processing them. If they react quickly enough, they can type their connection’s defined flush command; when the server first reads that command from the network, it immediately and completely flushes any as-yet unprocessed input from that user, printing a message to the user describing just which lines of input were discarded, if any.
+
+> Fine point: The flush command is handled very early in the server’s processing of a line of input, before the line is entered into the task queue for the connection and well before it is parsed into words like other commands. For this reason, it must be typed exactly as it was defined, alone on the line, without quotation marks, and without any spaces before or after it.
+
+When a connection is first accepted by the server, it is given an initial flush command setting taken from the current default. This initial setting can be changed later using the set_connection_option() command.
+
+By default, each connection is initially given ‘.flush’ as its flush command. If the property $server_options.default_flush_command exists, then its value overrides this default. If $server_options.default_flush_command is a non-empty string, then that string is the flush command for all new connections; otherwise, new connections are initially given no flush command at all.
+
+##### Out-of-Band Processing
+
+It is possible to compile the server to recognize an out-of-band prefix and an out-of-band quoting prefix for input lines. These are strings that the server will check for at the beginning of every unflushed line of input from a non-binary connection, regardless of whether or not a player is logged in and regardless of whether or not reading tasks are waiting for input on that connection.
+
+This check can be disabled entirely by setting connection option "disable-oob", in which case none of the rest of this section applies, i.e., all subsequent unflushed lines on that connection will be available unchanged for reading tasks or normal command parsing. 
+
+##### Quoted Lines
+
+We first describe how to ensure that a given input line will not be processed as an out-of-band command.
+
+If a given line of input begins with the defined out-of-band quoting prefix (‘#$"’ by default), that prefix is stripped. The resulting line is then available to reading tasks or normal command parsing in the usual way, even if said resulting line now happens to begin with either the out-of-band prefix or the out-of-band quoting prefix.
+
+For example, if a player types
+ 	
+```
+#$"#$#mcp-client-set-type fancy
+```
+
+the server would behave exactly as if connection option "disable-oob" were set true and the player had instead typed
+ 	
+```
+#$#mcp-client-set-type fancy
+```
+
+##### Commands
+
+If a given line of input begins with the defined out-of-band prefix (‘#$#’ by default), then it is not treated as a normal command or given as input to any reading task. Instead, the line is parsed into a list of words in the usual way and those words are given as the arguments in a call to $do_out_of_band_command().
+
+If this verb does not exist or is not executable, the line in question will be completely ignored.
+
+For example, with the default out-of-band prefix, the line of input
+ 	
+```
+#$#mcp-client-set-type fancy
+```
+
+would result in the following call being made in a new server task:
+ 	
+```
+$do_out_of_band_command("#$#mcp-client-set-type", "fancy")
+```
+
+During the call to $do_out_of_band_command(), the variable player is set to the object number representing the player associated with the connection from which the input line came. Of course, if that connection has not yet logged in, the object number will be negative. Also, the variable argstr will have as its value the unparsed input line as received on the network connection.
+
+Out-of-band commands are intended for use by advanced client programs that may generate asynchronous events of which the server must be notified. Since the client cannot, in general, know the state of the player’s connection (logged-in or not, reading task or not), out-of-band commands provide the only reliable client-to-server communications channel. 
+
+##### Command-Output Delimiters
+
+> Warning: This is a deprecated feature
 
 Every MOO network connection has associated with it two strings, the `output prefix` and the `output suffix`. Just before executing a command typed on that connection, the server prints the output prefix, if any, to the player. Similarly, just after finishing the command, the output suffix, if any, is printed to the player. Initially, these strings are not defined, so no extra printing takes place.
 
@@ -3569,9 +3971,11 @@ SUFFIX
 
 The effect of which, in a ToastCore-derived database, is to print out the code for the named verb preceded by a line containing only `>>MOO-Prefix<<` and followed by a line containing only `>>MOO-Suffix<<`. This enables the editor to reliably extract the program text from the MOO output and show it to the user in a separate editor window. There are many other possible uses.
 
+> Warning: If the command thus bracketed calls suspend(), its output will be deemed “finished” then and there; the suffix thus appears at that point and not, as one might expect, later when the resulting background task has finally returned from its top-level verb call. Thus, use of this feature (which was designed before suspend() existed) is no longer recommended. 
+
 The built-in function `output_delimiters()` can be used by MOO code to find out the output prefix and suffix currently in effect on a particular network connection.
 
-#### Programming
+#### The .program Command
 
 The `.program` command is a common way for programmers to associate a particular MOO-code program with a particular verb. It has the following syntax:
 
@@ -3590,16 +3994,6 @@ In the `.program` command, object may have one of three forms:
 * The name of some object visible to the player. This is exactly like the kind of matching done by the server for the direct and indirect objects of ordinary commands. See the chapter on command parsing for details. Note that the special names `me` and `here` may be used.
 * An object number, in the form `#number`.
 * A _system property_ (that is, a property on `#0`), in the form `$name`. In this case, the current value of `#0.name` must be a valid object.
-
-#### Flushing Unprocessed Input
-
-It sometimes happens that a user changes their mind about having typed one or more lines of input and would like to 'untype' them before the server actually gets around to processing them. If they react quickly enough, they can type their connection's defined `flush` command; when the server first reads that command from the network, it immediately and completely flushes any as-yet unprocessed input from that user, printing a message to the user describing just which lines of input were discarded, if any.
-
-Fine point: The flush command is handled very early in the server's processing of a line of input, before the line is entered into the task queue for the connection and well before it is parsed into words like other commands.  For this reason, it must be typed exactly as it was defined, alone on the line, without quotation marks, and without any spaces before or after it.
-
-When a connection is first accepted by the server, it is given an initial flush command setting taken from the current default. This initial setting can be changed later using the `set_connection_option()` command.
-
-By default, each connection is initially given `.flush` as its flush command. If the property `$server_options.default_flush_command` exists, then its value overrides this default. If `$server_options.default_flush_command` is a non-empty string, then that string is the flush command for all new connections; otherwise, new connections are initially given no flush command at all.
 
 #### Initial Punctuation in Commands
 
@@ -3641,18 +4035,19 @@ The specific properties searched for are each described in the appropriate secti
 
 | Property  | Description |
 | ------------- | ------------- |
-| <code>bg_seconds</code> | The number of seconds allotted to background tasks. |
-| <code>bg_ticks</code> | The number of ticks allotted to background tasks. |
-| <code>connect_timeout</code> | The maximum number of seconds to allow an un-logged-in in-bound connection to remain open. |
-| <code>default_flush_command</code> | The initial setting of each new connection&apos;s flush command. |
-| <code>fg_seconds</code> | The number of seconds allotted to foreground tasks. |
-| <code>fg_ticks</code> | The number of ticks allotted to foreground tasks. |
-| <code>max_stack_depth</code> | The maximum number of levels of nested verb calls. |
-| <code>name_lookup_timeout</code> | The maximum number of seconds to wait for a network hostname/address lookup. |
-| <code>outbound_connect_timeout</code> | The maximum number of seconds to wait for an outbound network connection to successfully open. |
-| <code>protect_property</code> | Restrict reading of built-in property to wizards. |
-| <code>protect_function</code> | Restrict use of built-in function to wizards. |
-| <code>support_numeric_verbname_strings</code> | Enables use of an obsolete verb-naming mechanism. |
+| bg_seconds | The number of seconds allotted to background tasks. |
+| bg_ticks | The number of ticks allotted to background tasks. |
+| connect_timeout | The maximum number of seconds to allow an un-logged-in in-bound connection to remain open. |
+| default_flush_command | The initial setting of each new connection&apos;s flush command. |
+| fg_seconds | The number of seconds allotted to foreground tasks. |
+| fg_ticks | The number of ticks allotted to foreground tasks. |
+| max_stack_depth | The maximum number of levels of nested verb calls. |
+| name_lookup_timeout | The maximum number of seconds to wait for a network hostname/address lookup. |
+| outbound_connect_timeout | The maximum number of seconds to wait for an outbound network connection to successfully open. |
+| protect_`property` | Restrict reading of built-in `property` to wizards. |
+| protect_`function` | Restrict use of built-in `function` to wizards. |
+| queued_task_limit | The maximum number of forked or suspended tasks any player can have queued at a given time. |
+| support_numeric_verbname_strings | Enables use of an obsolete verb-naming mechanism. |
 
 #### Server Messages Set in the Database
 
@@ -3662,20 +4057,22 @@ The following list covers all of the customizable messages, showing for each the
 
 | Default Message  | Description |
 | ------------- | ------------- |
-| <code>boot_msg = &quot;*** Disconnected ***&quot;</code> | The function <code>boot_player()</code> was called on this connection. |
-| <code>connect_msg = &quot;*** Connected ***&quot;</code> | The user object that just logged in on this connection existed before <code>$do_login_command()</code> was called. |
-| <code>create_msg = &quot;*** Created ***&quot;</code> | The user object that just logged in on this connection did not exist before <code>$do_login_command()</code> was called. |
-| <code>recycle_msg = &quot;*** Recycled ***&quot;</code> | The logged-in user of this connection has been recycled or renumbered (via the renumber() function). |
-| <code>redirect_from_msg = &quot;*** Redirecting connection to new port ***&quot;</code> | The logged-in user of this connection has just logged in on some other connection. |
-| <code>redirect_to_msg = &quot;*** Redirecting old connection to this port ***&quot;</code> | The user who just logged in on this connection was already logged in on some other connection. |
-| <code>server_full_msg</code> Default:  *** Sorry, but the server cannot accept any more connections right now.<br> *** Please try again later.  | This connection arrived when the server really couldn&apos;t accept any more connections, due to running out of a critical operating system resource. |
-| <code>timeout_msg = &quot;*** Timed-out waiting for login. ***&quot;</code> | This in-bound network connection was idle and un-logged-in for at least <code>CONNECT_TIMEOUT</code> seconds (as defined in the file <code>options.h</code> when the server was compiled). |
+| boot_msg = &quot;*** Disconnected ***&quot; | The function boot_player() was called on this connection. |
+| connect_msg = &quot;*** Connected ***&quot; | The user object that just logged in on this connection existed before $do_login_command() was called. |
+| create_msg = &quot;*** Created ***&quot; | The user object that just logged in on this connection did not exist before $do_login_command() was called. |
+| recycle_msg = &quot;*** Recycled ***&quot; | The logged-in user of this connection has been recycled or renumbered (via the renumber() function). |
+| redirect_from_msg = &quot;*** Redirecting connection to new port ***&quot; | The logged-in user of this connection has just logged in on some other connection. |
+| redirect_to_msg = &quot;*** Redirecting old connection to this port ***&quot; | The user who just logged in on this connection was already logged in on some other connection. |
+| server_full_msg Default:  *** Sorry, but the server cannot accept any more connections right now.<br> *** Please try again later.  | This connection arrived when the server really couldn&apos;t accept any more connections, due to running out of a critical operating system resource. |
+| timeout_msg = &quot;*** Timed-out waiting for login. ***&quot; | This in-bound network connection was idle and un-logged-in for at least CONNECT_TIMEOUT seconds (as defined in the file options.h when the server was compiled). |
 
-Fine point: If the network connection in question was received at a listening point (established by the `listen()` function) handled by an object obj other than `#0`, then system messages for that connection are looked for on `obj.server_options`; if that property does not exist, then `$server_options` is used instead.
+> Fine point: If the network connection in question was received at a listening point (established by the `listen()` function) handled by an object obj other than `#0`, then system messages for that connection are looked for on `obj.server_options`; if that property does not exist, then `$server_options` is used instead.
 
 #### Checkpointing the Database
 
 The server maintains the entire MOO database in main memory, not on disk. It is therefore necessary for it to dump the database to disk if it is to persist beyond the lifetime of any particular server execution. The server is careful to dump the database just before shutting down, of course, but it is also prudent for it to do so at regular intervals, just in case something untoward happens.
+
+//TODO: is the date here still true in 64bit time?
 
 To determine how often to make these _checkpoints_ of the database, the server consults the value of `#0.dump_interval`. If it exists and its value is an integer greater than or equal to 60, then it is taken as the number of seconds to wait between checkpoints; otherwise, the server makes a new checkpoint every 3600 seconds (one hour). If the value of `#0.dump_interval` implies that the next checkpoint should be scheduled at a time after 3:14:07 a.m. on Tuesday, January 19, 2038, then the server instead uses the default value of 3600 seconds in the future.
 
@@ -3733,10 +4130,9 @@ $user_connected(player)
 $user_reconnected(player)
 ```
 
-The first of these is used if the returned object number is greater than the value returned by the `max_object()` function before `$do_login_command()` was invoked, that is, it is called if the returned object appears to have been freshly created. If this is not the case, then one of the other two verb calls is used. The `$user_connected()` call is used if there was no existing active connection for the returned player
-object. Otherwise, the `$user_reconnected()` call is used instead.
+The first of these is used if the returned object number is greater than the value returned by the `max_object()` function before `$do_login_command()` was invoked, that is, it is called if the returned object appears to have been freshly created. If this is not the case, then one of the other two verb calls is used. The `$user_connected()` call is used if there was no existing active connection for the returned player object. Otherwise, the `$user_reconnected()` call is used instead.
 
-Fine point: If a user reconnects and the user's old and new connections are on two different listening points being handled by different objects (see the description of the `listen()` function for more details), then `user_client_disconnected` is called for the old connection and `user_connected` for the new one.
+> Fine point: If a user reconnects and the user's old and new connections are on two different listening points being handled by different objects (see the description of the `listen()` function for more details), then `user_client_disconnected` is called for the old connection and `user_connected` for the new one.
 
 If an in-bound network connection does not successfully log in within a certain period of time, the server will automatically shut down the connection, thereby freeing up the resources associated with maintaining it. Let L be the object handling the listening point on which the connection was received (or `#0` if the connection came in on the initial listening point). To discover the timeout period, the server checks on `L.server_options` or, if it doesn't exist, on `$server_options` for a `connect_timeout` property. If one is found and its value is a positive integer, then that's the number of seconds the server will use for the timeout period. If the `connect_timeout` property exists but its value isn't a positive integer, then there is no timeout at all. If the property doesn't exist, then the default timeout is 300 seconds.
 
@@ -3757,6 +4153,8 @@ When the network connection is first established, the null command is automatica
 
 > Warning: If there is no `$do_login_command()` verb defined, then lines of input from un-logged-in connections are simply discarded. Thus, it is _necessary_ for any database to include a suitable definition for this verb.
 
+> Note that a database with a missing or broken $do_login_command may still be accessed (and perhaps repaired) by running the server with the -e command line option. See section Emergency Wizard Mode. 
+
 It is possible to compile the server with an option defining an `out-of-band prefix` for commands. This is a string that the server will check for at the beginning of every line of input from players, regardless of whether or not those players are logged in and regardless of whether or not reading tasks are waiting for input from those players. If a given line of input begins with the defined out-of-band prefix (leading spaces, if any, are _not_ stripped before testing), then it is not treated as a normal command or as input to any reading task. Instead, the line is parsed into a list of words in the usual way and those words are given as the arguments in a call to `$do_out_of_band_command()`. For example, if the out-of-band prefix were defined to be `#$#`, then the line of input
 
 ```
@@ -3773,25 +4171,49 @@ During the call to `$do_out_of_band_command()`, the variable `player` is set to 
 
 Out-of-band commands are intended for use by fancy client programs that may generate asynchronous _events_ of which the server must be notified. Since the client cannot, in general, know the state of the player's connection (logged-in or not, reading task or not), out-of-band commands provide the only reliable client-to-server communications channel.
 
+#### Player Input Handlers
+
+**$do_out_of_band_command**
+
+On any connection for which the connection-option disable-oob has not been set, any unflushed incoming lines that begin with the out-of-band prefix will be treated as out-of-band commands, meaning that if the verb $do_out_of_band_command() exists and is executable, it will be called for each such line. For more on this, see Out-of-band Processing.
+
+**$do_command**
+
+As we previously described in The Built-in Command Parser, on any logged-in connection that
+
+* is not the subject of a read() call,
+* does not have a .program command in progress, and
+* has not had its connection option hold-input set, 
+
+any incoming line that
+
+* has not been flushed
+* is in-band (i.e., has not been consumed by out-of-band processing) and
+* is not itself .program or one of the other four intrinsic commands 
+
+will result in a call to $do_command() provided that verb exists and is executable. If this verb suspends or returns a true value, then processing of that line ends at this point, otherwise, whether the verb returned false or did not exist in the first place, the remainder of the builtin parsing process is invoked. 
+
 ### The First Tasks Run By the Server
 
-Whenever the server is booted, there are a few tasks it runs right at the beginning, before accepting connections or getting the value of `#0.dump_interval` to schedule the first checkpoint (see below for more information on checkpoint scheduling).
+Whenever the server is booted, there are a few tasks it runs right at the beginning, before accepting connections or getting the value of $dump_interval to schedule the first checkpoint (see below for more information on checkpoint scheduling).
 
-First, the server calls `$user_disconnected()` once for each user who was connected at the time the database file was written; this allows for any cleaning up that's usually done when users disconnect (e.g., moving their player objects back to some 'home' location, etc.).
+First, the server calls $do_start_script() and passes in script content via the args built-in variable. The script content is specified on the command line when the server is started. The server can call this verb multiple times, once each for the -c and -f command line arguments.
 
-Next, it checks for the existence of the verb `$server_started()`. If there is such a verb, then the server runs a task invoking that verb with no arguments and with `player` equal to `#-1`. This is useful for carefully scheduling checkpoints and for re-initializing any state that is not properly represented in the database file (e.g., re-opening certain outbound network connections, clearing out certain tables, etc.).
+Next, the server calls $user_disconnected() once for each user who was connected at the time the database file was written; this allows for any cleaning up that’s usually done when users disconnect (e.g., moving their player objects back to some ‘home’ location, etc.).
+
+Next, it checks for the existence of the verb $server_started(). If there is such a verb, then the server runs a task invoking that verb with no arguments and with player equal to #-1. This is useful for carefully scheduling checkpoints and for re-initializing any state that is not properly represented in the database file (e.g., re-opening certain outbound network connections, clearing out certain tables, etc.). 
 
 ### Controlling the Execution of Tasks
 
-As described earlier, in the section describing MOO tasks, the server places limits on the number of seconds for which any task may run continuously and the number of "ticks," or low-level operations, any task may execute in one unbroken period. By default, foreground tasks may use 30,000 ticks and five seconds, and background tasks may use 15,000 ticks and three seconds. These defaults can be overridden from within the database by defining any or all of the following properties on `$server_options` and giving them integer values:
+As described earlier, in the section describing MOO tasks, the server places limits on the number of seconds for which any task may run continuously and the number of “ticks,” or low-level operations, any task may execute in one unbroken period. By default, foreground tasks may use 60,000 ticks and five seconds, and background tasks may use 30,000 ticks and three seconds. These defaults can be overridden from within the database by defining any or all of the following properties on $server_options and giving them integer values: 
 
 
 | Property  | Description |
 | ------------- | ------------- |
-| <code>bg_seconds</code> | The number of seconds allotted to background tasks. |
-| <code>bg_ticks</code> | The number of ticks allotted to background tasks. |
-| <code>fg_seconds</code> | The number of seconds allotted to foreground tasks. |
-| <code>fg_ticks</code> | The number of ticks allotted to foreground tasks. |
+| bg_seconds | The number of seconds allotted to background tasks. |
+| bg_ticks | The number of ticks allotted to background tasks. |
+| fg_seconds | The number of seconds allotted to foreground tasks. |
+| fg_ticks | The number of ticks allotted to foreground tasks. |
 
 The server ignores the values of `fg_ticks` and `bg_ticks` if they are less than 100 and similarly ignores `fg_seconds` and `bg_seconds` if their values are less than 1. This may help prevent utter disaster should you accidentally give them uselessly-small values.
 
@@ -3835,9 +4257,19 @@ In the process of matching the direct and indirect object strings in a command t
 
 ### Restricting Access to Built-in Properties and Functions
 
-Whenever verb code attempts to read the value of a built-in property `prop` on any object, the server checks to see if the property `$server_options.protect_prop` exists and has a true value. If so, then `E_PERM` is raised if the programmer is not a wizard.
+**Protected Properties**
 
-Whenever verb code calls a built-in function `func()` and the caller is not the object `#0`, the server checks to see if the property `$server_options.protect_func` exists and has a true value. If so, then the server next checks to see if the verb `$bf_<code>func</code>()` exists; if that verb exists, then the server calls it _instead_ of the built-in function, returning or raising whatever that verb returns or raises. If the `$bf_<code>func</code>()` does not exist and the programmer is not a wizard, then the server immediately raises `E_PERM`, _without_ actually calling the function. Otherwise (if the caller is `#0`, if `$server_options.protect_func` either doesn't exist or has a false value, or if `$bf_<code>func</code>()` exists but the programmer is a wizard), then the built-in function is called normally.
+A built-in property prop is deemed protected if $server_options.protect_prop exists and has a true value. However, no such property protections are recognized if the compilation option IGNORE_PROP_PROTECTED (see section Server Compilation Options) was set when building the server. (It should be noted that enabling property protection has significant performance costs).
+
+Whenever verb code attempts to read (on any object) the value of a built-in property that is protected in this way, the server raises E_PERM if the programmer is not a wizard.
+
+**Protected Built-in Functions**
+
+A built-in function func() is deemed protected if $server_options.protect_func exists and has a true value. If, for a given protected built-in function, a corresponding verb $bf_func() exists and its ‘x’ bit is set, then that built-in function is also considered overridden, meaning that any call to func() from any object other than #0 will be treated as a call to $bf_func() with the same arguments, returning or raising whatever that verb returns or raises.
+
+A call to a protected built-in function that is not overridden proceeds normally as long as either the caller is #0 or has wizard permissions; otherwise the server raises E_PERM.
+
+Note that you must call load_server_options() in order to ensure that changes made in $server_options take effect.
 
 ### Creating and Recycling Objects
 
@@ -3851,10 +4283,201 @@ The `create()` function checks whether or not the quota is positive; if so, it i
 
 The `recycle()` function increases the quota by one and stores it back into the `ownership_quota` property on the owner.
 
-### Object Movement Caveats
+### Object Movement
 
-During evaluation of a call to the `move()` function, the server can make calls on the `accept` and `enterfunc` verbs defined on the destination of the move and on the `exitfunc` verb defined on the source.  The rules and circumstances are somewhat complicated and are given in detail in the description of the `move()` function.
+Vuring evaluation of a call to the `move()` function, the server can make calls on the `accept` and `enterfunc` verbs defined on the destination of the move and on the `exitfunc` verb defined on the source.  The rules and circumstances are somewhat complicated and are given in detail in the description of the `move()` function.
 
 ### Temporarily Enabling Obsolete Server Features
 
 If the property `$server_options.support_numeric_verbname_strings` exists and has a true value, then the server supports a obsolete mechanism for less ambiguously referring to specific verbs in various built-in functions. For more details, see the discussion given just following the description of the `verbs()` function.
+
+### Server Configuration
+
+This section discusses the options for compiling and running the server that can affect the database and how the code within it runs.
+
+#### Server Compilation Options
+
+The following option values are specified (via #define) in the file ‘options.h’ in the server sources. Except for those cases where property values on $server_options take precedence, these settings cannot be changed at runtime.
+
+This list is not intended to be exhaustive.
+Network Options
+
+NETWORK_PROTOCOL
+
+This specifies the underlying protocol for the server to use for all connections and will be one of the following:
+
+NP_TCP
+* The server uses TCP/IP protocols. 
+NP_LOCAL
+* The server uses local interprocess communication mechanisms (currently either BSD UNIX-domain sockets or SYSV named pipes). 
+NP_SINGLE
+* The server accepts only a single “connection” via the standard input and output streams of the server itself. Attempts to have multiple simultaneous listening points (via listen() will likewise fail. 
+
+DEFAULT_PORT
+(for NP_TCP) the TCP port number on which the server listens when no port-number argument is given on the command line. 
+
+DEFAULT_CONNECT_FILE
+(for NP_LOCAL) the local filename through which the server will listen for connections when no connect-file-name is given on the command line. 
+
+OUTBOUND_NETWORK
+
+The server will include support for open_network_connection() if this constant is defined. If given a zero value, the function will be disabled by default and ‘+O’ will need to be specified on the command line in order to enable it, otherwise (nonzero or blank value) the function is enabled by default and ‘-O’ will needed to disable it.
+
+When disabled or not supported, open_network_connection() raises E_PERM whenever it is called.
+
+The NETWORK_PROTOCOL must be NP_TCP. 
+
+MAX_QUEUED_OUTPUT
+The maximum number of output characters the server is willing to buffer for any given network connection before discarding old output to make way for new. 
+
+MAX_QUEUED_INPUT
+The maximum number of input characters the server is willing to buffer from any given network connection before it stops reading from the connection at all. 
+
+Other Options:
+
+IGNORE_PROP_PROTECTED
+Disables protection of builtin properties via $server_options.protect_property when set. See section Protected Properties. 
+
+OUT_OF_BAND_PREFIX
+Specifies the out-of-band prefix. If this is defined as a non-empty string, then any lines of input from any player that begin with that prefix will not be consumed by reading tasks and will not undergo normal command parsing. See section Out-of-band Processing. 
+
+OUT_OF_BAND_QUOTE_PREFIX
+Specifies the out-of-band quoting prefix. If this is defined as a non-empty string, then any lines of input from any player that begin with that prefix will have that prefixed stripped and the resulting string will bypass Out-of-Band Processing. 
+
+The following are discussed in Controlling the Execution of Tasks.
+
+DEFAULT_MAX_STACK_DEPTH
+Default value for $server_options.max_stack_depth. 
+
+DEFAULT_FG_TICKS
+The number of ticks allotted to foreground tasks. Default value for $server_options.fg_ticks. 
+
+DEFAULT_BG_TICKS
+The number of ticks allotted to background tasks. Default value for $server_options.bg_ticks. 
+
+DEFAULT_FG_SECONDS
+The number of seconds allotted to foreground tasks. Default value for $server_options.fg_seconds. 
+
+DEFAULT_BG_SECONDS
+The number of seconds allotted to background tasks. Default value for $server_options.bg_seconds. 
+
+DEFAULT_CONNECT_TIMEOUT
+Default value for $server_options.connect_timeout. 
+
+#### Running the Server
+
+The server command line has the following general form:
+ 	
+moo initial-arguments db-file-name dump-db-file-name network-arguments
+
+The arguments must occur in this order, e.g., a log file name (-l) must come before db-file-name and dump-db-file-name while any port number must come afterwards.
+Initial Arguments
+
+-l log-file-name
+
+    (Optional) This specifies a file name for the server log output. If no log file name is specified, log output is directed to stderr.
+-e
+
+    (Optional) This specifies that, once the database is loaded, Emergency Wizard Mode will be entered before starting any tasks or doing the initial listen to accept connections.
+-c script-line
+
+    (Optional) This specifies a script line to pass to the $do_start_script verb.
+-f script-file
+
+    (Optional) This specifies a script file to load and pass (the contents of) to the $do_start_script verb. 
+
+For both the -c and -f arguments, the script content is passed in the args built-in variable. The server makes no assumptions about the semantics of the script; the interpretation of the script is the verb’s responsibility. Like Emergency Wizard Mode, the verb is called before starting any tasks or doing the initial listen to accept connections.
+
+The -e argument may not be used with either -c or -f.
+Database Arguments
+
+db-file-name
+
+    (Required) This should be an existing database file in the appropriate format, whether this be a checkpoint or dump file from a prior run of the server, or one of the many distributed database files in existence (e.g., the ‘Minimal.db’ file provided with the server source distribution).
+dump-db-file-name
+
+    (Required) This should indicate where to write checkpoint and final dump files. Note that the server does not immediately verify this path, i.e., there is no checking at startup that the file in question is actually writable; in fact, that the directory exists and is writable at the time the dump or checkpoint is attempted is all that really matters. 
+
+Network Arguments
+
+The particular set of network arguments available depends on which NETWORK_PROTOCOL the server was compiled with. For a server compiled for single-user mode (NP_SINGLE), there are no additional arguments. For a server compiled for local interprocess communication (NP_LOCAL), there is just
+
+connect-file-name
+
+    (Optional) This specifies the pathname for the (UNIX domain) socket or named-pipe that will be used for connecting to the server. If no connect file name is specfied, the compiled-in value of DEFAULT_CONNECT_FILE is used. 
+
+For a server compiled for general TCP/IP connections (NP_TCP), we have
+
+-p port-number
+
+    (Optional) This specifies an initial port at which to listen for connections once the server successfully starts. If no port number is specfied, the compiled-in value of DEFAULT_PORT is used.
+
+    For the sake of backwards compatibility with prior server versions, the -p may be omitted.
+-a n.n.n.n
+
+    This specifies a local IP address to bind for all listening and all outgoing connection attempts. n.n.n.n must be a valid numeric IP address assigned to one of the local host’s network interfaces. If no specific IP address is specified, any listening (be this the initial listen implicit in server startup or any explicit listening invoked by the listen() function) will bind to all IP addresses on all available network interfaces; likewise outgoing connection attempts will use whatever address is available.
+
+    This is how, on a host with multiple network interfaces, one makes the server be visible only on one of them. At present, there is no way to specify that the server should bind to a subset of of the available IP addresses having more than one address but less than the entire set available. However, if the operating system offers port-forwarding and network address translation facilities, one can likely use those to achieve a similar effect.
+
+    Note that even on hosts with only a single physical network interface, there will typically be multiple logical ones. One may, for example, specify the loopback address (usually 127.0.0.1), forcing the server to use the loopback interface for all connections, thus guaranteeing that only local connections, whether incoming or outgoing, will be possible (and thus acheiving most of the safety of NP_LOCAL or NP_SINGLE without needing specialized clients).
++O
+
+    Explicitly enables open_network_connection() but only if the server has been compiled to include support for this function (i.e., OUTBOUND_NETWORK has been #defined).
+-O
+
+    Explicitly disables open_network_connection(). Any calls to this function will raise E_PERM even if the server has been compiled to support it. 
+
+#### Emergency Wizard Mode
+Emergency Wizard Mode
+
+This is a mode that allows you to enter commands on standard input to examine objects or evaluate arbitrary code with wizard permissions in order to, e.g., blank out a forgotten wizard password or repair a database having a broken $do_login_command verb that otherwise would not allow anyone to connect.
+
+When you start the server and supply the -e command line option, the database will load and you will then see a prompt indicating the identity of the wizard whose permissions you are using and the current state of the debug flag, e.g., one of
+ 	
+
+MOO (#2):
+MOO (#2)[!d]:
+
+the latter version of the prompt indicating that the debug flag is unset, and thus that errors will be returned rather than raised, as when you unset the d flag on a verb.
+
+The following commands are available in Emergency Mode:
+
+;expression
+;;statements
+
+    Evaluate expression or statements, print the expression result or the statement return value.
+
+    Note that expression or statement can be omitted, in which case you will be prompted for multiple lines of input, as for the .program command. Type a period on a line by itself to finish.
+
+    Also note that no background code, whether resulting from fork statements or suspend() calls, will run until after the Emergency Mode is exited.
+program object:verb
+
+    Set the code of an existing verb.
+list object:verb
+
+    List the code of an existing verb.
+disassemble object:verb
+
+    List the internal form of an existing verb.
+debug
+
+    Toggle the debug flag.
+wizard #objectid
+
+    Execute future commands as wizard #objectid, which must be an existing player object with ‘.wizard==1’.
+continue
+
+    Exit the emergency mode, continuing with normal start-up. That is, the server will perform the initial listen and start accepting connections.
+quit
+
+    Exit the emergency mode, save the database and shut down the server.
+abort
+
+    Exit the emergency mode, and shut down the server without saving the database. This is useful for if you make a mistake
+help
+
+    Print the list of commands. 
+
+Note that output from wizard mode commands appears on the server’s standard output stream (stdout) and thus can be redirected independently of the log messages if those are being written to the standard error stream (stderr, i.e., if -l has not been specified on the command line).
+
+Also note that unless the server has been compiled to use the NP_SINGLE networking variant, Emergency Wizard Mode is the only use of the server’s standard input and output streams. 

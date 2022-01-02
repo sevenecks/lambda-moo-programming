@@ -1,5 +1,9 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.1.1] - 2022.01.01 10:17pm
+
+* Updated WIP ToastStunt documentation
+
 ## [1.1] - 2021.04.20 4:29pm
 
 * Added new fork on documentation for ToastStunt
