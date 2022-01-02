@@ -1,5 +1,3 @@
-# ToastStunt Programmer's Manual
-
 ## For ToastStunt Version 2.7
 
 by Pavel Curtis et al
@@ -85,9 +83,6 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
   - [Simple Statements](#simple-statements)
   - [Statements for Testing Conditions](#statements-for-testing-conditionals)
   - [Statements for Looping](#statements-for-looping)
-    + [The for-in loop](#the-for-in-loop)
-    + [The For-Range Loop](#the-for-range-loop)
-    + [The While Loop](#the-while-loop)
   - [Terminating One or All Iterations of a Loop](#terminating-one-or-all-iterations-of-a-loop)
   - [Returning a Value from a Verb](#returning-a-value-from-a-verb)
   - [Returning a Value from a Verb](#returning-a-value-from-a-verb)
@@ -1585,22 +1580,18 @@ endif
 
 #### Statements for Looping
 
-MOO provides three different kinds of looping statements, allowing you to have a set of statements executed (1) once for each element of a given list, (2) once for each integer or object number in a given range, and (3) over and over until a given condition stops being true.
+MOO provides three different kinds of looping statements, allowing you to have a set of statements executed (1) once for each element of a given sequence (list, map or string); (2) once for each integer or object number in a given range; and (3) over and over until a given condition stops being true.
 
-##### The for-in loop
-
-> Note: In some programming languages this is referred to as a foreach loop. The syntax and usage is roughly the same.
-
-To perform some statements once for each element of a given list, use this syntax:
-
+To perform some statements once for each element of a given sequence, use this syntax:
+ 	
 ```
-for variable in (expression)
+for value, key-or-index in (expression)
   statements
 endfor
 ```
 
-The expression is evaluated and should return a list; if it does not, `E_TYPE` is raised. The statements are then executed once for each element of that list in turn; each time, the given variable is assigned the value of the element in question. For example, consider the following statements:
-
+The expression is evaluated and should return a list, map or string; if it does not, E_TYPE is raised. The statements are then executed once for each element of that sequence in turn; each time, the given value is assigned the value of the element in question, and key-or-index is assigned the index of value in the list or string, or its key if the sequence is a map. key-or-index is optional. For example, consider the following statements:
+ 	
 ```
 odds = {1, 3, 5, 7, 9};
 evens = {};
@@ -1609,30 +1600,25 @@ for n in (odds)
 endfor
 ```
 
-The value of the variable `evens` after executing these statements is the list
+The value of the variable ‘evens’ after executing these statements is the list
+ 	
+
+`{2, 4, 6, 8, 10}`
+
+If the example were modified:
 
 ```
-{2, 4, 6, 8, 10}
-```
-
-Another example of this, looping over all the children of an object:
-
-```
-for child in (children(obj))
-    notify(player, tostr(o.name, " is located in ", o.location));
+odds = {1, 3, 5, 7, 9};
+pairs = [];
+for n, i in (odds)
+  pairs[i] = n + 1;
 endfor
 ```
 
-Another exmaple of this, looping over a list of strings:
+The value of the variable ‘pairs’ after executing these statements is the map
+ 	
 
-```
-strings = {"foo", "bar", "baz"};
-for string in (strings)
-    notify(player, string);
-endfor
-```
-
-##### The For-Range Loop
+`[1 -> 2, 2 -> 4, 3 -> 6, 4 -> 8, 5 -> 10]`
 
 To perform a set of statements once for each integer or object number in a given range, use this syntax:
 
@@ -1642,7 +1628,7 @@ for variable in [expression-1..expression-2]
 endfor
 ```
 
-The two expressions are evaluated in turn and should either both return integers or both return object numbers; `E_TYPE` is raised otherwise. The statements are then executed once for each integer (or object number, as appropriate) greater than or equal to the value of expression-1 and less than or equal to the result of expression-2, in increasing order. Each time, the given variable is assigned the integer or object number in question.  For example, consider the following statements:
+The two expressions are evaluated in turn and should either both return integers or both return object numbers; E_TYPE is raised otherwise. The statements are then executed once for each integer (or object number, as appropriate) greater than or equal to the value of expression-1 and less than or equal to the result of expression-2, in increasing order. Each time, the given variable is assigned the integer or object number in question. For example, consider the following statements:
 
 ```
 evens = {};
@@ -1651,11 +1637,9 @@ for n in [1..5]
 endfor
 ```
 
-The value of the variable `evens` after executing these statements is just as in the previous example: the list
+The value of the variable ‘evens’ after executing these statements is just as in the previous example: the list
 
-```
-{2, 4, 6, 8, 10}
-```
+`{2, 4, 6, 8, 10}`
 
 The following loop over object numbers prints out the number and name of every valid object in the database:
 
@@ -1666,8 +1650,6 @@ for o in [#0..max_object()]
   endif
 endfor
 ```
-
-##### The While Loop
 
 The final kind of loop in MOO executes a set of statements repeatedly as long as a given condition remains true:
 
@@ -1708,7 +1690,7 @@ This naming facility is only really useful in conjunction with the `break` and `
 
 With each kind of loop, it is possible that the statements in the body of the loop will never be executed at all. For iteration over lists, this happens when the list returned by the expression is empty. For iteration on integers, it happens when expression-1 returns a larger integer than expression-2. Finally, for the `while` loop, it happens if the expression returns a false value the very first time it is evaluated.
 
-> Warning: With `while` loops it is especially important to make sure you do not create an infinite loop. That is, a loop that will never terminate because it's expression will never become false.
+> Warning: With `while` loops it is especially important to make sure you do not create an infinite loop. That is, a loop that will never terminate because it's expression will never become false. Be especially careful if you suspend() or $cu:sin() within a loop, as the task may never run out of ticks.
 
 #### Terminating One or All Iterations of a Loop
 
@@ -1889,6 +1871,7 @@ finally
   this:charge_user_for_seconds(player, end - start);
 endtry
 ```
+> Warning: If a task runs out of ticks, it's possible for your finally code to not run.
 
 #### Executing Statements at a Later Time
 
@@ -1978,6 +1961,8 @@ The last three kinds of tasks above are collectively known as _queued tasks_ or 
 
 To prevent a maliciously- or incorrectly-written MOO program from running forever and monopolizing the server, limits are placed on the running time of every task. One limit is that no task is allowed to run longer than a certain number of seconds; command and server tasks get five seconds each while other tasks get only three seconds. This limit is, in practice, rarely reached. The reason is that there is also a limit on the number of operations a task may execute.
 
+//TODO: confirm this is the correct info for ToastCore
+
 The server counts down _ticks_ as any task executes. Roughly speaking, it counts one tick for every expression evaluation (other than variables and literals), one for every `if`, `fork` or `return` statement, and one for every iteration of a loop. If the count gets all the way down to zero, the task is immediately and unceremoniously aborted. By default, command and server tasks begin with an store of 30,000 ticks; this is enough for almost all normal uses. Forked, suspended, and reading tasks are allotted 15,000 ticks each.
 
 These limits on seconds and ticks may be changed from within the database, as can the behavior of the server after it aborts a task for running out; see the chapter on server assumptions about the database for details.
@@ -2031,7 +2016,7 @@ There are several functions for performing primitive operations on MOO values, a
 typeof -- Takes any MOO value and returns an integer representing the type of value.
 int `typeof` (value)
 
-The result is the same as the initial value of one of these built-in variables: `INT`, `FLOAT`, `STR`, `LIST`, `OBJ`, or `ERR`.  Thus, one usually writes code like this:
+The result is the same as the initial value of one of these built-in variables: `INT`, `FLOAT`, `STR`, `LIST`, `MAP`,  `OBJ`, or `ERR`.  Thus, one usually writes code like this:
 
 ```
 if (typeof(x) == LIST) ...
@@ -2056,11 +2041,13 @@ tostr(1.0/3.0)             =>   "0.333333333333333"
 tostr(#17)                 =>   "#17"
 tostr("foo")               =>   "foo"
 tostr({1, 2})              =>   "{list}"
+tostr([1 -> 2]             =>   "[map]"
 tostr(E_PERM)              =>   "Permission denied"
 tostr("3 + 4 = ", 3 + 4)   =>   "3 + 4 = 7"
 ```
 
-Warning `tostr()` does not do a good job of converting lists into strings; all lists, including the empty list, are converted into the string `"{list}"`. The function `toliteral()`, below, is better for this purpose.
+Warning `tostr()` does not do a good job of converting lists and maps  into strings; all lists, including the empty list, are converted into the string `"{list}"` and all maps are converted into the string `"[map]"`. The function `toliteral()`, below, is better for this purpose.
+
 **Function: `toliteral`**
 
 Returns a string containing a MOO literal expression that, when evaluated, would be equal to value.
