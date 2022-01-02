@@ -6,7 +6,7 @@ Table of Contents
 * [Introduction](#introduction)
 * [Local Setup](#local-setup)
 * [Contents](#contents) 
-    * [ToastStunt Programmer's Manual]](#toaststunt-programmers-manual)
+    * [ToastStunt Programmer's Manual](#toaststunt-programmers-manual)
     * [Lambda MOO Programmer's Manual \[Updated\]](#lambda-moo-programmers-manual-updated)
     * [Learn MOO Programming Videos](#learn-moo-programming-videos)
     * [Yib's Pet Rock](#yibs-pet-rock)
