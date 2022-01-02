@@ -1,5 +1,9 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.1.2] - 2022.01.02 2:26PM
+
+* Integrated all of FileIO documentation into ToastStunt guide
+
 ## [1.1.1] - 2022.01.01 10:17pm
 
 * Added beta version of ToastStunt Programmers Manual
