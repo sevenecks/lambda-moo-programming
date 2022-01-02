@@ -1993,6 +1993,7 @@ One of the most important facilities in an object-oriented programming language 
 **Function: `pass`**
 
 pass -- calls the verb with the same name as the current verb but as defined on the parent of the object that defines the current verb.
+
 value `pass` (arg, ...)
 
 Often, it is useful for a child object to define a verb that _augments_ the behavior of a verb on its parent object. For example, in the ToastCore database, the root object (which is an ancestor of every other object) defines a verb called `description` that simply returns the value of `this.description`; this verb is used by the implementation of the `look` command. In many cases, a programmer would like the
@@ -2039,6 +2040,7 @@ because the former is much more readable than the latter.
 **Function: `tostr`**
 
 tostr -- Converts all of the given MOO values into strings and returns the concatenation of the results.
+
 str `tostr` (value, ...)
 
 ```
@@ -2057,6 +2059,7 @@ Warning `tostr()` does not do a good job of converting lists and maps  into stri
 **Function: `toliteral`**
 
 Returns a string containing a MOO literal expression that, when evaluated, would be equal to value.
+
 str `toliteral` (value)
 
 ```
@@ -2072,6 +2075,7 @@ toliteral(E_PERM)     =>   "E_PERM"
 **Function: `toint`**
 
 toint -- Converts the given MOO value into an integer and returns that integer.
+
 int `toint` (value)
 
 Floating-point numbers are rounded toward zero, truncating their fractional parts. Object numbers are converted into the equivalent integers. Strings are parsed as the decimal encoding of a real number which is then converted to an integer. Errors are converted into integers obeying the same ordering (with respect to `<=` as the errors themselves. `toint()` raises `E_TYPE` if value is a list. If value is a string but the string does not contain a syntactically-correct number, then `toint()` returns 0.
@@ -2089,6 +2093,7 @@ toint(E_TYPE)      =>   1
 **Function: `toobj`**
 
 toobj -- Converts the given MOO value into an object number and returns that object number.
+
 obj `toobj` (value)
 
 The conversions are very similar to those for `toint()` except that for strings, the number _may_ be preceded by `#`.
@@ -2103,6 +2108,7 @@ toobj({1, 2})     =>   E_TYPE (error)
 **Function: `tofloat`**
 
 tofloat -- Converts the given MOO value into a floating-point number and returns that number.
+
 float `tofloat` (value)
 
 Integers and object numbers are converted into the corresponding integral floating-point numbers. Strings are parsed as the decimal encoding of a real number which is then represented as closely as possible as a floating-point number. Errors are first converted to integers as in `toint()` and then converted as integers are. `tofloat()` raises `E_TYPE` if value is a list. If value is a string but the string does not contain a syntactically-correct number, then `tofloat()` returns 0.
@@ -2118,6 +2124,7 @@ tofloat(E_TYPE)      =>   1.0
 **Function: `equal`**
 
 equal -- Returns true if value1 is completely indistinguishable from value2.
+
 int `equal` (value, value2)
 
 This is much the same operation as `value1 == value2` except that, unlike `==`, the `equal()` function does not treat upper- and lower-case characters in strings as equal and thus, is case-sensitive.
@@ -2131,11 +2138,13 @@ equal("Foo", "Foo")    =>   1
 **Function: `value_bytes`**
 
 value_bytes -- Returns the number of bytes of the server's memory required to store the given value.
+
 int `value_bytes` (value)
 
 **Function: `value_hash`**
 
 value_hash -- Returns the same string as `string_hash(toliteral(value))`.
+
 str `value_hash` (value, [, str algo])
 
 See the description of `string_hash()` for details.
@@ -2143,6 +2152,7 @@ See the description of `string_hash()` for details.
 **Function: `value_hmac`**
 
 value_hmac -- Returns the same string as string_hmac(toliteral(value), key)
+
 str `value_hmac` (value, STR key [, STR algo [, binary]])
 
 See the description of string_hmac() for details.  
@@ -2150,6 +2160,7 @@ See the description of string_hmac() for details.
 **Function: `generate_json`**
 
 generate_json -- Returns the JSON representation of the MOO value.
+
 str generate_json (value [, str mode])
 
 Returns the JSON representation of the MOO value.
@@ -2188,6 +2199,7 @@ generate_json([#1 -> 2], "embedded-types")                  =>  "{\"#1|obj\":2}"
 **Function: `parse_json`**
 
 parse_json -- Returns the MOO value representation of the JSON string. 
+
 value parse_json (str json [, str mode])
 
 If the specified string is not valid JSON, E_INVARG is raised.
@@ -2227,6 +2239,7 @@ JSON defines types that MOO (currently) does not support, such as boolean true a
 **Function: `random`**
 
 random -- Return a random integer
+
 int `random` ([int mod, [int range]])
 
 mod must be a positive integer; otherwise, `E_INVARG` is raised.  If mod is not provided, it defaults to the largest MOO integer, which will depend on if you are running 32 or 64bit.
@@ -2242,6 +2255,7 @@ random(1, 5000)             => integer between 1 and 5000
 **Function: `min`**
 
 min -- Return the smallest of it's arguments.
+
 int `min` (int x, ...)
 
 All of the arguments must be numbers of the same kind (i.e., either integer or floating-point); otherwise `E_TYPE` is raised.
@@ -2249,6 +2263,7 @@ All of the arguments must be numbers of the same kind (i.e., either integer or f
 **Function: `max`**
 
 max -- Return the largest of it's arguments.
+
 int `max` (int x, ...)
 
 All of the arguments must be numbers of the same kind (i.e., either integer or floating-point); otherwise `E_TYPE` is raised.
@@ -2256,6 +2271,7 @@ All of the arguments must be numbers of the same kind (i.e., either integer or f
 **Function: `abs`**
 
 abs -- Returns the absolute value of x.
+
 int `abs` (int x)
 
 If x is negative, then the result is `-x`; otherwise, the result is x. The number x can be either integer or floating-point; the result is of the same kind.
@@ -2263,6 +2279,7 @@ If x is negative, then the result is `-x`; otherwise, the result is x. The numbe
 **Function: `floatstr`**
 
 floatstr -- Converts x into a string with more control than provided by either `tostr()` or `toliteral()`.
+
 str `floatstr` (float x, int precision [, scientific])
 
 Precision is the number of digits to appear to the right of the decimal point, capped at 4 more than the maximum available precision, a total of 19 on most machines; this makes it possible to avoid rounding errors if the resulting string is subsequently read back as a floating-point value. If scientific is false or not provided, the result is a string in the form `"MMMMMMM.DDDDDD"`, preceded by a minus sign if and only if x is negative. If scientific is provided and true, the result is a string in the form `"M.DDDDDDe+EEE"`, again preceded by a minus sign if and only if x is negative.
@@ -2270,6 +2287,7 @@ Precision is the number of digits to appear to the right of the decimal point, c
 **Function: `sqrt`**
 
 sqrt -- Returns the square root of x.
+
 float `sqrt` (float x)
 
 Raises `E_INVARG` if x is negative.
@@ -2277,19 +2295,24 @@ Raises `E_INVARG` if x is negative.
 **Function: `sin`**
 
 sin -- Returns the sine of x.
+
 float `sin` (float x)
+
 **Function: `cos`**
 
 cos -- Returns the cosine of x.
+
 float `cos` (float x)
 **Function: `tangent`**
 
 tan -- Returns the tangent of x.
+
 float `tan` (float x)
 
 **Function: `asin`**
 
 asin -- Returns the arc-sine (inverse sine) of x, in the range `[-pi/2..pi/2]`
+
 float `asin` (float x)
 
 Raises `E_INVARG` if x is outside the range `[-1.0..1.0]`.
@@ -2297,6 +2320,7 @@ Raises `E_INVARG` if x is outside the range `[-1.0..1.0]`.
 **Function: `acos`**
 
 acos -- Returns the arc-cosine (inverse cosine) of x, in the range `[0..pi]`
+
 float `acos` (float x)
 
 Raises `E_INVARG` if x is outside the range `[-1.0..1.0]`.
@@ -2304,6 +2328,7 @@ Raises `E_INVARG` if x is outside the range `[-1.0..1.0]`.
 **Function: `atan`**
 
 atan -- Returns the arc-tangent (inverse tangent) of y in the range `[-pi/2..pi/2]`.
+
 float `atan` (float y [, float x])
 
 if x is not provided, or of `y/x` in the range `[-pi..pi]` if x is provided.
@@ -2311,22 +2336,27 @@ if x is not provided, or of `y/x` in the range `[-pi..pi]` if x is provided.
 **Function: `sinh`**
 
 sinh -- Returns the hyperbolic sine of x.
+
 float `sinh` (float x)
 **Function: `cosh`**
 
 cosh -- Returns the hyperbolic cosine of x.
+
 float `cosh` (float x)
 **Function: `tanh`**
 
 tanh -- Returns the hyperbolic tangent of x.
+
 float `tanh` (float x)
 **Function: `exp`**
 
 exp -- Returns e raised to the power of x.
+
 float `exp` (float x)
 **Function: `log`**
 
 log -- Returns the natural logarithm of x.
+
 float `log` (float x)
 
 Raises `E_INVARG` if x is not positive.
@@ -2334,6 +2364,7 @@ Raises `E_INVARG` if x is not positive.
 **Function: `log10`**
 
 log10 -- Returns the base 10 logarithm of x.
+
 float `log10` (float x)
 
 Raises `E_INVARG` if x is not positive.
@@ -2346,12 +2377,13 @@ float `ceil` (float x)
 **Function: `floor`**
 
 floor -- Returns the largest integer not greater than x, as a floating-point number.
+
 float `floor` (float x)
 
 **Function: `trunc`**
 
-trunc -- Returns the integer obtained by truncating x at the decimal point, as a
-    floating-point number.
+trunc -- Returns the integer obtained by truncating x at the decimal point, as a floating-point number.
+
 float `trunc` (float x)
 
 For negative x, this is equivalent to `ceil()`; otherwise it is equivalent to `floor()`.
@@ -2361,6 +2393,7 @@ For negative x, this is equivalent to `ceil()`; otherwise it is equivalent to `f
 **Function: `length`**
 
 length -- Returns the number of characters in string.
+
 int `length` (str string)
 
 It is also permissible to pass a list to `length()`; see the description in the next section.
@@ -2373,6 +2406,7 @@ length("")      =>   0
 **Function: `strsub`**
 
 strsub -- Replaces all occurrences of what in subject with with, performing string substitution.
+
 str `strsub` (str subject, str what, str with [, int case-matters])
 
 The occurrences are found from left to right and all substitutions happen simultaneously. By default, occurrences of what are searched for while ignoring the upper/lower case distinction. If case-matters is provided and true, then case is treated as significant in all comparisons.
@@ -2386,6 +2420,7 @@ strsub("foobar", "OB", "b", 1)          =>   "foobar"
 **Function: `index`**
 
 index -- Returns the index of the first character of the first occurrence of str2 in str1.
+
 int `index` (str str1, str str2, [, int case-matters])
 
 If str2 does not occur in str1 at all, zero is returned. By default the search for an occurrence of str2 is done while ignoring the upper/lower case distinction. If case-matters is provided and true, then case is treated as significant in all comparisons.
@@ -2400,6 +2435,7 @@ index("Foobar", "foo", 1)   =>   0
 **Function: `rindex`**
 
 rindex -- Returns the index of the first character of the last occurrence of str2 in str1.
+
 int `rindex` (str str1, str str2, [, int case-matters])
 
 If str2 does not occur in str1 at all, zero is returned. By default the search for an occurrence of str2 is done while ignoring the upper/lower case distinction. If case-matters is provided and true, then case is treated as significant in all comparisons.
@@ -2411,6 +2447,7 @@ rindex("foobar", "o")       =>   3
 **Function: `strcmp`**
 
 strcmp -- Performs a case-sensitive comparison of the two argument strings.
+
 int `strcmp` (str str1, str str2)
 
 If str1 is [lexicographically](https://en.wikipedia.org/wiki/Lexicographical_order) less than str2, the `strcmp()` returns a negative integer. If the two strings are identical, `strcmp()` returns zero. Otherwise, `strcmp()` returns a positive integer. The ASCII character ordering is used for the comparison.
@@ -2418,6 +2455,7 @@ If str1 is [lexicographically](https://en.wikipedia.org/wiki/Lexicographical_ord
 **Function: `decode_binary`**
 
 decode_binary -- Returns a list of strings and/or integers representing the bytes in the binary string bin_string in order.
+
 list `decode_binary` (str bin-string [, int fully])
 
 If fully is false or omitted, the list contains an integer only for each non-printing, non-space byte; all other characters are grouped into the longest possible contiguous substrings. If  fully is provided and true, the list contains only integers, one for each byte represented in bin_string. Raises `E_INVARG` if bin_string is not a properly-formed binary string. (See the early section on MOO value types for a full description of binary strings.)
@@ -2433,6 +2471,7 @@ decode_binary("foo~0D~0A", 1)      =>   {102, 111, 111, 13, 10}
 **Function: `encode_binary`**
 
 encode_binary -- Translates each integer and string in turn into its binary string equivalent, returning the concatenation of all these substrings into a single binary string.
+
 str `encode_binary` (arg, ...)
 
 Each argument must be an integer between 0 and 255, a string, or a list containing only legal arguments for this function. This function   (See the early section on MOO value types for a full description of binary strings.)
@@ -2446,6 +2485,7 @@ encode_binary("foo", 10, "bar", 13)       =>   "foo~0Abar~0D"
 **Function: `match`**
 
 match --  Searches for the first occurrence of the regular expression pattern in the string subject
+
 list `match` (str subject, str pattern [, int case-matters])
 
 If pattern is syntactically malformed, then `E_INVARG` is raised.  The process of matching can in some cases consume a great deal of memory in the server; should this memory consumption become excessive, then the matching process is aborted and `E_QUOTA` is raised.
@@ -2473,6 +2513,7 @@ match("foobar", "f%(o*%)b")
 **Function: `rmatch`**
 
 rmatch --  Searches for the last occurrence of the regular expression pattern in the string subject
+
 list `rmatch` (str subject, str pattern [, int case-matters])
 
 If pattern is syntactically malformed, then `E_INVARG` is raised.  The process of matching can in some cases consume a great deal of memory in the server; should this memory consumption become excessive, then the matching process is aborted and `E_QUOTA` is raised.
@@ -2534,6 +2575,7 @@ The following are the characters and character sequences that have special meani
 **Function: `substitute`**
 
 substitute -- Performs a standard set of substitutions on the string template, using the information contained in subs, returning the resulting, transformed template.
+
 str `substitute` (str template, list subs)
 
 Subs should be a list like those returned by `match()` or `rmatch()` when the match succeeds; otherwise, `E_INVARG` is raised.
@@ -2553,6 +2595,7 @@ substitute("I thank you for your %1 here in %2.", subs)
 **Function: `crypt`**
 
 crypt -- Encrypts the given text using the standard UNIX encryption method.
+
 str `crypt` (str text [, str salt])
 
 If provided, salt should be a string at least two characters long, the first two characters of which will be used as the extra encryption "salt" in the algorithm. If salt is not provided, a random pair of characters is used.  In any case, the salt used is also returned as the first two characters of the resulting encrypted string.
@@ -2573,8 +2616,11 @@ crypt("foobar", "J4")   =>   "J4AcPxOJ4ncq2"
 **Function: `binary_hash`**
 
 string_hash -- Returns a 64-character hexadecimal string.
+
 binary_hash -- Returns a 64-character hexadecimal string.
+
 str `string_hash` (str string, [, algo]) 
+
 str `binary_hash` (str bin-string, [, algo]j)
 
 Returns a 64-character hexadecimal string encoding the result of applying the SHA256 cryptographically secure hash function to the contents of the string text or the binary string bin-string. If algo is provided, it specifies the hashing algorithm to use. "MD5", "SHA1" and "SHA256" are all supported.
@@ -2617,6 +2663,7 @@ This can be useful, for example, in applications that need to verify both the in
 **Function: `length`**
 
 length -- Returns the number of elements in list.
+
 int `length` (list list)
 
 It is also permissible to pass a string to `length()`; see the description in the previous section.
@@ -2629,6 +2676,7 @@ length({})          =>   0
 **Function: `is_member`**
 
 is_member -- Returns true if there is an element of list that is completely indistinguishable from value.
+
 int `is_member` (value, list list)
 
 This is much the same operation as " `value in list`" except that, unlike `in`, the `is_member()` function does not treat upper- and lower-case characters in strings as equal.
@@ -2645,6 +2693,7 @@ is_member("Foo", {1, "Foo", #24})   =>   2
 listinsert -- This functions return a copy of list with value added as a new element.
 
 listappend -- This functions return a copy of list with value added as a new element.
+
 list `listinsert` (list list, value [, int index]) list `listappend` (list list, value [, int index])
 
 `listinsert()` and `listappend()` add value before and after (respectively) the existing element with the given index, if provided.
@@ -2672,6 +2721,7 @@ listinsert(x, 4)      =>   {4, 1, 2, 3}
 **Function: `listdelete`**
 
 listdelete -- Returns a copy of list with the indexth element removed.
+
 list `listdelete` (list list, int index)
 
 If index is not in the range `[1..length(list)]`, then `E_RANGE` is raised.
@@ -2684,6 +2734,7 @@ listdelete(x, 2)   =>   {"foo", "baz"}
 **Function: `listset`**
 
 listset -- Returns a copy of list with the indexth element replaced by value.
+
 list `listset` (list list, value, int index)
 
 If index is not in the range `[1..length(list)]`, then `E_RANGE` is raised.
@@ -2701,6 +2752,7 @@ This function exists primarily for historical reasons; it was used heavily befor
 setadd -- Returns a copy of list with the given value added.
 
 setremove -- Returns a copy of list with the given value removed.
+
 list `setadd` (list list, value) list `setremove` (list list, value)
 
 `setadd()` only adds value if it is not already an element of list; list is thus treated as a mathematical set. value is added at the end of the resulting list, if at all.  Similarly, `setremove()` returns a list identical to list if value is not an element. If value appears more than once in list, only the first occurrence is removed in the returned copy.
@@ -2718,6 +2770,7 @@ When using the functions below, it’s helpful to remember that maps are ordered
 
 **Function: `mapkeys`**
 mapkeys -- returns the keys of the elements of a map.
+
 list `mapkeys` (map map)
 
 ```
@@ -2727,6 +2780,7 @@ mapkeys(x)   =>  {"bar", "baz", "foo"}
 
 **Function: `mapvalues`**
 mapvalues -- returns the values of the elements of a map.
+
 list `mapvalues` (map map)
 
 Returns the values of the elements of map.
@@ -2738,6 +2792,7 @@ mapvalues(x)   ⇒   {2, 3, 1}
 
 **Function: `mapdelete`**
 mapdelete -- Returns a copy of map with the value corresponding to key removed. If key is not a valid key, then E_RANGE is raised.
+
 map `mapdelete` (map map, key)
 
 ```
@@ -2754,6 +2809,7 @@ Objects are, of course, the main focus of most MOO programming and, largely due 
 **Function: `create`**
 
 create -- Creates and returns a new object whose parent (or parents) is parent (or parents) and whose owner is as described below.
+
 obj `create` (obj parent [, obj owner])
 obj `create` (list parents [, obj owner])
 
@@ -2787,11 +2843,15 @@ In addition, the new object inherits all of the other properties on parents. The
 If the intended owner of the new object has a property named `ownership_quota` and the value of that property is an integer, then `create()` treats that value as a _quota_. If the quota is less than or equal to zero, then the quota is considered to be exhausted and `create()` raises `E_QUOTA` instead of creating an object.  Otherwise, the quota is decremented and stored back into the `ownership_quota` property as a part of the creation of the new object.
 
 **Function: `chparent`**
+
 **Function: `chparents`**
 
 chparent -- Changes the parent of object to be new-parent.
+
 chparents -- Changes the parent of object to be new-parents.
+
 none `chparent` (obj object, obj new-parent)
+
 none `chparents` (obj object, list new-parents)
 
 If object is not valid, or if new-parent is neither valid nor equal to `#-1`, then `E_INVARG` is raised. If the programmer is neither a wizard or the owner of object, or if new-parent is not fertile (i.e., its `f` bit is not set) and the programmer is neither the owner of new-parent nor a wizard, then `E_PERM` is raised. If new-parent is equal to `object` or one of its current ancestors, `E_RECMOVE` is raised. If object or one of its descendants defines a property with the same name as one defined either on new-parent or on one of its ancestors, then `E_INVARG` is raised.
@@ -2805,6 +2865,7 @@ If new-parents is equal to {}, then object is given no parent at all; it becomes
 **Function: `valid`**
 
 valid -- Return a non-zero integer if object is valid and not yet recycled.
+
 int `valid` (obj object)
 
 Returns a non-zero integer (i.e., a true value) if object is a valid object (one that has been created and not yet recycled) and zero (i.e., a false value) otherwise.
@@ -2818,18 +2879,23 @@ valid(#-1)   =>   0
 **Function: `parents`**
 
 parent -- return the parent of object
+
 parents -- return the parents of object
+
 obj `parent` (obj object)
+
 list `parents` (obj object)
 
 **Function: `children`**
 
 children -- return a list of the children of object.
+
 list `children` (obj object)
 
 **Function: `recycle`**
 
 recycle -- destroy object irrevocably.
+
 none `recycle` (obj object)
 
 The given object is destroyed, irrevocably. The programmer must either own object or be a wizard; otherwise, `E_PERM` is raised. If object is not valid, then `E_INVARG` is raised. The children of object are reparented to the parent of object. Before object is recycled, each object in its contents is moved to `#-1` (implying a call to object's `exitfunc` verb, if any) and then object's `recycle` verb, if any, is called with no arguments.
@@ -2839,6 +2905,7 @@ After object is recycled, if the owner of the former object has a property named
 **Function: `object_bytes`**
 
 object_bytes -- Returns the number of bytes of the server's memory required to store the given object.
+
 int `object_bytes` (obj object)
 
 The space calculation includes the space used by the values of all of the objects non-clear properties and by the verbs and properties defined directly on the object.
@@ -2848,6 +2915,7 @@ Raises `E_INVARG` if object is not a valid object and `E_PERM` if the programmer
 **Function: `max_object`**
 
 max_object -- Returns the largest object number ever assigned to a created object.
+
 obj `max_object` ()
 
 //TODO update for how Toast handles recycled objects if it is different
@@ -2858,6 +2926,7 @@ Note that the object with this number may no longer exist; it may have been recy
 **Function: `move`**
 
 move -- Changes what's location to be where.
+
 none `move` (obj what, obj where)
 
 This is a complex process because a number of permissions checks and notifications must be performed.  The actual movement takes place as described in the following paragraphs.
@@ -2893,6 +2962,7 @@ is performed and its result is ignored; again, it is not an error if where does 
 **Function: `properties`**
 
 properties -- Returns a list of the names of the properties defined directly on the given object, not inherited from its parent.
+
 list `properties` (obj object)
 
 If object is not valid, then `E_INVARG` is raised. If the programmer does not have read permission on object, then `E_PERM` is raised.
@@ -2900,6 +2970,7 @@ If object is not valid, then `E_INVARG` is raised. If the programmer does not ha
 **Function: `property_info`**
 
 property_info -- Get the owner and permission bits for the property named prop-name on the given object
+
 list `property_info` (obj object, str prop-name)
 
 If object is not valid, then `E_INVARG` is raised. If object has no non-built-in property named prop-name, then `E_PROPNF` is raised. If the programmer does not have read (write) permission on the property in question, then `property_info()` raises `E_PERM`.
@@ -2907,6 +2978,7 @@ If object is not valid, then `E_INVARG` is raised. If object has no non-built-in
 **Function: `set_property_info`**
 
 set_property_info -- Set the owner and permission bits for the property named prop-name on the given object
+
 none `set_property_info` (obj object, str prop-name, list info)
 
 If object is not valid, then `E_INVARG` is raised. If object has no non-built-in property named prop-name, then `E_PROPNF` is raised. If the programmer does not have read (write) permission on the property in question, then `set_property_info()` raises `E_PERM`. Property info has the following form:
@@ -2920,6 +2992,7 @@ where owner is an object, perms is a string containing only characters from the 
 **Function: `add_property`**
 
 add_property -- Defines a new property on the given object
+
 none `add_property` (obj object, str prop-name, value, list info)
 
 The property is inherited by all of its descendants; the property is named prop-name, its initial value is value, and its owner and initial permission bits are given by info in the same format as is returned by `property_info()`, described above.
@@ -2929,16 +3002,19 @@ If object is not valid or info does not specify a valid owner and well-formed pe
 **Function: `delete_property`**
 
 delete_property -- Removes the property named prop-name from the given object and all of its descendants.
-none `>delete_property` (obj object, str prop-name)
+
+none `delete_property` (obj object, str prop-name)
 
 If object is not valid, then `E_INVARG` is raised. If the programmer does not have write permission on object, then `E_PERM` is raised. If object does not directly define a property named prop-name (as opposed to inheriting one from its parent), then `E_PROPNF` is raised.
 
 **Function: `is_clear_property`**
 
 is_clear_property -- Test the specified property for clear
+
 int `is_clear_property` (obj object, str prop-name) **Function: `clear_property`**
 
 clear_property -- Set the specified property to clear
+
 none `clear_property` (obj object, str prop-name)
 
 These two functions test for clear and set to clear, respectively, the property named prop-name on the given object. If object is not valid, then `E_INVARG` is raised. If object has no non-built-in property named prop-name, then `E_PROPNF` is raised. If the programmer does not have read (write) permission on the property in question, then `is_clear_property()` (`clear_property()`) raises `E_PERM`.
@@ -2950,6 +3026,7 @@ If a property is clear, then when the value of that property is queried the valu
 **Function: `verbs`**
 
 verbs -- Returns a list of the names of the verbs defined directly on the given object, not inherited from its parent
+
 list verbs (obj object)
 
 If object is not valid, then `E_INVARG` is raised. If the programmer does not have read permission on object, then `E_PERM` is raised.
@@ -2976,11 +3053,13 @@ Clearly, this older mechanism is more difficult and risky to use; new code shoul
 **Function: `verb_info`**
 
 verb_info -- Get the owner, permission bits, and name(s) for the verb as specified by verb-desc on the given object
+
 list `verb_info` (obj object, str verb-desc) 
 
 **Function: `set_verb_info`**
 
 set_verb_info -- Set the owner, permissions bits, and names(s) for the verb as verb-desc on the given object
+
 none `set_verb_info` (obj object, str verb-desc, list info)
 
 If object is not valid, then `E_INVARG` is raised. If object does not define a verb as specified by verb-desc, then `E_VERBNF` is raised. If the programmer does not have read (write) permission on the verb in question, then `verb_info()` (`set_verb_info()`) raises `E_PERM`.
@@ -2996,9 +3075,11 @@ where owner is an object, perms is a string containing only characters from the 
 **Function: `verb_args`**
 
 verb_args -- get the direct-object, preposition, and indirect-object specifications for the verb as specified by verb-desc on the given object.
+
 list `verb_args` (obj object, str verb-desc) **Function: `set_verb_args`**
 
 verb_args -- set the direct-object, preposition, and indirect-object specifications for the verb as specified by verb-desc on the given object.
+
 none `set_verb_args` (obj object, str verb-desc, list args)
 
 If object is not valid, then `E_INVARG` is raised. If object does not define a verb as specified by verb-desc, then `E_VERBNF` is raised. If the programmer does not have read (write) permission on the verb in question, then the function raises `E_PERM`.
@@ -3020,6 +3101,7 @@ set_verb_args($container, "take", {"any", "from", "this"})
 **Function: `add_verb`**
 
 add_verb -- defines a new verb on the given object
+
 none `add_verb` (obj object, list info, list args)
 
 The new verb's owner, permission bits and name(s) are given by info in the same format as is returned by `verb_info()`, described above. The new verb's direct-object, preposition, and indirect-object specifications are given by args in the same format as is returned by `verb_args`, described above. The new verb initially has the empty program associated with it; this program does nothing but return an unspecified value.
@@ -3029,6 +3111,7 @@ If object is not valid, or info does not specify a valid owner and well-formed p
 **Function: `delete_verb`**
 
 delete_verb -- removes the verb as specified by verb-desc from the given object
+
 none `delete_verb` (obj object, str verb-desc)
 
 If object is not valid, then `E_INVARG` is raised. If the programmer does not have write permission on object, then `E_PERM` is raised. If object does not define a verb as specified by verb-desc, then `E_VERBNF` is raised.
@@ -3036,9 +3119,11 @@ If object is not valid, then `E_INVARG` is raised. If the programmer does not ha
 **Function: `verb_code`**
 
 verb_code -- get the MOO-code program associated with the verb as specified by verb-desc on object
+
 list `verb_code` (obj object, str verb-desc [, fully-paren [, indent]]) **Function: `set_verb_code`**
 
 set_verb_code -- set the MOO-code program associated with the verb as specified by verb-desc on object
+
 list `set_verb_code` (obj object, str verb-desc, list code)
 
 The program is represented as a list of strings, one for each line of the program; this is the kind of value returned by `verb_code()` and expected as the third argument to `set_verb_code()`. For `verb_code()`, the expressions in the returned code are usually written with the minimum-necessary parenthesization; if full-paren is true, then all expressions are fully parenthesized.
@@ -3052,6 +3137,7 @@ For `set_verb_code()`, the result is a list of strings, the error messages gener
 **Function: `disassemble`**
 
 disassemble -- returns a (longish) list of strings giving a listing of the server's internal "compiled" form of the verb as specified by verb-desc on object
+
 list `disassemble` (obj object, str verb-desc)
 
 This format is not documented and may indeed change from release to release, but some programmers may nonetheless find the output of `disassemble()` interesting to peruse as a way to gain a deeper appreciation of how the server works.
@@ -3063,10 +3149,13 @@ If object is not valid, then `E_INVARG` is raised. If object does not define a v
 **Function: `players`**
 
 players -- returns a list of the object numbers of all player objects in the database
+
 list `players` ()
+
 **Function: `is_player`**
 
 is_player -- returns a true value if the given object is a player object and a false value otherwise.
+
 int `is_player` (obj object)
 
 If object is not valid, `E_INVARG` is raised.
@@ -3074,6 +3163,7 @@ If object is not valid, `E_INVARG` is raised.
 **Function: `set_player_flag`**
 
 set_player_flag -- confers or removes the "player object" status of the given object, depending upon the truth value of value
+
 none `set_player_flag` (obj object, value)
 
 If object is not valid, `E_INVARG` is raised. If the programmer is not a wizard, then `E_PERM` is raised.
@@ -3087,6 +3177,7 @@ If value is false, the object loses (or continues to lack) "player object" statu
 **Function: `exec`**
 
 exec -- Asynchronously executes the specified external executable, optionally sending input.
+
 list `exec` (list command[, str input])
 
 Returns the process return code, output and error. If the programmer is not a wizard, then E_PERM is raised.
@@ -3118,6 +3209,7 @@ exec({"echo", "one", "two"})                          ⇒   {0, "one two~0A", ""
 **Function: `getenv`**
 
 getenv -- Returns the value of the named environment variable. 
+
 str `getenv` (str name)
 
 If no such environment variable exists, 0 is returned. If the programmer is not a wizard, then E_PERM is raised.
@@ -3132,6 +3224,7 @@ getenv("XYZZY")
 **Function: `connected_players`**
 
 connected_players -- returns a list of the object numbers of those player objects with currently-active connections
+
 list `connected_players` ([include-all])
 
 If include-all is provided and true, then the list includes the object numbers associated with _all_ current connections, including ones that are outbound and/or not yet logged-in.
@@ -3139,9 +3232,11 @@ If include-all is provided and true, then the list includes the object numbers a
 **Function: `connected_seconds`**
 
 connected_seconds -- return the number of seconds that the currently-active connection to player has existed
+
 int `connected_seconds` (obj player) **Function: `idle_seconds`**
 
 idle_seconds -- return the number of seconds that the currently-active connection to player has been idle
+
 int `idle_seconds` (obj player)
 
 If player is not the object number of a player object with a currently-active connection, then `E_INVARG` is raised.
@@ -3149,6 +3244,7 @@ If player is not the object number of a player object with a currently-active co
 **Function: `notify`**
 
 notify -- enqueues string for output (on a line by itself) on the connection conn
+
 none `notify` (obj conn, str string [, no-flush])
 
 If the programmer is not conn or a wizard, then `E_PERM` is raised. If conn is not a currently-active connection, then this function does nothing. Output is normally written to connections only between tasks, not during execution.
@@ -3160,6 +3256,7 @@ If no-flush is provided and true, then `notify()` never flushes any output from 
 **Function: `buffered_output_length`**
 
 buffered_output_length -- returns the number of bytes currently buffered for output to the connection conn
+
 int `buffered_output_length` ([obj conn])
 
 If conn is not provided, returns the maximum number of bytes that will be buffered up for output on any connection.
@@ -3167,6 +3264,7 @@ If conn is not provided, returns the maximum number of bytes that will be buffer
 **Function: `read`**
 
 read -- reads and returns a line of input from the connection conn (or, if not provided, from the player that typed the command that initiated the current task)
+
 str `read` ([obj conn [, non-blocking]])
 
 If non-blocking is false or not provided, this function suspends the current task, resuming it when there is input available to be read. If non-blocking is provided and true, this function never suspends the calling task; if there is no input currently available for input, `read()` simply returns 0 immediately.
@@ -3236,6 +3334,7 @@ The call returns the following:
 **Function: `force_input`**
 
 force_input -- inserts the string line as an input task in the queue for the connection conn, just as if it had arrived as input over the network
+
 none `force_input` (obj conn, str line [, at-front])
 
 If at_front is provided and true, then the new line of input is put at the front of conn's queue, so that it will be the very next line of input processed even if there is already some other input in that queue. Raises `E_INVARG` if conn does not specify a current connection and `E_PERM` if the programmer is neither conn nor a wizard.
@@ -3243,6 +3342,7 @@ If at_front is provided and true, then the new line of input is put at the front
 **Function: `flush_input`**
 
 flush_input -- performs the same actions as if the connection conn's defined flush command had been received on that connection
+
 none `flush_input` (obj conn [show-messages])
 
 I.E., removes all pending lines of input from conn's queue and, if show-messages is provided and true, prints a message to conn listing the flushed lines, if any. See the chapter on server assumptions about the database for more information about a connection's defined flush command.
@@ -3250,6 +3350,7 @@ I.E., removes all pending lines of input from conn's queue and, if show-messages
 **Function: `output_delimiters`**
 
 output_delimiters -- returns a list of two strings, the current _output prefix_ and _output suffix_ for player.
+
 list `output_delimiters` (obj player)
 
 If player does not have an active network connection, then `E_INVARG` is raised. If either string is currently undefined, the value `""` is used instead. See the discussion of the `PREFIX` and `SUFFIX` commands in the next chapter for more information about the output prefix and suffix.
@@ -3257,6 +3358,7 @@ If player does not have an active network connection, then `E_INVARG` is raised.
 **Function: `boot_player`**
 
 boot_player -- marks for disconnection any currently-active connection to the given player
+
 none `boot_player` (obj player)
 
 The connection will not actually be closed until the currently-running task returns or suspends, but all MOO functions (such as `notify()`, `connected_players()`, and the like) immediately behave as if the connection no longer exists. If the programmer is not either a wizard or the same as player, then `E_PERM` is raised. If there is no currently-active connection to player, then this function does nothing.
@@ -3272,6 +3374,7 @@ It is not an error if this verb does not exist; the call is simply skipped.
 **Function: `connection_name`**
 
 connection_name -- returns a network-specific string identifying the connection being used by the given player
+
 str `connection_name` (obj player)
 
 If the programmer is not a wizard and not player, then `E_PERM` is raised. If player is not currently connected, then `E_INVARG` is raised.
@@ -3305,6 +3408,7 @@ For the other networking configurations, the string is the same for all connecti
 **Function: `set_connection_option`**
 
 set_connection_option -- controls a number of optional behaviors associated the connection conn
+
 none `set_connection_option` (obj conn, str option, value)
 
 Raises E_INVARG if conn does not specify a current connection and E_PERM if the programmer is neither conn nor a wizard. Unless otherwise specified below, options can only be set (value is true) or unset (otherwise). The following values for option are currently supported: 
@@ -3361,6 +3465,7 @@ is a way of getting the full list of intrinsic commands available in the server 
 **Function: `connection_options`**
 
 connection_options -- returns a list of `{name, value}` pairs describing the current settings of all of the allowed options for the connection conn
+
 list `connection_options` (obj conn)
 
 Raises `E_INVARG` if conn does not specify a current connection and `E_PERM` if the programmer is neither conn nor a wizard.
@@ -3374,6 +3479,7 @@ Raises `E_INVARG` if conn does not specify a current connection and `E_PERM` if 
 **Function: `open_network_connection`**
 
 open_network_connection -- establishes a network connection to the place specified by the arguments and more-or-less pretends that a new, normal player connection has been established from there
+
 obj `open_network_connection` (STR host, INT port [, MAP options])
 
 Establishes a network connection to the place specified by the arguments and more-or-less pretends that a new, normal player connection has been established from there.  The new connection, as usual, will not be logged in initially and will have a negative object number associated with it for use with `read()', `notify()', and `boot_player()'.  This object number is the value returned by this function.
@@ -3405,6 +3511,7 @@ Open a new connection to the IPv6 address 2607:5300:60:4be0:: on port 1234 using
 **Function: `listen`**
 
 listen -- create a new point at which the server will listen for network connections, just as it does normally
+
 value `listen` (obj object, port [, MAP options])
 
 Create a new point at which the server will listen for network connections, just as it does normally. `Object` is the object whose verbs `do_login_command', `do_command', `do_out_of_band_command', `user_connected', `user_created', `user_reconnected', `user_disconnected', and `user_client_disconnected' will be called at appropriate points as these verbs are called on #0 for normal connections. (See the chapter in the LambdaMOO Programmer's Manual on server assumptions about the database for the complete story on when these functions are called.) `Port` is a TCP port number on which to listen. The listen() function will return `port` unless `port` is zero, in which case the return value is a port number assigned by the operating system.
@@ -3434,6 +3541,7 @@ Listen for IPv6 connections on port 1234 and print messages as appropriate. Thes
 **Function: `unlisten`**
 
 unlisten -- stop listening for connections on the point described by canon, which should be the second element of some element of the list returned by `listeners()`
+
 none `unlisten` (canon)
 
 Raises `E_PERM` if the programmer is not a wizard and `E_INVARG` if there does not exist a listener with that description.
@@ -3441,6 +3549,7 @@ Raises `E_PERM` if the programmer is not a wizard and `E_INVARG` if there does n
 **Function: `listeners`**
 
 listeners -- returns a list describing all existing listening points, including the default one set up automatically by the server when it was started (unless that one has since been destroyed by a call to `unlisten()`)
+
 list `listeners` ()
 
 Each element of the list has the following form:
@@ -3462,10 +3571,12 @@ unlisten(12345); listen(#0, 7777, 1)
 **Function: `time`**
 
 time -- returns the current time, represented as the number of seconds that have elapsed since midnight on 1 January 1970, Greenwich Mean Time
+
 int `time` ()
 **Function: `ctime`**
 
 ctime -- interprets time as a time, using the same representation as given in the description of `time()`, above, and converts it into a 28-character, human-readable string
+
 str `ctime` ([int time])
 
 The string will be in the following format:
@@ -3489,6 +3600,7 @@ Note that `ctime()` interprets time for the local time zone of the computer on w
 **Function: `raise`**
 
 raise -- raises code as an error in the same way as other MOO expressions, statements, and functions do
+
 none `raise` (code [, str message [, value]])
 
 Message, which defaults to the value of `tostr(code)`, and value, which defaults to zero, are made available to any `try`-`except` statements that catch the error. If the error is not caught, then message will appear on the first line of the traceback printed to the user.
@@ -3496,6 +3608,7 @@ Message, which defaults to the value of `tostr(code)`, and value, which defaults
 **Function: `call_function`**
 
 call_function -- calls the built-in function named func-name, passing the given arguments, and returns whatever that function returns
+
 value `call_function` (str func-name, arg, ...)
 
 Raises `E_INVARG` if func-name is not recognized as the name of a known built-in function.  This allows you to compute the name of the function to call and, in particular, allows you to write a call to a built-in function that may or may not exist in the particular version of the server you're using.
@@ -3503,6 +3616,7 @@ Raises `E_INVARG` if func-name is not recognized as the name of a known built-in
 **Function: `function_info`**
 
 function_info -- returns descriptions of the built-in functions available on the server
+
 list `function_info` ([str name])
 
 If name is provided, only the description of the function with that name is returned. If name is omitted, a list of descriptions is returned, one for each function available on the server. Raised `E_INVARG` if name is provided but no function with that name is available on the server.
@@ -3528,6 +3642,7 @@ where name is the name of the built-in function, min-args is the minimum number 
 **Function: `eval`**
 
 eval -- the MOO-code compiler processes string as if it were to be the program associated with some verb and, if no errors are found, that fictional verb is invoked
+
 list `eval` (str string)
 
 If the programmer is not, in fact, a programmer, then `E_PERM` is raised. The normal result of calling `eval()` is a two element list.  The first element is true if there were no compilation errors and false otherwise. The second element is either the result returned from the fictional verb (if there were no compilation errors) or a list of the compiler's error messages (otherwise).
@@ -3557,6 +3672,7 @@ eval("return 3 + 4;")   =>   {1, 7}
 **Function: `set_task_perms`**
 
 set_task_perms -- changes the permissions with which the currently-executing verb is running to be those of who
+
 one `set_task_perms` (obj who)
 
 If the programmer is neither who nor a wizard, then `E_PERM` is raised.
@@ -3564,6 +3680,7 @@ If the programmer is neither who nor a wizard, then `E_PERM` is raised.
 **Function: `caller_perms`**
 
 caller_perms -- returns the permissions in use by the verb that called the currently-executing verb
+
 obj `caller_perms` ()
 
 If the currently-executing verb was not called by another verb (i.e., it is the first verb called in a command or server task), then `caller_perms()` returns `#-1`.
@@ -3571,9 +3688,11 @@ If the currently-executing verb was not called by another verb (i.e., it is the 
 **Function: `ticks_left`**
 
 ticks_left -- return the number of ticks left to the current task before it will be forcibly terminated
+
 int `ticks_left` () **Function: `seconds_left`**
 
 seconds_left -- return the number of seconds left to the current task before it will be forcibly terminated
+
 int `seconds_left` ()
 
 These are useful, for example, in deciding when to call `suspend()` to continue a long-lived computation.
@@ -3581,6 +3700,7 @@ These are useful, for example, in deciding when to call `suspend()` to continue 
 **Function: `task_id`**
 
 task_id -- returns the non-zero, non-negative integer identifier for the currently-executing task
+
 int `task_id` ()
 
 Such integers are randomly selected for each task and can therefore safely be used in circumstances where unpredictability is required.
@@ -3588,6 +3708,7 @@ Such integers are randomly selected for each task and can therefore safely be us
 **Function: `suspend`**
 
 suspend -- suspends the current task, and resumes it after at least seconds seconds
+
 value `suspend` ([int|float seconds])
 
 If seconds is not provided, the task is suspended indefinitely; such a task can only be resumed by use of the `resume()` function.
@@ -3632,6 +3753,7 @@ By default, there is no limit to the number of tasks any player may suspend, but
 **Function: `resume`**
 
 resume -- immediately ends the suspension of the suspended task with the given task-id; that task's call to `suspend()` will return value, which defaults to zero
+
 none `resume` (int task-id [, value])
 
 If value is of type `ERR`, it will be raised, rather than returned, in the suspended task. `Resume()` raises `E_INVARG` if task-id does not specify an existing suspended task and `E_PERM` if the programmer is neither a wizard nor the owner of the specified task.
@@ -3639,6 +3761,7 @@ If value is of type `ERR`, it will be raised, rather than returned, in the suspe
 **Function: `queue_info`**
 
 queue_info -- if player is omitted, returns a list of object numbers naming all players that currently have active task queues inside the server
+
 list `queue_info` ([obj player])
 
 If player is provided, returns the number of background tasks currently queued for that user. It is guaranteed that `queue_info(X)` will return zero for any X not in the result of `queue_info()`.
@@ -3646,6 +3769,7 @@ If player is provided, returns the number of background tasks currently queued f
 **Function: `queued_tasks`**
 
 queued_tasks -- returns information on each of the background tasks (i.e., forked, suspended or reading) owned by the programmer (or, if the programmer is a wizard, all queued tasks)
+
 list `queued_tasks` ()
 
 The returned value is a list of lists, each of which encodes certain information about a particular queued task in the following format:
@@ -3665,6 +3789,7 @@ The task-size variable was introduced in version 1.8.3.
 **Function: `kill_task`**
 
 kill_task -- removes the task with the given task-id from the queue of waiting tasks
+
 none `kill_task` (int task-id)
 
 If the programmer is not the owner of that task and not a wizard, then `E_PERM` is raised. If there is no task on the queue with the given task-id, then `E_INVARG` is raised.
@@ -3672,6 +3797,7 @@ If the programmer is not the owner of that task and not a wizard, then `E_PERM` 
 **Function: `callers`**
 
 callers -- returns information on each of the verbs and built-in functions currently waiting to resume execution in the current task
+
 list `callers` ([include-line-numbers])
 
 When one verb or function calls another verb or function, execution of the caller is temporarily suspended, pending the called verb or function returning a value. At any given time, there could be several such pending verbs and functions: the one that called the currently executing verb, the verb or function that called that one, and so on. The result of `callers()` is a list, each element of which gives information about one pending verb or function in the following format:
@@ -3693,6 +3819,7 @@ The first element of the list returned by `callers()` gives information on the v
 **Function: `task_stack`**
 
 task_stack -- returns information like that returned by the `callers()` function, but for the suspended task with the given task-id; the include-line-numbers argument has the same meaning as in `callers()`
+
 list `task_stack` (int task-id [, include-line-numbers])
 
 Raises `E_INVARG` if task-id does not specify an existing suspended task and `E_PERM` if the programmer is neither a wizard nor the owner of the specified task.
@@ -3702,10 +3829,12 @@ Raises `E_INVARG` if task-id does not specify an existing suspended task and `E_
 **Function: `server_version`**
 
 server_version -- returns a string giving the version number of the running MOO server
+
 str `server_version` ()
 
 **Function `load_server_options`**
 load_server_options -- This causes the server to consult the current values of properties on $server_options, updating the corresponding serveroption settings
+
 none `load_server_options` ()
 
 For more information see section Server Options Set in the Database.. If the programmer is not a wizard, then E_PERM is raised.
@@ -3713,6 +3842,7 @@ For more information see section Server Options Set in the Database.. If the pro
 **Function: `server_log`**
 
 server_log -- the text in message is sent to the server log with a distinctive prefix (so that it can be distinguished from server-generated messages)
+
 none server_log (str message [, is-error])
 
 If the programmer is not a wizard, then `E_PERM` is raised. If is-error is provided and true, then message is marked in the server log as an error.
@@ -3720,6 +3850,7 @@ If the programmer is not a wizard, then `E_PERM` is raised. If is-error is provi
 **Function: `renumber`**
 
 renumber -- the object number of the object currently numbered object is changed to be the least nonnegative object number not currently in use and the new object number is returned
+
 obj `renumber` (obj object)
 
 If object is not valid, then `E_INVARG` is raised. If the programmer is not a wizard, then `E_PERM` is raised. If there are no unused nonnegative object numbers less than object, then object is returned and no changes take place.
@@ -3731,6 +3862,7 @@ This operation is intended for use in making new versions of the ToastCore datab
 **Function: `reset_max_object`**
 
 reset_max_object -- the server's idea of the highest object number ever used is changed to be the highest object number of a currently-existing object, thus allowing reuse of any higher numbers that refer to now-recycled objects
+
 none `reset_max_object` ()
 
 If the programmer is not a wizard, then `E_PERM` is raised.
@@ -3740,6 +3872,7 @@ This operation is intended for use in making new versions of the ToastCore datab
 **Function: `memory_usage`**
 
 memory_usage -- on some versions of the server, this returns statistics concerning the server consumption of system memory
+
 list `memory_usage` ()
 
 The result is a list of lists, each in the following format:
@@ -3755,6 +3888,7 @@ On servers for which such statistics are not available, `memory_usage()` returns
 **Function: `dump_database`**
 
 dump_database -- requests that the server checkpoint the database at its next opportunity
+
 none `dump_database` ()
 
 It is not normally necessary to call this function; the server automatically checkpoints the database at regular intervals; see the chapter on server assumptions about the database for details. If the programmer is not a wizard, then `E_PERM` is raised.
@@ -3762,6 +3896,7 @@ It is not normally necessary to call this function; the server automatically che
 **Function: `db_disk_size`**
 
 db_disk_size -- returns the total size, in bytes, of the most recent full representation of the database as one or more disk files
+
 int `db_disk_size` ()
 
 Raises `E_QUOTA` if, for some reason, no such on-disk representation is currently available.
@@ -3769,6 +3904,7 @@ Raises `E_QUOTA` if, for some reason, no such on-disk representation is currentl
 **Function: `shutdown`**
 
 shutdown -- requests that the server shut itself down at its next opportunity
+
 none `shutdown` ([str message])
 
 Before doing so, a notice (incorporating message, if provided) is printed to all connected players. If the programmer is not a wizard, then `E_PERM` is raised.
