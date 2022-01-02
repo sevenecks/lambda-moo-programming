@@ -101,7 +101,7 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
       - [Operations on Properties](#operations-on-properties)
       - [Operations on Verbs](#operations-on-verbs)
       - [Operations on Player Objects](#operations-on-player-objects)
-      - [Operations on Files](#operations-on-files)
+    + [Operations on Files](#operations-on-files)
       - [Operations on The Server Environment](#operations-on-the-server-environment)
       - [Operations on Network Connections](#operations-on-network-connections)
       - [Operations Involving Times and Dates](#operations-involving-times-and-dates)
@@ -139,6 +139,7 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
     + [Server Compilation Options](#server-compilation-options)
     + [Running the Server](#running-the-server)
     + [Emergency Wizard Mode](#emergency-wizard-mode)
+
 ***
 
 ## Foreword
@@ -3176,7 +3177,7 @@ If value is true, then object gains (or keeps) "player object" status: it will b
 
 If value is false, the object loses (or continues to lack) "player object" status: it will not be an element of the list returned by `players()`, the expression `is_player(object)` will return false, and users cannot connect to object by name when they log into the server. In addition, if a user is connected to object at the time that it loses "player object" status, then that connection is immediately broken, just as if `boot_player(object)` had been called (see the description of `boot_player()` below).
 
-##### Operations on Files
+#### Operations on Files
 
 There are several administrator-only builtins for manipulating files from inside the MOO.  Security is enforced by making these builtins executable with wizard permissions only as well as only allowing access to a directory under the current directory (the one the server is running in). The new builtins are structured similarly to the stdio library for C. This allows MOO-code to perform stream-oriented I/O to files.
 
