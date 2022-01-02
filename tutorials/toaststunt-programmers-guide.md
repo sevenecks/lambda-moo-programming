@@ -2621,7 +2621,7 @@ binary_hash -- Returns a 64-character hexadecimal string.
 
 str `string_hash` (str string, [, algo]) 
 
-str `binary_hash` (str bin-string, [, algo]j)
+str `binary_hash` (str bin-string, [, algo])
 
 Returns a 64-character hexadecimal string encoding the result of applying the SHA256 cryptographically secure hash function to the contents of the string text or the binary string bin-string. If algo is provided, it specifies the hashing algorithm to use. "MD5", "SHA1" and "SHA256" are all supported.
 
