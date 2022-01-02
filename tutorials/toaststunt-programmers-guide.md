@@ -91,8 +91,8 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
       - [General Operations Applicable to all Values](#general-operations-applicable-to-all-values)
       - [Operations on Numbers](#operations-on-numbers)
       - [Operations on Strings](#operations-on-strings)
+      - [Perl Compatible Regular Expressions (PCRE)](#perl-compatible-regular-expressions--pcre)
       - [MOO Regular Expressions (Legacy)](#moo-regular-expressions--legacy-)
-      - [Perl Compatible Regular Expressions (PCRE)](#perl-compatible-regular-expressions--pcre-)
       - [Operations on Lists](#operations-on-lists)
       - [Operations on Maps](#operations-on-maps)
     + [Manipulating Objects](#manipulating-objects)
@@ -2539,6 +2539,77 @@ The replacements list is always nine items long, each item itself being a list o
 rmatch("foobar", "o*b")      =>  {4, 4, {{0, -1}, ...}, "foobar"}
 ```
 
+##### Perl Compatible Regular Expressions - PCRE
+
+ToastStunt has two methods of operating on regular expressions. The classic style (outdated, more difficult to use, detailed in the next section) and the preferred Perl Compatible Regular Expression library. It is beyond the scope of this document to teach regular expressions, but an internet search should provide all the information you need to get started on what will surely become a lifelong journey of either love or frustration.
+
+ToastCore offers two primary methods of interacting with regular expressions.
+
+**`pcre_match`**
+
+pcre_match -- The function `pcre_match()' searches `subject` for `pattern` using the Perl Compatible Regular Expressions library. 
+
+LIST `pcre_match`(STR subject, STR pattern [, ?case matters=0] [, ?repeat until no matches=1])
+
+The return value is a list of maps containing each match. Each returned map will have a key which corresponds to either a named capture group or the number of the capture group being matched. The full match is always found in the key "0". The value of each key will be another map containing the keys 'match' and 'position'. Match corresponds to the text that was matched and position will return the indices of the substring within `subject`.
+
+If `repeat until no matches` is 1, the expression will continue to be evaluated until no further matches can be found or it exhausts the iteration limit. This defaults to 1.
+
+Additionally, wizards can control how many iterations of the loop are possible by adding a property to $server_options. $server_options.pcre_match_max_iterations is the maximum number of loops allowed before giving up and allowing other tasks to proceed. CAUTION: It's recommended to keep this value fairly low. The default value is 1000. The minimum value is 100.
+
+Examples:
+
+Extract dates from a string:
+
+```
+pcre_match("09/12/1999 other random text 01/21/1952", "([0-9]{2})/([0-9]{2})/([0-9]{4})")
+
+=> {["0" -> ["match" -> "09/12/1999", "position" -> {1, 10}], "1" -> ["match" -> "09", "position" -> {1, 2}], "2" -> ["match" -> "12", "position" -> {4, 5}], "3" -> ["match" -> "1999", "position" -> {7, 10}]], ["0" -> ["match" -> "01/21/1952", "position" -> {30, 39}], "1" -> ["match" -> "01", "position" -> {30, 31}], "2" -> ["match" -> "21", "position" -> {33, 34}], "3" -> ["match" -> "1952", "position" -> {36, 39}]]}
+```
+
+Explode a string (albeit a contrived example):
+
+```
+;;ret = {}; for x in (pcre_match("This is a string of words, with punctuation, that should be exploded. By space. --zippy--", "[a-zA-Z]+", 0, 1)) ret = {@ret, x["0"]["match"]}; endfor return ret;
+
+=> {"This", "is", "a", "string", "of", "words", "with", "punctuation", "that", "should", "be", "exploded", "By", "space", "zippy"}
+```
+
+**`pcre_replace`**
+
+pcre_replace -- The function `pcre_replace()' replaces `subject` with replacements found in `pattern` using the Perl Compatible Regular Expressions library.
+
+STR `pcre_replace` (STR `subject`, STR `pattern`)
+
+The pattern string has a specific format that must be followed, which should be familiar if you have used the likes of Vim, Perl, or sed. The string is composed of four elements, each separated by a delimiter (typically a slash (/) or an exclaimation mark (!)), that tell PCRE how to parse your replacement. We'll break the string down and mention relevant options below:
+
+1. Type of search to perform. In MOO, only 's' is valid. This parameter is kept for the sake of consistency.
+
+2. The text you want to search for a replacement.
+
+3. The regular expression you want to use for your replacement text.
+
+4. Optional modifiers:
+    * Global. This will replace all occurances in your string rather than stopping at the first.
+    * Case-insensitive. Uppercase, lowercase, it doesn't matter. All will be replaced.
+
+Examples:
+
+Replace one word with another:
+
+```
+pcre_replace("I like banana pie. Do you like banana pie?", "s/banana/apple/g")
+
+=> "I like apple pie. Do you like apple pie?"
+```
+
+If you find yourself wanting to replace a string that contains slashes, it can be useful to change your delimiter to an exclaimation mark:
+
+```
+pcre_replace("Unix, wow! /bin/bash is a thing.", "s!/bin/bash!/bin/fish!g")
+
+=> "Unix, wow! /bin/fish is a thing."
+```
 ##### MOO Regular Expressions (Legacy)
 
 _Regular expression_ matching allows you to test whether a string fits into a specific syntactic shape. You can also search a string for a substring that fits a pattern.
@@ -2591,43 +2662,6 @@ In template, the strings `%1` through `%9` will be replaced by the text matched 
 subs = match("*** Welcome to ToastStunt!!!", "%(%w*%) to %(%w*%)");
 substitute("I thank you for your %1 here in %2.", subs)
         =>   "I thank you for your Welcome here in ToastStunt."
-```
-
-##### Perl Compatible Regular Expressions (PCRE)
-
-ToastStunt has two methods of operating on regular expressions. The classic style (outdated, more difficult to use) and the Perl Compatible Regular Expression library. It is beyond the scope of this document to teach regular expressions, but an internet search should provide all the information you need to get started on what will surely become a lifelong journey of either love or frustration.
-
-ToastCore offers two primary methods of interacting with regular expressions.
-
-**`pcre_match`**
-
-pcre_match -- The function `pcre_match()' searches `subject` for `pattern` using the Perl Compatible Regular Expressions library. 
-
-LIST `pcre_match`(STR subject, STR pattern [, ?case matters=0] [, ?repeat until no matches=1])
-
-The return value is a list of maps containing each match. Each returned map will have a key which corresponds to either a named capture group or the number of the capture group being matched. The full match is always found in the key "0". The value of each key will be another map containing the keys 'match' and 'position'. Match corresponds to the text that was matched and position will return the indices of the substring within `subject`.
-
-If `repeat until no matches` is 1, the expression will continue to be evaluated until no further matches can be found or it exhausts the iteration limit. This defaults to 1.
-
-Additionally, wizards can control how many iterations of the loop are possible by adding a property to $server_options. $server_options.pcre_match_max_iterations is the maximum number of loops allowed before giving up and allowing other tasks to proceed. CAUTION: It's recommended to keep this value fairly low. The default value is 1000. The minimum value is 100.
-
-Examples:
-
-
-Extract dates from a string:
-
-```
-pcre_match("09/12/1999 other random text 01/21/1952", "([0-9]{2})/([0-9]{2})/([0-9]{4})")
-
-=> {["0" -> ["match" -> "09/12/1999", "position" -> {1, 10}], "1" -> ["match" -> "09", "position" -> {1, 2}], "2" -> ["match" -> "12", "position" -> {4, 5}], "3" -> ["match" -> "1999", "position" -> {7, 10}]], ["0" -> ["match" -> "01/21/1952", "position" -> {30, 39}], "1" -> ["match" -> "01", "position" -> {30, 31}], "2" -> ["match" -> "21", "position" -> {33, 34}], "3" -> ["match" -> "1952", "position" -> {36, 39}]]}
-```
-
-Explode a string (albeit a contrived example):
-
-```
-;;ret = {}; for x in (pcre_match("This is a string of words, with punctuation, that should be exploded. By space. --zippy--", "[a-zA-Z]+", 0, 1)) ret = {@ret, x["0"]["match"]}; endfor return ret;
-
-=> {"This", "is", "a", "string", "of", "words", "with", "punctuation", "that", "should", "be", "exploded", "By", "space", "zippy"}
 ```
 
 **Function: `crypt`**
