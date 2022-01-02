@@ -70,6 +70,7 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
       - [Replacing a Subsequence of a List, Map or String](#replacing-a-subsequence-of-a-list--map-or-string)
     + [Other Operations on Lists](#other-operations-on-lists)
     + [Spreading List Elements Among Variables](#spreading-list-elements-among-variables)
+    + [Operations on BOOLs](#operations-on-bools)
     + [Getting and Setting the Values of Properties](#getting-and-setting-the-values-of-properties)
     + [Calling Built-in Functions and Other Verbs](#calling-built-in-functions-and-other-verbs)
     + [Catching Errors in Expressions](#catching-errors-in-expressions)
@@ -92,7 +93,7 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
       - [Operations on Numbers](#operations-on-numbers)
       - [Operations on Strings](#operations-on-strings)
       - [Perl Compatible Regular Expressions](#perl-compatible-regular-expressions)
-      - [Leagcy MOO Regular Expressions](#legacy-moo-regular-expressions)
+      - [Legacy MOO Regular Expressions](#legacy-moo-regular-expressions)
       - [Operations on Lists](#operations-on-lists)
       - [Operations on Maps](#operations-on-maps)
     + [Manipulating Objects](#manipulating-objects)
@@ -412,7 +413,8 @@ A _property_ is a named "slot" in an object that can hold an arbitrary MOO value
 | name | a string, the usual name for this object |
 | owner | an object, the player who controls access to it |
 | location | an object, where the object is in virtual reality |
-| contents | a list of objects, the inverse of <code>location</code> |
+| contents | a list of objects, the inverse of location |
+| last_move | a map of an object's last location and the time() it moved |
 | programmer | a bit, does the object have programmer rights? |
 | wizard | a bit, does the object have wizard rights? |
 | r | a bit, is the object publicly readable? |
@@ -1293,6 +1295,32 @@ Using scattering assignment, the example at the begining of this section could b
 Fine point: If you are familiar with JavaScript, the 'rest' and 'spread' functionality should look pretty familiar. It is good MOO programming style to use a scattering assignment at the top of nearly every verb (at least ones that are 'this none this'), since it shows so clearly just what kinds of arguments the verb expects.
 
 It is good MOO programming style to use a scattering assignment at the top of nearly every verb, since it shows so clearly just what kinds of arguments the verb expects. 
+
+#### Operations on BOOLs
+
+ToastStunt offers a `bool` type. This type can be either `true` which is considered `1` or `false` which is considered `0`. Boolean values can be set in your code/props much the same way any other value can be assigned to a variable or property.
+
+```
+;true                   => true
+;false                  => false
+;true == true           => 1
+;false == false         => 1
+;true == false          => 0
+;1 == true              => 1
+;5 == true              => 0
+;0 == false             => 1
+;-1 == false            => 0
+!true                   => 0
+!false                  => 1
+!false == true          => 1
+!true == false          => 1
+```
+
+The true and false variables are set at task runtime (or your code) and can be overridden within verbs if needed. This will not carryover after the verb is finished executing.
+
+> Fine Point: As mentioned earlier, there are constants like STR which resolved to the integer code 2. OBJ resolves to the integer code of 1. Thus if you were to execute code such as `typeof(#15840) == TRUE` you would get a truthy response, as typeof() would return `1` to denote the object's integer code. This is a side effect of `true` always equaling 1, for compatibility reasons.
+
+> Fine Point: As of the writing of this, ToastCore does not support using @prop or @set to set a property to true or false. You can however, set a property via code to true or false.
 
 #### Getting and Setting the Values of Properties
 
@@ -2577,7 +2605,7 @@ ToastStunt has two methods of operating on regular expressions. The classic styl
 
 ToastCore offers two primary methods of interacting with regular expressions.
 
-**`pcre_match`**
+**Function: `pcre_match`**
 
 pcre_match -- The function `pcre_match()` searches `subject` for `pattern` using the Perl Compatible Regular Expressions library. 
 
@@ -2607,7 +2635,7 @@ Explode a string (albeit a contrived example):
 => {"This", "is", "a", "string", "of", "words", "with", "punctuation", "that", "should", "be", "exploded", "By", "space", "zippy"}
 ```
 
-**`pcre_replace`**
+** Function: `pcre_replace`**
 
 pcre_replace -- The function `pcre_replace()` replaces `subject` with replacements found in `pattern` using the Perl Compatible Regular Expressions library.
 
@@ -3032,7 +3060,7 @@ Note that the object with this number may no longer exist; it may have been recy
 
 move -- Changes what's location to be where.
 
-none `move` (obj what, obj where)
+none `move` (obj what, obj where [,INT position)
 
 This is a complex process because a number of permissions checks and notifications must be performed.  The actual movement takes place as described in the following paragraphs.
 
@@ -3061,6 +3089,8 @@ where:enterfunc(what)
 ```
 
 is performed and its result is ignored; again, it is not an error if where does not define a verb named `enterfunc`.
+
+Passing `position` into move will effectively listinsert() the object into that position in the .contents list.
 
 ##### Operations on Properties
 
@@ -3350,7 +3380,7 @@ The final character is either 'n' or 'f'.  If this character is 'f', whenever da
 
 This is implemented using fopen().
 
-**`file_close`**
+** Function: `file_close`**
 
 file_close -- Close a file 
 
@@ -3360,19 +3390,19 @@ Closes the file associated with fh.
 
 This is implemented using fclose().
 
-**`file_name`**
+** Function: `file_name`**
 
 file_name -- Returns the pathname originally associated with fh by file_open().  This is not necessarily the file's current name if it was renamed or unlinked after the fh was opened.
 
 STR `file_name`(FHANDLE fh)
 
-**`file_openmode`**
+** Function: `file_openmode`**
 
 file_open_mode -- Returns the mode the file associated with fh was opened in.
 
 str `file_openmode`(FHANDLE fh)
 
-**`file_handles`**
+** Function: `file_handles`**
 
 file_handles -- Return a list of open files
 
@@ -3380,7 +3410,7 @@ LIST `file_handles` ()
 
 **Input and Output Operations**
 
-**`file_readline`**
+** Function: `file_readline`**
 
 file_readline -- Reads the next line in the file and returns it (without the newline).  
 
@@ -3390,7 +3420,7 @@ Not recommended for use on files in binary mode.
 
 This is implemented using fgetc().
 
-**`file_readlines`**
+** Function: `file_readlines`**
 
 file_readlines -- Rewinds the file and then reads the specified lines from the file, returning them as a list of strings.  After this operation, the stream is positioned right after the last line read.
 
@@ -3400,7 +3430,7 @@ Not recommended for use on files in binary mode.
 
 This is implemented using fgetc().
 
-**`file_writeline`**
+** Function: `file_writeline`**
 
 file_writeline -- Writes the specified line to the file (adding a newline).
 
@@ -3410,7 +3440,7 @@ Not recommended for use on files in binary mode.
 
 This is implemented using fputs()
 
-**`file_read`**
+** Function: `file_read`**
 
 file_read -- Reads up to the specified number of bytes from the file and returns them.
 
@@ -3420,7 +3450,7 @@ Not recommended for use on files in text mode.
 
 This is implemented using fread().
 
-**`file_write`**
+** Function: `file_write`**
 
 file_write -- Writes the specified data to the file. Returns number of bytes written.
 
@@ -3430,13 +3460,13 @@ Not recommended for use on files in text mode.
 
 This is implemented using fwrite().
 
-**`file_count_lines`**
+** Function: `file_count_lines`**
 
 file_count_lines -- count the lines in a file
 
 INT `file_count_lines` (FHANDLER fh)
 
-**`file_grep`**
+** Function: `file_grep`**
 
 file_grep -- search for a string in a file
 
@@ -3484,7 +3514,7 @@ we will receive all the matching results:
 
 **Getting and setting stream position**
 
-**`file_tell`**
+** Function: `file_tell`**
 
 file_tell -- Returns position in file.
 
@@ -3492,7 +3522,7 @@ INT `file_tell`(FHANDLE fh)
 
 This is implemented using ftell().
 
-**`file_seek`**
+** Function: `file_seek`**
 
 file_seek -- Seeks to a particular location in a file.  
 
@@ -3506,7 +3536,7 @@ whence is one of the strings:
 
 This is implemented using fseek().
 
-**`file_eof`**
+** Function: `file_eof`**
 
 file_eof -- Returns true if and only if fh's stream is positioned at EOF.
 
@@ -3516,15 +3546,15 @@ This is implemented using feof().
 
 **Housekeeping operations**
 
-**`file_size`**
+** Function: `file_size`**
 
-**`file_last_access`**
+** Function: `file_last_access`**
 
-**`file_last_modify`**
+** Function: `file_last_modify`**
 
-**`file_last_change`**
+** Function: `file_last_change`**
 
-**`file_size`**
+** Function: `file_size`**
 
 int `file_size`(STR pathname)
 
@@ -3544,7 +3574,7 @@ int `file_last_change`(FHANDLE filehandle)
 
 Returns the size, last access time, last modify time, or last change time of the specified file.   All of these functions also take FHANDLE arguments and then operate on the open file.
 
-**`file_mode`**
+** Function: `file_mode`**
 
 int `file_mode`(STR filename)
 
@@ -3570,7 +3600,7 @@ owner and group are always the empty string.
 
 It is recommended that the specific information functions file_size, file_type, file_mode, file_last_access, file_last_modify, and file_last_change be used instead.  In most cases only one of these elements is desired and in those cases there's no reason to make and free a list.
 
-**`file_rename`**
+** Function: `file_rename`**
 
 file_rename - Attempts to rename the oldpath to newpath.
 
@@ -3586,7 +3616,7 @@ void `file_remove`(STR pathname)
 
 This is implemented using remove().
 
-**`file_mkdir`**
+**Function: `file_mkdir`**
 
 file_mkdir -- Attempts to create the given directory.
 
@@ -3594,7 +3624,7 @@ void `file_mkdir`(STR pathname)
 
 This is implemented using mkdir().
 
-**`file_rmdir`**
+**Function: `file_rmdir`**
 
 file_rmdir -- Attempts to remove the given directory.
 
@@ -3602,7 +3632,7 @@ void `file_rmdir`(STR pathname)
 
 This is implemented using rmdir().
 
-**`file_list`**
+**Function: `file_list`**
 
 file_list -- Attempts to list the contents of the given directory.
 
@@ -3620,7 +3650,7 @@ STR filename
 
 This is implemented using scandir().
 
-**`file_type`**
+**Function: `file_type`**
 
 file_type -- Returns the type of the given pathname, one of "reg", "dir", "dev", "fifo", or "socket".
 
@@ -3628,7 +3658,7 @@ STR `file_type`(STR pathname)
 
 This is implemented using stat().
 
-**`file_chmod`**
+**Function: `file_chmod`**
 
 file_chmod -- Attempts to set mode of a file using mode as an octal string of exactly three characters.
 
@@ -3709,13 +3739,15 @@ If player is not the object number of a player object with a currently-active co
 
 notify -- enqueues string for output (on a line by itself) on the connection conn
 
-none `notify` (obj conn, str string [, no-flush])
+none `notify` (obj conn, str string [, INT no-flush [, INT suppress-newline])
 
 If the programmer is not conn or a wizard, then `E_PERM` is raised. If conn is not a currently-active connection, then this function does nothing. Output is normally written to connections only between tasks, not during execution.
 
 The server will not queue an arbitrary amount of output for a connection; the `MAX_QUEUED_OUTPUT` compilation option (in `options.h`) controls the limit. When an attempt is made to enqueue output that would take the server over its limit, it first tries to write as much output as possible to the connection without having to wait for the other end. If that doesn't result in the new output being able to fit in the queue, the server starts throwing away the oldest lines in the queue until the new ouput will fit. The server remembers how many lines of output it has 'flushed' in this way and, when next it can succeed in writing anything to the connection, it first writes a line like `>> Network buffer overflow: X lines of output to you have been lost <<` where X is the number of flushed lines.
 
 If no-flush is provided and true, then `notify()` never flushes any output from the queue; instead it immediately returns false. `Notify()` otherwise always returns true.
+
+If suppress-newline is provided and true, then `notify()` does not add a newline add the end of the string.
 
 **Function: `buffered_output_length`**
 
@@ -4227,14 +4259,17 @@ If value is of type `ERR`, it will be raised, rather than returned, in the suspe
 queue_info -- if player is omitted, returns a list of object numbers naming all players that currently have active task queues inside the server
 
 list `queue_info` ([obj player])
+map `queue_info` ([obj player])
 
 If player is provided, returns the number of background tasks currently queued for that user. It is guaranteed that `queue_info(X)` will return zero for any X not in the result of `queue_info()`.
+
+If the caller is a wizard a map of debug information about task queues will be returned.
 
 **Function: `queued_tasks`**
 
 queued_tasks -- returns information on each of the background tasks (i.e., forked, suspended or reading) owned by the programmer (or, if the programmer is a wizard, all queued tasks)
 
-list `queued_tasks` ()
+list `queued_tasks` ([INT show-runtime [, INT count-only])
 
 The returned value is a list of lists, each of which encodes certain information about a particular queued task in the following format:
 
@@ -4246,7 +4281,9 @@ where task-id is an integer identifier for this queued task, start-time is the t
 
 The x and y fields are now obsolete and are retained only for backward-compatibility reasons. They may be reused for new purposes in some future version of the server.
 
-The task-size variable was introduced in version 1.8.3.
+If `show-runtime` is true, all variables present in the task are presented in a map with the variable name as the key and its value as the value.     
+
+If `count-only` is true, then only the number of tasks is returned. This is significantly more performant than length(queued_tasks()).
 
 > Warning: If you are upgrading to ToastStunt from a version of LambdaMOO prior to 1.8.1 you will need to dump your database, reboot into LambdaMOO emergency mode, and kill all your queued_tasks() before dumping the DB again. Otherwise, your DB will not boot into ToastStunt.
 
@@ -4284,9 +4321,13 @@ The first element of the list returned by `callers()` gives information on the v
 
 task_stack -- returns information like that returned by the `callers()` function, but for the suspended task with the given task-id; the include-line-numbers argument has the same meaning as in `callers()`
 
-list `task_stack` (int task-id [, include-line-numbers])
+list `task_stack` (int task-id [, INT include-line-numbers [, INT include-variables])
 
 Raises `E_INVARG` if task-id does not specify an existing suspended task and `E_PERM` if the programmer is neither a wizard nor the owner of the specified task.
+
+If include-line-numbers is passed and true, line numbers will be included.
+
+If include-variables is passed and true, variables will be included with each frame of the provided task.
 
 ##### Administrative Operations
 
@@ -4688,9 +4729,9 @@ The server maintains the entire MOO database in main memory, not on disk. It is 
 
 //TODO: is the date here still true in 64bit time?
 
-To determine how often to make these _checkpoints_ of the database, the server consults the value of `#0.dump_interval`. If it exists and its value is an integer greater than or equal to 60, then it is taken as the number of seconds to wait between checkpoints; otherwise, the server makes a new checkpoint every 3600 seconds (one hour). If the value of `#0.dump_interval` implies that the next checkpoint should be scheduled at a time after 3:14:07 a.m. on Tuesday, January 19, 2038, then the server instead uses the default value of 3600 seconds in the future.
+To determine how often to make these _checkpoints_ of the database, the server consults the value of `$server_options.dump_interval`. If it exists and its value is an integer greater than or equal to 60, then it is taken as the number of seconds to wait between checkpoints; otherwise, the server makes a new checkpoint every 3600 seconds (one hour). If the value of `$server_options.dump_interval` implies that the next checkpoint should be scheduled at a time after 3:14:07 a.m. on Tuesday, January 19, 2038, then the server instead uses the default value of 3600 seconds in the future.
 
-The decision about how long to wait between checkpoints is made again immediately after each one begins. Thus, changes to `#0.dump_interval` will take effect after the next checkpoint happens.
+The decision about how long to wait between checkpoints is made again immediately after each one begins. Thus, changes to `$server_options.dump_interval` will take effect after the next checkpoint happens.
 
 Whenever the server begins to make a checkpoint, it makes the following verb call:
 
@@ -4809,7 +4850,7 @@ will result in a call to $do_command() provided that verb exists and is executab
 
 ### The First Tasks Run By the Server
 
-Whenever the server is booted, there are a few tasks it runs right at the beginning, before accepting connections or getting the value of $dump_interval to schedule the first checkpoint (see below for more information on checkpoint scheduling).
+Whenever the server is booted, there are a few tasks it runs right at the beginning, before accepting connections or getting the value of $server_optoins.dump_interval to schedule the first checkpoint (see below for more information on checkpoint scheduling).
 
 First, the server calls $do_start_script() and passes in script content via the args built-in variable. The script content is specified on the command line when the server is started. The server can call this verb multiple times, once each for the -c and -f command line arguments.
 
