@@ -2,12 +2,25 @@
 
 ## [1.1.2] - 2022.01.02 2:26PM
 
-* Integrated all of FileIO documentation into ToastStunt guide
+* Integrated all of FileIO documentation into ToastStunt guide into Operations on Files section
 * Added in new ToastStunt file_grep, file_count_lines, and file_handlers builtins
 * Updated WAIF documentation
 * Added in Perl Regular Expressions Section
 * Updated ordering of TOC
 * Added info on user friendly tracebacks
+* Updated queue_info builtin
+* Added last_move prop to list of props on objects
+* Added Operations on Bools section
+* Updated formatting on a bunch of builtins to make uniform
+* Updated move() builtin
+* Updated notify() builtin
+* Updated queued_tasks() builtin
+* Updated task_stack() builtin
+* Updated section previously referring to $dump_interval to $server_options.dump_interval
+* Add info about ToastStunt setting $maxint and $minint
+* Added example @display of WAIF
+* Added info on WAIFs & Map Style WAIF accessing
+* 
 
 ## [1.1.1] - 2022.01.01 10:17pm
 

@@ -4850,7 +4850,7 @@ will result in a call to $do_command() provided that verb exists and is executab
 
 ### The First Tasks Run By the Server
 
-Whenever the server is booted, there are a few tasks it runs right at the beginning, before accepting connections or getting the value of $server_optoins.dump_interval to schedule the first checkpoint (see below for more information on checkpoint scheduling).
+Whenever the server is booted, there are a few tasks it runs right at the beginning, before accepting connections or getting the value of $server_options.dump_interval to schedule the first checkpoint (see below for more information on checkpoint scheduling).
 
 First, the server calls $do_start_script() and passes in script content via the args built-in variable. The script content is specified on the command line when the server is started. The server can call this verb multiple times, once each for the -c and -f command line arguments.
 
