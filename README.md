@@ -6,6 +6,7 @@ Table of Contents
 * [Introduction](#introduction)
 * [Local Setup](#local-setup)
 * [Contents](#contents) 
+    * [ToastStunt Programmer's Manual]](#toaststunt-programmers-manual)
     * [Lambda MOO Programmer's Manual \[Updated\]](#lambda-moo-programmers-manual-updated)
     * [Learn MOO Programming Videos](#learn-moo-programming-videos)
     * [Yib's Pet Rock](#yibs-pet-rock)
@@ -51,6 +52,11 @@ html2md -i ./foo.html -o out.md
 
 ## Contents
 There are two versions of each document in this repository. One is a markdown copy located in [/tutorials](/tutorials) which is accessible on GitHub and one is an HTML version located in [/tutorials/src](/tutorials/src).
+
+### ToastStunt Programmer's Manual
+This is an updated Programmer's Manual for ToastStunt (the most cutting edge fork of LambdaMOO). It is a fork of the updated LambdaMOO Manual (see below) which incorpoates the original manual and Todd Sundsted's Stunt updates with regular updates as new features are released for ToastStunt.
+
+[ToastStunt Programmer's Manual](/tutorials/toaststunt-programmers-guide.md)
 
 ### Lambda MOO Programmer's Manual [Updated]
 This LambdaMOO Programmer's Manual is an **updated an expanded version** of the *LambdaMOO Programmer's Manual* originally written by Pavel Curtis. Some pretty extensive work has gone into formatting it, and updating the content.
