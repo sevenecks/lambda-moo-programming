@@ -91,8 +91,8 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
       - [General Operations Applicable to all Values](#general-operations-applicable-to-all-values)
       - [Operations on Numbers](#operations-on-numbers)
       - [Operations on Strings](#operations-on-strings)
-      - [Perl Compatible Regular Expressions (PCRE)](#perl-compatible-regular-expressions--pcre)
-      - [MOO Regular Expressions (Legacy)](#moo-regular-expressions--legacy-)
+      - [Perl Compatible Regular Expressions](#perl-compatible-regular-expressions)
+      - [Leagcy MOO Regular Expressions](#legacy-moo-regular-expressions)
       - [Operations on Lists](#operations-on-lists)
       - [Operations on Maps](#operations-on-maps)
     + [Manipulating Objects](#manipulating-objects)
@@ -2539,7 +2539,7 @@ The replacements list is always nine items long, each item itself being a list o
 rmatch("foobar", "o*b")      =>  {4, 4, {{0, -1}, ...}, "foobar"}
 ```
 
-##### Perl Compatible Regular Expressions - PCRE
+##### Perl Compatible Regular Expressions
 
 ToastStunt has two methods of operating on regular expressions. The classic style (outdated, more difficult to use, detailed in the next section) and the preferred Perl Compatible Regular Expression library. It is beyond the scope of this document to teach regular expressions, but an internet search should provide all the information you need to get started on what will surely become a lifelong journey of either love or frustration.
 
@@ -2547,7 +2547,7 @@ ToastCore offers two primary methods of interacting with regular expressions.
 
 **`pcre_match`**
 
-pcre_match -- The function `pcre_match()' searches `subject` for `pattern` using the Perl Compatible Regular Expressions library. 
+pcre_match -- The function `pcre_match()` searches `subject` for `pattern` using the Perl Compatible Regular Expressions library. 
 
 LIST `pcre_match`(STR subject, STR pattern [, ?case matters=0] [, ?repeat until no matches=1])
 
@@ -2577,7 +2577,7 @@ Explode a string (albeit a contrived example):
 
 **`pcre_replace`**
 
-pcre_replace -- The function `pcre_replace()' replaces `subject` with replacements found in `pattern` using the Perl Compatible Regular Expressions library.
+pcre_replace -- The function `pcre_replace()` replaces `subject` with replacements found in `pattern` using the Perl Compatible Regular Expressions library.
 
 STR `pcre_replace` (STR `subject`, STR `pattern`)
 
@@ -2610,7 +2610,8 @@ pcre_replace("Unix, wow! /bin/bash is a thing.", "s!/bin/bash!/bin/fish!g")
 
 => "Unix, wow! /bin/fish is a thing."
 ```
-##### MOO Regular Expressions (Legacy)
+
+##### Legacy MOO Regular Expressions
 
 _Regular expression_ matching allows you to test whether a string fits into a specific syntactic shape. You can also search a string for a substring that fits a pattern.
 
