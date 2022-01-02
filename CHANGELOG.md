@@ -3,6 +3,11 @@
 ## [1.1.2] - 2022.01.02 2:26PM
 
 * Integrated all of FileIO documentation into ToastStunt guide
+* Added in new ToastStunt file_grep, file_count_lines, and file_handlers builtins
+* Updated WAIF documentation
+* Added in Perl Regular Expressions Section
+* Updated ordering of TOC
+* Added info on user friendly tracebacks
 
 ## [1.1.1] - 2022.01.01 10:17pm
 

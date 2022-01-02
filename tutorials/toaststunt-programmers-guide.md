@@ -22,7 +22,7 @@ Portions adapted from the [Stunt Programmers Manual](http://stunt.io/Programmers
 
 Portions adapated from the [WAIF documentation](http://ben.com/MOO/waif.html) and [WAIF Programmers Manual](http://ben.com/MOO/waif-progman.html) by Ben Jackson.
 
-Hard forked for ToastStunt April, 2021 ([CHANGE LOG](https://github.com/SevenEcks/lambda-moo-programming/blob/master/CHANGELOG.md)):
+([CHANGE LOG](https://github.com/SevenEcks/lambda-moo-programming/blob/master/CHANGELOG.md)):
 
 Permission is granted to make and distribute verbatim copies of this manual provided the copyright notice and this permission notice are preserved on all copies.
 
@@ -208,6 +208,8 @@ There are only a few kinds of values that MOO programs can manipulate:
 
 ToastStunt supports 64 bit integers, but it can also be configured to support 32 bit. In MOO programs, integers are written just as you see them here, an optional minus sign followed by a non-empty sequence of decimal digits. In particular, you may not put commas, periods, or spaces in the middle of large integers, as we sometimes do in English and other natural languages (e.g. 2,147,483,647).
 
+> Note: The value $maxint and $minint define in the server the maximum integers support. These are set automatically with ToastCore. If you are migrating from LambdaMOO it is still a good idea to check that these numbers are being set properly.
+
 #### Real Number Type
 
 Real numbers in MOO are represented as they are in almost all other programming languages, using so-called _floating-point_ numbers. These have certain (large) limits on size and precision that make them useful for a wide range of applications. Floating-point numbers are written with an optional minus sign followed by a non-empty sequence of digits punctuated at some point with a decimal point '.' and/or followed by a scientific-notation marker (the letter 'E' or 'e' followed by an optional sign and one or more digits). Here are some examples of floating-point numbers:
@@ -297,7 +299,8 @@ false == -43 evaluates to false
 #### WAIF Type
 _WAIFs_ are lightweight objects. A WAIF is a value which you can store in a property or a variable or inside a LIST or another WAIF. A WAIF is smaller in size (measured in bytes) than a regular object, and it is faster to create and destroy. It is also reference counted, which means it is destroyed automatically when it is no longer in use. An empty WAIF is 72 bytes, empty list is 64 bytes. A WAIF will always be 8 bytes larger than a LIST (on 64bit, 4 bytes on 32bit) with the same values in it. 
 
-TODO: Confirm this 4 bytes number on a WAIF v List in toast
+> Note: WAIFs are not truly objects and don't really function like one. You can't manipulate a WAIF without basically recreating a normal object (and then what's the point?). It may be better to think of a WAIF as another data type. It's closer to being a list than it is to being an object. But that's semantics, really.
+
 WAIFs are smaller than typical objects, and faster to create. A WAIF has two builtin OBJ properties, .class and .owner. A WAIF is only ever going to be 4 bytes larger than a LIST with the same values.
 
 OBJs grow by value_bytes(value) - value_bytes(0) for every propery you set (that is, every property which becomes non-clear and takes on its own value distinct from the parent). LISTs and WAIFs both grow by value_bytes(value) for each new list element (in a LIST) or each property you set (in a WAIF). So a WAIF is never more than 4 bytes larger than a LIST which holds the same values, except WAIFs give each value a name (property name) but LISTs only give them numbers.
@@ -1801,6 +1804,35 @@ return seek_obj in list_of_objects;
 
 #### Handling Errors in Statements
 
+A traceback is raised when there is an error in the execution of code (this differs from a compilation error you might see when programming a verb).
+
+Examples to cause tracebacks:
+
+```
+;notify(5)
+
+#-1:Input to EVAL (this == #-1), line 3:  Incorrect number of arguments (expected 2-4; got 1)
+... called from built-in function eval()
+... called from #58:eval_cmd_string, line 19
+... called from #58:eval*-d, line 13
+(End of traceback)
+```
+
+And another example:
+```
+;notify(me, 5)
+
+#-1:Input to EVAL (this == #-1), line 3:  Type mismatch (args[1] of notify() expected object; got integer)
+... called from built-in function eval()
+... called from #58:eval_cmd_string, line 19
+... called from #58:eval*-d, line 13
+(End of traceback)
+```
+
+As you can see in the above examples, ToastStunt will tell you the line number of the error, as well as some additional information about the error, including the exepcted number of arguments and the type. This will also work when you are catching errors in a try/except statement (detailed below).
+
+Additional, you will also be shown {object, verb / property name} when you try to access a verb or property that was not found.
+
 Normally, whenever a piece of MOO code raises an error, the entire task is aborted and a message printed to the user. Often, such errors can be anticipated in advance by the programmer and code written to deal with them in a more graceful manner. The `try`-`except` statement allows you to do this; the syntax is as follows:
 
 ```
@@ -3251,10 +3283,15 @@ There are several administrator-only builtins for manipulating files from inside
 
 Granting MOO code direct access to files opens a hole in the otherwise fairly good wall that the ToastStunt server puts up between the OS and the database.  The security is fairly well mitigated by restricting where files can be opened and allowing the builtins to be called by wizard permissions only. It is still possible execute various forms denial of service attacks, but the MOO server allows this form of attack as well.
 
-//TODO: confirm this
-> Warning: Depending on what Core you are using (ToastCore, LambdaMOO, etc) you may have a utility that acts as a wrapper around the FileIO code. This is the preferred method for dealing with files and directly using the built-ins is discouraged. On ToastCore you may have a $file object you can utilize.
+> Warning: Depending on what Core you are using (ToastCore, LambdaMOO, etc) you may have a utility that acts as a wrapper around the FileIO code. This is the preferred method for dealing with files and directly using the built-ins is discouraged. On ToastCore you may have a $file WAIF you can utilize for this purpose.
+
+> Warning: The FileIO code looks for a 'files' directory in the same directory as the MOO executable. This directory must exist for your code to work.
 
 > Note: More detailed information regarding the FileIO code can be found in the docs/FileioDocts.txt folder of the ToastStunt repo.
+
+The FileIO system has been updated in ToastCore and includes a number of enhancements over earlier LambdaMOO and Stunt versions.
+* Faster reading
+* Open as many files as you want, configurable with FILE_IO_MAX_FILES or $server_options.file_io_max_files
 
 **FileIO Error Handling**
 
@@ -3313,7 +3350,7 @@ The final character is either 'n' or 'f'.  If this character is 'f', whenever da
 
 This is implemented using fopen().
 
-**Function: `file_close`**
+**`file_close`**
 
 file_close -- Close a file 
 
@@ -3323,17 +3360,23 @@ Closes the file associated with fh.
 
 This is implemented using fclose().
 
-**Function: `file_name`**
+**`file_name`**
 
 file_name -- Returns the pathname originally associated with fh by file_open().  This is not necessarily the file's current name if it was renamed or unlinked after the fh was opened.
 
 STR `file_name`(FHANDLE fh)
 
-**Function: `file_openmode`**
+**`file_openmode`**
 
 file_open_mode -- Returns the mode the file associated with fh was opened in.
 
 str `file_openmode`(FHANDLE fh)
+
+**`file_handles`**
+
+file_handles -- Return a list of open files
+
+LIST `file_handles` ()
 
 **Input and Output Operations**
 
@@ -3386,6 +3429,58 @@ int `file_write`(FHANDLE fh, STR data)
 Not recommended for use on files in text mode.
 
 This is implemented using fwrite().
+
+**`file_count_lines`**
+
+file_count_lines -- count the lines in a file
+
+INT `file_count_lines` (FHANDLER fh)
+
+**`file_grep`**
+
+file_grep -- search for a string in a file
+
+LIST `file_grep`(FHANDLER fh, STR search [,?match_all = 0])
+
+Assume we have a file `test.txt` with the contents:
+
+```
+asdf asdf 11
+11
+112
+```
+
+And we have an open file handler from running:
+
+```
+;file_open("test.txt", "r-tn")
+```
+
+If we were to execute a file grep:
+
+```
+;file_grep(1, "11")
+```
+
+We would get the first result:
+
+```
+{{"asdf asdf 11", 1}}
+```
+
+The resulting LIST is of the form {{STR match, INT line-number}}
+
+If you pass in the optional third argument
+
+```
+;file_grep(1, "11", 1)
+```
+
+we will receive all the matching results:
+
+```
+{{"asdf asdf 11", 1}, {"11", 2}, {"112", 3}}
+```
 
 **Getting and setting stream position**
 
@@ -4293,8 +4388,6 @@ though this may change in future server releases. The cache is invalidated by an
 
 ### Working with WAIFs
 
-TODO: ensure the headers in this section are in the table of contents
-
 > ToastStunt WAIFs are not the same as LambdaMOO WAIFs. The server executable has a -w option for converting LambdaMOO style WAIFs to the new style
 
 The MOO object structure is unique in that all classes are instances and all instances are (potentially) classes. This means that instances carry a lot of baggage that is only useful in the event that they become classes. Also, every object comes with a set of builtin properties and attributes which are primarily useful for building VR things. My idea of a lightweight object is something which is exclusively an instance. It lacks many of the things that "real MOO objects" have for their roles as classes and VR objects:
@@ -4329,7 +4422,8 @@ A WAIF's properties and behavior are a hybrid of several existing MOO types. It 
 - WAIFs can't change class or ownership.
 - The only builtin properties of a WAIF are .owner and .class.
 - WAIFs do not participate in the .location/.contents hierarchy, as manipulated by move(). A WAIF class could define these properties, however (as described below).
--  WAIFs do not have OBJ flags such as .r or .wizard.
+- WAIFs do not have OBJ flags such as .r or .wizard.
+- WAIFs can be stored in MAPs
 
 #### The WAIF Verb and Property Namespace
 
@@ -4348,7 +4442,10 @@ In the case of +c properties, the WAIF owner is considered to be the property ow
 In ToastCore you will find a corified reference of `$waif` which is pre-configured for you to begin creating WAIFs or Generic OBJs that you can then use to create WAIFs with. Here's @display output for the skeletal $waif:
 
 ```
+Generic Waif (#118) [ ]
 TODO: add toastcore @display $waif
+  Child of Root Class (#1).
+  Size: 7,311 bytes at Sun Jan  2 10:37:09 2022 PST
 ```
 
 This MOO OBJ `$waif` defines a verb `new` which is just like the verbs you're already familiar with. In this case, it creates a new WAIF:
@@ -4368,13 +4465,32 @@ The generic waif is fertile (`$waif.f == 1`) so that new waif classes can be der
 
 There is no string format for a WAIF. `tostr()` just returns {waif}. `toliteral()` currently returns some more information, but it's just for debugging purposes. There is no towaif(). If you want to refer to a WAIF you have to read it directly from a variable or a property somewhere. If you cannot read it out of a property (or call a verb that returns it) you can't access it. There is no way to construct a WAIF reference from another type.
 
+**Map Style WAIF access**
+
+;me.waif["cheese"]
+That will call the :_index verb on the waif class with {"cheese"} as the arguments.
+
+;me.waif["cheese"] = 17
+This will call the :_set_index verb on the waif class with {"cheese", 17} as arguments.
+
+Originally this made it easy to implement maps into LambdaMOO, since you could just have your "map waif" store a list of keys and values and have the index verbs set and get data appropriately. Then you can use them just like the native map datatype that ToastCore has now.
+
+There are other uses, though, that make it still useful today. For example, ToastCore offers a file abstraction WAIF. One of the things you can do is:
+
+```
+file = $file:open("thing.txt");
+return file[5..19];
+```
+
+That uses :_index to parse '5..19' and ultimately pass it off to file_readlines() to return those lines. Very convenient.
+
 #### Additional Details on WAIFs
 
 * When a WAIF is destroyed the MOO will Call the `recycle` verb on the WAIF, if it exists.
 * A WAIF has its own type so you can do: `typeof(some_waif) == WAIF)``
-* TODO: Waif dict patch (so waif[x] and waif[x] = y will call the :_index and :_set_index verbs on the WAIF)
+* waif[x] and waif[x] = y will call the :_index and :_set_index verbs on the WAIF
 * The waif_stats() built-in will show how many instances of each class of WAIF exist, how many WAIFs are pending recycling, and how many WAIFs in total exist
-* TODO: Parser recognition for waif properties (e.g. thing.:property)
+* You can access WAIF properties using `mywaif.:waif_property_name`
 
 ### Server Commands and Database Assumptions
 
