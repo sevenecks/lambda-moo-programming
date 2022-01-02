@@ -3192,13 +3192,16 @@ Granting MOO code direct access to files opens a hole in the otherwise fairly go
 
 Errors are always handled by raising some kind of exception. The following exceptions are defined:
 
-E_FILE
+`E_FILE`
+
 This is raised when a stdio call returned an error value. CODE is set to E_FILE, MSG is set to the return of strerror() (which may vary from system to system), and VALUE depends on which function raised the error.  When a function fails because the stdio function returned EOF, VALUE is set to "EOF".
 
-E_INVARG
+`E_INVARG`
+
 This is raised for a number of reasons.  The common reasons are an invalid FHANDLE being passed to a function and an invalid pathname specification.  In each of these cases MSG will be set to the cause and VALUE will be the offending value.
 
-E_PERM
+`E_PERM`
+
 This is raised when any of these functions are called with non- wizardly permissions.
 
 **General Functions**
@@ -3280,7 +3283,7 @@ This is implemented using fgetc().
 
 file_readlines -- Rewinds the file and then reads the specified lines from the file, returning them as a list of strings.  After this operation, the stream is positioned right after the last line read.
 
-list `file_readlines(FHANDLE fh, INT start, INT end)
+list `file_readlines`(FHANDLE fh, INT start, INT end)
 
 Not recommended for use on files in binary mode.
 
@@ -3334,15 +3337,12 @@ void `file_seek`(FHANDLE fh, INT loc, STR whence)
 
 whence is one of the strings:
 
-o  "SEEK_SET" - seek to location relative to beginning
-
-o  "SEEK_CUR" - seek to location relative to current
-
-o  "SEEK_END" - seek to location relative to end
+* "SEEK_SET" - seek to location relative to beginning
+* "SEEK_CUR" - seek to location relative to current
+* "SEEK_END" - seek to location relative to end
 
 This is implemented using fseek().
 
-Function: INT file_eof(FHANDLE fh)
 **`file_eof`**
 
 file_eof -- Returns true if and only if fh's stream is positioned at EOF.
@@ -3354,18 +3354,29 @@ This is implemented using feof().
 **Housekeeping operations**
 
 **`file_size`**
+
 **`file_last_access`**
+
 **`file_last_modify`**
+
 **`file_last_change`**
+
 **`file_size`**
 
 int `file_size`(STR pathname)
+
 int `file_last_access`(STR pathname)
+
 int `file_last_modify`(STR pathname)
+
 int `file_last_change`(STR pathname)
+
 int `file_size`(FHANDLE filehandle)
+
 int `file_last_access`(FHANDLE filehandle)
+
 int `file_last_modify`(FHANDLE filehandle)
+
 int `file_last_change`(FHANDLE filehandle)
 
 Returns the size, last access time, last modify time, or last change time of the specified file.   All of these functions also take FHANDLE arguments and then operate on the open file.
@@ -3438,7 +3449,7 @@ Returns a list of files in the directory.  If the detailed argument is provided 
 
 detailed entry:
 
-{STR filename, STR file type, STR file mode, INT file size}
+`{STR filename, STR file type, STR file mode, INT file size}`
 
 normal entry:
 
