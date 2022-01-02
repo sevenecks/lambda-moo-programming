@@ -4,11 +4,15 @@ by Pavel Curtis et al
 
 Copyright © 1991, 1992, 1993, 1995, 1996 by Pavel Curtis.
 
+Copyright © 1996, 1997 by Ken Fox
+
+Copyright © 1997 by Andy Bakun
+
 Copyright © 1997 by Erik Ostrom.
 
 Copyright © 2004 by Roger F. Crew.
 
-Copyright © 2011, 2012, 2013 by Todd Sundsted.
+Copyright © 2011, 2012, 2013 by Todd Sundsted
 
 Copyright © 2017, 2018, 2019, 2020, 2022 by [Brendan Butts](http://github.com/sevenecks).
 
@@ -3171,6 +3175,291 @@ If object is not valid, `E_INVARG` is raised. If the programmer is not a wizard,
 If value is true, then object gains (or keeps) "player object" status: it will be an element of the list returned by `players()`, the expression `is_player(object)` will return true, and the server will treat a call to `$do_login_command()` that returns object as logging in the current connection.
 
 If value is false, the object loses (or continues to lack) "player object" status: it will not be an element of the list returned by `players()`, the expression `is_player(object)` will return false, and users cannot connect to object by name when they log into the server. In addition, if a user is connected to object at the time that it loses "player object" status, then that connection is immediately broken, just as if `boot_player(object)` had been called (see the description of `boot_player()` below).
+
+##### Operations on Files
+
+There are several administrator-only builtins for manipulating files from inside the MOO.  Security is enforced by making these builtins executable with wizard permissions only as well as only allowing access to a directory under the current directory (the one the server is running in). The new builtins are structured similarly to the stdio library for C. This allows MOO-code to perform stream-oriented I/O to files.
+
+Granting MOO code direct access to files opens a hole in the otherwise fairly good wall that the ToastStunt server puts up between the OS and the database.  The security is fairly well mitigated by restricting where files can be opened and allowing the builtins to be called by wizard permissions only. It is still possible execute various forms denial of service attacks, but the MOO server allows this form of attack as well.
+
+//TODO: confirm this
+> Warning: Depending on what Core you are using (ToastCore, LambdaMOO, etc) you may have a utility that acts as a wrapper around the FileIO code. This is the preferred method for dealing with files and directly using the built-ins is discouraged. On ToastCore you may have a $file object you can utilize.
+
+> Note: More detailed information regarding the FileIO code can be found in the docs/FileioDocts.txt folder of the ToastStunt repo.
+
+**FileIO Error Handling**
+
+Errors are always handled by raising some kind of exception. The following exceptions are defined:
+
+E_FILE
+This is raised when a stdio call returned an error value. CODE is set to E_FILE, MSG is set to the return of strerror() (which may vary from system to system), and VALUE depends on which function raised the error.  When a function fails because the stdio function returned EOF, VALUE is set to "EOF".
+
+E_INVARG
+This is raised for a number of reasons.  The common reasons are an invalid FHANDLE being passed to a function and an invalid pathname specification.  In each of these cases MSG will be set to the cause and VALUE will be the offending value.
+
+E_PERM
+This is raised when any of these functions are called with non- wizardly permissions.
+
+**General Functions**
+
+**Function: `file_version`**
+
+file_version -- Returns the package shortname/version number of this package e.g.
+
+str `file_version`()
+
+`file_version() => "FIO/1.7"`
+
+**Opening and closing of files and related functions**
+
+File streams are associated with FHANDLES.  FHANDLES are similar to the FILE\* using stdio.  You get an FHANDLE from file_open.  You should not depend on the actual type of FHANDLEs (currently TYPE_INT).  FHANDLEs are not persistent across server restarts.  That is, files open when the server is shut down are closed when it comes back up and no information about open files is saved in the DB.
+
+**Function: `file_open`**
+
+file_open -- Open a file 
+
+FHANDLE `file_open`(STR pathname, STR mode)
+
+Raises: E_INVARG if mode is not a valid mode, E_QUOTA if too many files are open.
+
+This opens a file specified by pathname and returns an FHANDLE for it.  It ensures pathname is legal.  Mode is a string of characters indicating what mode the file is opened in. The mode string is four characters.
+
+The first character must be (r)ead, (w)rite, or (a)ppend.  The second must be '+' or '-'.  This modifies the previous argument.
+
+* r- opens the file for reading and fails if the file does not exist.
+* r+ opens the file for reading and writing and fails if the file does not exist.
+* w- opens the file for writing, truncating if it exists and creating if not.
+* w+ opens the file for reading and writing, truncating if it exists and creating if not.
+* a- opens a file for writing, creates it if it does not exist and positions the stream at the end of the file.
+* a+ opens the file for reading and writing, creates it if does not exist and positions the stream at the end of the file.
+
+The third character is either (t)ext or (b)inary.  In text mode, data is written as-is from the MOO and data read in by the MOO is stripped of unprintable characters.  In binary mode, data is written filtered through the binary-string->raw-bytes conversion and data is read filtered through the raw-bytes->binary-string conversion.  For example, in text mode writing " 1B" means three bytes are written: ' ' Similarly, in text mode reading " 1B" means the characters ' ' '1' 'B' were present in the file.  In binary mode reading " 1B" means an ASCII ESC was in the file.  In text mode, reading an ESC from a file results in the ESC getting stripped.
+
+It is not recommended that files containing unprintable ASCII  data be read in text mode, for obvious reasons.
+
+The final character is either 'n' or 'f'.  If this character is 'f', whenever data is written to the file, the MOO will force it to finish writing to the physical disk before returning.  If it is 'n' then this won't happen.
+
+This is implemented using fopen().
+
+**Function: `file_close`**
+
+file_close -- Close a file 
+
+void `file_close`(FHANDLE fh)
+
+Closes the file associated with fh.
+
+This is implemented using fclose().
+
+**Function: `file_name`**
+
+file_name -- Returns the pathname originally associated with fh by file_open().  This is not necessarily the file's current name if it was renamed or unlinked after the fh was opened.
+
+STR `file_name`(FHANDLE fh)
+
+**Function: `file_openmode`**
+
+file_open_mode -- Returns the mode the file associated with fh was opened in.
+
+str `file_openmode`(FHANDLE fh)
+
+**Input and Output Operations**
+
+**`file_readline`**
+
+file_readline -- Reads the next line in the file and returns it (without the newline).  
+
+str `file_readline`(FHANDLE fh)
+
+Not recommended for use on files in binary mode.
+
+This is implemented using fgetc().
+
+**`file_readlines`**
+
+file_readlines -- Rewinds the file and then reads the specified lines from the file, returning them as a list of strings.  After this operation, the stream is positioned right after the last line read.
+
+list `file_readlines(FHANDLE fh, INT start, INT end)
+
+Not recommended for use on files in binary mode.
+
+This is implemented using fgetc().
+
+**`file_writeline`**
+
+file_writeline -- Writes the specified line to the file (adding a newline).
+
+void `file_writeline`(FHANDLE fh, STR line)
+
+Not recommended for use on files in binary mode.
+
+This is implemented using fputs()
+
+**`file_read`**
+
+file_read -- Reads up to the specified number of bytes from the file and returns them.
+
+str `file_read`(FHANDLE fh, INT bytes)
+
+Not recommended for use on files in text mode.
+
+This is implemented using fread().
+
+**`file_write`**
+
+file_write -- Writes the specified data to the file. Returns number of bytes written.
+
+int `file_write`(FHANDLE fh, STR data)
+
+Not recommended for use on files in text mode.
+
+This is implemented using fwrite().
+
+**Getting and setting stream position**
+
+**`file_tell`**
+
+file_tell -- Returns position in file.
+
+INT `file_tell`(FHANDLE fh)
+
+This is implemented using ftell().
+
+**`file_seek`**
+
+file_seek -- Seeks to a particular location in a file.  
+
+void `file_seek`(FHANDLE fh, INT loc, STR whence)
+
+whence is one of the strings:
+
+o  "SEEK_SET" - seek to location relative to beginning
+
+o  "SEEK_CUR" - seek to location relative to current
+
+o  "SEEK_END" - seek to location relative to end
+
+This is implemented using fseek().
+
+Function: INT file_eof(FHANDLE fh)
+**`file_eof`**
+
+file_eof -- Returns true if and only if fh's stream is positioned at EOF.
+
+int `file_eof`(FHANDLE fh)
+
+This is implemented using feof().
+
+**Housekeeping operations**
+
+**`file_size`**
+**`file_last_access`**
+**`file_last_modify`**
+**`file_last_change`**
+**`file_size`**
+
+int `file_size`(STR pathname)
+int `file_last_access`(STR pathname)
+int `file_last_modify`(STR pathname)
+int `file_last_change`(STR pathname)
+int `file_size`(FHANDLE filehandle)
+int `file_last_access`(FHANDLE filehandle)
+int `file_last_modify`(FHANDLE filehandle)
+int `file_last_change`(FHANDLE filehandle)
+
+Returns the size, last access time, last modify time, or last change time of the specified file.   All of these functions also take FHANDLE arguments and then operate on the open file.
+
+**`file_mode`**
+
+int `file_mode`(STR filename)
+
+int `file_mode`(FHANDLE fh)
+
+Returns octal mode for a file (e.g. "644").
+
+This is implemented using stat().
+
+**file_stat**
+
+void `file_stat`(STR pathname)
+
+void `file_stat`(FHANDLE fh)
+
+Returns the result of stat() (or fstat()) on the given file.
+
+Specifically a list as follows:
+
+`{file size in bytes, file type, file access mode, owner, group, last access, last modify, and last change}`
+
+owner and group are always the empty string.
+
+It is recommended that the specific information functions file_size, file_type, file_mode, file_last_access, file_last_modify, and file_last_change be used instead.  In most cases only one of these elements is desired and in those cases there's no reason to make and free a list.
+
+**`file_rename`**
+
+file_rename - Attempts to rename the oldpath to newpath.
+
+void `file_rename`(STR oldpath, STR newpath)
+
+This is implemented using rename().
+
+**file_remove**
+
+file_remove -- Attempts to remove the given file.
+ 
+void `file_remove`(STR pathname)
+
+This is implemented using remove().
+
+**`file_mkdir`**
+
+file_mkdir -- Attempts to create the given directory.
+
+void `file_mkdir`(STR pathname)
+
+This is implemented using mkdir().
+
+**`file_rmdir`**
+
+file_rmdir -- Attempts to remove the given directory.
+
+void `file_rmdir`(STR pathname)
+
+This is implemented using rmdir().
+
+**`file_list`**
+
+file_list -- Attempts to list the contents of the given directory.
+
+LIST `file_list`(STR pathname, [ANY detailed])
+
+Returns a list of files in the directory.  If the detailed argument is provided and true, then the list contains detailed entries, otherwise it contains a simple list of names.
+
+detailed entry:
+
+{STR filename, STR file type, STR file mode, INT file size}
+
+normal entry:
+
+STR filename
+
+This is implemented using scandir().
+
+**`file_type`**
+
+file_type -- Returns the type of the given pathname, one of "reg", "dir", "dev", "fifo", or "socket".
+
+STR `file_type`(STR pathname)
+
+This is implemented using stat().
+
+**`file_chmod`**
+
+file_chmod -- Attempts to set mode of a file using mode as an octal string of exactly three characters.
+
+void `file_chmod`(STR filename, STR mode)
+
+This is implemented using chmod().
 
 ##### Operations on The Server Environment
 
