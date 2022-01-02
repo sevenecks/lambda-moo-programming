@@ -2841,7 +2841,7 @@ none `recycle` (obj object)
 
 The given object is destroyed, irrevocably. The programmer must either own object or be a wizard; otherwise, `E_PERM` is raised. If object is not valid, then `E_INVARG` is raised. The children of object are reparented to the parent of object. Before object is recycled, each object in its contents is moved to `#-1` (implying a call to object's `exitfunc` verb, if any) and then object's `recycle` verb, if any, is called with no arguments.
 
-After object is recycled, if the owner of the former object has a property named `ownership_quota` and the value of that property is a integer, then `recycle()` treats that value as a _quota_ and increments it by one, storing the result back into the `ownership_quota` property.>
+After object is recycled, if the owner of the former object has a property named `ownership_quota` and the value of that property is a integer, then `recycle()` treats that value as a _quota_ and increments it by one, storing the result back into the `ownership_quota` property.
 
 **Function: `object_bytes`**
 
@@ -4375,16 +4375,16 @@ Initial Arguments
 
 -l log-file-name
 
-    (Optional) This specifies a file name for the server log output. If no log file name is specified, log output is directed to stderr.
+(Optional) This specifies a file name for the server log output. If no log file name is specified, log output is directed to stderr.
 -e
 
-    (Optional) This specifies that, once the database is loaded, Emergency Wizard Mode will be entered before starting any tasks or doing the initial listen to accept connections.
+(Optional) This specifies that, once the database is loaded, Emergency Wizard Mode will be entered before starting any tasks or doing the initial listen to accept connections.
 -c script-line
 
-    (Optional) This specifies a script line to pass to the $do_start_script verb.
+(Optional) This specifies a script line to pass to the $do_start_script verb.
 -f script-file
 
-    (Optional) This specifies a script file to load and pass (the contents of) to the $do_start_script verb. 
+(Optional) This specifies a script file to load and pass (the contents of) to the $do_start_script verb. 
 
 For both the -c and -f arguments, the script content is passed in the args built-in variable. The server makes no assumptions about the semantics of the script; the interpretation of the script is the verb’s responsibility. Like Emergency Wizard Mode, the verb is called before starting any tasks or doing the initial listen to accept connections.
 
@@ -4393,10 +4393,10 @@ Database Arguments
 
 db-file-name
 
-    (Required) This should be an existing database file in the appropriate format, whether this be a checkpoint or dump file from a prior run of the server, or one of the many distributed database files in existence (e.g., the ‘Minimal.db’ file provided with the server source distribution).
+(Required) This should be an existing database file in the appropriate format, whether this be a checkpoint or dump file from a prior run of the server, or one of the many distributed database files in existence (e.g., the ‘Minimal.db’ file provided with the server source distribution).
 dump-db-file-name
 
-    (Required) This should indicate where to write checkpoint and final dump files. Note that the server does not immediately verify this path, i.e., there is no checking at startup that the file in question is actually writable; in fact, that the directory exists and is writable at the time the dump or checkpoint is attempted is all that really matters. 
+(Required) This should indicate where to write checkpoint and final dump files. Note that the server does not immediately verify this path, i.e., there is no checking at startup that the file in question is actually writable; in fact, that the directory exists and is writable at the time the dump or checkpoint is attempted is all that really matters. 
 
 Network Arguments
 
@@ -4404,28 +4404,28 @@ The particular set of network arguments available depends on which NETWORK_PROTO
 
 connect-file-name
 
-    (Optional) This specifies the pathname for the (UNIX domain) socket or named-pipe that will be used for connecting to the server. If no connect file name is specfied, the compiled-in value of DEFAULT_CONNECT_FILE is used. 
+(Optional) This specifies the pathname for the (UNIX domain) socket or named-pipe that will be used for connecting to the server. If no connect file name is specfied, the compiled-in value of DEFAULT_CONNECT_FILE is used. 
 
 For a server compiled for general TCP/IP connections (NP_TCP), we have
 
 -p port-number
 
-    (Optional) This specifies an initial port at which to listen for connections once the server successfully starts. If no port number is specfied, the compiled-in value of DEFAULT_PORT is used.
+(Optional) This specifies an initial port at which to listen for connections once the server successfully starts. If no port number is specfied, the compiled-in value of DEFAULT_PORT is used.
 
-    For the sake of backwards compatibility with prior server versions, the -p may be omitted.
+For the sake of backwards compatibility with prior server versions, the -p may be omitted.
 -a n.n.n.n
 
-    This specifies a local IP address to bind for all listening and all outgoing connection attempts. n.n.n.n must be a valid numeric IP address assigned to one of the local host’s network interfaces. If no specific IP address is specified, any listening (be this the initial listen implicit in server startup or any explicit listening invoked by the listen() function) will bind to all IP addresses on all available network interfaces; likewise outgoing connection attempts will use whatever address is available.
+This specifies a local IP address to bind for all listening and all outgoing connection attempts. n.n.n.n must be a valid numeric IP address assigned to one of the local host’s network interfaces. If no specific IP address is specified, any listening (be this the initial listen implicit in server startup or any explicit listening invoked by the listen() function) will bind to all IP addresses on all available network interfaces; likewise outgoing connection attempts will use whatever address is available.
 
-    This is how, on a host with multiple network interfaces, one makes the server be visible only on one of them. At present, there is no way to specify that the server should bind to a subset of of the available IP addresses having more than one address but less than the entire set available. However, if the operating system offers port-forwarding and network address translation facilities, one can likely use those to achieve a similar effect.
+This is how, on a host with multiple network interfaces, one makes the server be visible only on one of them. At present, there is no way to specify that the server should bind to a subset of of the available IP addresses having more than one address but less than the entire set available. However, if the operating system offers port-forwarding and network address translation facilities, one can likely use those to achieve a similar effect.
 
-    Note that even on hosts with only a single physical network interface, there will typically be multiple logical ones. One may, for example, specify the loopback address (usually 127.0.0.1), forcing the server to use the loopback interface for all connections, thus guaranteeing that only local connections, whether incoming or outgoing, will be possible (and thus acheiving most of the safety of NP_LOCAL or NP_SINGLE without needing specialized clients).
+Note that even on hosts with only a single physical network interface, there will typically be multiple logical ones. One may, for example, specify the loopback address (usually 127.0.0.1), forcing the server to use the loopback interface for all connections, thus guaranteeing that only local connections, whether incoming or outgoing, will be possible (and thus acheiving most of the safety of NP_LOCAL or NP_SINGLE without needing specialized clients).
 +O
 
-    Explicitly enables open_network_connection() but only if the server has been compiled to include support for this function (i.e., OUTBOUND_NETWORK has been #defined).
+Explicitly enables open_network_connection() but only if the server has been compiled to include support for this function (i.e., OUTBOUND_NETWORK has been #defined).
 -O
 
-    Explicitly disables open_network_connection(). Any calls to this function will raise E_PERM even if the server has been compiled to support it. 
+Explicitly disables open_network_connection(). Any calls to this function will raise E_PERM even if the server has been compiled to support it. 
 
 #### Emergency Wizard Mode
 Emergency Wizard Mode
@@ -4433,7 +4433,7 @@ Emergency Wizard Mode
 This is a mode that allows you to enter commands on standard input to examine objects or evaluate arbitrary code with wizard permissions in order to, e.g., blank out a forgotten wizard password or repair a database having a broken $do_login_command verb that otherwise would not allow anyone to connect.
 
 When you start the server and supply the -e command line option, the database will load and you will then see a prompt indicating the identity of the wizard whose permissions you are using and the current state of the debug flag, e.g., one of
- 	
+
 
 MOO (#2):
 MOO (#2)[!d]:
@@ -4445,38 +4445,38 @@ The following commands are available in Emergency Mode:
 ;expression
 ;;statements
 
-    Evaluate expression or statements, print the expression result or the statement return value.
+Evaluate expression or statements, print the expression result or the statement return value.
 
-    Note that expression or statement can be omitted, in which case you will be prompted for multiple lines of input, as for the .program command. Type a period on a line by itself to finish.
+Note that expression or statement can be omitted, in which case you will be prompted for multiple lines of input, as for the .program command. Type a period on a line by itself to finish.
 
-    Also note that no background code, whether resulting from fork statements or suspend() calls, will run until after the Emergency Mode is exited.
+Also note that no background code, whether resulting from fork statements or suspend() calls, will run until after the Emergency Mode is exited.
 program object:verb
 
-    Set the code of an existing verb.
+Set the code of an existing verb.
 list object:verb
 
-    List the code of an existing verb.
+List the code of an existing verb.
 disassemble object:verb
 
-    List the internal form of an existing verb.
+List the internal form of an existing verb.
 debug
 
-    Toggle the debug flag.
+Toggle the debug flag.
 wizard #objectid
 
-    Execute future commands as wizard #objectid, which must be an existing player object with ‘.wizard==1’.
+Execute future commands as wizard #objectid, which must be an existing player object with ‘.wizard==1’.
 continue
 
-    Exit the emergency mode, continuing with normal start-up. That is, the server will perform the initial listen and start accepting connections.
+Exit the emergency mode, continuing with normal start-up. That is, the server will perform the initial listen and start accepting connections.
 quit
 
-    Exit the emergency mode, save the database and shut down the server.
+Exit the emergency mode, save the database and shut down the server.
 abort
 
-    Exit the emergency mode, and shut down the server without saving the database. This is useful for if you make a mistake
+Exit the emergency mode, and shut down the server without saving the database. This is useful for if you make a mistake
 help
 
-    Print the list of commands. 
+Print the list of commands. 
 
 Note that output from wizard mode commands appears on the server’s standard output stream (stdout) and thus can be redirected independently of the log messages if those are being written to the standard error stream (stderr, i.e., if -l has not been specified on the command line).
 
