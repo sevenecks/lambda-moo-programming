@@ -26,13 +26,6 @@ Permission is granted to copy and distribute modified versions of this manual un
 
 Permission is granted to copy and distribute translations of this manual into another language, under the above conditions for modified versions, except that this permission notice may be stated in a translation approved by the author.
 
-TODO: Update this section
-
-## Versions of This Document
-
-* [GitHub Markdown Version](https://github.com/sevenecks/lambda-moo-programming/)
-* [Hosted HTML5 Version](https://www.sindome.org/moo-manual.html)
-
 For older versions of this document (or for pre-fork LambdaMOO version) please see the resources section.
 
 ## Table of Contents
