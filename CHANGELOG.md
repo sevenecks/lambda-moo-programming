@@ -1,5 +1,16 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.1.1] - 2022.01.01 10:17pm
+
+* Added beta version of ToastStunt Programmers Manual
+* Updated README.md
+* Updated ChangeLog
+* Removed a few files that were WIP for the ToastStunt manual
+
+## [1.1] - 2021.04.20 4:29pm
+
+* Added new fork on documentation for ToastStunt
+
 ## [1.0.2A] - 2020.07.20 6:29pm
 
 * Merged in a PR from stevenjowens that fixed formatting in their guide
