@@ -1,7 +1,20 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.1.3] - 2022.01.03 12:22PM
+
+TOAST STUNT PROGRAMMERS MANUAL
+* Added new section on Primitives
+* Updated is_member() builtin
+* added to $server_options: max_queued_output, dump_interval, proxy_rewrite, file_io_max_files, sqlite_max_handles, task_lag_threshold, finished_tasks_limit, no_name_lookup
+* added note on `load_server_options()`
+* added information on the + operator and list concatenation and addition
+* updated references to `connection_option()` to point to `connection_options()`
+* updated documentation for connection_options()
+* Updated TOC
+
 ## [1.1.2] - 2022.01.02 2:26PM
 
+TOAST STUNT PROGRAMMERS MANUAL
 * Integrated all of FileIO documentation into ToastStunt guide into Operations on Files section
 * Added in new ToastStunt file_grep, file_count_lines, and file_handlers builtins
 * Updated WAIF documentation

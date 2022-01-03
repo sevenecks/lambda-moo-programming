@@ -73,6 +73,7 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
     + [Operations on BOOLs](#operations-on-bools)
     + [Getting and Setting the Values of Properties](#getting-and-setting-the-values-of-properties)
     + [Calling Built-in Functions and Other Verbs](#calling-built-in-functions-and-other-verbs)
+    + [Verb Calls on Primitive Types](#verb-calls-on-primitive-types)
     + [Catching Errors in Expressions](#catching-errors-in-expressions)
     + [Parentheses and Operator Precedence](#parentheses-and-operator-precedence)
   * [MOO Language Statements](#moo-language-statements)
@@ -837,6 +838,21 @@ The `+` operator can also be used to append two strings. The expression
 
 has the value `"foobar"`
 
+The `+` operator can also be used to append two lists. The expression
+
+```
+{1, 2, 3} + {4, 5, 6}
+```
+
+has the value `{1, 2, 3, 4, 5, 6}`
+
+The `+` operator can also be ued to append to a list. The expression
+
+```
+{1, 2} + #123
+```
+
+has the value of `{1, 2, #123}`
 Unless both operands to an arithmetic operator are numbers of the same kind (or, for `+`, both strings), the error value `E_TYPE` is raised. If the right-hand operand for the division or remainder operators (`/` or `%`) is zero, the error value `E_DIV` is raised.
 
 MOO also supports the exponentiation operation, also known as "raising to a power," using the `^` operator:
@@ -1205,6 +1221,18 @@ The resulting list has the value of expression-1 as its first element, that of e
 {3 < 4, 3 <= 4, 3 >= 4, 3 > 4}  =>  {1, 1, 0, 0}
 ```
 
+The addition operator works with lists. When adding two lists together, the two will be concatenated:
+
+```
+{1, 2, 3} + {4, 5, 6} => {1, 2, 3, 4, 5, 6}) 
+```
+
+When adding another type to a list, it will append that value to the end of the list:
+
+```
+{1, 2} + #123 => {1, 2, #123}
+```
+
 Additionally, one may precede any of these expressions by the splicing operator, `@`. Such an expression must return a list; rather than the old list itself becoming an element of the new list, all of the elements of the old list are included in the new list. This concept is easy to understand, but hard to explain in words, so here are some examples. For these examples, assume that the variable `a` has the value `{2, 3, 4}` and that `b` has the value `{"Foo", "Bar"}`:
 
 ```
@@ -1423,6 +1451,14 @@ $name(expr-1, expr-2, ..., expr-N)
 ```
 #0:name(expr-1, expr-2, ..., expr-N)
 ```
+
+#### Verb Calls on Primitive Types
+
+The server supports verbs calls on primitive types (numbers, strings, etc.) so calls like `"foo bar":split()' can be implemented and work as expected (they were always syntactically correct in LambdaMOO but resulted in an E_TYPE error).  Verbs are implemented on prototype object delegates ($int_proto, $float_proto, $str_proto, etc.).  The server transparently invokes the correct verb on the appropriate prototype -- the primitive value is the value of `this'.
+
+This also includes supporting calling verbs on an object prototype ($obj_proto). Counterintuitively, this will only work for types of OBJ that are invalid. This can come in useful for un-logged-in connections (i.e. creating a set of convenient utilities for dealing with negative connections in-MOO).
+
+> Fine Point: Utilizing verbs on primitives is a matter of style. Some people like it, some people don't. The author suggests you keep a uility object (like $string_utils) and simply forward verb calls from your primitive to this utility, which keeps backwards compatibility with how ToastCore and LambdaCore are generally built. By default in ToastCore, the primatives just wrap around their `type`_utils counterparts.
 
 #### Catching Errors in Expressions
 
@@ -2038,6 +2074,8 @@ The server counts down _ticks_ as any task executes. Roughly speaking, it counts
 These limits on seconds and ticks may be changed from within the database, as can the behavior of the server after it aborts a task for running out; see the chapter on server assumptions about the database for details.
 
 Because queued tasks may exist for long periods of time before they begin execution, there are functions to list the ones that you own and to kill them before they execute. These functions, among others, are discussed in the following section.
+
+ToastStunt has a configuration option in options.h for `DEFAULT_LAG_THRESHOLD` which is set to `5.0` and x when exceeded, the server will make a note in the server log and call `#0:handle_lagging_task` with arguments: {callers, execution time}. This can be overridden on `$server_options.task_lag_threshold`.
 
 ### Built-in Functions
 
@@ -2810,14 +2848,17 @@ length({})          =>   0
 
 is_member -- Returns true if there is an element of list that is completely indistinguishable from value.
 
-int `is_member` (value, list list)
+int `is_member` (ANY value, LIST list [, INT case-sensitive])
 
-This is much the same operation as " `value in list`" except that, unlike `in`, the `is_member()` function does not treat upper- and lower-case characters in strings as equal.
+This is much the same operation as " `value in list`" except that, unlike `in`, the `is_member()` function does not treat upper- and lower-case characters in strings as equal. This treatment of strings can be controlled with the `case-sensitive` argument; setting `case-sensitive` to false will effectively disable this behavior.
+
+Raises E_ARGS if two values are given or if more than three arguments are given. Raises E_TYPE if the second argument is not a list. Otherwise returns the index of `value` in `list`, or 0 if it's not in there.
 
 ```
-"Foo" in {1, "foo", #24}            =>   2
-is_member("Foo", {1, "foo", #24})   =>   0
-is_member("Foo", {1, "Foo", #24})   =>   2
+is_member(3, {3, 10, 11})                  => 1
+is_member("a", {"A", "B", "C"})            => 0
+is_member("XyZ", {"XYZ", "xyz", "XyZ"})    => 3
+is_member("def", {"ABC", "DEF", "GHI"}, 0) => 2 
 ```
 
 **Function: `listinsert`**<br>
@@ -3743,7 +3784,7 @@ none `notify` (obj conn, str string [, INT no-flush [, INT suppress-newline])
 
 If the programmer is not conn or a wizard, then `E_PERM` is raised. If conn is not a currently-active connection, then this function does nothing. Output is normally written to connections only between tasks, not during execution.
 
-The server will not queue an arbitrary amount of output for a connection; the `MAX_QUEUED_OUTPUT` compilation option (in `options.h`) controls the limit. When an attempt is made to enqueue output that would take the server over its limit, it first tries to write as much output as possible to the connection without having to wait for the other end. If that doesn't result in the new output being able to fit in the queue, the server starts throwing away the oldest lines in the queue until the new ouput will fit. The server remembers how many lines of output it has 'flushed' in this way and, when next it can succeed in writing anything to the connection, it first writes a line like `>> Network buffer overflow: X lines of output to you have been lost <<` where X is the number of flushed lines.
+The server will not queue an arbitrary amount of output for a connection; the `MAX_QUEUED_OUTPUT` compilation option (in `options.h`) controls the limit (`MAX_QUEUED_OUTPUT` can be overridden in-database by adding the property `$server_options.max_queued_output` and calling `load_server_options()`). When an attempt is made to enqueue output that would take the server over its limit, it first tries to write as much output as possible to the connection without having to wait for the other end. If that doesn't result in the new output being able to fit in the queue, the server starts throwing away the oldest lines in the queue until the new ouput will fit. The server remembers how many lines of output it has 'flushed' in this way and, when next it can succeed in writing anything to the connection, it first writes a line like `>> Network buffer overflow: X lines of output to you have been lost <<` where X is the number of flushed lines.
 
 If no-flush is provided and true, then `notify()` never flushes any output from the queue; instead it immediately returns false. `Notify()` otherwise always returns true.
 
@@ -3928,7 +3969,7 @@ When set, disables all out of band processing (see section Out-of-Band Processin
 The setting of this option is of no significance to the server. However calling set_connection_option() for this option sends the Telnet Protocol ‘WONT ECHO’ or ‘WILL ECHO’ according as value is true or false, respectively. For clients that support the Telnet Protocol, this should toggle whether or not the client echoes locally the characters typed by the user. Note that the server itself never echoes input characters under any circumstances. (This option is only available under the TCP/IP networking configurations.) 
 
 `"flush-command"`
-This option is string-valued. If the string is non-empty, then it is the flush command for this connection, by which the player can flush all queued input that has not yet been processed by the server. If the string is empty, then conn has no flush command at all. set_connection_option also allows specifying a non-string value which is equivalent to specifying the empty string. The default value of this option can be set via the property $server_options.default_flush_command; see Flushing Unprocessed Input for details. 
+This option is string-valued. If the string is non-empty, then it is the flush command for this connection, by which the player can flush all queued input that has not yet been processed by the server. If the string is empty, then conn has no flush command at all. set_connection_option also allows specifying a non-string value which is equivalent to specifying the empty string. The default value of this option can be set via the property `$server_options.default_flush_command`; see Flushing Unprocessed Input for details. 
 
 `"intrinsic-commands"`
 
@@ -3941,18 +3982,17 @@ Thus, one way to make the verbname ‘PREFIX’ available as an ordinary command
 ```
 set_connection_option(
   player, "intrinsic-commands",
-  setremove(connection_option(player,
-                              "intrinsic-commands"),
+  setremove(connection_options(player, "intrinsic-commands"),
             "PREFIX"));
 ```
 
-Note that connection_option() always returns the list, even if set_connection_option was previously called with a numeric value. Thus,
+Note that connection_options() with no second argument will return a list while passing in the second argument will return the value of the key requsted.
 
 ```
-save = connection_option(player,"intrinsic-commands");
-set_connection_option(player, "intrinsic-commands, 1);
-full_list = connection_option(player,"intrinsic-commands");
-set_connection_option(player,"intrinsic-commands", save);
+save = connection_options(player,"intrinsic-commands");
+set_connection_options(player, "intrinsic-commands, 1);
+full_list = connection_options(player,"intrinsic-commands");
+set_connection_options(player,"intrinsic-commands", save);
 return full_list;
 ```
 
@@ -3960,17 +4000,13 @@ is a way of getting the full list of intrinsic commands available in the server 
 
 **Function: `connection_options`**
 
-connection_options -- returns a list of `{name, value}` pairs describing the current settings of all of the allowed options for the connection conn
+connection_options -- returns a list of `{name, value}` pairs describing the current settings of all of the allowed options for the connection conn or the value if `name` is provided
 
-list `connection_options` (obj conn)
-
-Raises `E_INVARG` if conn does not specify a current connection and `E_PERM` if the programmer is neither conn nor a wizard.
-
-**Function: `connection_option`**
-
-connection_option -- returns the current setting of the option name for the connection conn value `>connection_option` (obj conn, str name)
+ANY `connection_options` (obj conn [, STR name])
 
 Raises `E_INVARG` if conn does not specify a current connection and `E_PERM` if the programmer is neither conn nor a wizard.
+
+Calling connection options without a name will return a LIST. Passing in name will return only the value for the option `name` requested.
 
 **Function: `open_network_connection`**
 
@@ -4703,6 +4739,16 @@ The specific properties searched for are each described in the appropriate secti
 | protect_`function` | Restrict use of built-in `function` to wizards. |
 | queued_task_limit | The maximum number of forked or suspended tasks any player can have queued at a given time. |
 | support_numeric_verbname_strings | Enables use of an obsolete verb-naming mechanism. |
+| max_queued_output | The maximum number of output characters the server is willing to buffer for any given network connection before discarding old output to make way for new. | 
+| dump_interval | an int in seconds for how often to checkpoint the database. |
+| proxy_rewrite | control whether IPs from proxies get rewritten. | 
+| file_io_max_files | allow DB-changeable limits on how many files can be opened at once. |
+| sqlite_max_handles | allow DB-changeable limits on how many SQLite connections can be opened at once. |
+| task_lag_threshold | override default task_lag_threshold for handling lagging tasks | 
+| finished_tasks_limit | override default finished_tasks_limit (enables the finished_tasks function and define how many tasks get saved by default) |
+| no_name_lookup | override default no_name_lookup (disables automatic DNS name resolution on new connections) |
+
+> Note: If you override a default value that was defined in options.h (such as no_name_lookup or finished_tasks_limit, or many others) you will need to call `load_server_options()` for your changes to take affect.
 
 #### Server Messages Set in the Database
 
@@ -4983,7 +5029,7 @@ When disabled or not supported, open_network_connection() raises E_PERM whenever
 The NETWORK_PROTOCOL must be NP_TCP. 
 
 MAX_QUEUED_OUTPUT
-The maximum number of output characters the server is willing to buffer for any given network connection before discarding old output to make way for new. 
+The maximum number of output characters the server is willing to buffer for any given network connection before discarding old output to make way for new. This can be overridden in-database by adding the property `$server_options.max_queued_output` and calling `load_server_options()`.
 
 MAX_QUEUED_INPUT
 The maximum number of input characters the server is willing to buffer from any given network connection before it stops reading from the connection at all. 
