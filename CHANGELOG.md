@@ -10,6 +10,8 @@ TOAST STUNT PROGRAMMERS MANUAL
 * added information on the + operator and list concatenation and addition
 * updated references to `connection_option()` to point to `connection_options()`
 * updated documentation for connection_options()
+* Added information in tasks section about default_lag_threshold
+* Added information on MAX_QUEUED_OUTPUT to various sections
 * Updated TOC
 
 ## [1.1.2] - 2022.01.02 2:26PM
