@@ -9,7 +9,7 @@ TOAST STUNT PROGRAMMERS MANAUL
 * Added Threading section
 * Added BitWise Operators section
 * Updated $server_options.protect_`property` section to denote that it prevents non-wizard writes as well
-* Added $server_options.max_list_contact
+* Added $server_options.max_list_concat
 * Added $server_options.max_string_concat
 * Added $server_options.max_contact_catchable
 * Updated $server_options.max_stack_depth info
