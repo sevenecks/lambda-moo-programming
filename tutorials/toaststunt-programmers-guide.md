@@ -55,12 +55,14 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
     + [Properties on Objects](#properties-on-objects)
     + [Verbs on Objects](#verbs-on-objects)
 - [The Built-in Command Parser](#the-built-in-command-parser)
+  * [Threading](#threading)
 - [The MOO Programming Language](#the-moo-programming-language)
   * [MOO Language Expressions](#moo-language-expressions)
     + [Errors While Evaluating Expressions](#errors-while-evaluating-expressions)
     + [Writing Values Directly in Verbs](#writing-values-directly-in-verbs)
     + [Naming Values Within a Verb](#naming-values-within-a-verb)
     + [Arithmetic Operators](#arithmetic-operators)
+    + [Bitwise Operators](#bitwise-operators)
     + [Comparing Values](#comparing-values)
     + [Values as True and False](#values-as-true-and-false)
     + [Indexing into Lists, Maps and Strings](#indexing-into-lists--maps-and-strings)
@@ -646,6 +648,23 @@ At long last, we have a program to run in response to the command typed by the p
 
 The value returned by the program, if any, is ignored by the server.
 
+### Threading
+
+ToastStunt is single threaded, but it utilizes a threading library (extension-background) to allow certain server functions to run in a separate thread. To protect the database, these functions will implicitly suspend the MOO code (similar to how read() operates).
+
+It is possible to disable threading of functions for a particular verb by calling `set_thread_mode(0)`.
+
+> Note: By default, ToastStunt has threading enabled.
+
+There are configurable options for the background subsystem which can be defined in `options.h`. 
+
+* `TOTAL_BACKGROUND_THREADS` is the total number of pthreads that will be created at runtime to process background MOO tasks.  
+* `DEFAULT_THREAD_MODE` dictates the default behavior of threaded MOO functions without a call to set_thread_mode. When set to true, the default behavior is to thread these functions, requiring a call to set_thread_mode(0) to disable.  When false, the default behavior is unthreaded and requires a call to set_thread_mode(1) to enable threading for the functions in that verb.
+
+When you execute a threaded built-in in your code, your code is suspended. For this reason care should be taken in how and when you use these functions with threading enabled.
+
+Functions that support threading, and functions for utilizing threading such as `thread_pool` are discussed in the built-ins section.
+
 ## The MOO Programming Language
 
 MOO stands for "MUD, Object Oriented."  MUD, in turn, has been said to stand for many different things, but I tend to think of it as "Multi-User Dungeon" in the spirit of those ancient precursors to MUDs, Adventure and Zork.
@@ -865,6 +884,18 @@ MOO also supports the exponentiation operation, also known as "raising to a powe
 ```
 
 Note that if the first operand is an integer, then the second operand must also be an integer. If the first operand is a floating-point number, then the second operand can be either kind of number. Although it is legal to raise an integer to a negative power, it is unlikely to be terribly useful.
+
+#### Bitwise Operators
+
+The server supports certain bitwise operators:
+* and `&.`
+* or `|.`
+* xor `^.`
+* logical (not arithmetic) right-shift `<<`
+* logical left-shift `>>`
+* complement `~`
+
+For more information on Bitwise Operators, checkout the [Wikipedia](https://en.wikipedia.org/wiki/Bitwise_operation) page on them.
 
 #### Comparing Values
 
@@ -2769,21 +2800,66 @@ crypt -- Encrypts the given text using the standard UNIX encryption method.
 
 str `crypt` (str text [, str salt])
 
-If provided, salt should be a string at least two characters long, the first two characters of which will be used as the extra encryption "salt" in the algorithm. If salt is not provided, a random pair of characters is used.  In any case, the salt used is also returned as the first two characters of the resulting encrypted string.
+Encrypts (hashes) the given text using the standard UNIX encryption method. If provided, salt should be a string at least two characters long, and it may dictate a specific algorithm to use. By default, crypt uses the original, now insecure, DES algorithm. ToastStunt specifically includes the BCrypt algorithm (identified by salts that start with "$2a$"), and may include MD5, SHA256, and SHA512 algorithms depending on the libraries used to build the server. The salt used is returned as the first part of the resulting encrypted string.
 
-Aside from the possibly-random selection of the salt, the encryption algorithm is entirely deterministic. In particular, you can test whether or not a given string is the same as the one used to produce a given piece of encrypted text; simply extract the first two characters of the encrypted text and pass the candidate string and those two characters to `crypt()`. If the result is identical to the given encrypted text, then you've got a match.
+Aside from the possibly-random input in the salt, the encryption algorithms are entirely deterministic. In particular, you can test whether or not a given string is the same as the one used to produce a given piece of encrypted text; simply extract the salt from the front of the encrypted text and pass the candidate string and the salt to crypt(). If the result is identical to the given encrypted text, then youve got a match.
+
 
 ```
-crypt("foobar")         =>   "J3fSFQfgkp26w"
-crypt("foobar", "J3")   =>   "J3fSFQfgkp26w"
-crypt("mumble", "J3")   =>   "J3D0.dh.jjmWQ"
-crypt("foobar", "J4")   =>   "J4AcPxOJ4ncq2"
+crypt("foobar", "iB")                               =>    "iBhNpg2tYbVjw"
+crypt("foobar", "$1$MAX54zGo")                      =>    "$1$MAX54zGo$UKU7XRUEEiKlB.qScC1SX0"
+crypt("foobar", "$5$s7z5qpeOGaZb")                  =>    "$5$s7z5qpeOGaZb$xkxjnDdRGlPaP7Z ... .pgk/pXcdLpeVCYh0uL9"
+crypt("foobar", "$5$rounds=2000$5trdp5JBreEM")      =>    "$5$rounds=2000$5trdp5JBreEM$Imi ... ckZPoh7APC0Mo6nPeCZ3"
+crypt("foobar", "$6$JR1vVUSVfqQhf2yD")              =>    "$6$JR1vVUSVfqQhf2yD$/4vyLFcuPTz ... qI0w8m8az076yMTdl0h."
+crypt("foobar", "$6$rounds=5000$hT0gxavqSl0L")      =>    "$6$rounds=5000$hT0gxavqSl0L$9/Y ... zpCATppeiBaDxqIbAN7/"
+crypt("foobar", "$2a$08$dHkE1lESV9KrErGhhJTxc.")    =>    "$2a$08$dHkE1lESV9KrErGhhJTxc.QnrW/bHp8mmBl5vxGVUcsbjo3gcKlf6"
 ```
 
-//TODO: Confirm this is the case with ToastStunt
-> Warning: Note: As of version 1.8.3 (which includes ToastStunt), the entire salt (of any length) is passed to the operating system’s low-level crypt function. It is unlikely, however, that all operating systems will return the same string when presented with a longer salt. Therefore, identical calls to crypt() may generate different results on different platforms, and your password verification systems will fail. Use a salt longer than two characters at your own risk. 
+Note: The specific set of supported algorithms depends on the libraries used to build the server. Only the BCrypt algorithm, which is distributed with the server source code, is guaranteed to exist. BCrypt is currently mature and well tested, and is recommended for new development.
 
-**Function: `string_hash`** <br>
+> Warning: The entire salt (of any length) is passed to the operating system’s low-level crypt function. It is unlikely, however, that all operating systems will return the same string when presented with a longer salt. Therefore, identical calls to crypt() may generate different results on different platforms, and your password verification systems will fail. Use a salt longer than two characters at your own risk. 
+
+**Function: `argon2`**
+
+argon2 -- Hashes a password using the Argon2id password hashing algorithm.
+
+The function `argon2()' hashes a password using the Argon2id password hashing algorithm. It is parametrized by three optional arguments:
+
+str `argon2` (STR password, STR salt [, iterations = 3] [, memory usage in KB = 4096] [, CPU threads = 1])
+
+ * Time: This is the number of times the hash will get run. This defines the amount of computation required and, as a result, how long the function will take to complete.
+ * Memory: This is how much RAM is reserved for hashing.
+ * Parallelism: This is the number of CPU threads that will run in parallel.
+
+The salt for the password should, at minimum, be 16 bytes for password hashing. It is recommended to use the random_bytes() function.
+
+```
+salt = random_bytes(20);
+return argon2(password, salt, 3, 4096, 1);
+```
+
+> Warning: The MOO is single threaded in most cases, and this function can take significant time depending on how you call it. While it is working, nothing else is going to be happening on your MOO. It is possible to build the server with the `THREAD_ARGON2` option which will mitigate lag. This has major caveats however, see the section below on `argon2_verify` for more information.
+
+**Function: `argon2_verify`**
+
+argon2_verify -- Compares password to the previously hashed hash. 
+
+int argon2_verify (STR hash, STR password)
+
+Returns 1 if the two match or 0 if they don't. 
+
+This is a more secure way to hash passwords than the `crypt()` builtin.
+
+//TODO Ask lisdude to add more details on argon2 here
+
+> Note: ToastCore defines some sane defaults for how to utilize `argon2` and `argon2_verify`. You can `@grep argon2` from within ToastCore to find these.
+
+> Warning: It is possible to build the server with the `THREAD_ARGON2` option. This will enable this built-in to run in a background thread and mitigate lag that these functions can cause. However, this comes with some major caveats. `do_login_command` (where you will typically be verifying passwords) cannot be suspended. Since threading implicitly suspends the MOO task, you won't be able to directly use Argon2 in do_login_command. Instead, you'll have to devise a new solution for logins that doesn't directly involve calling Argon2 in do_login_command.
+
+> Note: More information on Argon2 can be found in the [Argon2 Github](https://github.com/P-H-C/phc-winner-argon2].
+
+**Function: `string_hash`**
+
 **Function: `binary_hash`**
 
 string_hash -- Returns a 64-character hexadecimal string.
@@ -4732,10 +4808,10 @@ The specific properties searched for are each described in the appropriate secti
 | default_flush_command | The initial setting of each new connection&apos;s flush command. |
 | fg_seconds | The number of seconds allotted to foreground tasks. |
 | fg_ticks | The number of ticks allotted to foreground tasks. |
-| max_stack_depth | The maximum number of levels of nested verb calls. |
+| max_stack_depth | The maximum number of levels of nested verb calls. Only used if it is higher than default |
 | name_lookup_timeout | The maximum number of seconds to wait for a network hostname/address lookup. |
 | outbound_connect_timeout | The maximum number of seconds to wait for an outbound network connection to successfully open. |
-| protect_`property` | Restrict reading of built-in `property` to wizards. |
+| protect_`property` | Restrict reading/writing of built-in `property` to wizards. |
 | protect_`function` | Restrict use of built-in `function` to wizards. |
 | queued_task_limit | The maximum number of forked or suspended tasks any player can have queued at a given time. |
 | support_numeric_verbname_strings | Enables use of an obsolete verb-naming mechanism. |
@@ -4747,8 +4823,17 @@ The specific properties searched for are each described in the appropriate secti
 | task_lag_threshold | override default task_lag_threshold for handling lagging tasks | 
 | finished_tasks_limit | override default finished_tasks_limit (enables the finished_tasks function and define how many tasks get saved by default) |
 | no_name_lookup | override default no_name_lookup (disables automatic DNS name resolution on new connections) |
+| max_list_concat | limit the size of user-constructed lists |
+| max_string_concat | limit the size of user-constructed strings |
+| max_concat_catchable | govern whether violating concat size limits causes out-of-seconds or E_QUOTA error |
 
 > Note: If you override a default value that was defined in options.h (such as no_name_lookup or finished_tasks_limit, or many others) you will need to call `load_server_options()` for your changes to take affect.
+
+> Note: Verbs defined on #0 are not longer subject to the wiz-only permissions check on built-in functions generated by defining $server_options.protect_FOO with a true value.  Thus, you can now write a `wrapper' for a built-in function without having to re-implement all of the server's built-in permissions checks for that function.  
+
+> Note: If a built-in function FOO has been made wiz-only (by defining $server_options.protect_FOO with a true value) and a call is made to that function from a non-wiz verb not defined on #0 (that is, if the server is about to raise E_PERM), the server first checks to see if the verb #0:bf_FOO exists.  If so, it calls it instead of raising E_PERM and returns or raises whatever it returns or raises.
+
+> Note: options.h #defines IGNORE_PROP_PROTECTED by default. If it is defined, the server ignores all attempts to protect built-in properties (such as $server_options.protect_location). Protecting properties is a significant performance hit, and most MOOs do not use this functionality.
 
 #### Server Messages Set in the Database
 

@@ -1,5 +1,22 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.1.4] - 2022.01.03 10:01PM
+
+TOAST STUNT PROGRAMMERS MANAUL
+* Updated crypt() builtin
+* Added argon2() builtin info
+* Added argon2_verify() builtin info
+* Added Threading section
+* Added BitWise Operators section
+* Updated $server_options.protect_`property` section to denote that it prevents non-wizard writes as well
+* Added $server_options.max_list_contact
+* Added $server_options.max_string_concat
+* Added $server_options.max_contact_catchable
+* Updated $server_options.max_stack_depth info
+* Added note about how protect_verb and protect_prop function in relation to #0
+* Added note on $server_options.protect_`prop` being disabled by default in options.h
+* Updated TOC
+
 ## [1.1.3] - 2022.01.03 12:22PM
 
 TOAST STUNT PROGRAMMERS MANUAL
