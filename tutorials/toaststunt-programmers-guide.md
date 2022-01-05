@@ -12,13 +12,13 @@ Copyright © 1997 by Erik Ostrom.
 
 Copyright © 2004 by Roger F. Crew.
 
-Copyright © 2011, 2012, 2013 by Todd Sundsted
+Copyright © 2011, 2012, 2013, 2014 by Todd Sundsted
 
 Copyright © 2017, 2018, 2019, 2020, 2022 by [Brendan Butts](http://github.com/sevenecks).
 
 Copyright © 2021-2022 By [lisdude](http://github.com/lisdude)
 
-Portions adapted from the [Stunt Programmers Manual](http://stunt.io/ProgrammersManual.html) by Todd Sundsted Copyright © 2011, 2012, 2013 by Todd Sundsted.
+Portions adapted from the [Stunt Programmers Manual](https://lisdude.com/moo/ProgrammersManual.html) by Todd Sundsted Copyright © 2011, 2012, 2013, 2014 by Todd Sundsted.
 
 Portions adapated from the [WAIF documentation](http://ben.com/MOO/waif.html) and [WAIF Programmers Manual](http://ben.com/MOO/waif-progman.html) by Ben Jackson.
 
@@ -89,6 +89,10 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
     + [Cleaning Up After Errors](#cleaning-up-after-errors)
     + [Executing Statements at a Later Time](#executing-statements-at-a-later-time)
   * [MOO Tasks](#moo-tasks)
+  * [Working with Anonymous Objects](#working-with-anonymous-objects)
+  * [Working with WAIFs](#working-with-waifs)
+    + [The WAIF Verb and Property Namespace](#the-waif-verb-and-property-namespace)
+    + [Additional Details on WAIFs](#additional-details-on-waifs)
   * [Built-in Functions](#built-in-functions)
     + [Object-Oriented Programming](#object-oriented-programming)
     + [Manipulating MOO Values](#manipulating-moo-values)
@@ -104,16 +108,15 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
       - [Object Movement](#object-movement)
       - [Operations on Properties](#operations-on-properties)
       - [Operations on Verbs](#operations-on-verbs)
+      - [Operations on WAIFs](#operations-on-waifs)
       - [Operations on Player Objects](#operations-on-player-objects)
     + [Operations on Files](#operations-on-files)
+      - [Operations on SQLite](#operations-on-sqlite)
       - [Operations on The Server Environment](#operations-on-the-server-environment)
       - [Operations on Network Connections](#operations-on-network-connections)
       - [Operations Involving Times and Dates](#operations-involving-times-and-dates)
       - [MOO-Code Evaluation and Task Manipulation](#moo-code-evaluation-and-task-manipulation)
       - [Administrative Operations](#administrative-operations)
-  * [Working with WAIFs](#working-with-waifs)
-    + [The WAIF Verb and Property Namespace](#the-waif-verb-and-property-namespace)
-    + [Additional Details on WAIFs](#additional-details-on-waifs)
   * [Server Commands and Database Assumptions](#server-commands-and-database-assumptions)
     + [Command Lines That Receive Special Treatment](#command-lines-that-receive-special-treatment)
       - [Flushing Unprocessed Input](#flushing-unprocessed-input)
@@ -200,10 +203,10 @@ There are only a few kinds of values that MOO programs can manipulate:
 * integers (in a specific, large range)
 * real numbers (represented with floating-point numbers)
 * strings (of characters)
-* objects (in the virtual reality)
-* anonymous object
-* bool
-* WAIF
+* object numbers (of the permanent objects in the database) 
+* object references (to the anonymous objects in the database)
+* bools
+* WAIFs
 * errors (arising during program execution)
 * lists (of all of the above, including lists)
 * maps (of all of the above, including lists and maps)
@@ -285,7 +288,9 @@ There are three special object numbers used for a variety of purposes: `#-1`, `#
 
 #### Anonymous Object Type
 
-_Anonymous Objects_ TODO: Documentation
+Anonymous Objects are references and do not have an object number. They are created by passing the optional third argument to `create()`. Anonymous objects are automatically garbage collected when there is no longer any references to them (in your code or in properties).
+
+We will go into more detail on Anonymous Objects in the [Working with Anonymous Objects](#working-with-anonymous-objects) section.
 
 #### Bool Type
 
@@ -307,7 +312,7 @@ _WAIFs_ are lightweight objects. A WAIF is a value which you can store in a prop
 
 WAIFs are smaller than typical objects, and faster to create. A WAIF has two builtin OBJ properties, .class and .owner. A WAIF is only ever going to be 4 bytes larger than a LIST with the same values.
 
-OBJs grow by value_bytes(value) - value_bytes(0) for every propery you set (that is, every property which becomes non-clear and takes on its own value distinct from the parent). LISTs and WAIFs both grow by value_bytes(value) for each new list element (in a LIST) or each property you set (in a WAIF). So a WAIF is never more than 4 bytes larger than a LIST which holds the same values, except WAIFs give each value a name (property name) but LISTs only give them numbers.
+OBJs grow by value_bytes(value) - value_bytes(0) for every property you set (that is, every property which becomes non-clear and takes on its own value distinct from the parent). LISTs and WAIFs both grow by value_bytes(value) for each new list element (in a LIST) or each property you set (in a WAIF). So a WAIF is never more than 4 bytes larger than a LIST which holds the same values, except WAIFs give each value a name (property name) but LISTs only give them numbers.
 
 Essentially you should consider a WAIF as something you can make thousands of in a verb without a second thought. You might make a mailing list with 1000 messages, each a WAIF (instead of a LIST) but you most likely wouldn't use 1000 objects.
 
@@ -376,8 +381,6 @@ The value of a map can be an valid MOO type including another map.
 > Note: Finding a value in a list is BigO(n) as a it uses a linear search. Maps are much more effective and are BigO(1) for retrieving a specific value by key.
 
 ### Objects in the MOO Database
-
-//TODO: more details on anonymous objects.
 
 There are anonymous objects and permanent objects in ToastStunt. Throughout this guide when we discuss `objects` we are typically referring to `permanent objects` and not `anonymous objects`. When discussing anonymous objects we will call them out specifically.
 
@@ -652,7 +655,7 @@ The value returned by the program, if any, is ignored by the server.
 
 ToastStunt is single threaded, but it utilizes a threading library (extension-background) to allow certain server functions to run in a separate thread. To protect the database, these functions will implicitly suspend the MOO code (similar to how read() operates).
 
-It is possible to disable threading of functions for a particular verb by calling `set_thread_mode(0)`.
+It is possible to disable threading of functions for a particular verb by calling `sset_thread_modeet_thread_mode(0)`.
 
 > Note: By default, ToastStunt has threading enabled.
 
@@ -887,13 +890,18 @@ Note that if the first operand is an integer, then the second operand must also 
 
 #### Bitwise Operators
 
-The server supports certain bitwise operators:
-* and `&.`
-* or `|.`
-* xor `^.`
-* logical (not arithmetic) right-shift `<<`
-* logical left-shift `>>`
-* complement `~`
+MOO also supports bitwise operations on integer types: &.    |.    ^.    >>    <<    ~
+
+These are, bitwise ‘and’, ‘or’, ‘xor’, logical (not arithmetic) right-shift, logical left-shift, and complement. In the following table, the expressions on the left have the corresponding values on the right:
+
+```
+1 &. 2       ⇒   0
+1 |. 2       ⇒   3
+1 ^. 3       ⇒   1
+8 << 1       ⇒   16
+8 >> 1       ⇒   4
+~0           ⇒   -1
+```
 
 For more information on Bitwise Operators, checkout the [Wikipedia](https://en.wikipedia.org/wiki/Bitwise_operation) page on them.
 
@@ -2108,6 +2116,268 @@ Because queued tasks may exist for long periods of time before they begin execut
 
 ToastStunt has a configuration option in options.h for `DEFAULT_LAG_THRESHOLD` which is set to `5.0` and x when exceeded, the server will make a note in the server log and call `#0:handle_lagging_task` with arguments: {callers, execution time}. This can be overridden on `$server_options.task_lag_threshold`.
 
+### Working with Anonymous Objects
+
+Anonymous objects are typically transient and are garbage collected when they are no longer needed (IE: when nothing is referencing them).
+
+A reference to an anonymous object is returned when the anonymous object is created with create(). References can be shared but they cannot be forged. That is, there is no literal representation of a reference to an anonymous object (that’s why they are anonymous).
+
+Anonymous objects are created using the `create` builtin, passing the optional third argument as `1`. For example:
+
+```
+anonymous = create($thing, #2, 1);
+```
+
+Since there is no literal representation of an anonymous object, if you were to try to print it:
+
+```
+player:tell(toliteral(anonymous));
+```
+
+You would be shown: `*anonymous*`
+
+You can store the reference to the anonymous object in a variable, like we did above, or you can store it in a property.
+
+```
+player.test = create($thing, player, 1)
+player:tell(player.test);
+```
+
+This will also output: `*anonymous*`
+
+When you store an anonymous object in a variable, the anonymous object will continue to exist until your verb finishes execution, at which point it will be garbage collected.
+
+If you store your anonymous object in a property, that anonymous object will continue to exist so long as it exists in the property. If the object with the property were recycled, or the property removed or overwritten with a different value, the anonymous object would be garbage collected.
+
+Anonymous objects can be stored in lists:
+
+```
+my_list = {create($thing, player, 1)};
+player.test = my_list;
+```
+
+The above code would result in:
+
+```
+{*anonymous*}
+```
+
+Anonymous objects can be stored in maps as either the key or the value:
+
+```
+[1 -> create($thing, player, 1)] => [1 -> *anonymous*]
+[create($thing, player, 1) -> 1] => [*anonymous* -> 1]
+```
+
+> Note: *anonymous* is not the actual key, there is not literal representation of an anonymous object reference. This means that while the object will continue to exist while it is a key of a map, the only way to reference that key would be by the reference, which you would need to store in a variable or a property.
+
+> Warning: Similar to WAIFs, you want to take care in how you are creating Anonymous Objects, as once they are created, if you continue to reference them in a property, you may have trouble finding them in the future, as there is no way to pull up a list of all Anonymous Objects. 
+
+
+### Working with WAIFs
+
+> ToastStunt WAIFs are not the same as LambdaMOO WAIFs. The server executable has a -w option for converting LambdaMOO style WAIFs to the new style
+
+The MOO object structure is unique in that all classes are instances and all instances are (potentially) classes. This means that instances carry a lot of baggage that is only useful in the event that they become classes. Also, every object comes with a set of builtin properties and attributes which are primarily useful for building VR things. My idea of a lightweight object is something which is exclusively an instance. It lacks many of the things that "real MOO objects" have for their roles as classes and VR objects:
+
+- names
+- location/contents information
+- children
+- flags
+- verb definitions
+- property definitions
+- weak references (?)
+- explicit destruction 
+
+Stripped to its core, then, a WAIF has the following attributes:
+
+- Class (like a parent)
+- Owner (for permissions information)
+- Property values 
+
+A WAIF's properties and behavior are a hybrid of several existing MOO types. It is instructive to compare them:
+
+- WAIFs are refcounted values, like LISTs. After they are created, they exist as long as they are stored in a variable or property somewhere. When the last reference is gone the WAIF is destroyed with no notice.
+- There is no syntax for creating a literal WAIF. They can only be created with a builtin.
+- There is no syntax for referring to an existing WAIF. You can only use one by accessing a property or a variable where it has been stored.
+- WAIFs can change, like objects. When you change a WAIF, all references to the WAIF will see the change (like OBJ, unlike LIST).
+- You can call verbs and reference properties on WAIFs. These are inherited from its class object (with the mapping described below).
+- WAIFs are cheap to create, about the same as LISTs.
+- WAIFs are small. A WAIF with all clear properties (like right after it is created) is only a few bytes longer than a LIST big enough to hold {class, owner}. If you assign a value to a property it grows the same amount a LIST would if you appended a value to it.
+- WAIF property acesses are controlled like OBJ property accesses. Having a reference to a WAIF doesn't mean you can see what's inside it.
+- WAIFs can never define new verbs or properties.
+- WAIFs can never have any children.
+- WAIFs can't change class or ownership.
+- The only builtin properties of a WAIF are .owner and .class.
+- WAIFs do not participate in the .location/.contents hierarchy, as manipulated by move(). A WAIF class could define these properties, however (as described below).
+- WAIFs do not have OBJ flags such as .r or .wizard.
+- WAIFs can be stored in MAPs
+
+#### The WAIF Verb and Property Namespace
+
+In order to separate the verbs and properties defined for WAIFs of an object, WAIFs only inherit verbs and properties whose names begin with : (a colon). To say that another way, the following mapping is applied:
+
+`waif:verb(@args)` becomes `waif.class:(":"+verb)(@args)`
+
+Inside the WAIF verb (hereinafter called a _method_) the local variable `verb` does not have the additional colon. The value of `this` is the WAIF itself (it can determine what object it's on with `this.class`). If the method calls another verb on a WAIF or an OBJ, `caller` will be the WAIF.
+
+`waif.prop` is defined by `waif.class.(":"+prop)`
+
+The property definition provides ownership and permissions flags for the property as well as its default value, as with any OBJ. Of course the actual property value is part of the WAIF itself and can be changed during the WAIFs lifetime.
+
+In the case of +c properties, the WAIF owner is considered to be the property owner.
+
+In ToastCore you will find a corified reference of `$waif` which is pre-configured for you to begin creating WAIFs or Generic OBJs that you can then use to create WAIFs with. Here's @display output for the skeletal $waif:
+
+```
+Generic Waif (#118) [ ]
+TODO: add toastcore @display $waif
+  Child of Root Class (#1).
+  Size: 7,311 bytes at Sun Jan  2 10:37:09 2022 PST
+```
+
+This MOO OBJ `$waif` defines a verb `new` which is just like the verbs you're already familiar with. In this case, it creates a new WAIF:
+
+```
+set_task_perms(caller_perms());
+w = new_waif();
+w:initialize(@args);
+return w;
+```
+
+Once the WAIF has been created, you can call verbs on it. Notice how the WAIF inherits `$waif::initialize`. Notice that it cannot inherit `$waif:new` because that verb's name does not start with a colon.
+
+The generic waif is fertile (`$waif.f == 1`) so that new waif classes can be derived from it. OBJ fertility is irrelevant when creating a WAIF. The ability to do that is restricted to the object itself (since `new_waif()` always returns a WAIF of class=caller).
+
+There is no string format for a WAIF. `tostr()` just returns {waif}. `toliteral()` currently returns some more information, but it's just for debugging purposes. There is no towaif(). If you want to refer to a WAIF you have to read it directly from a variable or a property somewhere. If you cannot read it out of a property (or call a verb that returns it) you can't access it. There is no way to construct a WAIF reference from another type.
+
+**Map Style WAIF access**
+
+;me.waif["cheese"]
+That will call the :_index verb on the waif class with {"cheese"} as the arguments.
+
+;me.waif["cheese"] = 17
+This will call the :_set_index verb on the waif class with {"cheese", 17} as arguments.
+
+Originally this made it easy to implement maps into LambdaMOO, since you could just have your "map waif" store a list of keys and values and have the index verbs set and get data appropriately. Then you can use them just like the native map datatype that ToastCore has now.
+
+There are other uses, though, that make it still useful today. For example, ToastCore offers a file abstraction WAIF. One of the things you can do is:
+
+```
+file = $file:open("thing.txt");
+return file[5..19];
+```
+
+That uses :_index to parse '5..19' and ultimately pass it off to file_readlines() to return those lines. Very convenient.
+
+#### Additional Details on WAIFs
+
+* When a WAIF is destroyed the MOO will Call the `recycle` verb on the WAIF, if it exists.
+* A WAIF has its own type so you can do: `typeof(some_waif) == WAIF)``
+* waif[x] and waif[x] = y will call the :_index and :_set_index verbs on the WAIF
+* The waif_stats() built-in will show how many instances of each class of WAIF exist, how many WAIFs are pending recycling, and how many WAIFs in total exist
+* You can access WAIF properties using `mywaif.:waif_property_name`
+
+> Warning: Similar to Anonymous Objects you should take care in how you are creating WAIFs as it can be difficult to find the WAIFs that exist in your system and where they are referenced.
+
+The following code can be used to find WAIFs that exist in your codebase.
+
+> Warning: This code does not take into account WAIFs that are referenced in MAPs currently.
+
+//TODO: Update to find in MAPs
+
+```
+@prog $waif_utils:find_waif_types
+{data, ?class = 0} = args;
+ret = {};
+if (typeof(data) == LIST)
+  if (index(toliteral(data), "[[class = #") != 0)
+    // Rather than wasting time iterating through the entire list, we can find if it contains any waifs with a relatively quicker index().
+    for x in (data)
+      ticks_left() < 1000 && suspend(0);
+      ret = {@ret, @this:(verb)(x, class)};
+    endfor
+  endif
+elseif (typeof(data) == WAIF)
+  if (class == 0 || (class != 0 && data.class == class))
+    ret = {@ret, data};
+  endif
+endif
+return ret;
+.
+
+@prog player:@find-waifs
+total = class = summary = 0;
+exclude = {$spell, $newspell};
+if (args)
+  if (argstr in {"summary", "all", "full"})
+    summary = 1;
+  else
+    class = player:my_match_object(argstr);
+    if (class == $failed_match || !isa(class, $waif))
+      return player:tell("That's not a waif class.");
+    endif
+  endif
+endif
+player:tell("Patience is advised!");
+start = ftime(1);
+tracking = count = {};
+for x in [#0..max_object()]
+  yin(0, 1000);
+  if (!valid(x))
+    continue;
+  endif
+  if (toint(x) % 100 == 0 && player:is_listening() == 0)
+    "No point in carrying on if the player isn't even listening.";
+    return;
+  elseif (x in exclude)
+    continue;
+  endif
+  for y in ($object_utils:all_properties(x))
+    yin(0, 1000);
+    if (is_clear_property(x, y))
+      continue y;
+    endif
+    match = $waif_utils:find_waif_types(x.(y), class);
+    if (match != {})
+      total = total + 1;
+      if (!summary)
+        player:tell(`$string_utils:nn(x) ! ANY => x');
+      endif
+      for z in (match)
+        yin(0, 1000);
+        if (!summary)
+          player:tell("    ", $string_utils:nn(z.class));
+        endif
+        if (summary)
+          if ((ind = z.class in tracking) != 0)
+            count[ind] = count[ind] + 1;
+          else
+            tracking = {@tracking, z.class};
+            count = {@count, 1};
+          endif
+        endif
+      endfor
+    endif
+  endfor
+endfor
+player:tell();
+if (summary)
+  ret = {};
+  for x in [1..length(tracking)]
+    ret = {@ret, {$string_utils:nn(tracking[x]), count[x]}};
+    yin();
+  endfor
+  ret = $list_utils:sort_alist(ret, 2);
+  for x in [1..length(ret)]
+    ret[x][2] = tostr(ret[x][2]);
+    yin();
+  endfor
+  player:tell_lines($string_utils:fit_to_screen({{"Waif", "Count"}, @ret}, 2, 1));
+endif
+player:tell("Total: ", total, " ", total == 1 ? "property" | "properties", " in ", ftime() - start, " seconds.");
+.
+```
 ### Built-in Functions
 
 There are a large number of built-in functions available for use by MOO programmers. Each one is discussed in detail in this section. The presentation is broken up into subsections by grouping together functions with similar or related uses.
@@ -2279,7 +2549,7 @@ int `value_bytes` (value)
 
 value_hash -- Returns the same string as `string_hash(toliteral(value))`.
 
-str `value_hash` (value, [, str algo])
+str `value_hash` (value, [, str algo] [, binary])
 
 See the description of `string_hash()` for details.
 
@@ -2386,6 +2656,24 @@ random()                    => integer between 1 and maximum integer supported
 random(1, 5000)             => integer between 1 and 5000
 ```
 
+**Function: `frandom`**
+
+float `frandom` (FLOAT mod1 [, FLOAT mod2)
+
+If only one argument is given, a floating point number is chosen randomly from the range `[1.0..mod1]` and returned. If two arguments are given, a floating point number is randomly chosen from the range `[mod1..mod2]`.
+
+**Function: `random_bytes`**
+
+int `random_bytes` (int count)
+
+Returns a binary string composed of between one and 10000 random bytes. count specifies the number of bytes and must be a positive integer; otherwise, E_INVARG is raised. 
+
+**Function: `reseed_random`**
+
+reseed_random -- Provide a new seed to the pseudo random number generator.
+
+void `reseed_random`()
+
 **Function: `min`**
 
 min -- Return the smallest of it's arguments.
@@ -2409,6 +2697,12 @@ abs -- Returns the absolute value of x.
 int `abs` (int x)
 
 If x is negative, then the result is `-x`; otherwise, the result is x. The number x can be either integer or floating-point; the result is of the same kind.
+
+**Function: `exp`**
+
+exp -- Returns E (Eulers number) raised to the power of x.
+
+float exp (FLOAT x)
 
 **Function: `floatstr`**
 
@@ -2552,30 +2846,49 @@ strsub("foobar", "OB", "b", 1)          =>   "foobar"
 ```
 
 **Function: `index`**
-
-index -- Returns the index of the first character of the first occurrence of str2 in str1.
-
-int `index` (str str1, str str2, [, int case-matters])
-
-If str2 does not occur in str1 at all, zero is returned. By default the search for an occurrence of str2 is done while ignoring the upper/lower case distinction. If case-matters is provided and true, then case is treated as significant in all comparisons.
-
-```
-index("foobar", "o")        =>   2
-index("foobar", "x")        =>   0
-index("foobar", "oba")      =>   3
-index("Foobar", "foo", 1)   =>   0
-```
-
 **Function: `rindex`**
 
+index -- Returns the index of the first character of the first occurrence of str2 in str1.
 rindex -- Returns the index of the first character of the last occurrence of str2 in str1.
 
-int `rindex` (str str1, str str2, [, int case-matters])
+int `index` (str str1, str str2, [, int case-matters [, int skip])
+int `rindex` (str str1, str str2, [, int case-matters [, int skip])
 
-If str2 does not occur in str1 at all, zero is returned. By default the search for an occurrence of str2 is done while ignoring the upper/lower case distinction. If case-matters is provided and true, then case is treated as significant in all comparisons.
+These functions will return zero if str2 does not occur in str1 at all.
+
+By default the search for an occurrence of str2 is done while ignoring the upper/lower case distinction. If case-matters is provided and true, then case is treated as significant in all comparisons.
+
+By default the search starts at the beginning (end) of str1. If skip is provided, the search skips the first (last) skip characters and starts at an offset from the beginning (end) of str1. The skip must be a positive integer for index() and a negative integer for rindex(). The default value of skip is 0 (skip no characters).
 
 ```
-rindex("foobar", "o")       =>   3
+index("foobar", "o")            ⇒   2
+index("foobar", "o", 0, 0)      ⇒   2
+index("foobar", "o", 0, 2)      ⇒   1
+rindex("foobar", "o")           ⇒   3
+rindex("foobar", "o", 0, 0)     ⇒   3
+rindex("foobar", "o", 0, -4)    ⇒   2
+index("foobar", "x")            ⇒   0
+index("foobar", "oba")          ⇒   3
+index("Foobar", "foo", 1)       ⇒   0
+```
+
+**Function: `strtr`**
+
+strtr -- Transforms the string source by replacing the characters specified by str1 with the corresponding characters specified by str2.
+
+int `strtr` (str source, str str1, str str2 [, case-matters])
+
+All other characters are not transformed. If str2 has fewer characters than str1 the unmatched characters are simply removed from source. By default the transformation is done on both upper and lower case characters no matter the case. If case-matters is provided and true, then case is treated as significant.
+
+```
+strtr("foobar", "o", "i")           ⇒    "fiibar"
+strtr("foobar", "ob", "bo")         ⇒    "fbboar"
+strtr("foobar", "", "")             ⇒    "foobar"
+strtr("foobar", "foba", "")         ⇒    "r"
+strtr("5xX", "135x", "0aBB", 0)     ⇒    "BbB"
+strtr("5xX", "135x", "0aBB", 1)     ⇒    "BBX"
+strtr("xXxX", "xXxX", "1234", 0)    ⇒    "4444"
+strtr("xXxX", "xXxX", "1234", 1)    ⇒    "3434"
 ```
 
 **Function: `strcmp`**
@@ -2585,6 +2898,12 @@ strcmp -- Performs a case-sensitive comparison of the two argument strings.
 int `strcmp` (str str1, str str2)
 
 If str1 is [lexicographically](https://en.wikipedia.org/wiki/Lexicographical_order) less than str2, the `strcmp()` returns a negative integer. If the two strings are identical, `strcmp()` returns zero. Otherwise, `strcmp()` returns a positive integer. The ASCII character ordering is used for the comparison.
+
+**Function: `explode`**
+
+explode -- Returns a list of substrings of subject that are separated by break. break defaults to a space.
+
+list  explode(subject [, break])
 
 **Function: `decode_binary`**
 
@@ -2615,6 +2934,48 @@ encode_binary("~foo")                     =>   "~7Efoo"
 encode_binary({"foo", 10}, {"bar", 13})   =>   "foo~0Abar~0D"
 encode_binary("foo", 10, "bar", 13)       =>   "foo~0Abar~0D"
 ```
+
+**Function: `decode_base64`**
+
+decode_base64 -- Returns the binary string representation of the supplied Base64 encoded string argument.
+
+str `decode_base64` (str base64 [, int safe])
+
+Raises E_INVARG if base64 is not a properly-formed Base64 string. If safe is provide and is true, a URL-safe version of Base64 is used (see RFC4648).
+
+```
+decode_base64("AAEC")      ⇒    "~00~01~02"
+decode_base64("AAE", 1)    ⇒    "~00~01"
+```
+
+**Function: `encode_base64`**
+
+encode_base64 -- Returns the Base64 encoded string representation of the supplied binary string argument.
+
+str encode_base64 (str binary [, int safe])
+
+Raises E_INVARG if binary is not a properly-formed binary string. If safe is provide and is true, a URL-safe version of Base64 is used (see [RFC4648](https://datatracker.ietf.org/doc/html/rfc4648)).
+
+```
+encode_base64("~00~01~02")    ⇒    "AAEC"
+encode_base64("~00~01", 1)    ⇒    "AAE"
+```
+
+**Function: `spellcheck`**
+
+spellcheck -- This function checks the English spelling of word.
+
+int | list `spellcheck`(STR word)
+
+If the spelling is correct, the function will return a 1. If the spelling is incorrect, a LIST of suggestions for correct spellings will be returned instead. If the spelling is incorrect and no suggestions can be found, an empty LIST is returned.
+
+**Function: `chr`**
+
+chr -- This function translates integers into ASCII characters. Each argument must be an integer between 0 and 255.
+
+int `chr`(INT <arg>, ...)
+
+If the programmer is not a wizard, and integers less than 32 are provided, E_INVARG is raised. This prevents control characters or newlines from being written to the database file by non-trusted individuals.
 
 **Function: `match`**
 
@@ -2794,28 +3155,47 @@ substitute("I thank you for your %1 here in %2.", subs)
         =>   "I thank you for your Welcome here in ToastStunt."
 ```
 
+**Function: `salt`**
+
+salt -- Generate a crypt() compatible salt string for the specified salt format using the specified binary random input.
+
+str salt (str format, str input)
+
+The specific set of formats supported depends on the libraries used to build the server, but will always include the standard salt format, indicated by the format string "" (the empty string), and the BCrypt salt format, indicated by the format string "$2a$NN$" (where "NN" is the work factor). Other possible formats include MD5 ("$1$"), SHA256 ("$5$") and SHA512 ("$6$"). Both the SHA256 and SHA512 formats support optional rounds.
+
+```
+salt("", ".M")                                           ⇒    "iB"
+salt("$1$", "~183~1E~C6/~D1")                            ⇒    "$1$MAX54zGo"
+salt("$5$", "x~F2~1Fv~ADj~92Y~9E~D4l~C3")                ⇒    "$5$s7z5qpeOGaZb"
+salt("$5$rounds=2000$", "G~7E~A7~F5Q5~B7~0Aa~80T")       ⇒    "$5$rounds=2000$5trdp5JBreEM"
+salt("$6$", "U7~EC!~E8~85~AB~CD~B5+~E1?")                ⇒    "$6$JR1vVUSVfqQhf2yD"
+salt("$6$rounds=5000$", "~ED'~B0~BD~B9~DB^,\\~BD~E7")    ⇒    "$6$rounds=5000$hT0gxavqSl0L"
+salt("$2a$08$", "|~99~86~DEq~94_~F3-~1A~D2#~8C~B5sx")    ⇒    "$2a$08$dHkE1lESV9KrErGhhJTxc."
+```
+
+> Note: To ensure proper security, the random input must be from a sufficiently random source.
+
 **Function: `crypt`**
 
 crypt -- Encrypts the given text using the standard UNIX encryption method.
 
 str `crypt` (str text [, str salt])
 
-Encrypts (hashes) the given text using the standard UNIX encryption method. If provided, salt should be a string at least two characters long, and it may dictate a specific algorithm to use. By default, crypt uses the original, now insecure, DES algorithm. ToastStunt specifically includes the BCrypt algorithm (identified by salts that start with "$2a$"), and may include MD5, SHA256, and SHA512 algorithms depending on the libraries used to build the server. The salt used is returned as the first part of the resulting encrypted string.
+Encrypts (hashes) the given text using the standard UNIX encryption method. If provided, salt should be a string at least two characters long, and it may dictate a specific algorithm to use. By default, crypt uses the original, now insecure, DES algorithm. Stunt specifically includes the BCrypt algorithm (identified by salts that start with "$2a$"), and may include MD5, SHA256, and SHA512 algorithms depending on the libraries used to build the server. The salt used is returned as the first part of the resulting encrypted string.
 
-Aside from the possibly-random input in the salt, the encryption algorithms are entirely deterministic. In particular, you can test whether or not a given string is the same as the one used to produce a given piece of encrypted text; simply extract the salt from the front of the encrypted text and pass the candidate string and the salt to crypt(). If the result is identical to the given encrypted text, then youve got a match.
-
+Aside from the possibly-random input in the salt, the encryption algorithms are entirely deterministic. In particular, you can test whether or not a given string is the same as the one used to produce a given piece of encrypted text; simply extract the salt from the front of the encrypted text and pass the candidate string and the salt to crypt(). If the result is identical to the given encrypted text, then you’ve got a match.
 
 ```
-crypt("foobar", "iB")                               =>    "iBhNpg2tYbVjw"
-crypt("foobar", "$1$MAX54zGo")                      =>    "$1$MAX54zGo$UKU7XRUEEiKlB.qScC1SX0"
-crypt("foobar", "$5$s7z5qpeOGaZb")                  =>    "$5$s7z5qpeOGaZb$xkxjnDdRGlPaP7Z ... .pgk/pXcdLpeVCYh0uL9"
-crypt("foobar", "$5$rounds=2000$5trdp5JBreEM")      =>    "$5$rounds=2000$5trdp5JBreEM$Imi ... ckZPoh7APC0Mo6nPeCZ3"
-crypt("foobar", "$6$JR1vVUSVfqQhf2yD")              =>    "$6$JR1vVUSVfqQhf2yD$/4vyLFcuPTz ... qI0w8m8az076yMTdl0h."
-crypt("foobar", "$6$rounds=5000$hT0gxavqSl0L")      =>    "$6$rounds=5000$hT0gxavqSl0L$9/Y ... zpCATppeiBaDxqIbAN7/"
-crypt("foobar", "$2a$08$dHkE1lESV9KrErGhhJTxc.")    =>    "$2a$08$dHkE1lESV9KrErGhhJTxc.QnrW/bHp8mmBl5vxGVUcsbjo3gcKlf6"
+crypt("foobar", "iB")                               ⇒    "iBhNpg2tYbVjw"
+crypt("foobar", "$1$MAX54zGo")                      ⇒    "$1$MAX54zGo$UKU7XRUEEiKlB.qScC1SX0"
+crypt("foobar", "$5$s7z5qpeOGaZb")                  ⇒    "$5$s7z5qpeOGaZb$xkxjnDdRGlPaP7Z ... .pgk/pXcdLpeVCYh0uL9"
+crypt("foobar", "$5$rounds=2000$5trdp5JBreEM")      ⇒    "$5$rounds=2000$5trdp5JBreEM$Imi ... ckZPoh7APC0Mo6nPeCZ3"
+crypt("foobar", "$6$JR1vVUSVfqQhf2yD")              ⇒    "$6$JR1vVUSVfqQhf2yD$/4vyLFcuPTz ... qI0w8m8az076yMTdl0h."
+crypt("foobar", "$6$rounds=5000$hT0gxavqSl0L")      ⇒    "$6$rounds=5000$hT0gxavqSl0L$9/Y ... zpCATppeiBaDxqIbAN7/"
+crypt("foobar", "$2a$08$dHkE1lESV9KrErGhhJTxc.")    ⇒    "$2a$08$dHkE1lESV9KrErGhhJTxc.QnrW/bHp8mmBl5vxGVUcsbjo3gcKlf6"
 ```
 
-Note: The specific set of supported algorithms depends on the libraries used to build the server. Only the BCrypt algorithm, which is distributed with the server source code, is guaranteed to exist. BCrypt is currently mature and well tested, and is recommended for new development.
+> Note: The specific set of supported algorithms depends on the libraries used to build the server. Only the BCrypt algorithm, which is distributed with the server source code, is guaranteed to exist. BCrypt is currently mature and well tested, and is recommended for new development. 
 
 > Warning: The entire salt (of any length) is passed to the operating system’s low-level crypt function. It is unlikely, however, that all operating systems will return the same string when presented with a longer salt. Therefore, identical calls to crypt() may generate different results on different platforms, and your password verification systems will fail. Use a salt longer than two characters at your own risk. 
 
@@ -2862,15 +3242,15 @@ This is a more secure way to hash passwords than the `crypt()` builtin.
 
 **Function: `binary_hash`**
 
-string_hash -- Returns a 64-character hexadecimal string.
+string_hash -- Returns a string encoding the result of applying the SHA256 cryptographically secure hash function to the contents of the string text or the binary string bin-string.
 
-binary_hash -- Returns a 64-character hexadecimal string.
+binary_hash -- Returns a string encoding the result of applying the SHA256 cryptographically secure hash function to the contents of the string text or the binary string bin-string.
 
-str `string_hash` (str string, [, algo]) 
+str `string_hash` (str string, [, algo [, binary]]) 
 
-str `binary_hash` (str bin-string, [, algo])
+str `binary_hash` (str bin-string, [, algo [, binary])
 
-Returns a 64-character hexadecimal string encoding the result of applying the SHA256 cryptographically secure hash function to the contents of the string text or the binary string bin-string. If algo is provided, it specifies the hashing algorithm to use. "MD5", "SHA1" and "SHA256" are all supported.
+ If algo is provided, it specifies the hashing algorithm to use. "MD5", "SHA1", "SHA224", "SHA256", "SHA384", "SHA512" and "RIPEMD160" are all supported. If binary is provided and true, the result is in MOO binary string format; by default the result is a hexidecimal string.
 
 Note that the MD5 hash algorithm is broken from a cryptographic standpoint, as is SHA1. Both are included for interoperability with existing applications (both are still popular).
 
@@ -2887,10 +3267,10 @@ This can be useful, for example, in certain networking applications: after sendi
 **Function: `string_hmac`**
 **Function: `binary_hmac`**
 
-str string_hmac (str text, str key)
-str binary_hmac (str bin-string, str key)
+str string_hmac (str text, str key [, str algo [, binary]])
+str binary_hmac (str bin-string, str key [, str algo [, binary]])
 
-Returns a 64-character hexadecimal string encoding the result of applying the HMAC-SHA256 cryptographically secure HMAC function to the contents of the string text or the binary string bin-string with the specified secret key. Currently, only HMAC-SHA256 is supported.
+Returns a string encoding the result of applying the HMAC-SHA256 cryptographically secure HMAC function to the contents of the string text or the binary string bin-string with the specified secret key. If algo is provided, it specifies the hashing algorithm to use. Currently, only "SHA1" and "SHA256" are supported. If binary is provided and true, the result is in MOO binary string format; by default the result is a hexidecimal string.
 
 All cryptographically secure HMACs have the property that, if
 
@@ -2905,6 +3285,7 @@ and furthermore,
 `equal(a, b)`
 
 This can be useful, for example, in applications that need to verify both the integrity of the message (the text) and the authenticity of the sender (as demonstrated by the possession of the secret key).
+
 ##### Operations on Lists
 
 **Function: `length`**
@@ -2937,7 +3318,20 @@ is_member("XyZ", {"XYZ", "xyz", "XyZ"})    => 3
 is_member("def", {"ABC", "DEF", "GHI"}, 0) => 2 
 ```
 
-**Function: `listinsert`**<br>
+**Function: `all_members`**
+
+all_members -- Returns the indices of every instance of `value` in `alist`.
+
+LIST all_members(ANY `value`, LIST `alist`)
+
+Example:
+
+```
+all_members("a", {"a", "b", "a", "c", "a", "d"}) => {1, 3, 5}
+```
+
+**Function: `listinsert`**
+
 **Function: `listappend`**
 
 listinsert -- This functions return a copy of list with value added as a new element.
@@ -3014,6 +3408,72 @@ setremove({1, 2, 3}, 3)      =>   {1, 2}
 setremove({1, 2, 3}, 4)      =>   {1, 2, 3}
 setremove({1, 2, 3, 2}, 2)   =>   {1, 3, 2}
 ```
+
+**Function: `reverse`**
+
+reverse -- Return a reversed list.
+
+Syntax:  reverse(LIST <alist>) => LIST
+
+Examples:
+
+```
+reverse({1,2,3,4}) => {4,3,2,1}
+```
+
+**Function: `slice`**
+
+list slice(LIST alist [, INT | LIST | STR index, ANY default map value])
+
+Return the index-th elements of alist. By default, index will be 1. If index is a list of integers, the returned list will have those elements from alist. This is the built-in equivalent of LambdaCore's $list_utils:slice verb.
+
+If alist is a list of maps, index can be a string indicating a key to return from each map in alist.
+
+If default map value is specified, any maps not containing the key index will have default map value returned in their place. This is useful in situations where you need to maintain consistency with a list index and can't have gaps in your return list.
+
+Examples:
+
+```
+slice({{"z", 1}, {"y", 2}, {"x",5}}, 2)                                 => {1, 2, 5}
+slice({{"z", 1, 3}, {"y", 2, 4}}, {2, 1})                               => {{1, "z"}, {2, "y"}}
+slice({["a" -> 1, "b" -> 2], ["a" -> 5, "b" -> 6]}, "a")                => {1, 5}
+slice({["a" -> 1, "b" -> 2], ["a" -> 5, "b" -> 6], ["b" -> 8]}, "a", 0) => {1, 5, 0}
+```
+
+> Warning: Take care when using this when thread mode is active, as this is a threaded function and that means it implicitly suspends. `set_thread_mode(0)` if you want to use this without suspending.
+
+**Function: `sort`**
+
+sort -- Sorts list either by keys or using the list itself.
+
+list sort(LIST list [, LIST keys, INT natural sort order?, INT reverse])
+
+When sorting list by itself, you can use an empty list ({}) for keys to specify additional optional arguments.
+
+If natural sort order is true, strings containing multi-digit numbers will consider those numbers to be a single character. So, for instance, this means that 'x2' would come before 'x11' when sorted naturally because 2 is less than 11. This argument defaults to 0.
+
+If reverse is true, the sort order is reversed. This argument defaults to 0.
+
+Examples:
+
+Sort a list by itself:
+
+```
+sort({"a57", "a5", "a7", "a1", "a2", "a11"}) => {"a1", "a11", "a2", "a5", "a57", "a7"}
+```
+
+Sort a list by itself with natural sort order:
+
+```
+sort({"a57", "a5", "a7", "a1", "a2", "a11"}, {}, 1) => {"a1", "a2", "a5", "a7", "a11", "a57"}
+```
+
+Sort a list of strings by a list of numeric keys:
+
+```
+sort({"foo", "bar", "baz"}, {123, 5, 8000}) => {"bar", "foo", "baz"}
+```
+
 ##### Operations on Maps
 
 When using the functions below, it’s helpful to remember that maps are ordered.
@@ -3029,15 +3489,19 @@ mapkeys(x)   =>  {"bar", "baz", "foo"}
 ```
 
 **Function: `mapvalues`**
+
 mapvalues -- returns the values of the elements of a map.
 
-list `mapvalues` (map map)
+list `mapvalues` (MAP `map` [, ... STR `key`])
 
-Returns the values of the elements of map.
+If you only want the values of specific keys in the map, you can specify them as optional arguments. See examples below.
+
+Examples:  
 
 ```
 x = ["foo" -> 1, "bar" -> 2, "baz" -> 3];
-mapvalues(x)   ⇒   {2, 3, 1}
+mapvalues(x)               =>  {2, 3, 1}
+mapvalues(x, "foo", "baz") => {1, 3}
 ```
 
 **Function: `mapdelete`**
@@ -3050,6 +3514,12 @@ x = ["foo" -> 1, "bar" -> 2, "baz" -> 3];
 mapdelete(x, "bar")   ⇒   ["baz" -> 3, "foo" -> 1]
 ```
 
+**Function: `maphaskey`**
+
+maphaskey -- Returns 1 if key exists in map. When not dealing with hundreds of keys, this function is faster (and easier to read) than something like: !(x in mapkeys(map))
+
+int maphaskey (MAP map, STR key)
+
 #### Manipulating Objects
 
 Objects are, of course, the main focus of most MOO programming and, largely due to that, there are a lot of built-in functions for manipulating them.
@@ -3060,18 +3530,20 @@ Objects are, of course, the main focus of most MOO programming and, largely due 
 
 create -- Creates and returns a new object whose parent (or parents) is parent (or parents) and whose owner is as described below.
 
-obj `create` (obj parent [, obj owner])
-obj `create` (list parents [, obj owner])
+obj `create` (obj parent [, obj owner] [, int anon-flag] [, list init-args])
+obj `create` (list parents [, obj owner] [, int anon-flag] [, list init-args])
 
-Creates and returns a new object whose parents are parents (or whose parent is parent) and whose owner is as described below. If any of the given parents objects are neither valid nor #-1 then E_INVARG is raised. The given parents objects must be valid and fertile (i.e., their ‘f’ bit must be set) or else the programmer must own parents or be a wizard; otherwise E_PERM is raised. E_PERM is also raised if owner is provided and not the same as the programmer, unless the programmer is a wizard. After the new object is created, its initialize verb, if any, is called with no arguments.
+Creates and returns a new object whose parents are parents (or whose parent is parent) and whose owner is as described below. If any of the given parents are not valid, or if the given parent is neither valid nor #-1, then E_INVARG is raised. The given parents objects must be valid and must be usable as a parent (i.e., their ‘a’ or ‘f’ bits must be true) or else the programmer must own parents or be a wizard; otherwise E_PERM is raised. Futhermore, if anon-flag is true then ‘a’ must be true; and, if anon-flag is false or not present, then ‘f’ must be true. Otherwise, E_PERM is raised unless the programmer owns parents or is a wizard. E_PERM is also raised if owner is provided and not the same as the programmer, unless the programmer is a wizard. 
 
-The new object is assigned the least non-negative object number that has not yet been used for a created object. Note that no object number is ever reused, even if the object with that number is recycled.
-
-//TODO update for ToastCore's built in recycler, or whatever that is.
+After the new object is created, its initialize verb, if any, is called. If init-args were given, they are passed as args to initialize. The new object is assigned the least non-negative object number that has not yet been used for a created object. Note that no object number is ever reused, even if the object with that number is recycled.
 
 > Note: This is not strictly true, especially if you are using ToastCore and the `$recycler`, which is a great idea.  If you don't, you end up with extremely high object numbers. However, if you plan on reusing object numbers you need to consider this carefully in your code. You do not want to include object numbers in your code if this is the case, as object numbers could change. Use corified references instead (IE: ` @prop #0.my_object #objnum` allows you to use $my_object in your code. If the object number ever changes, you can change the reference without updating all of your code.)
 
-The owner of the new object is either the programmer (if owner is not provided), the new object itself (if owner was given as `#-1`), or owner (otherwise).
+If anon-flag is false or not present, the new object is a permanent object and is assigned the least non-negative object number that has not yet been used for a created object. Note that no object number is ever reused, even if the object with that number is recycled.
+
+If anon-flag is true, the new object is an anonymous object and is not assigned an object number. Anonymous objects are automatically recycled when they are no longer used.
+
+The owner of the new object is either the programmer (if owner is not provided), the new object itself (if owner was given and is invalid, or owner (otherwise). 
 
 The other built-in properties of the new object are initialized as follows:
 
@@ -3086,11 +3558,17 @@ w            0
 f            0
 ```
 
-The function `is_player()` returns false for newly created objects.
+The function ‘is_player()’ returns false for newly created objects.
 
-In addition, the new object inherits all of the other properties on parents. These properties have the same permission bits as on its parents. If the `c` permissions bit is set, then the owner of the property on the new object is the same as the owner of the new object itself; otherwise, the owner of the property on the new object is the same as that on parent. The initial value of every inherited property is _clear_; see the description of the built-in function `clear_property()` for details.
+In addition, the new object inherits all of the other properties on its parents. These properties have the same permission bits as on the parents. If the ‘c’ permissions bit is set, then the owner of the property on the new object is the same as the owner of the new object itself; otherwise, the owner of the property on the new object is the same as that on the parent. The initial value of every inherited property is clear; see the description of the built-in function clear_property() for details.
 
-If the intended owner of the new object has a property named `ownership_quota` and the value of that property is an integer, then `create()` treats that value as a _quota_. If the quota is less than or equal to zero, then the quota is considered to be exhausted and `create()` raises `E_QUOTA` instead of creating an object.  Otherwise, the quota is decremented and stored back into the `ownership_quota` property as a part of the creation of the new object.
+If the intended owner of the new object has a property named ‘ownership_quota’ and the value of that property is an integer, then create() treats that value as a quota. If the quota is less than or equal to zero, then the quota is considered to be exhausted and create() raises E_QUOTA instead of creating an object. Otherwise, the quota is decremented and stored back into the ‘ownership_quota’ property as a part of the creation of the new object. 
+
+**Function: `owned_objects`**
+
+owned_objects -- Returns a list of all objects in the database owned by <owner>. Ownership is defined by the value of .owner on the object.
+
+list `owned_objects`(OBJ owner)
 
 **Function: `chparent`**
 
@@ -3142,6 +3620,57 @@ children -- return a list of the children of object.
 
 list `children` (obj object)
 
+**Function: `isa`**
+
+int isa(OBJ object, OBJ parent)
+
+obj isa(OBJ object, LIST parent list [, INT return_parent])
+
+Returns true if object is a descendant of parent, otherwise false.
+
+If a third argument is present and true, the return value will be the first parent that object1 descends from in the <parent list>.
+
+```
+isa(#2, $wiz)                           => 1
+isa(#2, {$thing, $wiz, $container})     => 1
+isa(#2, {$thing, $wiz, $container}, 1)  => #57 (generic wizard)
+isa(#2, {$thing, $room, $container}, 1) => #-1 
+```
+
+**Function: `locate_by_name`**
+
+locate_by_name -- This function searches every object in the database for those containing <object name> in their .name property.
+
+list locate_by_name (STR object name)
+
+> Warning: Take care when using this when thread mode is active, as this is a threaded function and that means it implicitly suspends. `set_thread_mode(0)` if you want to use this without suspending.
+
+**Function: `locations`**
+
+list locations(OBJ object)
+
+Recursively build a list of an object's location, its location's location, and so forth until finally hitting $nothing.
+
+Example:
+
+```
+locations(me) => {#20381, #443, #104735}
+
+$string_utils:title_list(locations(me)) => "\"Butterknife Ballet\" Control Room FelElk, the one-person celestial birther \"Butterknife Ballet\", and Uncharted Space: Empty Space"
+```
+
+**Function: `occupants`**
+
+list occupants(LIST objects [, OBJ | LIST parent, INT player flag set?])
+
+Iterates through the list of objects and returns those matching a specific set of criteria:
+
+1. If only objects is specified, the occupants function will return a list of objects with the player flag set.
+
+2. If the parent argument is specified, a list of objects descending from parent> will be returned. If parent is a list, object must descend from at least one object in the list.
+
+3. If both parent and player flag set are specified, occupants will check both that an object is descended from parent and also has the player flag set.
+
 **Function: `recycle`**
 
 recycle -- destroy object irrevocably.
@@ -3151,6 +3680,45 @@ none `recycle` (obj object)
 The given object is destroyed, irrevocably. The programmer must either own object or be a wizard; otherwise, `E_PERM` is raised. If object is not valid, then `E_INVARG` is raised. The children of object are reparented to the parent of object. Before object is recycled, each object in its contents is moved to `#-1` (implying a call to object's `exitfunc` verb, if any) and then object's `recycle` verb, if any, is called with no arguments.
 
 After object is recycled, if the owner of the former object has a property named `ownership_quota` and the value of that property is a integer, then `recycle()` treats that value as a _quota_ and increments it by one, storing the result back into the `ownership_quota` property.
+
+**Function: `recreate`**
+
+recreate -- Recreate invalid object old (one that has previously been recycle()ed) as parent, optionally owned by owner.
+obj recreate(OBJ old, OBJ parent [, OBJ owner])
+
+This has the effect of filling in holes created by recycle() that would normally require renumbering and resetting the maximum object.
+
+The normal rules apply to parent and owner. You either have to own parent, parent must be fertile, or you have to be a wizard. Similarly, to change owner, you should be a wizard. Otherwise it's superfluous.
+
+**Function: `next_recycled_object`**
+
+next_recycled_object -- Return the lowest invalid object. If start is specified, no object lower than start will be considered. If there are no invalid objects, this function will return 0.
+
+obj | int next_recycled_object(OBJ start)
+
+**Function: `recycled_objects`**
+
+recycled_objects -- Return a list of all invalid objects in the database. An invalid object is one that has been destroyed with the recycle() function.
+
+list `recycled_objects`()
+
+**Function: `ancestors`**
+
+ancestors -- Return a list of all ancestors of `object` in order ascending up the inheritance hiearchy. If `full` is true, `object` will be included in the list.
+
+list `ancestors`(OBJ <object> [, INT <full>])
+
+**Function: `clear_ancestor_cache`**
+
+void `clear_ancestor_cache`()
+
+The ancestor cache contains a quick lookup of all of an object's ancestors which aids in expediant property lookups. This is an experimental feature and, as such, you may find that something has gone wrong. If that's that case, this function will completely clear the cache and it will be rebuilt as-needed.
+
+**Function: `descendants`**
+
+list descendants(OBJ object [, INT full])
+
+Return a list of all nested children of object. If full is true, object will be included in the list.
 
 **Function: `object_bytes`**
 
@@ -3162,11 +3730,17 @@ The space calculation includes the space used by the values of all of the object
 
 Raises `E_INVARG` if object is not a valid object and `E_PERM` if the programmer is not a wizard.
 
+**Function: `respond_to`**
+
+int | list respond_to(OBJ object, STR verb)
+
+Returns true if verb is callable on object, taking into account inheritance, wildcards (star verbs), etc. Otherwise, returns false.  If the caller is permitted to read the object (because the object's `r' flag is true, or the caller is the owner or a wizard) the true value is a list containing the object number of the object that defines the verb and the full verb name(s).  Otherwise, the numeric value `1' is returned.
+
 **Function: `max_object`**
 
 max_object -- Returns the largest object number ever assigned to a created object.
 
-obj `max_object` ()
+obj `max_object`()
 
 //TODO update for how Toast handles recycled objects if it is different
 Note that the object with this number may no longer exist; it may have been recycled.  The next object created will be assigned the object number one larger than the value of `max_object()`. The next object getting the number one larger than `max_object()` only applies if you are using built-in functions for creating objects and does not apply if you are using the `$recycler` to create objects.
@@ -3177,7 +3751,7 @@ Note that the object with this number may no longer exist; it may have been recy
 
 move -- Changes what's location to be where.
 
-none `move` (obj what, obj where [,INT position)
+none `move` (obj what, obj where [, INT position)
 
 This is a complex process because a number of permissions checks and notifications must be performed.  The actual movement takes place as described in the following paragraphs.
 
@@ -3395,6 +3969,24 @@ list `disassemble` (obj object, str verb-desc)
 This format is not documented and may indeed change from release to release, but some programmers may nonetheless find the output of `disassemble()` interesting to peruse as a way to gain a deeper appreciation of how the server works.
 
 If object is not valid, then `E_INVARG` is raised. If object does not define a verb as specified by verb-desc, then `E_VERBNF` is raised. If the programmer does not have read permission on the verb in question, then `disassemble()` raises `E_PERM`.
+
+##### Operations on WAIFs
+
+**Function: `new_waif`**
+
+new_waif -- The `new_waif()` builtin creates a new WAIF whose class is the calling object and whose owner is the perms of the calling verb.
+
+waif `new_waif`()
+
+This wizardly version causes it to be owned by the caller of the verb.
+
+**Function: `waif_stats`**
+
+waif_stats -- Returns a MAP of statistics about instantiated waifs.
+
+map `waif_stats`()
+
+Each waif class will be a key in the MAP and its value will be the number of waifs of that class currently instantiated. Additionally, there is a `total' key that will return the total number of instantiated waifs, and a `pending_recycle' key that will return the number of waifs that have been destroyed and are awaiting the call of their :recycle verb.
 
 ##### Operations on Player Objects
 
@@ -3783,6 +4375,140 @@ void `file_chmod`(STR filename, STR mode)
 
 This is implemented using chmod().
 
+##### Operations on SQLite
+
+SQLite allows you to store information in locally hosted SQLite databases.
+
+**Function: `sqlite_open`**
+
+sqlite_open -- The function `sqlite_open` will attempt to open the database at path for use with SQLite.
+
+int `sqlite_open`(STR path to database, [INT options])
+
+The second argument is a bitmask of options. Options are:
+
+SQLITE_PARSE_OBJECTS [4]:    Determines whether strings beginning with a pound symbol (#) are interpreted as MOO object numbers or not. The default is true, which means that any queries that would return a string (such as "#123") will be returned as objects.
+
+SQLITE_PARSE_TYPES [2]:      If unset, no parsing of rows takes place and only strings are returned.
+
+SQLITE_SANITIZE_STRINGS [8]: If set, newlines (\n) are converted into tabs (\t) to avoid corrupting the MOO database. Default is unset.
+
+> Note: If the MOO doesn't support bitmasking, you can still specify options. You'll just have to manipulate the int yourself. e.g. if you want to parse objects and types, arg[2] would be a 6. If you only want to parse types, arg[2] would be 2.
+
+If successful, the function will return the numeric handle for the open database.
+
+If unsuccessful, the function will return a helpful error message.
+
+If the database is already open, a traceback will be thrown that contains the already open database handle.
+
+**Function: `sqlite_close`**
+
+sqlite_close -- This function will close an open database.
+
+int `sqlite_close`(INT database handle)
+
+If successful, return 1;
+
+If unsuccessful, returns E_INVARG.
+
+**Function: `sqlite_execute`**
+
+sqlite_execute -- This function will attempt to create and execute the prepared statement query given in query on the database referred to by handle with the values values.
+
+list | str `sqlite_execute`(INT database handle, STR SQL prepared statement query, LIST values)
+
+On success, this function will return a list identifying the returned rows. If the query didn't return rows but was successful, an empty list is returned.
+
+If the query fails, a string will be returned identifying the SQLite error message.
+
+`sqlite_execute` uses prepared statements, so it's the preferred function to use for security and performance reasons.
+
+Example:
+
+```
+sqlite_execute(0, "INSERT INTO users VALUES (?, ?, ?);", {#7, "lisdude", "Albori Sninvel"})
+```
+
+**Function: `sqlite_query`**
+
+sqlite_query -- This function will attempt to execute the query given in query on the database referred to by handle.
+
+list | str `sqlite_query`(INT database handle, STR database query[, INT show columns])
+
+On success, this function will return a list identifying the returned rows. If the query didn't return rows but was successful, an empty list is returned.
+
+If the query fails, a string will be returned identifying the SQLite error message.
+
+If show columns is true, the return list will include the name of the column before its results.
+
+> Warning: sqlite_query does NOT use prepared statements and should NOT be used on queries that contain user input.
+
+**Function: `sqlite_limit`**
+
+sqlite_limit -- This function allows you to specify various construct limitations on a per-database basis.
+
+int `sqlite_limit`(INT database handle, STR category INT new value)
+
+If new value is a negative number, the limit is unchanged. Each limit category has a hardcoded upper bound. Attempts to increase a limit above its hard upper bound are silently truncated to the hard upper bound.
+
+Regardless of whether or not the limit was changed, the sqlite_limit() function returns the prior value of the limit. Hence, to find the current value of a limit without changing it, simply invoke this interface with the third parameter set to -1.
+
+As of this writing, the following limits exist:
+
+| Limit  | Description |
+| ------------- | ------------- |
+| LIMIT_LENGTH | The maximum size of any string or BLOB or table row, in bytes. |
+| LIMIT_SQL_LENGTH | The maximum length of an SQL statement, in bytes. |
+| LIMIT_COLUMN | The maximum number of columns in a table definition or in the result set of a SELECT or the maximum number of columns in an index or in an ORDER BY or GROUP BY clause. |
+| LIMIT_EXPR_DEPTH | The maximum depth of the parse tree on any expression. |
+| LIMIT_COMPOUND_SELECT | The maximum number of terms in a compound SELECT statement. |
+| LIMIT_VDBE_OP | The maximum number of instructions in a virtual machine program used to implement an SQL statement. If sqlite3_prepare_v2() or the equivalent tries to allocate space for more than this many opcodes in a single prepared statement, an SQLITE_NOMEM error is returned. |
+| LIMIT_FUNCTION_ARG  | The maximum number of arguments on a function. |
+| LIMIT_ATTACHED | The maximum number of attached databases. |
+| LIMIT_LIKE_PATTERN_LENGTH | The maximum length of the pattern argument to the LIKE or GLOB operators. |
+| LIMIT_VARIABLE_NUMBER | The maximum index number of any parameter in an SQL statement. |
+| LIMIT_TRIGGER_DEPTH | The maximum depth of recursion for triggers. |
+| LIMIT_WORKER_THREADS | The maximum number of auxiliary worker threads that a single prepared statement may start. |
+
+For an up-to-date list of limits, see the [SQLite documentation](https://www.sqlite.org/c3ref/c_limit_attached.html).
+
+**Function: `sqlite_last_insert_row_id`**
+
+sqlite_last_insert_row_id -- This function identifies the row ID of the last insert command executed on the database.
+
+int `sqlite_last_insert_row_id`(INT database handle)
+
+**Function: `sqlite_interrupt`**
+
+sqlite_interrupt -- This function causes any pending database operation to abort at its earliest opportunity.
+
+none `sqlite_interrupt`(INT database handle)
+
+If the operation is nearly finished when sqlite_interrupt is called, it might not have an opportunity to be interrupted and could continue to completion.
+
+This can be useful when you execute a long-running query and want to abort it.
+
+> NOTE: As of this writing (server version 2.7.0) the @kill command WILL NOT abort operations taking place in a helper thread. If you want to interrupt an SQLite query, you must use sqlite_interrupt and NOT the @kill command.
+
+**Function: `sqlite_info`**
+
+sqlite_info -- This function returns a map of information about the database at handle
+
+map `sqlite_info`(INT database handle)
+
+The information returned is:
+
+* Database Path
+* Type parsing enabled?
+* Object parsing enabled?
+* String sanitation enabled?
+
+**Function: `sqlite_handles`**
+
+sqlite_handles -- Returns a list of open SQLite database handles.
+
+list `sqlite_handles()`
+
 ##### Operations on The Server Environment
 
 **Function: `exec`**
@@ -3984,6 +4710,22 @@ $user_disconnected(player)
 
 It is not an error if this verb does not exist; the call is simply skipped.
 
+**Function: `connection_info`**
+
+connection_info -- Returns a MAP of network connection information for `connection`. At the time of writing, the following information is returned:
+
+list `connection_info` (OBJ `connection`)
+
+| Key  | Value |
+| ------------- | ------------- |
+| destination_address | The hostname of the connection. For incoming connections, this is the hostname of the connected user. For outbound connections, this is the hostname of the outbound connection's destination. |
+| destination_ip | The unresolved numeric IP address of the connection. |
+| destination_port | For incoming connections, this is the local port used to make the connection. For outbound connections, this is the port the connection was made to. |
+| source_address | This is the hostname of the interface an incoming connection was made on. For outbound connections, this value is meaningless. |
+| source_ip | The unresolved numeric IP address of the interface a connection was made on. For outbound connections, this value is meaningless. |
+| source_port | The local port a connection connected to. For outbound connections, this value is meaningless. |
+| protocol | Describes the protocol used to make the connection. At the time of writing, this could be IPv4 or IPv6. |
+
 **Function: `connection_name`**
 
 connection_name -- returns a network-specific string identifying the connection being used by the given player
@@ -4017,6 +4759,30 @@ For the System V 'local' networking configuration, the string is the UNIX login 
 where number is a UNIX numeric user ID.
 
 For the other networking configurations, the string is the same for all connections and, thus, useless.
+
+**Function: `connection_name_lookup`**
+
+connection_name_lookup - This function performs a DNS name lookup on connection's IP address.
+
+str connection_name_lookup (OBJ connection [, INT record_result])
+
+If a hostname can't be resolved, the function simply returns the numeric IP address. Otherwise, it will return the resolved hostname.
+
+If record_result is true, the resolved hostname will be saved with the connection and will overwrite it's existing 'connection_name()'. This means that you can call 'connection_name_lookup()' a single time when a connection is created and then continue to use 'connection_name()' as you always have in the past.
+
+This function is primarily intended for use when the 'NO_NAME_LOOKUP' server option is set. Barring temporarily failures in your nameserver, very little will be gained by calling this when the server is performing DNS name lookups for you.
+
+> Note: This function runs in a separate thread. While this is good for performance (long lookups won't lock your MOO like traditional pre-2.6.0 name lookups), it also means it will require slightly more work to create an entirely in-database DNS lookup solution. Because it explicitly suspends, you won't be able to use it in 'do_login_command()' without also using the 'switch_player()' function. For an example of how this can work, see '#0:do_login_command()' in ToastCore.
+
+**Function: `switch_player`**
+
+switch_player -- Silently switches the player associated with this connection from object1 to object2.
+
+switch_player(OBJ object1, OBJ object2 [, INT silent])
+
+object1 must be connected and object2 must be a player. This can be used in do_login_command() verbs that read or suspend (which prevents the normal player selection mechanism from working.
+
+If silent is true, no connection messages will be printed.
 
 **Function: `set_connection_option`**
 
@@ -4116,6 +4882,57 @@ open_network_connection("2607:5300:60:4be0::", 1234, ["ipv6" -> 1, "listener" ->
 
 Open a new connection to the IPv6 address 2607:5300:60:4be0:: on port 1234 using TLS. Relevant verbs will be called on #6.
 
+**Function: `curl`**
+
+str curl(STR url [, INT include_headers])
+
+The curl builtin will download a webpage and return it as a string. If include_headers is true, the HTTP headers will be included in the return string.
+
+It's worth noting that the data you get back will be binary encoded. In particular, you will find that line breaks appear as ~0A. You can easily convert a page into a list by passing the return string into the decode_binary() function.
+
+**Function: `read_http`**
+
+map `read_http` (request-or-response [, OBJ conn])
+
+Reads lines from the connection conn (or, if not provided, from the player that typed the command that initiated the current task) and attempts to parse the lines as if they are an HTTP request or response. request-or-response must be either the string "request" or "response". It dictates the type of parsing that will be done.
+
+Just like read(), if conn is provided, then the programmer must either be a wizard or the owner of conn; if conn is not provided, then read_http() may only be called by a wizard and only in the task that was last spawned by a command from the connection in question. Otherwise, E_PERM is raised. Likewise, if conn is not currently connected and has no pending lines of input, or if the connection is closed while a task is waiting for input but before any lines of input are received, then read_http() raises E_INVARG.
+
+If parsing fails because the request or response is syntactically incorrect, read_http() will return a map with the single key "error" and a list of values describing the reason for the error. If parsing succeeds, read_http() will return a map with an appropriate subset of the following keys, with values parsed from the HTTP request or response: "method", "uri", "headers", "body", "status" and "upgrade".
+
+ > Fine point: read_http() assumes the input strings are binary strings. When called interactively, as in the example below, the programmer must insert the literal line terminators or parsing will fail. 
+
+The following example interactively reads an HTTP request from the players connection.
+
+```
+read_http("request", player)
+GET /path HTTP/1.1~0D~0A
+Host: example.com~0D~0A
+~0D~0A
+```
+
+In this example, the string ~0D~0A ends the request. The call returns the following (the request has no body):
+
+```
+["headers" -> ["Host" -> "example.com"], "method" -> "GET", "uri" -> "/path"]
+```
+
+The following example interactively reads an HTTP response from the players connection.
+
+```
+read_http("response", player)
+HTTP/1.1 200 Ok~0D~0A
+Content-Length: 10~0D~0A
+~0D~0A
+1234567890
+```
+
+The call returns the following:
+
+```
+["body" -> "1234567890", "headers" -> ["Content-Length" -> "10"], "status" -> 200]
+```
+
 **Function: `listen`**
 
 listen -- create a new point at which the server will listen for network connections, just as it does normally
@@ -4181,6 +4998,17 @@ unlisten(12345); listen(#0, 7777, 1)
 time -- returns the current time, represented as the number of seconds that have elapsed since midnight on 1 January 1970, Greenwich Mean Time
 
 int `time` ()
+
+**Function: `ftime`**
+
+ftime -- Returns the current time represented as the number of seconds and nanoseconds that have elapsed since midnight on 1 January 1970, Greenwich Mean Time.
+
+float ftime ([INT monotonic])
+
+If the `monotonic` argument is supplied and set to 1, the time returned will be monotonic. This means that will you will always get how much time has elapsed from an arbitrary, fixed point in the past that is unaffected by clock skew or other changes in the wall-clock. This is useful for benchmarking how long an operation takes, as it's unaffected by the actual system time.
+
+The general rule of thumb is that you should use ftime() with no arguments for telling time and ftime() with the monotonic clock argument for measuring the passage of time.
+
 **Function: `ctime`**
 
 ctime -- interprets time as a time, using the same representation as given in the description of `time()`, above, and converts it into a 28-character, human-readable string
@@ -4285,6 +5113,7 @@ one `set_task_perms` (obj who)
 
 If the programmer is neither who nor a wizard, then `E_PERM` is raised.
 > Note: This does not change the owner of the currently-running verb, only the permissions of this particular invocation. It is used in verbs owned by wizards to make themselves run with lesser (usually non-wizard) permissions.
+
 **Function: `caller_perms`**
 
 caller_perms -- returns the permissions in use by the verb that called the currently-executing verb
@@ -4292,6 +5121,79 @@ caller_perms -- returns the permissions in use by the verb that called the curre
 obj `caller_perms` ()
 
 If the currently-executing verb was not called by another verb (i.e., it is the first verb called in a command or server task), then `caller_perms()` returns `#-1`.
+
+**Function: `set_task_local`**
+
+set_task_loca -- Sets a value that gets associated with the current running task. 
+
+void set_task_local(ANY value)
+
+This value persists across verb calls and gets reset when the task is killed, making it suitable for securely passing sensitive intermediate data between verbs. The value can then later be retrieved using the `task_local` function.
+
+```
+set_task_local("arbitrary data")
+set_task_local({"list", "of", "arbitrary", "data"})
+```
+
+**Function: `task_local`**
+
+task_local -- Returns the value associated with the current task. The value is set with the `set_task_local` function.
+
+mixed `task_local` ()
+
+**Function: `threads`**
+
+threads -- When one or more MOO processes are suspended and working in a separate thread, this function will return a LIST of handlers to those threads. These handlers can then be passed to `thread_info' for more information.
+
+list `threads`()
+
+**Function: `set_thread_mode`**
+
+int `set_thread_mode`([INT mode])
+
+With no arguments specified, set_thread_mode will return the current thread mode for the verb. A value of 1 indicates that threading is enabled for functions that support it. A value of 0 indicates that threading is disabled and all functions will execute in the main MOO thread, as functions have done in default LambdaMOO since version 1.
+
+If you specify an argument, you can control the thread mode of the current verb. A mode of 1 will enable threading and a mode of 0 will disable it. You can invoke this function multiple times if you want to disable threading for a single function call and enable it for the rest.
+
+When should you disable threading? In general, threading should be disabled in verbs where it would be undesirable to suspend(). Each threaded function will immediately suspend the verb while the thread carries out its work. This can have a negative effect when you want to use these functions in verbs that cannot or should not suspend, like $sysobj:do_command or $sysobj:do_login_command.
+
+Note that the threading mode affects the current verb only and does NOT affect verbs called from within that verb.
+
+**Function: `thread_info`**
+
+thread_info -- If a MOO task is running in another thread, its thread handler will give you information about that thread. 
+
+list `thread_info`(INT thread handler)
+
+The information returned in a LIST will be:
+
+English Name: This is the name the programmer of the builtin function has given to the task being executed.
+
+Active: 1 or 0 depending upon whether or not the MOO task has been killed. Not all threads cleanup immediately after the MOO task dies.
+
+**Function: `thread_pool`**
+
+void `thread_pool`(STR function, STR pool [, INT value])
+
+This function allows you to control any thread pools that the server created at startup. It should be used with care, as it has the potential to create disasterous consequences if used incorrectly.
+
+The function parameter is the function you wish to perform on the thread pool. The functions available are:
+
+INIT: Control initialization of a thread pool.
+
+The pool parameter controls which thread pool you wish to apply the designated function to. At the time of writing, the server creates the following thread pool:
+
+MAIN: The main thread pool where threaded built-in function work takes place.
+
+Finally, value is the value you want to pass to the function of pool. The following functions accept the following values:
+
+INIT: The number of threads to spawn. NOTE: When executing this function, the existing pool will be destroyed and a new one created in its place.
+
+Examples:
+
+```
+thread_pool("INIT", "MAIN", 1)     => Replace the existing main thread pool with a new pool consisting of a single thread.
+```
 
 **Function: `ticks_left`**
 
@@ -4365,6 +5267,22 @@ resume -- immediately ends the suspension of the suspended task with the given t
 none `resume` (int task-id [, value])
 
 If value is of type `ERR`, it will be raised, rather than returned, in the suspended task. `Resume()` raises `E_INVARG` if task-id does not specify an existing suspended task and `E_PERM` if the programmer is neither a wizard nor the owner of the specified task.
+
+**Function: `yin`**
+
+yin -- Suspend the current task if it's running out of ticks or seconds.
+
+int `yin`([INT time, INT minimum ticks, INT minimum seconds] )
+
+`yin` stands for yield if needed.
+
+This is meant to provide similar functionality to the LambdaCore-based suspend_if_needed verb or manually specifying something like: ticks_left() < 2000 && suspend(0)
+
+Time: How long to suspend the task. Default: 0
+
+Minimum ticks: The minimum number of ticks the task has left before suspending.
+
+Minimum seconds: The minimum number of seconds the task has left before suspending.
 
 **Function: `queue_info`**
 
@@ -4447,7 +5365,9 @@ If include-variables is passed and true, variables will be included with each fr
 
 server_version -- returns a string giving the version number of the running MOO server
 
-str `server_version` ()
+str `server_version` ([int with-details])
+
+If with-details is provided and true, returns a detailed list including version number as well as compilation options.
 
 **Function `load_server_options`**
 load_server_options -- This causes the server to consult the current values of properties on $server_options, updating the corresponding serveroption settings
@@ -4458,11 +5378,13 @@ For more information see section Server Options Set in the Database.. If the pro
 
 **Function: `server_log`**
 
-server_log -- the text in message is sent to the server log with a distinctive prefix (so that it can be distinguished from server-generated messages)
+server_log -- The text in message is sent to the server log with a distinctive prefix (so that it can be distinguished from server-generated messages)
 
-none server_log (str message [, is-error])
+none server_log (str message [, level])
 
-If the programmer is not a wizard, then `E_PERM` is raised. If is-error is provided and true, then message is marked in the server log as an error.
+If the programmer is not a wizard, then E_PERM is raised. 
+
+If level is provided and is an integer between 0 and 7 inclusive, then message is marked in the server log as one of eight predefined types, from simple log message to error message. Otherwise, if level is provided and true, then message is marked in the server log as an error.
 
 **Function: `renumber`**
 
@@ -4488,19 +5410,25 @@ This operation is intended for use in making new versions of the ToastCore datab
 
 **Function: `memory_usage`**
 
-memory_usage -- on some versions of the server, this returns statistics concerning the server consumption of system memory
+memory_usage -- Return statistics concerning the server's consumption of system memory.
 
 list `memory_usage` ()
 
-The result is a list of lists, each in the following format:
+The result is a list in the following format:
+
+{total memory used, resident set size, shared pages, text, data + stack}
+
+**Function: `usage`**
+
+usage -- Return statistics concerning the server the MOO is running on.
+
+list `usage` ()
+
+The result is a list in the following format:
 
 ```
-{block-size, nused, nfree}
+{{load averages}, user time, system time, page reclaims, page faults, block input ops, block output ops, voluntary context switches, involuntary context switches, signals received}
 ```
-
-where block-size is the size in bytes of a particular class of memory fragments, nused is the number of such fragments currently in use in the server, and nfree is the number of such fragments that have been reserved for use but are currently free.
-
-On servers for which such statistics are not available, `memory_usage()` returns `{}`. The compilation option `USE_GNU_MALLOC` controls whether or not statistics are available; if the option is not provided, statistics are not available.
 
 **Function: `dump_database`**
 
@@ -4510,6 +5438,22 @@ none `dump_database` ()
 
 It is not normally necessary to call this function; the server automatically checkpoints the database at regular intervals; see the chapter on server assumptions about the database for details. If the programmer is not a wizard, then `E_PERM` is raised.
 
+**Function: `panic`**
+
+panic -- Unceremoniously shut down the server, mimicking the behavior of a fatal error.
+
+void panic([STR message])
+
+The database will NOT be dumped to the file specified when starting the server. A new file will be created with the name of your database appended with .PANIC.
+
+> Warning: Don't run this unless you really want to panic your server.
+
+**Function: `process_id`**
+
+process_id -- Returns the process id of the server. 
+
+int `process_id` ()
+
 **Function: `db_disk_size`**
 
 db_disk_size -- returns the total size, in bytes, of the most recent full representation of the database as one or more disk files
@@ -4517,6 +5461,42 @@ db_disk_size -- returns the total size, in bytes, of the most recent full repres
 int `db_disk_size` ()
 
 Raises `E_QUOTA` if, for some reason, no such on-disk representation is currently available.
+
+**Function: `exec`**
+
+exec -- Asynchronously executes the specified external executable, optionally sending input. 
+
+list `exec` (LIST command[, STR input][, LIST environment variables])
+
+Returns the process return code, output and error. If the programmer is not a wizard, then E_PERM is raised.
+
+The first argument must be a list of strings, or E_INVARG is raised. The first string is the path to the executable and is required. The rest are command line arguments passed to the executable.
+
+The path to the executable may not start with a slash (/) or dot-dot (..), and it may not contain slash-dot (/.) or dot-slash (./), or E_INVARG is raised. If the specified executable does not exist or is not a regular file, E_INVARG is raised.
+
+If the string input is present, it is written to standard input of the executing process.
+
+Additionally, you can provide a list of environment variables to set in the shell.
+
+When the process exits, it returns a list of the form:
+
+```
+{code, output, error}
+```
+
+code is the integer process exit status or return code. output and error are strings of data that were written to the standard output and error of the process.
+
+The specified command is executed asynchronously. The function suspends the current task and allows other tasks to run until the command finishes. Tasks suspended this way can be killed with kill_task().
+
+The strings, input, output and error are all MOO binary strings.
+
+All external executables must reside in the executables directory.
+
+```
+exec({"cat", "-?"})                                      {1, "", "cat: illegal option -- ?~0Ausage: cat [-benstuv] [file ...]~0A"}
+exec({"cat"}, "foo")                                     {0, "foo", ""}
+exec({"echo", "one", "two"})                             {0, "one two~0A", ""}
+```
 
 **Function: `shutdown`**
 
@@ -4539,111 +5519,6 @@ The server caches verbname-to-program lookups to improve performance. These func
 
 though this may change in future server releases. The cache is invalidated by any builtin function call that may have an effect on verb lookups (e.g., delete_verb()). 
 
-### Working with WAIFs
-
-> ToastStunt WAIFs are not the same as LambdaMOO WAIFs. The server executable has a -w option for converting LambdaMOO style WAIFs to the new style
-
-The MOO object structure is unique in that all classes are instances and all instances are (potentially) classes. This means that instances carry a lot of baggage that is only useful in the event that they become classes. Also, every object comes with a set of builtin properties and attributes which are primarily useful for building VR things. My idea of a lightweight object is something which is exclusively an instance. It lacks many of the things that "real MOO objects" have for their roles as classes and VR objects:
-
-- names
-- location/contents information
-- children
-- flags
-- verb definitions
-- property definitions
-- weak references (?)
-- explicit destruction 
-
-Stripped to its core, then, a WAIF has the following attributes:
-
-- Class (like a parent)
-- Owner (for permissions information)
-- Property values 
-
-A WAIF's properties and behavior are a hybrid of several existing MOO types. It is instructive to compare them:
-
-- WAIFs are refcounted values, like LISTs. After they are created, they exist as long as they are stored in a variable or property somewhere. When the last reference is gone the WAIF is destroyed with no notice.
-- There is no syntax for creating a literal WAIF. They can only be created with a builtin.
-- There is no syntax for referring to an existing WAIF. You can only use one by accessing a property or a variable where it has been stored.
-- WAIFs can change, like objects. When you change a WAIF, all references to the WAIF will see the change (like OBJ, unlike LIST).
-- You can call verbs and reference properties on WAIFs. These are inherited from its class object (with the mapping described below).
-- WAIFs are cheap to create, about the same as LISTs.
-- WAIFs are small. A WAIF with all clear properties (like right after it is created) is only a few bytes longer than a LIST big enough to hold {class, owner}. If you assign a value to a property it grows the same amount a LIST would if you appended a value to it.
-- WAIF property acesses are controlled like OBJ property accesses. Having a reference to a WAIF doesn't mean you can see what's inside it.
-- WAIFs can never define new verbs or properties.
-- WAIFs can never have any children.
-- WAIFs can't change class or ownership.
-- The only builtin properties of a WAIF are .owner and .class.
-- WAIFs do not participate in the .location/.contents hierarchy, as manipulated by move(). A WAIF class could define these properties, however (as described below).
-- WAIFs do not have OBJ flags such as .r or .wizard.
-- WAIFs can be stored in MAPs
-
-#### The WAIF Verb and Property Namespace
-
-In order to separate the verbs and properties defined for WAIFs of an object, WAIFs only inherit verbs and properties whose names begin with : (a colon). To say that another way, the following mapping is applied:
-
-`waif:verb(@args)` becomes `waif.class:(":"+verb)(@args)`
-
-Inside the WAIF verb (hereinafter called a _method_) the local variable `verb` does not have the additional colon. The value of `this` is the WAIF itself (it can determine what object it's on with `this.class`). If the method calls another verb on a WAIF or an OBJ, `caller` will be the WAIF.
-
-`waif.prop` is defined by `waif.class.(":"+prop)`
-
-The property definition provides ownership and permissions flags for the property as well as its default value, as with any OBJ. Of course the actual property value is part of the WAIF itself and can be changed during the WAIFs lifetime.
-
-In the case of +c properties, the WAIF owner is considered to be the property owner.
-
-In ToastCore you will find a corified reference of `$waif` which is pre-configured for you to begin creating WAIFs or Generic OBJs that you can then use to create WAIFs with. Here's @display output for the skeletal $waif:
-
-```
-Generic Waif (#118) [ ]
-TODO: add toastcore @display $waif
-  Child of Root Class (#1).
-  Size: 7,311 bytes at Sun Jan  2 10:37:09 2022 PST
-```
-
-This MOO OBJ `$waif` defines a verb `new` which is just like the verbs you're already familiar with. In this case, it creates a new WAIF:
-
-```
-set_task_perms(caller_perms());
-w = new_waif();
-w:initialize(@args);
-return w;
-```
-
-The `new_waif()` builtin creates a new WAIF whose class is the calling object and whose owner is the perms of the calling verb. This wizardly version causes it to be owned by the caller of the verb.
-
-Once the WAIF has been created, you can call verbs on it. Notice how the WAIF inherits `$waif::initialize`. Notice that it cannot inherit `$waif:new` because that verb's name does not start with a colon.
-
-The generic waif is fertile (`$waif.f == 1`) so that new waif classes can be derived from it. OBJ fertility is irrelevant when creating a WAIF. The ability to do that is restricted to the object itself (since `new_waif()` always returns a WAIF of class=caller).
-
-There is no string format for a WAIF. `tostr()` just returns {waif}. `toliteral()` currently returns some more information, but it's just for debugging purposes. There is no towaif(). If you want to refer to a WAIF you have to read it directly from a variable or a property somewhere. If you cannot read it out of a property (or call a verb that returns it) you can't access it. There is no way to construct a WAIF reference from another type.
-
-**Map Style WAIF access**
-
-;me.waif["cheese"]
-That will call the :_index verb on the waif class with {"cheese"} as the arguments.
-
-;me.waif["cheese"] = 17
-This will call the :_set_index verb on the waif class with {"cheese", 17} as arguments.
-
-Originally this made it easy to implement maps into LambdaMOO, since you could just have your "map waif" store a list of keys and values and have the index verbs set and get data appropriately. Then you can use them just like the native map datatype that ToastCore has now.
-
-There are other uses, though, that make it still useful today. For example, ToastCore offers a file abstraction WAIF. One of the things you can do is:
-
-```
-file = $file:open("thing.txt");
-return file[5..19];
-```
-
-That uses :_index to parse '5..19' and ultimately pass it off to file_readlines() to return those lines. Very convenient.
-
-#### Additional Details on WAIFs
-
-* When a WAIF is destroyed the MOO will Call the `recycle` verb on the WAIF, if it exists.
-* A WAIF has its own type so you can do: `typeof(some_waif) == WAIF)``
-* waif[x] and waif[x] = y will call the :_index and :_set_index verbs on the WAIF
-* The waif_stats() built-in will show how many instances of each class of WAIF exist, how many WAIFs are pending recycling, and how many WAIFs in total exist
-* You can access WAIF properties using `mywaif.:waif_property_name`
 
 ### Server Commands and Database Assumptions
 

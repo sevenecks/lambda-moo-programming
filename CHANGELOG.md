@@ -1,5 +1,37 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.1.5] - 2022.01.04 2:46PM
+
+TOAST STUNT PROGRAMMERS MANUAL
+* This update brings in changes from Stunt Programmers Guide v10
+* Updated Anonymous Object section with details from Stunt manual, and expanded on it with code examples.
+* Added Working With Anonymous Objects section
+* Fixed some typos
+* Updated create() to add the 3rd (anon object) and 4th (args to pass to :initialize) arguments
+* Added disclaimer about WAIF and Anon object creation and how it should be carefully monitored
+* Added sample code for finding WAIFs in systems
+* Updated Bitwise operators section w/ content from newest Stunt manual
+* Added random_bytes() builtin
+* Updated index() and rindex() with additional args and content from newest Stunt manual
+* Added strtr() builtin
+* Added decode_base64 builtin
+* Added encode_base64 builtin
+* Added salt builtin
+* updated crypt builtin w/ Stunt info
+* updated binary_hash & string_hash builtin info
+* updated string_hmac and binary_hmac builtin info
+* added process_id builtin
+* updated server_log builtin
+* updated server_verison builtin
+* updated memory_usage builtin for ToastStunt
+* added all_members builtin
+* updated anonymous object type section
+* moved working with WAIFs section
+* added builtins for Toast/Stunt: all_members, ancestors, chr, clear_ancestor_cache, connection_info, connection_name_lookup, curl, descendants, exec, exp, explode, frandom, ftime, getenv, isa, locate_by_name, locations, mapdelete, maphaskey, mapkeys, mapvalues, memory_sage, next_recycled_object, occupants, owned_objects, panic, read_http, recreate, recycled_objects, reseed_random, respond_to, reverse, set_task_local, set_thread_mode, slice, sort, spellcheck, switch_player, task_local,
+  thread_info, thread_pool, threads, usage, waif_stats, yin
+* added sqlite section with: sqlite_close, sqlite_execute, sqlite_handles, sqlite_info, sqlite_interrupt, sqlite_last_insert_row_id, sqlite_limit, sqlite_open, sqlite_query
+* Updated TOC
+
 ## [1.1.4] - 2022.01.03 10:01PM
 
 TOAST STUNT PROGRAMMERS MANAUL
