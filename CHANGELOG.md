@@ -1,5 +1,28 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.1.6] - 2022.01.05 5:25pm
+
+TOAST STUNT PROGRAMMERS MANUAL
+Thanks ToastStunt Discord for all the feedback/updates/changes to the Toast Programmers Guide!
+ Updated finding WAIFs example code to be the new code created by lisdude that finds anons as well
+* Updated Working with Anonymous Objects section with new note on verb to find anon references in code
+* fixed a number of typos/formatting issues throughout the guide 
+* updated working with WAIFs section to add info on recursively referencing each other
+* fixed formatting on \*anonymous\*
+* fixed typo in set_thread_mode(0)
+* changed note to warning on using anon objects as map keys
+* updated typeof builtin to have ANON/WAIF/BOOL/MAP
+* removed warning about BYTECODE_REDUCE_REF as it was not proven to be true
+* changed wording in a few places to be more specific
+* removed line: "Consider using a WAIF whenever you want to collect values together and give each value a meaningful name instead of just an index into a LIST." as it isn't neded now that we have MAPs
+* Updated Objects in the MOO database section (updated wording, fixed ToastCore DB link)
+* Removed LambdaMOO reference in Fundamental Object Attributes
+* Updated properties on objects section to correctly say eleven props not eight
+* Added recreate to functions that change parent and child attributes
+* Resolved several TODOs
+* Updated parse_json section to remove it not handling bools since we handle them properly now
+* Updated fundamental object attributes
+
 ## [1.1.5] - 2022.01.04 2:46PM
 
 TOAST STUNT PROGRAMMERS MANUAL

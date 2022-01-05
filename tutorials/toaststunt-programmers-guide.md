@@ -215,7 +215,7 @@ There are only a few kinds of values that MOO programs can manipulate:
 
 ToastStunt supports 64 bit integers, but it can also be configured to support 32 bit. In MOO programs, integers are written just as you see them here, an optional minus sign followed by a non-empty sequence of decimal digits. In particular, you may not put commas, periods, or spaces in the middle of large integers, as we sometimes do in English and other natural languages (e.g. 2,147,483,647).
 
-> Note: The value $maxint and $minint define in the server the maximum integers support. These are set automatically with ToastCore. If you are migrating from LambdaMOO it is still a good idea to check that these numbers are being set properly.
+> Note: The values $maxint and $minint define in the database the maximum integers supported. These are set automatically with ToastCore. If you are migrating from LambdaMOO it is still a good idea to check that these numbers are being set properly.
 
 #### Real Number Type
 
@@ -320,8 +320,6 @@ You create and destroy OBJs explicitly with the builtins create() and recycle() 
 
 All of the other types you use in MOO (that require allocated memory) are reference counted. However you create them, they stay around as long as you keep them in a property or a variable somewhere, and when they are no longer used, they silently disappear, and you can't get them back. 
 
-Consider using a WAIF whenever you want to collect values together and give each value a meaningful name instead of just an index into a LIST. 
-
 We will go into more detail on WAIFs in the [Working with WAIFs](#working-with-waifs) section.
 
 #### Error Type
@@ -363,7 +361,7 @@ Another important value in MOO programs is _lists_. A list is a sequence of arbi
 
 #### Map Type
 
-The final type in MOO is a _map_. It is sometimes called a hashmap, assosciate array, or dictionary in other programming languages. A map is written as a set of key -> value pairs, for example: `["key" -> "value", 0 -> {}, #15840 -> []]`. Keys must be unique.
+The final type in MOO is a _map_. It is sometimes called a hashmap, associative array, or dictionary in other programming languages. A map is written as a set of key -> value pairs, for example: `["key" -> "value", 0 -> {}, #15840 -> []]`. Keys must be unique.
 
 The key of a map can be:
 
@@ -372,11 +370,11 @@ The key of a map can be:
 * object
 * error
 * float
-* anonymous object
+* anonymous object (not recommended)
 * waif
 * bool
 
-The value of a map can be an valid MOO type including another map.
+The value of a map can be any valid MOO type including another map.
 
 > Note: Finding a value in a list is BigO(n) as a it uses a linear search. Maps are much more effective and are BigO(1) for retrieving a specific value by key.
 
@@ -386,11 +384,13 @@ There are anonymous objects and permanent objects in ToastStunt. Throughout this
 
 Objects encapsulate state and behavior – as they do in other object-oriented programming languages. Permanent objects are also used to represent objects in the virtual reality, like people, rooms, exits, and other concrete things. Because of this, MOO makes a bigger deal out of creating objects than it does for other kinds of values, like integers. 
 
-Numbers always exist, in a sense; you have only to write them down in order to operate on them. With permanent objects, it is different. The permanent object with number `#958` does not exist just because you write down its number. An explicit operation, the `create()` function described later, is required to bring an object into existence. Symmetrically, once created, permanent objects and anonymous objects continue to exist until they are explicitly destroyed by the `recycle()` function (also described later) or in the case of anonymous objects, until there are no more references to the anonymous object.
+Numbers always exist, in a sense; you have only to write them down in order to operate on them. With permanent objects, it is different. The permanent object with number `#958` does not exist just because you write down its number. An explicit operation, the `create()` function described later, is required to bring a permanent object into existence. Once created, permanent objects continue to exist until they are explicitly destroyed by the `recycle()` function (also described later). 
 
-The identifying number associated with a permanent object is unique to that object. It was assigned when the object was created and will never be reused, even if the object is destroyed. Thus, if we create an object and it is assigned the number `#1076`, the next object to be created will be assigned `#1077`, even if `#1076` is destroyed in the meantime.
+Anonymous objects, which are also created using `create()`, will continue to exist until the `recycle()` function is called or until there are no more references to the anonymous object.
 
-The above limitation led to design of systems to manage object reuse. The `$recycler` is one example of such a system. This is **not** present in the `minimal.db` which is included in the ToastStunt source, however it is present in the latest dump of the [ToastCore DB](http://lambda.moo.mud.org/pub/MOO/) which is the recommended starting point for new development.
+The identifying number associated with a permanent object is unique to that object. It was assigned when the object was created and will never be reused unless `recreate()` or `reset_max_object()` are called. Thus, if we create an object and it is assigned the number `#1076`, the next object to be created (using `create()` will be assigned `#1077`, even if `#1076` is destroyed in the meantime.
+
+> Note: The above limitation led to design of systems to manage object reuse. The `$recycler` is one example of such a system. This is **not** present in the `minimal.db` which is included in the ToastStunt source, however it is present in the latest dump of the [ToastCore DB](https://github.com/lisdude/toastcore) which is the recommended starting point for new development.
 
 Anonymous and permanent objects are made up of three kinds of pieces that together define its behavior: _attributes_, _properties_, and _verbs_.
 
@@ -398,21 +398,35 @@ Anonymous and permanent objects are made up of three kinds of pieces that togeth
 
 There are three fundamental _attributes_ to every object:
 
-1. A flag (either true or false) specifying whether or not the object represents a player
-//TODO: can we confirm that this is correct?
-2. ToastStunt: A list of object that are its parents LambdaMOO: The object that is its _parent_
+1. A flag representing the built-in properties allotted to the object. 
+2. ToastStunt: A list of object that are its parents
 3. A list of the objects that are its _children_; that is, those objects for which this object is their parent.
 
 The act of creating a character sets the player attribute of an object and only a wizard (using the function `set_player_flag()`) can change that setting. Only characters have the player bit set to 1. Only permanent objects can be players.
 
 The parent/child hierarchy is used for classifying objects into general classes and then sharing behavior among all members of that class. For example, the ToastCore database contains an object representing a sort of "generic" room.  All other rooms are _descendants_ (i.e., children or children's children, or ...) of that one. The generic room defines those pieces of behavior that are common to all rooms; other rooms specialize that behavior for their own purposes. The notion of classes and specialization is the very essence of what is meant by _object-oriented_ programming. 
 
-//TODO: need to confirm this is correct
-Only the functions `create()`, `recycle()`, `chparent()`, `chparents()` and `renumber()` can change the parent and children attributes.
+Only the functions `create()`, `recycle()`, `chparent()`, `chparents()`, `renumber()` and `recreate()` can change the parent and children attributes.
+
+Below is the table reprsenting the `flag` for the built-in properties allotted to the object. This is simply a representation of bits, and for example, the player flag is a singular bit (0x01). So the flag is actually an integer that, when in binary, represents all of the flags on the object.
+
+```
+Player:         0x01    set_player_flag()
+Programmer:     0x02    .programmer
+Wizard:         0x04    .wizard
+Obsolete_1:     0x08    *csssssh*
+Read:           0x10    .r
+Write:          0x20    .w
+Obsolete_2:     0x40    *csssssh*
+Fertile:        0x80    .f
+Anonymous:      0x100   .a
+Invalid:        0x200   <destroy anonymous object>
+Recycled:       0x400   <destroy anonymous object and call recycle verb>
+```
 
 #### Properties on Objects
 
-A _property_ is a named "slot" in an object that can hold an arbitrary MOO value. Every object has eight built-in properties whose values are constrained to be of particular types. In addition, an object can have any number of other properties, none of which have type constraints. The built-in properties are as follows:
+A _property_ is a named "slot" in an object that can hold an arbitrary MOO value. Every object has eleven built-in properties whose values are constrained to be of particular types. In addition, an object can have any number of other properties, none of which have type constraints. The built-in properties are as follows:
 
 | Property  | Description |
 | ------------- | ------------- |
@@ -655,7 +669,7 @@ The value returned by the program, if any, is ignored by the server.
 
 ToastStunt is single threaded, but it utilizes a threading library (extension-background) to allow certain server functions to run in a separate thread. To protect the database, these functions will implicitly suspend the MOO code (similar to how read() operates).
 
-It is possible to disable threading of functions for a particular verb by calling `sset_thread_modeet_thread_mode(0)`.
+It is possible to disable threading of functions for a particular verb by calling `set_thread_mode(0)`.
 
 > Note: By default, ToastStunt has threading enabled.
 
@@ -688,8 +702,6 @@ endfor
 ```
 
 > Note: In practice, the only style of comments you will use is quoted strings of text. Get used to it. Another thing of note is that these strings ARE evaluated. Nothing is done with the results of the evaluation, because the value is not stored anywhere-- however, it may be prudent to keep string comments out of nested loops to make your code a bit faster.
-
-> Warning: ToastStunt has an option your can turn on in options.h (#define BYTECODE_REDUCE_REF /* */) which will optimize your verb code, if this option is on then string literals will be removed and you may get incorrect line numbers in your tracebacks.
 
 ### MOO Language Expressions
 
@@ -886,7 +898,7 @@ MOO also supports the exponentiation operation, also known as "raising to a powe
 3.5 ^ 4.5   =>   280.741230801382
 ```
 
-Note that if the first operand is an integer, then the second operand must also be an integer. If the first operand is a floating-point number, then the second operand can be either kind of number. Although it is legal to raise an integer to a negative power, it is unlikely to be terribly useful.
+> Note: if the first operand is an integer, then the second operand must also be an integer. If the first operand is a floating-point number, then the second operand can be either kind of number. Although it is legal to raise an integer to a negative power, it is unlikely to be terribly useful.
 
 #### Bitwise Operators
 
@@ -2134,7 +2146,7 @@ Since there is no literal representation of an anonymous object, if you were to 
 player:tell(toliteral(anonymous));
 ```
 
-You would be shown: `*anonymous*`
+You would be shown: `\*anonymous\*`
 
 You can store the reference to the anonymous object in a variable, like we did above, or you can store it in a property.
 
@@ -2143,7 +2155,7 @@ player.test = create($thing, player, 1)
 player:tell(player.test);
 ```
 
-This will also output: `*anonymous*`
+This will also output: `\*anonymous\*`
 
 When you store an anonymous object in a variable, the anonymous object will continue to exist until your verb finishes execution, at which point it will be garbage collected.
 
@@ -2159,20 +2171,21 @@ player.test = my_list;
 The above code would result in:
 
 ```
-{*anonymous*}
+{\*anonymous\*}
 ```
 
 Anonymous objects can be stored in maps as either the key or the value:
 
 ```
-[1 -> create($thing, player, 1)] => [1 -> *anonymous*]
-[create($thing, player, 1) -> 1] => [*anonymous* -> 1]
+[1 -> create($thing, player, 1)] => [1 -> \*anonymous\*]
+[create($thing, player, 1) -> 1] => [\*anonymous\* -> 1]
 ```
 
-> Note: *anonymous* is not the actual key, there is not literal representation of an anonymous object reference. This means that while the object will continue to exist while it is a key of a map, the only way to reference that key would be by the reference, which you would need to store in a variable or a property.
+> Warning: \*anonymous\* is not the actual key, there is not literal representation of an anonymous object reference. This means that while the object will continue to exist while it is a key of a map, the only way to reference that key would be by the reference, which you would need to store in a variable or a property. This is NOT a recommended practice, as you would have to keep a reference to the key elsewhere in order to access it (outside of iterating over all the keys).
 
 > Warning: Similar to WAIFs, you want to take care in how you are creating Anonymous Objects, as once they are created, if you continue to reference them in a property, you may have trouble finding them in the future, as there is no way to pull up a list of all Anonymous Objects. 
 
+> Note: The section for [Additional Details on WAIFs](#additional-details-on-waifs) has example verbs that can be used to detect Anonymous Objects referenced in your system.
 
 ### Working with WAIFs
 
@@ -2191,9 +2204,9 @@ The MOO object structure is unique in that all classes are instances and all ins
 
 Stripped to its core, then, a WAIF has the following attributes:
 
-- Class (like a parent)
-- Owner (for permissions information)
-- Property values 
+- class (like a parent)
+- owner (for permissions information)
+- property values 
 
 A WAIF's properties and behavior are a hybrid of several existing MOO types. It is instructive to compare them:
 
@@ -2212,6 +2225,7 @@ A WAIF's properties and behavior are a hybrid of several existing MOO types. It 
 - WAIFs do not participate in the .location/.contents hierarchy, as manipulated by move(). A WAIF class could define these properties, however (as described below).
 - WAIFs do not have OBJ flags such as .r or .wizard.
 - WAIFs can be stored in MAPs
+- WAIFs can't recursively reference one another but one waif can reference another waif if the other waif doesn't reference it too.
 
 #### The WAIF Verb and Property Namespace
 
@@ -2231,7 +2245,6 @@ In ToastCore you will find a corified reference of `$waif` which is pre-configur
 
 ```
 Generic Waif (#118) [ ]
-TODO: add toastcore @display $waif
   Child of Root Class (#1).
   Size: 7,311 bytes at Sun Jan  2 10:37:09 2022 PST
 ```
@@ -2280,11 +2293,7 @@ That uses :_index to parse '5..19' and ultimately pass it off to file_readlines(
 
 > Warning: Similar to Anonymous Objects you should take care in how you are creating WAIFs as it can be difficult to find the WAIFs that exist in your system and where they are referenced.
 
-The following code can be used to find WAIFs that exist in your codebase.
-
-> Warning: This code does not take into account WAIFs that are referenced in MAPs currently.
-
-//TODO: Update to find in MAPs
+The following code can be used to find WAIFs and Anonymous Objects that exist in your database.
 
 ```
 @prog $waif_utils:find_waif_types
@@ -2427,7 +2436,7 @@ typeof -- Takes any MOO value and returns an integer representing the type of va
 
 int `typeof` (value)
 
-The result is the same as the initial value of one of these built-in variables: `INT`, `FLOAT`, `STR`, `LIST`, `MAP`,  `OBJ`, or `ERR`.  Thus, one usually writes code like this:
+The result is the same as the initial value of one of these built-in variables: `INT`, `FLOAT`, `STR`, `LIST`, `MAP`,  `OBJ`, or `ERR`, `BOOL`, `MAP`, `WAIF`, `ANON`.  Thus, one usually writes code like this:
 
 ```
 if (typeof(x) == LIST) ...
@@ -2635,8 +2644,7 @@ parse_json("{\"1|int\":2}", "embedded-types")               =>   [1 -> 2]
 parse_json("{\"#1|obj\":2}", "embedded-types")              =>   [#1 -> 2]
 ```
 
-//TODO: confirm if this is still true since Toast has bool support.
-JSON defines types that MOO (currently) does not support, such as boolean true and false, and null. These values are always converted to the strings "true", "false" and "null". 
+> Note: JSON converts `null` to the string "null". 
 
 ##### Operations on Numbers
 
@@ -2846,6 +2854,7 @@ strsub("foobar", "OB", "b", 1)          =>   "foobar"
 ```
 
 **Function: `index`**
+
 **Function: `rindex`**
 
 index -- Returns the index of the first character of the first occurrence of str2 in str1.
@@ -2903,7 +2912,9 @@ If str1 is [lexicographically](https://en.wikipedia.org/wiki/Lexicographical_ord
 
 explode -- Returns a list of substrings of subject that are separated by break. break defaults to a space.
 
-list  explode(subject [, break])
+list  `explode`(subject [, break])
+
+> Note: This can be used as a replacement for `$string_utils:explode`.
 
 **Function: `decode_binary`**
 
@@ -2952,7 +2963,7 @@ decode_base64("AAE", 1)    ⇒    "~00~01"
 
 encode_base64 -- Returns the Base64 encoded string representation of the supplied binary string argument.
 
-str encode_base64 (str binary [, int safe])
+str `encode_base64` (str binary [, int safe])
 
 Raises E_INVARG if binary is not a properly-formed binary string. If safe is provide and is true, a URL-safe version of Base64 is used (see [RFC4648](https://datatracker.ietf.org/doc/html/rfc4648)).
 
@@ -3159,7 +3170,7 @@ substitute("I thank you for your %1 here in %2.", subs)
 
 salt -- Generate a crypt() compatible salt string for the specified salt format using the specified binary random input.
 
-str salt (str format, str input)
+str `salt` (str format, str input)
 
 The specific set of formats supported depends on the libraries used to build the server, but will always include the standard salt format, indicated by the format string "" (the empty string), and the BCrypt salt format, indicated by the format string "$2a$NN$" (where "NN" is the work factor). Other possible formats include MD5 ("$1$"), SHA256 ("$5$") and SHA512 ("$6$"). Both the SHA256 and SHA512 formats support optional rounds.
 
@@ -3265,9 +3276,11 @@ then, almost certainly,
 This can be useful, for example, in certain networking applications: after sending a large piece of text across a connection, also send the result of applying string_hash() to the text; if the destination site also applies string_hash() to the text and gets the same result, you can be quite confident that the large text has arrived unchanged. 
 
 **Function: `string_hmac`**
+
 **Function: `binary_hmac`**
 
-str string_hmac (str text, str key [, str algo [, binary]])
+str `string_hmac` (str text, str key [, str algo [, binary]])
+
 str binary_hmac (str bin-string, str key [, str algo [, binary]])
 
 Returns a string encoding the result of applying the HMAC-SHA256 cryptographically secure HMAC function to the contents of the string text or the binary string bin-string with the specified secret key. If algo is provided, it specifies the hashing algorithm to use. Currently, only "SHA1" and "SHA256" are supported. If binary is provided and true, the result is in MOO binary string format; by default the result is a hexidecimal string.
@@ -3322,7 +3335,7 @@ is_member("def", {"ABC", "DEF", "GHI"}, 0) => 2
 
 all_members -- Returns the indices of every instance of `value` in `alist`.
 
-LIST all_members(ANY `value`, LIST `alist`)
+LIST `all_members`(ANY `value`, LIST `alist`)
 
 Example:
 
@@ -3413,7 +3426,7 @@ setremove({1, 2, 3, 2}, 2)   =>   {1, 3, 2}
 
 reverse -- Return a reversed list.
 
-Syntax:  reverse(LIST <alist>) => LIST
+list `reverse`(LIST alist)
 
 Examples:
 
@@ -3423,7 +3436,7 @@ reverse({1,2,3,4}) => {4,3,2,1}
 
 **Function: `slice`**
 
-list slice(LIST alist [, INT | LIST | STR index, ANY default map value])
+list `slice`(LIST alist [, INT | LIST | STR index, ANY default map value])
 
 Return the index-th elements of alist. By default, index will be 1. If index is a list of integers, the returned list will have those elements from alist. This is the built-in equivalent of LambdaCore's $list_utils:slice verb.
 
@@ -3446,7 +3459,7 @@ slice({["a" -> 1, "b" -> 2], ["a" -> 5, "b" -> 6], ["b" -> 8]}, "a", 0) => {1, 5
 
 sort -- Sorts list either by keys or using the list itself.
 
-list sort(LIST list [, LIST keys, INT natural sort order?, INT reverse])
+list `sort`(LIST list [, LIST keys, INT natural sort order?, INT reverse])
 
 When sorting list by itself, you can use an empty list ({}) for keys to specify additional optional arguments.
 
@@ -3518,7 +3531,7 @@ mapdelete(x, "bar")   ⇒   ["baz" -> 3, "foo" -> 1]
 
 maphaskey -- Returns 1 if key exists in map. When not dealing with hundreds of keys, this function is faster (and easier to read) than something like: !(x in mapkeys(map))
 
-int maphaskey (MAP map, STR key)
+int `maphaskey` (MAP map, STR key)
 
 #### Manipulating Objects
 
@@ -3604,6 +3617,7 @@ valid(#-1)   =>   0
 ```
 
 **Function: `parent`**
+
 **Function: `parents`**
 
 parent -- return the parent of object
@@ -3641,13 +3655,13 @@ isa(#2, {$thing, $room, $container}, 1) => #-1
 
 locate_by_name -- This function searches every object in the database for those containing <object name> in their .name property.
 
-list locate_by_name (STR object name)
+list `locate_by_name` (STR object name)
 
 > Warning: Take care when using this when thread mode is active, as this is a threaded function and that means it implicitly suspends. `set_thread_mode(0)` if you want to use this without suspending.
 
 **Function: `locations`**
 
-list locations(OBJ object)
+list `locations`(OBJ object)
 
 Recursively build a list of an object's location, its location's location, and so forth until finally hitting $nothing.
 
@@ -3661,7 +3675,7 @@ $string_utils:title_list(locations(me)) => "\"Butterknife Ballet\" Control Room 
 
 **Function: `occupants`**
 
-list occupants(LIST objects [, OBJ | LIST parent, INT player flag set?])
+list `occupants`(LIST objects [, OBJ | LIST parent, INT player flag set?])
 
 Iterates through the list of objects and returns those matching a specific set of criteria:
 
@@ -3684,7 +3698,8 @@ After object is recycled, if the owner of the former object has a property named
 **Function: `recreate`**
 
 recreate -- Recreate invalid object old (one that has previously been recycle()ed) as parent, optionally owned by owner.
-obj recreate(OBJ old, OBJ parent [, OBJ owner])
+
+obj `recreate`(OBJ old, OBJ parent [, OBJ owner])
 
 This has the effect of filling in holes created by recycle() that would normally require renumbering and resetting the maximum object.
 
@@ -3694,7 +3709,7 @@ The normal rules apply to parent and owner. You either have to own parent, paren
 
 next_recycled_object -- Return the lowest invalid object. If start is specified, no object lower than start will be considered. If there are no invalid objects, this function will return 0.
 
-obj | int next_recycled_object(OBJ start)
+obj | int `next_recycled_object`(OBJ start)
 
 **Function: `recycled_objects`**
 
@@ -3716,7 +3731,7 @@ The ancestor cache contains a quick lookup of all of an object's ancestors which
 
 **Function: `descendants`**
 
-list descendants(OBJ object [, INT full])
+list `descendants`(OBJ object [, INT full])
 
 Return a list of all nested children of object. If full is true, object will be included in the list.
 
@@ -4626,50 +4641,6 @@ set_connection_option(player, "hold-input", 0)
 
 to allow commands once again to be read and interpreted normally.
 
-**Function: `read_http`**
-
-read_http --Reads lines from the connection conn (or, if not provided, from the player that typed the command that initiated the current task) and attempts to parse the lines as if they are an HTTP request or response.
-map `read_http` (request-or-response [, obj conn])
-
-request-or-response must be either the string "request" or "response". It dictates the type of parsing that will be done.
-
-Just like read(), if conn is provided, then the programmer must either be a wizard or the owner of conn; if conn is not provided, then read_http() may only be called by a wizard and only in the task that was last spawned by a command from the connection in question. Otherwise, E_PERM is raised. Likewise, if conn is not currently connected and has no pending lines of input, or if the connection is closed while a task is waiting for input but before any lines of input are received, then read_http() raises E_INVARG.
-
-If parsing fails because the request or response is syntactically incorrect, read_http() will return a map with the single key "error" and a list of values describing the reason for the error. If parsing succeeds, read_http() will return a map with an appropriate subset of the following keys, with values parsed from the HTTP request or response: "method", "uri", "headers", "body", "status" and "upgrade".
-
-> Fine point: read_http() assumes the input strings are binary strings. When called interactively, as in the example below, the programmer must insert the literal line terminators or parsing will fail.
-
-The following example interactively reads an HTTP request from the player’s connection.
-
-```
-read_http("request", player)
-GET /path HTTP/1.1~0D~0A
-Host: example.com~0D~0A
-~0D~0A
-```
-
-In this example, the string ~0D~0A ends the request. The call returns the following (the request has no body):
-
-```
-["headers" -> ["Host" -> "example.com"], "method" -> "GET", "uri" -> "/path"]
-```
-
-The following example interactively reads an HTTP response from the player’s connection.
-
-```
-read_http("response", player)
-HTTP/1.1 200 Ok~0D~0A
-Content-Length: 10~0D~0A
-~0D~0A
-1234567890
-```
-
-The call returns the following:
-
-```
-["body" -> "1234567890", "headers" -> ["Content-Length" -> "10"], "status" -> 200]
-```
-
 **Function: `force_input`**
 
 force_input -- inserts the string line as an input task in the queue for the connection conn, just as if it had arrived as input over the network
@@ -4764,7 +4735,7 @@ For the other networking configurations, the string is the same for all connecti
 
 connection_name_lookup - This function performs a DNS name lookup on connection's IP address.
 
-str connection_name_lookup (OBJ connection [, INT record_result])
+str `connection_name_lookup` (OBJ connection [, INT record_result])
 
 If a hostname can't be resolved, the function simply returns the numeric IP address. Otherwise, it will return the resolved hostname.
 
@@ -4778,7 +4749,7 @@ This function is primarily intended for use when the 'NO_NAME_LOOKUP' server opt
 
 switch_player -- Silently switches the player associated with this connection from object1 to object2.
 
-switch_player(OBJ object1, OBJ object2 [, INT silent])
+`switch_player`(OBJ object1, OBJ object2 [, INT silent])
 
 object1 must be connected and object2 must be a player. This can be used in do_login_command() verbs that read or suspend (which prevents the normal player selection mechanism from working.
 
@@ -4884,7 +4855,7 @@ Open a new connection to the IPv6 address 2607:5300:60:4be0:: on port 1234 using
 
 **Function: `curl`**
 
-str curl(STR url [, INT include_headers])
+str `curl`(STR url [, INT include_headers])
 
 The curl builtin will download a webpage and return it as a string. If include_headers is true, the HTTP headers will be included in the return string.
 
@@ -5003,7 +4974,7 @@ int `time` ()
 
 ftime -- Returns the current time represented as the number of seconds and nanoseconds that have elapsed since midnight on 1 January 1970, Greenwich Mean Time.
 
-float ftime ([INT monotonic])
+float `ftime` ([INT monotonic])
 
 If the `monotonic` argument is supplied and set to 1, the time returned will be monotonic. This means that will you will always get how much time has elapsed from an arbitrary, fixed point in the past that is unaffected by clock skew or other changes in the wall-clock. This is useful for benchmarking how long an operation takes, as it's unaffected by the actual system time.
 
