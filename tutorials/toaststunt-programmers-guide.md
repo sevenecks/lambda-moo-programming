@@ -1,4 +1,4 @@
-# ToastStunt Programmer Manual Version 1.0
+# ToastStunt Programmer Guide Version 1.0
 
 ## For ToastStunt Version 2.7+, Last Updated 01/05/23
 
