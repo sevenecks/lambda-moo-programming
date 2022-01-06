@@ -194,6 +194,7 @@ There are some code samples for enterprising developers to check out. It's limit
 
 * [Local Editing](code/LocalEditing.md) (Edit in a pop up window with @edit using Dome-Client web client)
 * [Code Scanner](code/CodeScanner.md) (Scan your MOO code for common issues & optimizations)
+* [$scheduler](code/SindomeScheduler.txt) (Schedule tasks to run in the future)
 
 ### Web Client
 I've mentioned [Dome Client](https://github.com/JavaChilly/dome-client.js) in the updated MOO Programming Guide. It's a web based MOO client that uses NodeJS and web sockets. It works great, connecting to most LambdaMOO servers. You can run your own. 
