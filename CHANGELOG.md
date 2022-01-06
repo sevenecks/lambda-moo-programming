@@ -1,5 +1,9 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.1.8] - 2022.01.06 12:22PM
+TOASTSTUNT PROGRAMMERS GUIDE
+* Added a warning about anon objects being added to .owned_objects prop on create in ToastCore
+
 ## [1.1.7] - 2022.01.05 8:20pm
 * Added SindomeScheduler to Moo Code directory
 * Updated Main Guide page to reference new code

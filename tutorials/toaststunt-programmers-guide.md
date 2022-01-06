@@ -2159,9 +2159,10 @@ player:tell(player.test);
 
 This will also output: `\*anonymous\*`
 
-When you store an anonymous object in a variable, the anonymous object will continue to exist until your verb finishes execution, at which point it will be garbage collected.
 
 If you store your anonymous object in a property, that anonymous object will continue to exist so long as it exists in the property. If the object with the property were recycled, or the property removed or overwritten with a different value, the anonymous object would be garbage collected.
+
+> Warning: On ToastCore when you create an object the :initialize() verb is called. This is defined on `#1`. This verb adds the newly created object to the `.owned_objects` property of the object set as the owner (player in the above example). This means that it will not be automatically garbage collected since there is a reference to it! It is recommended that if you do not want this behavior you add a check in `initialize` for `typeof(this) == ANON` and skip adding the object to the `.owned_objects` property.
 
 Anonymous objects can be stored in lists:
 
