@@ -4,6 +4,7 @@
 TOASTSTUNT PROGRAMMERS GUIDE
 * Updated server options section to a nice table
 * Added / updated options in server options section
+* Added prettier table for variables that always have values
 
 ## [1.1.8] - 2022.01.06 5:43PM
 TOASTSTUNT PROGRAMMERS GUIDE

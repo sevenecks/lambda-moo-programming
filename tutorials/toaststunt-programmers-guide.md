@@ -768,27 +768,29 @@ Note that, along with almost everything else in MOO, the case of the letters in 
 
 A variable name is itself an expression; its value is the value of the named variable. When a verb begins, almost no variables have values yet; if you try to use the value of a variable that doesn't have one, the error value `E_VARNF` is raised. (MOO is unlike many other programming languages in which one must _declare_ each variable before using it; MOO has no such declarations.)  The following variables always have values:
 
-* INT
-* FLOAT
-* OBJ
-* STR
-* LIST
-* ERR
-* BOOL
-* MAP
-* WAIF
-* ANON
-* player
-* this
-* caller
-* verb
-* args
-* argstr
-* dobj
-* dobjstr
-* prepstr
-* iobj
-* iobjstr
+| Variable  |
+| ------------- |
+| INT |
+| FLOAT |
+| OBJ |
+| STR |
+| LIST |
+| ERR |
+| BOOL |
+| MAP |
+| WAIF |
+| ANON |
+| player |
+| this |
+| caller |
+| verb |
+| args |
+| argstr |
+| dobj |
+| dobjstr |
+| prepstr |
+| iobj |
+| iobjstr |
 
 The values of some of these variables always start out the same:
 
