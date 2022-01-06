@@ -1,5 +1,10 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.1.9] - 2022.01.06 5:57PM
+TOASTSTUNT PROGRAMMERS GUIDE
+* Updated server options section to a nice table
+* Added / updated options in server options section
+
 ## [1.1.8] - 2022.01.06 5:43PM
 TOASTSTUNT PROGRAMMERS GUIDE
 * Added a warning about anon objects being added to .owned_objects prop on create in ToastCore
