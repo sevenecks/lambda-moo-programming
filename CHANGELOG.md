@@ -1,10 +1,15 @@
 # Changelog for LambdaMOO Programming Repository
 
-## [1.1.6] - 2022.01.05 5:25pm
+## [1.1.7] - 2022.01.05 8:20pm
+* Added SindomeScheduler to Moo Code directory
+* Updated Main Guide page to reference new code
+* Added 1.0 header to ToastStunt Programmers Guide w/ Last Updated Date
+
+## [1.1.6] - 2022.01.05 12:10pm
 
 TOAST STUNT PROGRAMMERS MANUAL
 Thanks ToastStunt Discord for all the feedback/updates/changes to the Toast Programmers Guide!
- Updated finding WAIFs example code to be the new code created by lisdude that finds anons as well
+* Updated finding WAIFs example code to be the new code created by lisdude that finds anons as well
 * Updated Working with Anonymous Objects section with new note on verb to find anon references in code
 * fixed a number of typos/formatting issues throughout the guide 
 * updated working with WAIFs section to add info on recursively referencing each other
