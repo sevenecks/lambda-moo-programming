@@ -510,7 +510,7 @@ The setting of the debug bit determines what happens when the verb's program doe
 
 In addition to an owner and some permission bits, every verb has three _argument specifiers_, one each for the `direct object`, the `preposition`, and the `indirect object`. The direct and indirect specifiers are each drawn from this set: `this`, `any`, or `none`. The preposition specifier is `none`, `any`, or one of the items in this list:
 
-| Variable |
+| Preposition |
 | ------------- |
 | with/using |
 | at/to |
