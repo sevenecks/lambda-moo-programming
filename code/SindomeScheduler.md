@@ -1,8 +1,14 @@
 // This provides a $scheduler that will run and manage scheduled tasks for your MOO
+
 // This is the $scheduler that Sindome uses, and it has been heavily modified over the years to support a variety of use cases.
+
 // This is designed to work on LambdaMOO and ToastCore, either one will suffice.
+
 // However, that means that this is using classic LambdaMOO utils like $list_utils:slice instead of the ToastStunt builtin slice
+
 // Update as you want, but don't use threaded stuff as you'll get multiple scheduler forks going at once which will not be great.
+
+// Also there are a number of places where debugging info should be added if you want, there are string literals calling out that you might want to add debugging where needed.
 
 // create the object
 
@@ -11,17 +17,29 @@
 // replace #112 with newly created object # everywhere in below file
 
 // execute all the statements below, and then eval ;$scheduler:jesus() to get the scheduler running
+
 // then create a test verb on yourself named 'tester' and have it print a message to you.
+
 // the you can test the scheduler with ;$scheduler:schedule_for(10, me, "tester")
+
 // you'll see the message when the scheduler runs
+
 // $scheduler:schedule_every(10, me, "tester") will make the verb run every 10 seconds or so
+
 // there are a number of other verbs for scheduling tasks
+
 // remove a scheduled verb with $scheduler:remove_scheduled(me, "tester");
+
 // by default allow_duplicates is off, meaning the same obj/verb can only be scheduled once
+
 // @scheduled is a nice way to see what is scheduled especially if your scheduler gets big!
+
 // @scheduled for #2
+
 // @scheduled for soon
+
 // @scheduled by #2
+
 // help $scheduler for more info
 
 @corify #112 as $scheduler
