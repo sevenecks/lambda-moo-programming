@@ -6017,7 +6017,7 @@ The server command line has the following general form:
 Arguments can appear in any order (the only exception is output database must appear somewhere after input database).
 
 | Option | Type | Description |
-| ------------- | ------------- |
+| ------------- | ------------- | ------------- |
 | -l log-file-name | Optional | This specifies a file name for the server log output. If no log file name is specified, log output is directed to stderr. |
 | -e | Optional | This specifies that, once the database is loaded, Emergency Wizard Mode will be entered before starting any tasks or doing the initial listen to accept connections. May not be used with either -c or -f. |
 | -c script-line | Optional | This specifies a script line to pass to the $do_start_script verb. |
