@@ -1,6 +1,6 @@
-# ToastStunt Programmer Guide Version 1.0
+# ToastStunt Programmer Guide Version 1.0.1
 
-## For ToastStunt Version 2.7+, Last Updated 01/05/23
+## For ToastStunt Version 2.7+, Last Updated 01/06/23
 
 by Pavel Curtis et al
 
@@ -3427,14 +3427,15 @@ setremove({1, 2, 3, 2}, 2)   =>   {1, 3, 2}
 
 **Function: `reverse`**
 
-reverse -- Return a reversed list.
+reverse -- Return a reversed list or string
 
-list `reverse`(LIST alist)
+str | list `reverse`(LIST alist)
 
 Examples:
 
 ```
 reverse({1,2,3,4}) => {4,3,2,1}
+reverse("asdf") => "fdsa"
 ```
 
 **Function: `slice`**
@@ -3489,6 +3490,8 @@ Sort a list of strings by a list of numeric keys:
 ```
 sort({"foo", "bar", "baz"}, {123, 5, 8000}) => {"bar", "foo", "baz"}
 ```
+
+> Note: This is a threaded function.
 
 ##### Operations on Maps
 
@@ -3664,7 +3667,7 @@ list `locate_by_name` (STR object name)
 
 **Function: `locations`**
 
-list `locations`(OBJ object)
+list `locations`(OBJ object [, OBJ stop [, INT is-parent]])
 
 Recursively build a list of an object's location, its location's location, and so forth until finally hitting $nothing.
 
@@ -3675,6 +3678,10 @@ locations(me) => {#20381, #443, #104735}
 
 $string_utils:title_list(locations(me)) => "\"Butterknife Ballet\" Control Room FelElk, the one-person celestial birther \"Butterknife Ballet\", and Uncharted Space: Empty Space"
 ```
+
+If `stop` is in the locations found, it will stop before there and return the list (exclusive of the stop object). 
+
+If the third argument is true, `stop` is assumed to be a PARENT. And if any of your locations are children of that parent, it stops there.
 
 **Function: `occupants`**
 
@@ -4447,6 +4454,8 @@ Example:
 sqlite_execute(0, "INSERT INTO users VALUES (?, ?, ?);", {#7, "lisdude", "Albori Sninvel"})
 ```
 
+> Note: This is a threaded function.
+
 **Function: `sqlite_query`**
 
 sqlite_query -- This function will attempt to execute the query given in query on the database referred to by handle.
@@ -4460,6 +4469,8 @@ If the query fails, a string will be returned identifying the SQLite error messa
 If show columns is true, the return list will include the name of the column before its results.
 
 > Warning: sqlite_query does NOT use prepared statements and should NOT be used on queries that contain user input.
+
+> Note: This is a threaded function.
 
 **Function: `sqlite_limit`**
 
@@ -4757,6 +4768,8 @@ switch_player -- Silently switches the player associated with this connection fr
 object1 must be connected and object2 must be a player. This can be used in do_login_command() verbs that read or suspend (which prevents the normal player selection mechanism from working.
 
 If silent is true, no connection messages will be printed.
+
+> Note: This calls the listening object's user_disconnected and user_connected verbs when appropriate.
 
 **Function: `set_connection_option`**
 
@@ -5422,12 +5435,6 @@ The database will NOT be dumped to the file specified when starting the server. 
 
 > Warning: Don't run this unless you really want to panic your server.
 
-**Function: `process_id`**
-
-process_id -- Returns the process id of the server. 
-
-int `process_id` ()
-
 **Function: `db_disk_size`**
 
 db_disk_size -- returns the total size, in bytes, of the most recent full representation of the database as one or more disk files
@@ -5894,7 +5901,9 @@ In the process of matching the direct and indirect object strings in a command t
 
 **Protected Properties**
 
-A built-in property prop is deemed protected if $server_options.protect_prop exists and has a true value. However, no such property protections are recognized if the compilation option IGNORE_PROP_PROTECTED (see section Server Compilation Options) was set when building the server. (It should be noted that enabling property protection has significant performance costs).
+A built-in property prop is deemed protected if $server_options.protect_prop exists and has a true value. However, no such property protections are recognized if the compilation option IGNORE_PROP_PROTECTED (see section Server Compilation Options) was set when building the server. 
+
+> Note: In previous versions of the server enabling this has significant performance costs, but that has been resolved with caching lookups, and thus this option is enabled by default in ToastStunt. 
 
 Whenever verb code attempts to read (on any object) the value of a built-in property that is protected in this way, the server raises E_PERM if the programmer is not a wizard.
 
@@ -6003,64 +6012,37 @@ Default value for $server_options.connect_timeout.
 
 The server command line has the following general form:
  	
-moo initial-arguments db-file-name dump-db-file-name network-arguments
+`moo initial-arguments db-file-name dump-db-file-name network-arguments`
 
-The arguments must occur in this order, e.g., a log file name (-l) must come before db-file-name and dump-db-file-name while any port number must come afterwards.
-Initial Arguments
+Arguments can appear in any order (the only exception is output database must appear somewhere after input database).
 
--l log-file-name
+| Option | Type | Description |
+| ------------- | ------------- |
+| -l log-file-name | Optional | This specifies a file name for the server log output. If no log file name is specified, log output is directed to stderr. |
+| -e | Optional | This specifies that, once the database is loaded, Emergency Wizard Mode will be entered before starting any tasks or doing the initial listen to accept connections. May not be used with either -c or -f. |
+| -c script-line | Optional | This specifies a script line to pass to the $do_start_script verb. |
+| -f script-file | Optional | This specifies a script file to load and pass (the contents of) to the $do_start_script verb. |
+| db-file-name |  Required | This should be an existing database file in the appropriate format, whether this be a checkpoint or dump file from a prior run of the server, or one of the many distributed database files in existence (e.g., the ‘Minimal.db’ file provided with the server source distribution). |
+| dump-db-file-name | Required | This should indicate where to write checkpoint and final dump files. Note that the server does not immediately verify this path, i.e., there is no checking at startup that the file in question is actually writable; in fact, that the directory exists and is writable at the time the dump or checkpoint is attempted is all that really matters. |
+| connect-file-name | Optional | This specifies the pathname for the (UNIX domain) socket or named-pipe that will be used for connecting to the server. If no connect file name is specfied, the compiled-in value of DEFAULT_CONNECT_FILE is used. This is for use with NP_SINGLE and NP_LOCAL networking configurations. |
+| -p port-number | Optional | This specifies an initial port at which to listen for connections once the server successfully starts. If no port number is specfied, the compiled-in value of DEFAULT_PORT is used. |
+| -a n.n.n.n | Optional | This specifies a local IP address to bind for all listening and all outgoing connection attempts. n.n.n.n must be a valid numeric IP address assigned to one of the local host’s network interfaces. If no specific IP address is specified, any listening (be this the initial listen implicit in server startup or any explicit listening invoked by the listen() function) will bind to all IP addresses on all available network interfaces; likewise outgoing connection attempts will use whatever address is available. This is how, on a host with multiple network interfaces, one makes the server be visible only on one of them. At present, there is no way to specify that the server should bind to a subset of of the available IP addresses having more than one address but less than the entire set available. However, if the operating system offers port-forwarding and network address translation facilities, one can likely use those to achieve a similar effect. Note that even on hosts with only a single physical network interface, there will typically be multiple logical ones. One may, for example, specify the loopback address (usually 127.0.0.1), forcing the server to use the loopback interface for all connections, thus guaranteeing that only local connections, whether incoming or outgoing, will be possible (and thus acheiving most of the safety of NP_LOCAL or NP_SINGLE without needing specialized clients). |
+| -o | Optional | Explicitly enables open_network_connection() but only if the server has been compiled to include support for this function (i.e., OUTBOUND_NETWORK has been #defined). |
+| -O | Optional | Explicitly disables open_network_connection(). Any calls to this function will raise E_PERM even if the server has been compiled to support it. |
+| -w 10 | Optional | Manually specify the waif type of a v4 LambdaMOO database for conversion. So, for instance, if your v4 database has a waif type of 10 (typeof(somewaif)), you can run your server with the flag -w 10 to automatically convert waifs from the v4 format to the new ToastStunt type. This flag only has to be specified the first time you run your v4 database with ToastStunt |
+| -m | option for clearing the last_move builtin property on all objects in the database (and not setting it again for the lifetime of the server process). |
+| --tls-cert | Optional | Override default value in options.h |
+| --tls-key | Optional | Override default value in options.h |
+| --file-dir | Optional | Override default value in options.h |
+| --exec-dir | Optional | Override default value in options.h |
 
-(Optional) This specifies a file name for the server log output. If no log file name is specified, log output is directed to stderr.
--e
+Each option supports a single letter and a long form name. You can now specify as many initial listeners as you want. Use `-p` for a standard port or `-t` for a TLS port. (e.g. `./moo db db2 -p 7777 -t 7443 -p 8888 -t 8443`)
 
-(Optional) This specifies that, once the database is loaded, Emergency Wizard Mode will be entered before starting any tasks or doing the initial listen to accept connections.
--c script-line
+> Note: A full list of arguments is now available by supplying `--help`.
 
-(Optional) This specifies a script line to pass to the $do_start_script verb.
--f script-file
+> Note: For both the -c and -f arguments, the script content is passed in the args built-in variable. The server makes no assumptions about the semantics of the script; the interpretation of the script is the verb’s responsibility. Like Emergency Wizard Mode, the verb is called before starting any tasks or doing the initial listen to accept connections.
 
-(Optional) This specifies a script file to load and pass (the contents of) to the $do_start_script verb. 
-
-For both the -c and -f arguments, the script content is passed in the args built-in variable. The server makes no assumptions about the semantics of the script; the interpretation of the script is the verb’s responsibility. Like Emergency Wizard Mode, the verb is called before starting any tasks or doing the initial listen to accept connections.
-
-The -e argument may not be used with either -c or -f.
-Database Arguments
-
-db-file-name
-
-(Required) This should be an existing database file in the appropriate format, whether this be a checkpoint or dump file from a prior run of the server, or one of the many distributed database files in existence (e.g., the ‘Minimal.db’ file provided with the server source distribution).
-dump-db-file-name
-
-(Required) This should indicate where to write checkpoint and final dump files. Note that the server does not immediately verify this path, i.e., there is no checking at startup that the file in question is actually writable; in fact, that the directory exists and is writable at the time the dump or checkpoint is attempted is all that really matters. 
-
-Network Arguments
-
-The particular set of network arguments available depends on which NETWORK_PROTOCOL the server was compiled with. For a server compiled for single-user mode (NP_SINGLE), there are no additional arguments. For a server compiled for local interprocess communication (NP_LOCAL), there is just
-
-connect-file-name
-
-(Optional) This specifies the pathname for the (UNIX domain) socket or named-pipe that will be used for connecting to the server. If no connect file name is specfied, the compiled-in value of DEFAULT_CONNECT_FILE is used. 
-
-For a server compiled for general TCP/IP connections (NP_TCP), we have
-
--p port-number
-
-(Optional) This specifies an initial port at which to listen for connections once the server successfully starts. If no port number is specfied, the compiled-in value of DEFAULT_PORT is used.
-
-For the sake of backwards compatibility with prior server versions, the -p may be omitted.
--a n.n.n.n
-
-This specifies a local IP address to bind for all listening and all outgoing connection attempts. n.n.n.n must be a valid numeric IP address assigned to one of the local host’s network interfaces. If no specific IP address is specified, any listening (be this the initial listen implicit in server startup or any explicit listening invoked by the listen() function) will bind to all IP addresses on all available network interfaces; likewise outgoing connection attempts will use whatever address is available.
-
-This is how, on a host with multiple network interfaces, one makes the server be visible only on one of them. At present, there is no way to specify that the server should bind to a subset of of the available IP addresses having more than one address but less than the entire set available. However, if the operating system offers port-forwarding and network address translation facilities, one can likely use those to achieve a similar effect.
-
-Note that even on hosts with only a single physical network interface, there will typically be multiple logical ones. One may, for example, specify the loopback address (usually 127.0.0.1), forcing the server to use the loopback interface for all connections, thus guaranteeing that only local connections, whether incoming or outgoing, will be possible (and thus acheiving most of the safety of NP_LOCAL or NP_SINGLE without needing specialized clients).
-+O
-
-Explicitly enables open_network_connection() but only if the server has been compiled to include support for this function (i.e., OUTBOUND_NETWORK has been #defined).
--O
-
-Explicitly disables open_network_connection(). Any calls to this function will raise E_PERM even if the server has been compiled to support it. 
+> Note: The particular set of network arguments available depends on which NETWORK_PROTOCOL the server was compiled with. For a server compiled for single-user mode (NP_SINGLE), there are no additional arguments. For a server compiled for local interprocess communication (NP_LOCAL), there is just connect-file-name
 
 #### Emergency Wizard Mode
 Emergency Wizard Mode

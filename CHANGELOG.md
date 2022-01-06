@@ -1,8 +1,16 @@
 # Changelog for LambdaMOO Programming Repository
 
-## [1.1.8] - 2022.01.06 12:22PM
+## [1.1.8] - 2022.01.06 5:43PM
 TOASTSTUNT PROGRAMMERS GUIDE
 * Added a warning about anon objects being added to .owned_objects prop on create in ToastCore
+* Updated section on protected properties to no longer call out this option as having a signficant performance cost
+* Updated command line starting the server options to a nice table
+* Added waif and last_move options to command line table
+* Updated sqlite_execute and sqlite_query and sort as being threaded
+* Updated reverse builtin to show it accepts strings
+* Updated locations builtin with 2nd and 3rd arg + usage
+* Removed process_id builtin as it was removed in Toast
+* Incremened guide to 1.0.1
 
 ## [1.1.7] - 2022.01.05 8:20pm
 * Added SindomeScheduler to Moo Code directory
