@@ -1,6 +1,6 @@
-# ToastStunt Programmer Guide Version 1.0.2
+# ToastStunt Programmer Guide Version 1.0.3
 
-## For ToastStunt Version 2.7+, Last Updated 01/06/23
+## For ToastStunt Version 2.7+, Last Updated 01/07/23
 
 by Pavel Curtis et al
 
@@ -452,6 +452,8 @@ The `location` and `contents` properties describe a hierarchy of object containm
 
 The `contents` property is a list of those objects for which this object is their location. In order to maintain the consistency of these properties, only the `move()` function is able to change them.
 
+The `last_move` property is a map in the form `["source" -> OBJ, "time" -> TIMESTAMP]`. This is set by the server each time an object is moved.
+
 The `wizard` and `programmer` bits are only applicable to characters, objects representing players. They control permission to use certain facilities in the server. They may only be set by a wizard.
 
 The `r` bit controls whether or not players other than the owner of this object can obtain a list of the properties or verbs in the object.
@@ -500,9 +502,17 @@ The owner of a verb also determines the permissions with which that verb runs; t
 
 > Warning: This is serious business. The MOO has a variety of checks in place for permissions (at the object, verb and property levels) that are all but ignored when a verb is executing with a wizard's permisisons. You may want to create a non-wizard character and give them the programmer bit, and write much of your code there, leaving the wizard bit for things that actually require access to everything, despite permissions.
 
+| Permission Bit  | Description |
+| ------------- | ------------- |
+| r (read) | Let non-owners see the verb code |
+| w (write) | Let non-owners write the verb code |
+| x (execute) | Let verb be invokved from within another verb |
+| d (debug) | Let the verb raise errors to be caught |
+
 The permission bits on verbs are drawn from this set: `r` (read), `w` (write), `x` (execute), and `d` (debug). Read permission lets non-owners see the program for a verb and, symmetrically, write permission lets them change that program. The other two bits are not, properly speaking, permission bits at all; they have a universal effect, covering both the owner and non-owners.
 
-The execute bit determines whether or not the verb can be invoked from within a MOO program (as opposed to from the command line, like the `put` verb on containers). If the `x` bit is not set, the verb cannot be called from inside a program. The `x` bit is usually set.
+The execute bit determines whether or not the verb can be invoked from within a MOO program (as opposed to from the command line, like the `put` verb on containers). If the `x` bit is not set, the verb cannot be called from inside a program. This is most obviously useful for `this none this` verbs which are intended to be executed from within other verb programs, however, it may be useful to set the `x` bit on verbs that are intended to be executed from the command line, as then those can also
+be executed from within another verb.
 
 The setting of the debug bit determines what happens when the verb's program does something erroneous, like subtracting a number from a character string.  If the `d` bit is set, then the server _raises_ an error value; such raised errors can be _caught_ by certain other pieces of MOO code. If the error is not caught, however, the server aborts execution of the command and, by default, prints an error message on the terminal of the player whose command is being executed. (See the chapter on server assumptions about the database for details on how uncaught errors are handled.)  If the `d` bit is not set, then no error is raised, no message is printed, and the command is not aborted; instead the error value is returned as the result of the erroneous operation.
 
@@ -604,6 +614,8 @@ Having thus broken the string into words, the server next checks to see if the f
 The first one of these is only available to programmers, the next four are intended for use by client programs, and the last can vary from database to database or even connection to connection; all six are described in the final chapter of this document, "Server Commands and Database Assumptions". If the first word isn't one of the above, then we get to the usual case: a normal MOO command.
 
 The server next gives code in the database a chance to handle the command. If the verb `$do_command()` exists, it is called with the words of the command passed as its arguments and `argstr` set to the raw command typed by the user. If `$do_command()` does not exist, or if that verb-call completes normally (i.e., without suspending or aborting) and returns a false value, then the built-in command parser is invoked to handle the command as described below. Otherwise, it is assumed that the database code handled the command completely and no further action is taken by the server for that command.
+
+> Note: `$do_command` is a corified reference. It refers to the verb `do_command` on #0. More details on corifying properties and verbs are presented later. 
 
 If the built-in command parser is invoked, the server tries to parse the command into a verb, direct object, preposition and indirect object. The first word is taken to be the verb. The server then tries to find one of the prepositional phrases listed at the end of the previous section, using the match that occurs earliest in the command. For example, in the very odd command `foo as bar to baz`, the server would take `as` as the preposition, not `to`.
 
@@ -773,6 +785,7 @@ A variable name is itself an expression; its value is the value of the named var
 | Variable  |
 | ------------- |
 | INT |
+| NUM |
 | FLOAT |
 | OBJ |
 | STR |
@@ -782,6 +795,8 @@ A variable name is itself an expression; its value is the value of the named var
 | MAP |
 | WAIF |
 | ANON |
+| true | 
+| false |
 | player |
 | this |
 | caller |
@@ -794,11 +809,14 @@ A variable name is itself an expression; its value is the value of the named var
 | iobj |
 | iobjstr |
 
+> Note: `num` is a deprecated reference to `int` and has been presented only for completeness.
+
 The values of some of these variables always start out the same:
 
 | Variable  | Value | Description |
 | ------------- | ------------- |
 | <code>INT</code> | 0 | an integer, the type code for integers |
+| <code>NUM</code> | 0 | (deprecated) an integer, the type code for integers |
 | <code>OBJ</code> | 1 |an integer, the type code for objects |
 | <code>STR</code> | 2 | an integer, the type code for strings |
 | <code>ERR</code> | 3 | an integer, the type code for error values |
@@ -808,6 +826,8 @@ The values of some of these variables always start out the same:
 | <code>ANON</code> | 12 | an integer, the type code for anonymous object values |
 | <code>WAIF</code> | 13 | an integer, the type code for WAIF values |
 | <code>BOOL</code> | 14 | an integer, the type code for bool values |
+| <code>true</code> | true | the boolean true |
+| <code>false</code> | false | the boolean false |
 
 > Note: The `typeof` function can is of note here and is described in the built-ins section.
 
@@ -888,7 +908,7 @@ The `+` operator can also be used to append two lists. The expression
 
 has the value `{1, 2, 3, 4, 5, 6}`
 
-The `+` operator can also be ued to append to a list. The expression
+The `+` operator can also be used to append to a list. The expression
 
 ```
 {1, 2} + #123
@@ -910,17 +930,26 @@ MOO also supports the exponentiation operation, also known as "raising to a powe
 
 #### Bitwise Operators
 
-MOO also supports bitwise operations on integer types: &.    |.    ^.    >>    <<    ~
+MOO also supports bitwise operations on integer types: 
 
-These are, bitwise ‘and’, ‘or’, ‘xor’, logical (not arithmetic) right-shift, logical left-shift, and complement. In the following table, the expressions on the left have the corresponding values on the right:
+| Operator  | Meaning |
+| ------------- | ------------- |
+| &. | bitwise `and` |
+| \|. | bitwise `or` |
+| ^. | bitwise `xor`  |
+| >> | logical (not arithmetic) right-shift |
+| << | logical (not arithmetic) left-shift |
+| ~ | complement |
+
+In the following table, the expressions on the left have the corresponding values on the right:
 
 ```
-1 &. 2       ⇒   0
-1 |. 2       ⇒   3
-1 ^. 3       ⇒   1
-8 << 1       ⇒   16
-8 >> 1       ⇒   4
-~0           ⇒   -1
+1 &. 2       =>  0
+1 |. 2       =>  3
+1 ^. 3       =>  1
+8 << 1       =>  16
+8 >> 1       =>  4
+~0           =>  -1
 ```
 
 For more information on Bitwise Operators, checkout the [Wikipedia](https://en.wikipedia.org/wiki/Bitwise_operation) page on them.
@@ -1190,7 +1219,7 @@ expression-1[expression-2..expression-3]
 
 The three expressions are evaluated in order. Expression-1 must return a list, map or string (the _sequence_) and the other two expressions must return integers (the _low_ and _high_ indices, respectively) for lists and strings, or non-collection values (the `begin` and `end` keys in the ordered map, respectively) for maps; otherwise, `E_TYPE` is raised. The `^` and `$` expression can be used in either or both of expression-2 and expression-3 just as before.
 
-If the low index is greater than the high index, then the empty string, list or map is returned, depending on whether the sequence is a string, list or map.  Otherwise, both indices must be between 1 and the length of the sequence (for lists or strings) or valid keys (ofr maps); `E_RANGE` is raised if they are not. A new list, map or string is returned that contains just the elements of the sequence with indices between the low/high and high/end bounds.
+If the low index is greater than the high index, then the empty string, list or map is returned, depending on whether the sequence is a string, list or map.  Otherwise, both indices must be between 1 and the length of the sequence (for lists or strings) or valid keys (for maps); `E_RANGE` is raised if they are not. A new list, map or string is returned that contains just the elements of the sequence with indices between the low/high and high/end bounds.
 
 ```
 "foobar"[2..$]                       =>  "oobar"
@@ -1215,7 +1244,7 @@ $name[start-index-expr..end-index-expr] = result-expr
 
 As with indexed assigments, the first form writes into a variable, and the last three forms write into a property. The same errors (`E_TYPE`, `E_INVIND`, `E_PROPNF` and `E_PERM` for lack of read/write permission on the property) may be raised. If variable does not yet have a value (i.e., it has never been assigned to), `E_VARNF` will be raised. As before, the `^` and `$` expression can be used in either start-index-expr or end-index-expr.
 
-If start-index-expr or end-index-expr is not an integer (for lists and strings) or a collection value (for maps), if the value of variable or the property is not a list, map, or string, or result-expr is not the same type as variable or the property, `E_TYPE` is raised.For lists and strings,  `E_RANGE` is raised if end-index-expr is less than zero or if start-index-expr is greater than the length of the list or string plus one. Note: the length of result-expr does not need to be the same as the length of the specified range. For maps, `E_RANGE` is raised if `start-index-expr` or `end-index-expr` are not keys in the map.
+If start-index-expr or end-index-expr is not an integer (for lists and strings) or a collection value (for maps), if the value of variable or the property is not a list, map, or string, or result-expr is not the same type as variable or the property, `E_TYPE` is raised. For lists and strings, `E_RANGE` is raised if end-index-expr is less than zero or if start-index-expr is greater than the length of the list or string plus one. Note: the length of result-expr does not need to be the same as the length of the specified range. For maps, `E_RANGE` is raised if `start-index-expr` or `end-index-expr` are not keys in the map.
 
 In precise terms, the subrange assigment
 
@@ -1381,8 +1410,6 @@ Using scattering assignment, the example at the begining of this section could b
 
 Fine point: If you are familiar with JavaScript, the 'rest' and 'spread' functionality should look pretty familiar. It is good MOO programming style to use a scattering assignment at the top of nearly every verb (at least ones that are 'this none this'), since it shows so clearly just what kinds of arguments the verb expects.
 
-It is good MOO programming style to use a scattering assignment at the top of nearly every verb, since it shows so clearly just what kinds of arguments the verb expects. 
-
 #### Operations on BOOLs
 
 ToastStunt offers a `bool` type. This type can be either `true` which is considered `1` or `false` which is considered `0`. Boolean values can be set in your code/props much the same way any other value can be assigned to a variable or property.
@@ -1406,8 +1433,6 @@ ToastStunt offers a `bool` type. This type can be either `true` which is conside
 The true and false variables are set at task runtime (or your code) and can be overridden within verbs if needed. This will not carryover after the verb is finished executing.
 
 > Fine Point: As mentioned earlier, there are constants like STR which resolved to the integer code 2. OBJ resolves to the integer code of 1. Thus if you were to execute code such as `typeof(#15840) == TRUE` you would get a truthy response, as typeof() would return `1` to denote the object's integer code. This is a side effect of `true` always equaling 1, for compatibility reasons.
-
-> Fine Point: As of the writing of this, ToastCore does not support using @prop or @set to set a property to true or false. You can however, set a property via code to true or false.
 
 #### Getting and Setting the Values of Properties
 
@@ -1479,7 +1504,7 @@ expr-0:name(expr-1, expr-2, ..., expr-N)
 
 Expr-0 must return an object number; `E_TYPE` is raised otherwise.  If the object with that number does not exist, `E_INVIND` is raised. If this task is too deeply nested in verbs calling verbs calling verbs, then `E_MAXREC` is raised; the default limit is 50 levels, but this can be changed from within the database; see the chapter on server assumptions about the database for details. If neither the object nor any of its ancestors defines a verb matching the given name, `E_VERBNF` is raised.  Otherwise, if none of these nasty things happens, the named verb on the given object is called; the various built-in variables have the following initial values in the called verb:
 
-| First Header  | Second Header |
+| Variable  | Description |
 | ------------- | ------------- |
 | <code>this</code> | an object, the value of expr-0 |
 | <code>verb</code> | a string, the name used in calling this verb |
@@ -1513,7 +1538,7 @@ $name(expr-1, expr-2, ..., expr-N)
 
 #### Verb Calls on Primitive Types
 
-The server supports verbs calls on primitive types (numbers, strings, etc.) so calls like `"foo bar":split()' can be implemented and work as expected (they were always syntactically correct in LambdaMOO but resulted in an E_TYPE error).  Verbs are implemented on prototype object delegates ($int_proto, $float_proto, $str_proto, etc.).  The server transparently invokes the correct verb on the appropriate prototype -- the primitive value is the value of `this'.
+The server supports verbs calls on primitive types (numbers, strings, etc.) so calls like `"foo bar":split()` can be implemented and work as expected (they were always syntactically correct in LambdaMOO but resulted in an E_TYPE error).  Verbs are implemented on prototype object delegates ($int_proto, $float_proto, $str_proto, etc.).  The server transparently invokes the correct verb on the appropriate prototype -- the primitive value is the value of `this'.
 
 This also includes supporting calling verbs on an object prototype ($obj_proto). Counterintuitively, this will only work for types of OBJ that are invalid. This can come in useful for un-logged-in connections (i.e. creating a set of convenient utilities for dealing with negative connections in-MOO).
 
@@ -1555,7 +1580,7 @@ Returns `x.y` if that doesn't cause an error, `17` if `x` doesn't have a `y` pro
 
 Returns `E_DIV`.
 
-> Note: It's important to mention how powerful this compact syntax for writing error catching code can be.  When used properly you can write very complex and elegant code. For example imagine that you have a set of objects from different parents, some of which define a specific verb, and some of which do not. If for instance, your code wants to perform some function _if_ the verb exists, you can write `obj:verbname() ! ANY => 0' to allow the MOO to attempt to execute that verb and then if it fails, catch the error and continue operations normally.
+> Note: It's important to mention how powerful this compact syntax for writing error catching code can be.  When used properly you can write very complex and elegant code. For example imagine that you have a set of objects from different parents, some of which define a specific verb, and some of which do not. If for instance, your code wants to perform some function _if_ the verb exists, you can write `obj:verbname() ! E_VERBNF' to allow the MOO to attempt to execute that verb and then if it fails, catch the error and continue operations normally.
 
 #### Parentheses and Operator Precedence
 
@@ -1826,7 +1851,7 @@ This naming facility is only really useful in conjunction with the `break` and `
 
 With each kind of loop, it is possible that the statements in the body of the loop will never be executed at all. For iteration over lists, this happens when the list returned by the expression is empty. For iteration on integers, it happens when expression-1 returns a larger integer than expression-2. Finally, for the `while` loop, it happens if the expression returns a false value the very first time it is evaluated.
 
-> Warning: With `while` loops it is especially important to make sure you do not create an infinite loop. That is, a loop that will never terminate because it's expression will never become false. Be especially careful if you suspend() or $cu:sin() within a loop, as the task may never run out of ticks.
+> Warning: With `while` loops it is especially important to make sure you do not create an infinite loop. That is, a loop that will never terminate because it's expression will never become false. Be especially careful if you suspend(), yin(), or $command_utils:suspend_if_needed() within a loop, as the task may never run out of ticks.
 
 #### Terminating One or All Iterations of a Loop
 
@@ -1952,7 +1977,7 @@ And another example:
 (End of traceback)
 ```
 
-As you can see in the above examples, ToastStunt will tell you the line number of the error, as well as some additional information about the error, including the exepcted number of arguments and the type. This will also work when you are catching errors in a try/except statement (detailed below).
+As you can see in the above examples, ToastStunt will tell you the line number of the error, as well as some additional information about the error, including the expected number of arguments and the type. This will also work when you are catching errors in a try/except statement (detailed below).
 
 Additional, you will also be shown {object, verb / property name} when you try to access a verb or property that was not found.
 
@@ -2126,15 +2151,15 @@ The last three kinds of tasks above are collectively known as _queued tasks_ or 
 
 To prevent a maliciously- or incorrectly-written MOO program from running forever and monopolizing the server, limits are placed on the running time of every task. One limit is that no task is allowed to run longer than a certain number of seconds; command and server tasks get five seconds each while other tasks get only three seconds. This limit is, in practice, rarely reached. The reason is that there is also a limit on the number of operations a task may execute.
 
-//TODO: confirm this is the correct info for ToastCore
-
-The server counts down _ticks_ as any task executes. Roughly speaking, it counts one tick for every expression evaluation (other than variables and literals), one for every `if`, `fork` or `return` statement, and one for every iteration of a loop. If the count gets all the way down to zero, the task is immediately and unceremoniously aborted. By default, command and server tasks begin with an store of 30,000 ticks; this is enough for almost all normal uses. Forked, suspended, and reading tasks are allotted 15,000 ticks each.
+The server counts down _ticks_ as any task executes. Roughly speaking, it counts one tick for every expression evaluation (other than variables and literals), one for every `if`, `fork` or `return` statement, and one for every iteration of a loop. If the count gets all the way down to zero, the task is immediately and unceremoniously aborted. By default, command and server tasks begin with a store of 60,000 ticks; this is enough for almost all normal uses. Forked, suspended, and reading tasks are allotted 30,000 ticks each.
 
 These limits on seconds and ticks may be changed from within the database, as can the behavior of the server after it aborts a task for running out; see the chapter on server assumptions about the database for details.
 
 Because queued tasks may exist for long periods of time before they begin execution, there are functions to list the ones that you own and to kill them before they execute. These functions, among others, are discussed in the following section.
 
-ToastStunt has a configuration option in options.h for `DEFAULT_LAG_THRESHOLD` which is set to `5.0` and x when exceeded, the server will make a note in the server log and call `#0:handle_lagging_task` with arguments: {callers, execution time}. This can be overridden on `$server_options.task_lag_threshold`.
+Some server functions, when given large or complicated amounts of data, may take a significant amount of time to complete their work. When this happens, the MOO can't process any other player input or background tasks and users will experience lag. To help diagnose the causes of lag, ToastStunt provides the `DEFAULT_LAG_THRESHOLD` option in options.h (which can be overridden in the database. See the Server Assumptions About the Database section). When a running task exceeds this number of seconds, the server will make a note in the server log and call the verb `#0:handle_lagging_task()` with the arguments: `{callers, execution time}`. Callers will be a `callers()`-style list of every verb call leading up to the lagging verb, and execution time will be the total time it took the verb to finish executing. This can help you gauge exactly what verb is causing the problem.
+
+> Note: Depending on your system configuration, FG_SECONDS and BG_SECONDS may not necessarily correspond to actual seconds in real time. They often measure CPU time. This is why your verbs can lag for several seconds in real life and still not raise an 'out of seconds' error."
 
 ### Working with Anonymous Objects
 
@@ -2168,8 +2193,6 @@ This will also output: `\*anonymous\*`
 
 If you store your anonymous object in a property, that anonymous object will continue to exist so long as it exists in the property. If the object with the property were recycled, or the property removed or overwritten with a different value, the anonymous object would be garbage collected.
 
-> Warning: On ToastCore when you create an object the :initialize() verb is called. This is defined on `#1`. This verb adds the newly created object to the `.owned_objects` property of the object set as the owner (player in the above example). This means that it will not be automatically garbage collected since there is a reference to it! It is recommended that if you do not want this behavior you add a check in `initialize` for `typeof(this) == ANON` and skip adding the object to the `.owned_objects` property.
-
 Anonymous objects can be stored in lists:
 
 ```
@@ -2197,8 +2220,6 @@ Anonymous objects can be stored in maps as either the key or the value:
 > Note: The section for [Additional Details on WAIFs](#additional-details-on-waifs) has example verbs that can be used to detect Anonymous Objects referenced in your system.
 
 ### Working with WAIFs
-
-> ToastStunt WAIFs are not the same as LambdaMOO WAIFs. The server executable has a -w option for converting LambdaMOO style WAIFs to the new style
 
 The MOO object structure is unique in that all classes are instances and all instances are (potentially) classes. This means that instances carry a lot of baggage that is only useful in the event that they become classes. Also, every object comes with a set of builtin properties and attributes which are primarily useful for building VR things. My idea of a lightweight object is something which is exclusively an instance. It lacks many of the things that "real MOO objects" have for their roles as classes and VR objects:
 
@@ -2235,6 +2256,11 @@ A WAIF's properties and behavior are a hybrid of several existing MOO types. It 
 - WAIFs do not have OBJ flags such as .r or .wizard.
 - WAIFs can be stored in MAPs
 - WAIFs can't recursively reference one another but one waif can reference another waif if the other waif doesn't reference it too.
+
+> Note: When loading a LambdaMOO database with waifs into ToastStunt for the first time, you may get errors. This is because the WAIF type in LambdaMOO doesn't match the WAIF type in ToastStunt. To fix this error, you need to do two simple things:
+> 1. Start your database in LambdaMOO as you always have and evaluate this: `;typeof($waif:new())`
+> 2. Start your database in ToastStunt with the `-w <result of previous eval>` command line option. For example, if `typeof($waif:new())` in LambdaMOO was 42, you would start your MOO with something like this: `./moo -w 42 my_database.db my_converted_database.db`
+> After that you're done! Your database will convert all of your existing waifs and save in the new ToastStunt format. You only have to use the `-w` option one time."
 
 #### The WAIF Verb and Property Namespace
 

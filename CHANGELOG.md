@@ -1,5 +1,23 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.1.10] - 2022.01.07 12:22PM
+TOASTSTUNT PROGRAMMERS GUIDE
+Thanks to lisdude for all these suggestions
+* Added explanatory text around last_move to Properties on Objects section
+* Added permission bit table
+* Added note on #0 / corification after first reference to a $ verb/prop
+* added num, true, false, to section on variables that always have values
+* fixed some typos 
+* added a fancy table to bitwise operators
+* removed fine point about toastcore not supporting @set/@Prop on bools as it does now! woo!
+* updated inline try catch example from ANY to E_VERBNF
+* Updated warning to not reference sindome specific $cu:sin and to reference $command_utils:suspend_if_needed, also mentioned yin()
+* updated default fg and bg ticks -- removed todo around this
+* updated the callout about default_lag_threshold with better content provided by lisdude
+* added note about FG_SECONDS and BG_SECONDS not corresponding to real life seconds
+* Removed warning about toastcore's :initialize verb and anon objects as it is no longer applicable
+* Moved and updated warning about ToastStunt waif vs lambdamoo waif and added migration info
+
 ## [1.1.9] - 2022.01.06 9:49PM
 TOASTSTUNT PROGRAMMERS GUIDE
 * Updated server options section to a nice table
