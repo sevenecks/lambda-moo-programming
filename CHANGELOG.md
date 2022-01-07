@@ -18,6 +18,7 @@ Thanks to lisdude for all these suggestions
 * added note about FG_SECONDS and BG_SECONDS not corresponding to real life seconds
 * Removed warning about toastcore's :initialize verb and anon objects as it is no longer applicable
 * Moved and updated warning about ToastStunt waif vs lambdamoo waif and added migration info
+* incremented guide to 1.0.3
 
 ## [1.1.9] - 2022.01.06 9:49PM
 TOASTSTUNT PROGRAMMERS GUIDE
