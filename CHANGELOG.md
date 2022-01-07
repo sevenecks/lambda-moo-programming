@@ -1,11 +1,16 @@
 # Changelog for LambdaMOO Programming Repository
 
-## [1.1.9] - 2022.01.06 5:57PM
+## [1.1.9] - 2022.01.06 9:49PM
 TOASTSTUNT PROGRAMMERS GUIDE
 * Updated server options section to a nice table
 * Added / updated options in server options section
 * Added prettier table for variables that always have values
 * Added prettier table for prepositions
+* Removed warning that slice() is threaded since it isn't anymore
+* Updated the INT/OBJ/STR/etc table to include the value of these constants
+* Updated explode builtin with more info / third arg
+* Updated sqlite_execute to include regex info
+* Updated exec with example for setting env variables
 
 ## [1.1.8] - 2022.01.06 5:43PM
 TOASTSTUNT PROGRAMMERS GUIDE

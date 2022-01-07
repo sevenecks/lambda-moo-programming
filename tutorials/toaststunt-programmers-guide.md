@@ -1,4 +1,4 @@
-# ToastStunt Programmer Guide Version 1.0.1
+# ToastStunt Programmer Guide Version 1.0.2
 
 ## For ToastStunt Version 2.7+, Last Updated 01/06/23
 
@@ -796,18 +796,20 @@ A variable name is itself an expression; its value is the value of the named var
 
 The values of some of these variables always start out the same:
 
-| Variable  | Initial Value |
+| Variable  | Value | Description |
 | ------------- | ------------- |
-| <code>INT</code> | an integer, the type code for integers (see the description of the function <code>typeof()</code>, below) |
-| <code>FLOAT</code> | an integer, the type code for floating-point numbers |
-| <code>OBJ</code> | an integer, the type code for objects |
-| <code>STR</code> | an integer, the type code for strings |
-| <code>LIST</code> | an integer, the type code for lists |
-| <code>ERR</code> | an integer, the type code for error values |
-| <code>BOOL</code> | an integer, the type code for bool values |
-| <code>MAP</code> | an integer, the type code for map values |
-| <code>WAIF</code> | an integer, the type code for WAIF values |
-| <code>ANON</code> | an integer, the type code for anonymous object values |
+| <code>INT</code> | 0 | an integer, the type code for integers |
+| <code>OBJ</code> | 1 |an integer, the type code for objects |
+| <code>STR</code> | 2 | an integer, the type code for strings |
+| <code>ERR</code> | 3 | an integer, the type code for error values |
+| <code>LIST</code> | 4 | an integer, the type code for lists |
+| <code>FLOAT</code> | 9 | an integer, the type code for floating-point numbers |
+| <code>MAP</code> | 10 | an integer, the type code for map values |
+| <code>ANON</code> | 12 | an integer, the type code for anonymous object values |
+| <code>WAIF</code> | 13 | an integer, the type code for WAIF values |
+| <code>BOOL</code> | 14 | an integer, the type code for bool values |
+
+> Note: The `typeof` function can is of note here and is described in the built-ins section.
 
 For others, the general meaning of the value is consistent, though the value itself is different for different situations:
 
@@ -2919,7 +2921,22 @@ If str1 is [lexicographically](https://en.wikipedia.org/wiki/Lexicographical_ord
 
 explode -- Returns a list of substrings of subject that are separated by break. break defaults to a space.
 
-list  `explode`(subject [, break])
+list  `explode`(STR subject [, STR break [, INT include-sequential-occurances])
+
+Only the first character of `break` is considered:
+
+```
+explode("slither%is%wiz", "%")      => {"slither", "is", "wiz"}
+explode("slither%is%%wiz", "%%")    => {"slither", "is", "wiz"}
+```
+
+You can use include-sequential-occurances to get back an empty string as part of your list if `break` appears multiple times with nothing between it, or there is a leading/trailing `break` in your string:
+
+```
+explode("slither%is%%wiz", "%%", 1)  => {"slither", "is", "", "wiz"}
+explode("slither%is%%wiz%", "%", 1)  => {"slither", "is", "", "wiz", ""}
+explode("%slither%is%%wiz%", "%", 1) => {"", "slither", "is", "", "wiz", ""}
+```
 
 > Note: This can be used as a replacement for `$string_utils:explode`.
 
@@ -3460,9 +3477,6 @@ slice({{"z", 1, 3}, {"y", 2, 4}}, {2, 1})                               => {{1, 
 slice({["a" -> 1, "b" -> 2], ["a" -> 5, "b" -> 6]}, "a")                => {1, 5}
 slice({["a" -> 1, "b" -> 2], ["a" -> 5, "b" -> 6], ["b" -> 8]}, "a", 0) => {1, 5, 0}
 ```
-
-> Warning: Take care when using this when thread mode is active, as this is a threaded function and that means it implicitly suspends. `set_thread_mode(0)` if you want to use this without suspending.
-
 **Function: `sort`**
 
 sort -- Sorts list either by keys or using the list itself.
@@ -4458,6 +4472,12 @@ Example:
 sqlite_execute(0, "INSERT INTO users VALUES (?, ?, ?);", {#7, "lisdude", "Albori Sninvel"})
 ```
 
+ToastStunt supports the REGEXP pattern matching operator:
+
+```
+sqlite_execute(4, "SELECT rowid FROM notes WHERE body REGEXP ?;", {"albori (sninvel)?"})
+```
+
 > Note: This is a threaded function.
 
 **Function: `sqlite_query`**
@@ -4575,6 +4595,22 @@ exec({"cat", "-?"})                                   ⇒   {1, "", "cat: illega
 exec({"cat"}, "foo")                                  ⇒   {0, "foo", ""}
 exec({"echo", "one", "two"})                          ⇒   {0, "one two~0A", ""}
 ```
+
+You are able to set environmental variables with `exec`, imagine you had a `vars.sh` (in your executables directory):
+
+```
+#!/bin/bash
+echo "pizza = ${pizza}"
+```
+
+And then you did:
+
+```
+exec({"vars.sh"}, "", {"pizza=tasty"}) => {0, "pizza = tasty~0A", ""}
+exec({"vars.sh"}) => {0, "pizza = ~0A", ""}
+```
+
+The second time pizza doesn't exist. The darkest timeline.
 
 **Function: `getenv`**
 
@@ -5988,37 +6024,40 @@ Network Options
 
 The server command line has the following general form:
  	
-`moo initial-arguments db-file-name dump-db-file-name network-arguments`
+`./moo [-e] [-f script-file] [-c script-line] [-l log-file] [-m] [-w waif-type] [-O|-o] [-4 ipv4-address] [-6 ipv6-address] [-r certificate-path] [-k key-path] [-i files-path] [-x executables-path] input-db-file output-db-file [-t|-p port-number]`
 
-Arguments can appear in any order (the only exception is output database must appear somewhere after input database).
+| Option | Description |
+| ------------- | ------------- |
+| -v, --version | current version
+| -h, --help | show usage information and command-line options
+| -e, --emergency | emergency wizard mode
+| -l, --log | redirect standard output to log file
+| -m, --clear-move | clear the `last_move' builtin property on all objects
+| -w, --waif-type |convert waifs from the specified type (check with typeof(waif) in your old MOO)
+| -f, --start-script | file to load and pass to `#0:do_start_script()'
+| -c, --start-line | line to pass to `#0:do_start_script()'
+| -i, --file-dir | directory to look for files for use with FileIO functions
+| -x, --exec-dir | directory to look for executables for use with the exec() function
+| -o, --outbound | enable outbound network connections
+| -O, --no-outbound | disable outbound network connections
+| -4, --ipv4 | restrict IPv4 listeners to a specific address
+| -6, --ipv6 | restrict IPv6 listeners to a specific address
+| -r, --tls-cert | TLS certificate to use
+| -k, --tls-key | TLS key to use
+| -t, --tls-port | port to listen for TLS connections on (can be used multiple times)
+| -p, --port | port to listen for connections on (can be used multiple times)
 
-| Option | Type | Description |
-| ------------- | ------------- | ------------- |
-| -l log-file-name | Optional | This specifies a file name for the server log output. If no log file name is specified, log output is directed to stderr. |
-| -e | Optional | This specifies that, once the database is loaded, Emergency Wizard Mode will be entered before starting any tasks or doing the initial listen to accept connections. May not be used with either -c or -f. |
-| -c script-line | Optional | This specifies a script line to pass to the $do_start_script verb. |
-| -f script-file | Optional | This specifies a script file to load and pass (the contents of) to the $do_start_script verb. |
-| db-file-name |  Required | This should be an existing database file in the appropriate format, whether this be a checkpoint or dump file from a prior run of the server, or one of the many distributed database files in existence (e.g., the ‘Minimal.db’ file provided with the server source distribution). |
-| dump-db-file-name | Required | This should indicate where to write checkpoint and final dump files. Note that the server does not immediately verify this path, i.e., there is no checking at startup that the file in question is actually writable; in fact, that the directory exists and is writable at the time the dump or checkpoint is attempted is all that really matters. |
-| connect-file-name | Optional | This specifies the pathname for the (UNIX domain) socket or named-pipe that will be used for connecting to the server. If no connect file name is specfied, the compiled-in value of DEFAULT_CONNECT_FILE is used. This is for use with NP_SINGLE and NP_LOCAL networking configurations. |
-| -p port-number | Optional | This specifies an initial port at which to listen for connections once the server successfully starts. If no port number is specfied, the compiled-in value of DEFAULT_PORT is used. |
-| -a n.n.n.n | Optional | This specifies a local IP address to bind for all listening and all outgoing connection attempts. n.n.n.n must be a valid numeric IP address assigned to one of the local host’s network interfaces. If no specific IP address is specified, any listening (be this the initial listen implicit in server startup or any explicit listening invoked by the listen() function) will bind to all IP addresses on all available network interfaces; likewise outgoing connection attempts will use whatever address is available. This is how, on a host with multiple network interfaces, one makes the server be visible only on one of them. At present, there is no way to specify that the server should bind to a subset of of the available IP addresses having more than one address but less than the entire set available. However, if the operating system offers port-forwarding and network address translation facilities, one can likely use those to achieve a similar effect. Note that even on hosts with only a single physical network interface, there will typically be multiple logical ones. One may, for example, specify the loopback address (usually 127.0.0.1), forcing the server to use the loopback interface for all connections, thus guaranteeing that only local connections, whether incoming or outgoing, will be possible (and thus acheiving most of the safety of NP_LOCAL or NP_SINGLE without needing specialized clients). |
-| -o | Optional | Explicitly enables open_network_connection() but only if the server has been compiled to include support for this function (i.e., OUTBOUND_NETWORK has been #defined). |
-| -O | Optional | Explicitly disables open_network_connection(). Any calls to this function will raise E_PERM even if the server has been compiled to support it. |
-| -w 10 | Optional | Manually specify the waif type of a v4 LambdaMOO database for conversion. So, for instance, if your v4 database has a waif type of 10 (typeof(somewaif)), you can run your server with the flag -w 10 to automatically convert waifs from the v4 format to the new ToastStunt type. This flag only has to be specified the first time you run your v4 database with ToastStunt |
-| -m | option for clearing the last_move builtin property on all objects in the database (and not setting it again for the lifetime of the server process). |
-| --tls-cert | Optional | Override default value in options.h |
-| --tls-key | Optional | Override default value in options.h |
-| --file-dir | Optional | Override default value in options.h |
-| --exec-dir | Optional | Override default value in options.h |
+The emergency mode switch (-e) may not be used with either the file (-f) or line (-c) options.
 
-Each option supports a single letter and a long form name. You can now specify as many initial listeners as you want. Use `-p` for a standard port or `-t` for a TLS port. (e.g. `./moo db db2 -p 7777 -t 7443 -p 8888 -t 8443`)
+Both the file and line options may be specified. Their order on the command line determines the order of their invocation.
+
+Examples:
+./moo -c '$enable_debugging();' -f development.moo Minimal.db Minimal.db.new 7777
+./moo Minimal.db Minimal.db.new
 
 > Note: A full list of arguments is now available by supplying `--help`.
 
 > Note: For both the -c and -f arguments, the script content is passed in the args built-in variable. The server makes no assumptions about the semantics of the script; the interpretation of the script is the verb’s responsibility. Like Emergency Wizard Mode, the verb is called before starting any tasks or doing the initial listen to accept connections.
-
-> Note: The particular set of network arguments available depends on which NETWORK_PROTOCOL the server was compiled with. For a server compiled for single-user mode (NP_SINGLE), there are no additional arguments. For a server compiled for local interprocess communication (NP_LOCAL), there is just connect-file-name
 
 #### Emergency Wizard Mode
 Emergency Wizard Mode
