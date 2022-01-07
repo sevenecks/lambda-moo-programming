@@ -9,6 +9,7 @@ Thanks to lisdude for all these suggestions
 * added num, true, false, to section on variables that always have values
 * fixed some typos 
 * added a fancy table to bitwise operators
+* added fancy table for property permissions
 * removed fine point about toastcore not supporting @set/@Prop on bools as it does now! woo!
 * updated inline try catch example from ANY to E_VERBNF
 * Updated warning to not reference sindome specific $cu:sin and to reference $command_utils:suspend_if_needed, also mentioned yin()
