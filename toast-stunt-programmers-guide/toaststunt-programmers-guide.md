@@ -24,7 +24,9 @@ Portions adapted from the [Stunt Programmers Manual](https://lisdude.com/moo/Pro
 
 Portions adapated from the [WAIF documentation](http://ben.com/MOO/waif.html) and [WAIF Programmers Manual](http://ben.com/MOO/waif-progman.html) by Ben Jackson.
 
-([CHANGE LOG](https://github.com/SevenEcks/lambda-moo-programming/blob/master/CHANGELOG.md)):
+([CHANGE LOG](https://github.com/SevenEcks/lambda-moo-programming/blob/master/toast-stunt-programmers-guide/CHANGELOG.md)):
+
+([CONTRIBUTORS](https://github.com/SevenEcks/lambda-moo-programming/blob/master/toast-stunt-programmers-guide/CONTRIBUTORS.md)):
 
 Permission is granted to make and distribute verbatim copies of this manual provided the copyright notice and this permission notice are preserved on all copies.
 
