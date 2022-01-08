@@ -7,7 +7,7 @@ These are the folx who put in PRs, answered questions, reviewed the guide, or ot
 * [DistantOrigin](https://github.com/distantorigin)
 * [Mirage](https://github.com/biscuitwizard)
 * Jim0303
-* Zig
+* [Zig](https://github.com/azigler)
 * ArcMage
 * Saeed
 * theRas
