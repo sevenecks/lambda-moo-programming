@@ -1,6 +1,6 @@
-# ToastStunt Programmer Guide Version 1.0.3
+# ToastStunt Programmer Guide Version 1.0.4
 
-## For ToastStunt Version 2.7+, Last Updated 01/07/23
+## For ToastStunt Version 2.7+, Last Updated 01/08/22
 
 by Pavel Curtis et al
 
@@ -168,13 +168,18 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
 
 * [LambdaMOO & ToastStunt Programming Resources GitHub](https://github.com/SevenEcks/lambda-moo-programming)
 * [lisdude MOO resources](http://www.lisdude.com/moo/)
-* Updated LambdaMOO Programmers Guide (2019) [[markdown version]](https://github.com/sevenecks/lambda-moo-programming/blob/master/tutorials/src/moo-programmers-manual-updated.html) [[html version]](https://www.sindome.org/moo-manual.html)
 * [Unedited Original MOO Programmers Manual](http://www.hayseed.net/MOO/manuals/ProgrammersManual.html)
 * [Older Unedited MOO Programmers Mnaual](http://www2.iath.virginia.edu/courses/moo/ProgrammersManual.texinfo_toc.html)
 * [ToastStunt Source (github)](https://github.com/lisdude/toaststunt)
 * [ToastCore Database](https://github.com/lisdude/toastcore)
 * [MOO Talk Mailing List](https://groups.google.com/forum/#!forum/MOO-talk)
 * [Dome Client Web Socket MOO Client](https://github.com/JavaChilly/dome-client.js)
+* [MOO FAQ](http://www.moo.mud.org/moo-faq/)
+* [Arch Wizard FAQ](https://lisdude.com/moo/new-archwiz-faq.html)
+* [Anatomy of a LambdaMOO DB file](https://lisdude.com/moo/lmdb.html)
+* [Wizard Basics](https://lisdude.com/moo/wizbasics.html)
+* [Whitepaper on Garbage Collection](https://researcher.watson.ibm.com/researcher/files/us-bacon/Bacon01Concurrent.pdf)
+ (this was referenced when creating the garbage collector that Toast can optionally use)
 
 ## Introduction
 
@@ -401,7 +406,7 @@ Anonymous and permanent objects are made up of three kinds of pieces that togeth
 There are three fundamental _attributes_ to every object:
 
 1. A flag representing the built-in properties allotted to the object. 
-2. ToastStunt: A list of object that are its parents
+2. A list of object that are its parents
 3. A list of the objects that are its _children_; that is, those objects for which this object is their parent.
 
 The act of creating a character sets the player attribute of an object and only a wizard (using the function `set_player_flag()`) can change that setting. Only characters have the player bit set to 1. Only permanent objects can be players.
@@ -2196,7 +2201,6 @@ player:tell(player.test);
 
 This will also output: `\*anonymous\*`
 
-
 If you store your anonymous object in a property, that anonymous object will continue to exist so long as it exists in the property. If the object with the property were recycled, or the property removed or overwritten with a different value, the anonymous object would be garbage collected.
 
 Anonymous objects can be stored in lists:
@@ -2220,6 +2224,8 @@ Anonymous objects can be stored in maps as either the key or the value:
 ```
 
 > Warning: \*anonymous\* is not the actual key, there is not literal representation of an anonymous object reference. This means that while the object will continue to exist while it is a key of a map, the only way to reference that key would be by the reference, which you would need to store in a variable or a property. This is NOT a recommended practice, as you would have to keep a reference to the key elsewhere in order to access it (outside of iterating over all the keys).
+
+Anonymous objects technically have a player flag and children lists, but you can't actually do anything with them. Same with the majority of the properties. They exist but are meaningless. Generally speaking, this makes WAIFs a better choice in most situations, as they are lighter weight.
 
 > Warning: Similar to WAIFs, you want to take care in how you are creating Anonymous Objects, as once they are created, if you continue to reference them in a property, you may have trouble finding them in the future, as there is no way to pull up a list of all Anonymous Objects. 
 
@@ -3658,6 +3664,8 @@ Changing an object's parent can have the effect of removing some properties from
 If new-parent is equal to `#-1`, then object is given no parent at all; it becomes a new root of the parent/child hierarchy. In this case, all formerly inherited properties on object are simply removed.
 
 If new-parents is equal to {}, then object is given no parent at all; it becomes a new root of the parent/child hierarchy. In this case, all formerly inherited properties on object are simply removed.
+
+> Warning: On the subject of multiple inheritance, the author (Slither) thinks you should completely avoid it. Prefer [composition over inheritance](https://en.wikipedia.org/wiki/Composition_over_inheritance).
 
 **Function: `valid`**
 
@@ -5384,6 +5392,28 @@ none `kill_task` (int task-id)
 
 If the programmer is not the owner of that task and not a wizard, then `E_PERM` is raised. If there is no task on the queue with the given task-id, then `E_INVARG` is raised.
 
+**Function: `finished_tasks()`**
+
+finished_tasks -- returns a list of the last X tasks to finish executing, including their total execution time
+
+list `finished_tasks`()
+
+When a verb program completes execution and exits, the server can store information about that task to assist in performance benchmarking or debugging. When the `SAVE_FINISHED_TASKS` server option is enabled, the following information is saved for each finished verb: 
+
+| Value  | Description |
+| ------------- | ------------- |
+| foreground |  1 if the task was a foreground task, 0 if it was a background task |
+| fullverb | the full name of the verb, including aliases |
+| object | the object that defines the verb |
+| player | the player that initiated the task | 
+| programmer | the programmer who owns the verb | 
+| receiver | typically the same as 'this' but could be the handler in the case of primitive values | 
+| suspended | whether the task was suspended or not | 
+| this | the actual object the verb was called on |
+| time | the total time it took the verb to run), and verb (the name of the verb call or command typed |
+
+> Note: This builtin must be enabled in options.h to be used.
+
 **Function: `callers`**
 
 callers -- returns information on each of the verbs and built-in functions currently waiting to resume execution in the current task
@@ -5639,6 +5669,8 @@ During the call to $do_out_of_band_command(), the variable player is set to the 
 
 Out-of-band commands are intended for use by advanced client programs that may generate asynchronous events of which the server must be notified. Since the client cannot, in general, know the state of the player’s connection (logged-in or not, reading task or not), out-of-band commands provide the only reliable client-to-server communications channel. 
 
+[Telnet IAC](http://www.faqs.org/rfcs/rfc854.html) commands will also get captured and passed, as binary strings, to a `do_out_of_band_command` verb on the listener.
+
 ##### Command-Output Delimiters
 
 > Warning: This is a deprecated feature
@@ -5848,6 +5880,8 @@ The first of these is used if the returned object number is greater than the val
 
 > Fine point: If a user reconnects and the user's old and new connections are on two different listening points being handled by different objects (see the description of the `listen()` function for more details), then `user_client_disconnected` is called for the old connection and `user_connected` for the new one.
 
+> Note: If any code suspends in do_login_command() or a verb called by do_login_command() (read(), suspend(), or any threaded function), you can no longer connect an object by returning it. This is a weird ancient MOO holdover. The best way to log a player in after suspending is to use the `switch_player()` function to switch their unlogged in negative object to their player object.
+
 If an in-bound network connection does not successfully log in within a certain period of time, the server will automatically shut down the connection, thereby freeing up the resources associated with maintaining it. Let L be the object handling the listening point on which the connection was received (or `#0` if the connection came in on the initial listening point). To discover the timeout period, the server checks on `L.server_options` or, if it doesn't exist, on `$server_options` for a `connect_timeout` property. If one is found and its value is a positive integer, then that's the number of seconds the server will use for the timeout period. If the `connect_timeout` property exists but its value isn't a positive integer, then there is no timeout at all. If the property doesn't exist, then the default timeout is 300 seconds.
 
 When any network connection (even an un-logged-in or outbound one) is terminated, by either the server or the client, then one of the following two verb calls is made:
@@ -5920,7 +5954,6 @@ Next, it checks for the existence of the verb $server_started(). If there is suc
 ### Controlling the Execution of Tasks
 
 As described earlier, in the section describing MOO tasks, the server places limits on the number of seconds for which any task may run continuously and the number of “ticks,” or low-level operations, any task may execute in one unbroken period. By default, foreground tasks may use 60,000 ticks and five seconds, and background tasks may use 30,000 ticks and three seconds. These defaults can be overridden from within the database by defining any or all of the following properties on $server_options and giving them integer values: 
-
 
 | Property  | Description |
 | ------------- | ------------- |
@@ -6006,6 +6039,39 @@ Vuring evaluation of a call to the `move()` function, the server can make calls 
 ### Temporarily Enabling Obsolete Server Features
 
 If the property `$server_options.support_numeric_verbname_strings` exists and has a true value, then the server supports a obsolete mechanism for less ambiguously referring to specific verbs in various built-in functions. For more details, see the discussion given just following the description of the `verbs()` function.
+
+### Signals to the Server
+
+The server is able to intercept [signals](https://en.wikipedia.org/wiki/Signal_(IPC)) from the operating system and perform certain actions, a list of which can be found below. Two signals, USR1 and USR2, can be processed from within the MOO database. When SIGUSR1 or SIGUSR2 is received, the server will call `#0:handle_signal()` with the name of the signal as the only argument. If this verb returns a true value, it is assumed that the database handled it and no further action is taken. If the verb returns a negative value, the server will proceed to execute the default action for that signal. The following is a list of signals and their default actions:
+
+| Signal | Action                                               |
+| ------ | ---------------------------------------------------- |
+| HUP    | Panic the server.                                    |
+| ILL    | Panic the server.                                    |
+| QUIT   | Panic the server.                                    |
+| SEGV   | Panic the server.                                    |
+| BUS    | Panic the server.                                    |
+| INT    | Cleanly shut down the server.                        |
+| TERM   | Cleanly shut down the server.                        |
+| USR1   | Reopen the log file.                                 |
+| USR2   | Schedule a checkpoint to happen as soon as possible. |
+
+For example, imagine you're a system administrator logged into the machine running the MOO. You want to shut down the MOO server, but you'd like to give players the opportunity to say goodbye to one another rather than immediately shutting the server down. You can do so by intercepting a signal in the database and invoking the @shutdown command.
+
+```
+@prog #0:handle_signal
+set_task_perms(caller_perms());
+{signal} = args;
+if (signal == "SIGUSR2" && !$code_utils:task_valid($wiz_utils.shutdown_task))
+  force_input(#2, "@shutdown in 1 Shutdown signal received.");
+  force_input(#2, "yes");
+  return 1;
+endif
+.
+```
+
+Now you can signal the MOO with the kill command: `kill -USR2 <MOO process ID`
+```
 
 ### Server Configuration
 

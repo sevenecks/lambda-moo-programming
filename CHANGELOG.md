@@ -1,5 +1,16 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.1.11] - 2022.01.08 2:29PM
+TOASTSTUNT PROGRAMMERS GUIDE
+* Added Server Signals section
+* Updated info around `do_login_command()` to mention not suspending and referencing switch_player()
+* Added finished_tasks() to server builtins and a nice pretty table
+* Added Telnet IAC info in section on $do_out_of_band_command()
+* Added opinion on anonymous objects being less good than waifs to the anon object section
+* Added opinion on multiple inheritance and how you should avoid it.
+* Added several links to the resources section and removed ones no longer needed
+* Incremented verison to 1.0.4
+
 ## [1.1.10] - 2022.01.07 12:22PM
 TOASTSTUNT PROGRAMMERS GUIDE
 Thanks to lisdude for all these suggestions
