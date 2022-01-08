@@ -16,7 +16,7 @@ Copyright © 2004 by Roger F. Crew.
 
 Copyright © 2011, 2012, 2013, 2014 by Todd Sundsted
 
-Copyright © 2017, 2018, 2019, 2020, 2022 by [Brendan Butts](http://github.com/sevenecks).
+Copyright © 2017, 2018, 2019, 2020, 2021, 2022 by [Brendan Butts](http://github.com/sevenecks).
 
 Copyright © 2021-2022 By [lisdude](http://github.com/lisdude)
 
