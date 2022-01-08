@@ -9,6 +9,8 @@ TOASTSTUNT PROGRAMMERS GUIDE
 * Added opinion on anonymous objects being less good than waifs to the anon object section
 * Added opinion on multiple inheritance and how you should avoid it.
 * Added several links to the resources section and removed ones no longer needed
+* Updated foreword
+* Updated table of contents
 * Incremented verison to 1.0.4
 
 ## [1.1.10] - 2022.01.07 12:22PM

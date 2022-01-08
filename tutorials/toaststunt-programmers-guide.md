@@ -144,20 +144,15 @@ For older versions of this document (or for pre-fork LambdaMOO version) please s
   * [Creating and Recycling Objects](#creating-and-recycling-objects)
   * [Object Movement](#object-movement-1)
   * [Temporarily Enabling Obsolete Server Features](#temporarily-enabling-obsolete-server-features)
-  * [Server Configuration](#server-configuration)
-    + [Server Compilation Options](#server-compilation-options)
-    + [Running the Server](#running-the-server)
-    + [Emergency Wizard Mode](#emergency-wizard-mode)
-
-***
+  * [Signals to the Server](#signals-to-the-server)
 
 ## Foreword
 
-**2019 Update**: Hey, it's me: Brendan. The guy updating this document. The idea of updating the MOO Programming Manual has crossed my mind a few times. It's a bit of a daunting task. This document is pretty comprehensive and I'm endeavouring to make it even more so. I'm adding some much needed styling so that it looks more modern.  Things were once hosted primarily on FTP servers and we now have GitHub, so many links and resources mentioned in this document have been updated and I've even added some additional ones.
+01/08/2022
 
-If you want an up to date manual on MOO, this is the guide for you. If you want to read the historic document which contains the unedited text, I recommend reviewing the links toward the top of the page that point to unedited versions of the guide.
+Hi, I'm Brendan aka Slither. I've been coding in MOO on [Sindome](https://www.sindome.org/) since 2003. I have spent many many hours over the years pouring over the original LambdaMOO programmers manual written by Pavel Curtis. In 2016 I set about updating the original manual with some of my learnings and it wasn't until 2019 that I finished work on it. Around the same time I heard about ToastStunt from [lisdude](https://github.com/lisdude). I wanted to get involved, but sadly, my C/++ coding skills are terrible. Thus, I decided my contribution would be to update the programmers guide to include all the changes that Toast has added, as well as further learnings and feedback from lisdude, DistantOrigin, and othe members of the ToastStunt Discord server.
 
-**2021 Update**: Back again, working with [lisdude](https://github.com/lisdude) the ToastStunt maintainer, to update this documentation for ToastStunt. This version of the programmers guide has been pruned to no longer include historical LambdaMOO information that is no longer accurate or relevant. Most references to LambdaMOO have been replaced with ToastStunt. If you want to read the updated LambdaMOO Programmers manual, which continues to include this information, please see the resources section.
+This guide is not just a technical document, it also contains opinions (mine and others) about what you should (waifs) and shouldn't (anonymous objects, multiple inheritance) consider doing and using. In the end though it's up to you. LambdaMOO and now its successor, ToastStunt, are amazing for creating games, hobby projects, and for tinkering or learning to code. I hope you have some fun!
 
 ### What is ToastStunt?
 
