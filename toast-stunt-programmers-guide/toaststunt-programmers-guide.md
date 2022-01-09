@@ -1,4 +1,4 @@
-# ToastStunt Programmer Guide Version 1.0.4
+# ToastStunt Programmer Guide Version 1.0.5
 
 ## For ToastStunt Version 2.7+, Last Updated 01/08/22
 
@@ -164,6 +164,7 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
 ## ToastStunt & MOO Resources
 
 * [LambdaMOO & ToastStunt Programming Resources GitHub](https://github.com/SevenEcks/lambda-moo-programming)
+* [Newbie Guide to Compiling ToastStunt](https://lisdude.com/moo/toaststunt_newbie.txt)
 * [lisdude MOO resources](http://www.lisdude.com/moo/)
 * [Unedited Original MOO Programmers Manual](http://www.hayseed.net/MOO/manuals/ProgrammersManual.html)
 * [Older Unedited MOO Programmers Mnaual](http://www2.iath.virginia.edu/courses/moo/ProgrammersManual.texinfo_toc.html)

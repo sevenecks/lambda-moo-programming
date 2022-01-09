@@ -1,5 +1,8 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.0.5] - 2022.01.08 9:19PM
+* Added Newbie guide to compiling ToastStunt to resources section
+
 ## [1.0.4] - 2022.01.08 2:29PM
 * Added Server Signals section
 * Updated info around `do_login_command()` to mention not suspending and referencing switch_player()
