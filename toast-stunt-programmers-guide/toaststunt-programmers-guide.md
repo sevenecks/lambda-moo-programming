@@ -3044,7 +3044,7 @@ If the spelling is correct, the function will return a 1. If the spelling is inc
 
 chr -- This function translates integers into ASCII characters. Each argument must be an integer between 0 and 255.
 
-int `chr`(INT <arg>, ...)
+int `chr`(INT arg, ...)
 
 If the programmer is not a wizard, and integers less than 32 are provided, E_INVARG is raised. This prevents control characters or newlines from being written to the database file by non-trusted individuals.
 
@@ -3639,7 +3639,7 @@ If the intended owner of the new object has a property named â€˜ownership_quotaâ
 
 **Function: `owned_objects`**
 
-owned_objects -- Returns a list of all objects in the database owned by <owner>. Ownership is defined by the value of .owner on the object.
+owned_objects -- Returns a list of all objects in the database owned by `owner`. Ownership is defined by the value of .owner on the object.
 
 list `owned_objects`(OBJ owner)
 
@@ -3704,7 +3704,7 @@ obj isa(OBJ object, LIST parent list [, INT return_parent])
 
 Returns true if object is a descendant of parent, otherwise false.
 
-If a third argument is present and true, the return value will be the first parent that object1 descends from in the <parent list>.
+If a third argument is present and true, the return value will be the first parent that object1 descends from in the `parent list`.
 
 ```
 isa(#2, $wiz)                           => 1
@@ -3715,7 +3715,7 @@ isa(#2, {$thing, $room, $container}, 1) => #-1
 
 **Function: `locate_by_name`**
 
-locate_by_name -- This function searches every object in the database for those containing <object name> in their .name property.
+locate_by_name -- This function searches every object in the database for those containing `object name` in their .name property.
 
 list `locate_by_name` (STR object name)
 
@@ -3787,7 +3787,7 @@ list `recycled_objects`()
 
 ancestors -- Return a list of all ancestors of `object` in order ascending up the inheritance hiearchy. If `full` is true, `object` will be included in the list.
 
-list `ancestors`(OBJ <object> [, INT <full>])
+list `ancestors`(OBJ object [, INT full])
 
 **Function: `clear_ancestor_cache`**
 
@@ -5018,7 +5018,7 @@ An optional third argument allows you to set various miscellaneous options for t
 
   key:            The full path to a TLS private key. NOTE: Requires the TLS option also be specified and true. This option is only necessary if the key differs from the one specified in options.h.
 
-listen() raises E_PERM if the programmer is not a wizard, E_INVARG if <object> is invalid or there is already a listening point described by <point>, and E_QUOTA if some network-configuration-specific error occurred.
+listen() raises E_PERM if the programmer is not a wizard, E_INVARG if `object` is invalid or there is already a listening point described by `point`, and E_QUOTA if some network-configuration-specific error occurred.
 
 Example:
 
