@@ -571,7 +571,7 @@ To have any of this make real sense, it is important to understand precisely how
 
 But first, we mention the three situations in which a line typed by a player is not treated as an ordinary command:
 
-1. The line may exactly match the connection’s defined flush command, if any (`.flush` by default), in which case all pending lines of input are cleared and nothing further is done with the flush command itself. Likewise, any line may be flushed by a subsequent flush command before the server otherwise gets a chance to process it. For more on this, see Flushing Unprocessed Input.
+1. The line may exactly match the connection`s defined flush command, if any (`.flush` by default), in which case all pending lines of input are cleared and nothing further is done with the flush command itself. Likewise, any line may be flushed by a subsequent flush command before the server otherwise gets a chance to process it. For more on this, see Flushing Unprocessed Input.
 2. The line may begin with a prefix that qualifies it for out-of-band processing and thence, perhaps, as an out-of-band command. For more on this, see Out-of-band Processing.
 3. The connection may be subject to a read() call (see section Operations on Network Connections) or there may be a .program command in progress (see section The .program Command), either of which will consume the line accordingly. Also note that if connection option "hold-input" has been set, all in-band lines typed by the player are held at this point for future reading, even if no reading task is currently active. 
 
@@ -1770,7 +1770,7 @@ for n in (odds)
 endfor
 ```
 
-The value of the variable ‘evens’ after executing these statements is the list
+The value of the variable `evens` after executing these statements is the list
  	
 
 `{2, 4, 6, 8, 10}`
@@ -1785,7 +1785,7 @@ for n, i in (odds)
 endfor
 ```
 
-The value of the variable ‘pairs’ after executing these statements is the map
+The value of the variable `pairs` after executing these statements is the map
  	
 
 `[1 -> 2, 2 -> 4, 3 -> 6, 4 -> 8, 5 -> 10]`
@@ -1807,7 +1807,7 @@ for n in [1..5]
 endfor
 ```
 
-The value of the variable ‘evens’ after executing these statements is just as in the previous example: the list
+The value of the variable `evens` after executing these statements is just as in the previous example: the list
 
 `{2, 4, 6, 8, 10}`
 
@@ -2174,7 +2174,7 @@ Some server functions, when given large or complicated amounts of data, may take
 
 Anonymous objects are typically transient and are garbage collected when they are no longer needed (IE: when nothing is referencing them).
 
-A reference to an anonymous object is returned when the anonymous object is created with create(). References can be shared but they cannot be forged. That is, there is no literal representation of a reference to an anonymous object (that’s why they are anonymous).
+A reference to an anonymous object is returned when the anonymous object is created with create(). References can be shared but they cannot be forged. That is, there is no literal representation of a reference to an anonymous object (that`s why they are anonymous).
 
 Anonymous objects are created using the `create` builtin, passing the optional third argument as `1`. For example:
 
@@ -3254,7 +3254,7 @@ str `crypt` (str text [, str salt])
 
 Encrypts (hashes) the given text using the standard UNIX encryption method. If provided, salt should be a string at least two characters long, and it may dictate a specific algorithm to use. By default, crypt uses the original, now insecure, DES algorithm. Stunt specifically includes the BCrypt algorithm (identified by salts that start with "$2a$"), and may include MD5, SHA256, and SHA512 algorithms depending on the libraries used to build the server. The salt used is returned as the first part of the resulting encrypted string.
 
-Aside from the possibly-random input in the salt, the encryption algorithms are entirely deterministic. In particular, you can test whether or not a given string is the same as the one used to produce a given piece of encrypted text; simply extract the salt from the front of the encrypted text and pass the candidate string and the salt to crypt(). If the result is identical to the given encrypted text, then you’ve got a match.
+Aside from the possibly-random input in the salt, the encryption algorithms are entirely deterministic. In particular, you can test whether or not a given string is the same as the one used to produce a given piece of encrypted text; simply extract the salt from the front of the encrypted text and pass the candidate string and the salt to crypt(). If the result is identical to the given encrypted text, then you`ve got a match.
 
 ```
 crypt("foobar", "iB")                               ⇒    "iBhNpg2tYbVjw"
@@ -3268,7 +3268,7 @@ crypt("foobar", "$2a$08$dHkE1lESV9KrErGhhJTxc.")    ⇒    "$2a$08$dHkE1lESV9KrE
 
 > Note: The specific set of supported algorithms depends on the libraries used to build the server. Only the BCrypt algorithm, which is distributed with the server source code, is guaranteed to exist. BCrypt is currently mature and well tested, and is recommended for new development. 
 
-> Warning: The entire salt (of any length) is passed to the operating system’s low-level crypt function. It is unlikely, however, that all operating systems will return the same string when presented with a longer salt. Therefore, identical calls to crypt() may generate different results on different platforms, and your password verification systems will fail. Use a salt longer than two characters at your own risk. 
+> Warning: The entire salt (of any length) is passed to the operating system`s low-level crypt function. It is unlikely, however, that all operating systems will return the same string when presented with a longer salt. Therefore, identical calls to crypt() may generate different results on different platforms, and your password verification systems will fail. Use a salt longer than two characters at your own risk. 
 
 **Function: `argon2`**
 
@@ -3549,7 +3549,7 @@ sort({"foo", "bar", "baz"}, {123, 5, 8000}) => {"bar", "foo", "baz"}
 
 ##### Operations on Maps
 
-When using the functions below, it’s helpful to remember that maps are ordered.
+When using the functions below, it`s helpful to remember that maps are ordered.
 
 **Function: `mapkeys`**
 mapkeys -- returns the keys of the elements of a map.
@@ -3606,7 +3606,7 @@ create -- Creates and returns a new object whose parent (or parents) is parent (
 obj `create` (obj parent [, obj owner] [, int anon-flag] [, list init-args])
 obj `create` (list parents [, obj owner] [, int anon-flag] [, list init-args])
 
-Creates and returns a new object whose parents are parents (or whose parent is parent) and whose owner is as described below. If any of the given parents are not valid, or if the given parent is neither valid nor #-1, then E_INVARG is raised. The given parents objects must be valid and must be usable as a parent (i.e., their ‘a’ or ‘f’ bits must be true) or else the programmer must own parents or be a wizard; otherwise E_PERM is raised. Futhermore, if anon-flag is true then ‘a’ must be true; and, if anon-flag is false or not present, then ‘f’ must be true. Otherwise, E_PERM is raised unless the programmer owns parents or is a wizard. E_PERM is also raised if owner is provided and not the same as the programmer, unless the programmer is a wizard. 
+Creates and returns a new object whose parents are parents (or whose parent is parent) and whose owner is as described below. If any of the given parents are not valid, or if the given parent is neither valid nor #-1, then E_INVARG is raised. The given parents objects must be valid and must be usable as a parent (i.e., their `a` or `f` bits must be true) or else the programmer must own parents or be a wizard; otherwise E_PERM is raised. Futhermore, if anon-flag is true then `a` must be true; and, if anon-flag is false or not present, then `f` must be true. Otherwise, E_PERM is raised unless the programmer owns parents or is a wizard. E_PERM is also raised if owner is provided and not the same as the programmer, unless the programmer is a wizard. 
 
 After the new object is created, its initialize verb, if any, is called. If init-args were given, they are passed as args to initialize. The new object is assigned the least non-negative object number that has not yet been used for a created object. Note that no object number is ever reused, even if the object with that number is recycled.
 
@@ -3631,11 +3631,11 @@ w            0
 f            0
 ```
 
-The function ‘is_player()’ returns false for newly created objects.
+The function `is_player()` returns false for newly created objects.
 
-In addition, the new object inherits all of the other properties on its parents. These properties have the same permission bits as on the parents. If the ‘c’ permissions bit is set, then the owner of the property on the new object is the same as the owner of the new object itself; otherwise, the owner of the property on the new object is the same as that on the parent. The initial value of every inherited property is clear; see the description of the built-in function clear_property() for details.
+In addition, the new object inherits all of the other properties on its parents. These properties have the same permission bits as on the parents. If the `c` permissions bit is set, then the owner of the property on the new object is the same as the owner of the new object itself; otherwise, the owner of the property on the new object is the same as that on the parent. The initial value of every inherited property is clear; see the description of the built-in function clear_property() for details.
 
-If the intended owner of the new object has a property named ‘ownership_quota’ and the value of that property is an integer, then create() treats that value as a quota. If the quota is less than or equal to zero, then the quota is considered to be exhausted and create() raises E_QUOTA instead of creating an object. Otherwise, the quota is decremented and stored back into the ‘ownership_quota’ property as a part of the creation of the new object. 
+If the intended owner of the new object has a property named `ownership_quota` and the value of that property is an integer, then create() treats that value as a quota. If the quota is less than or equal to zero, then the quota is considered to be exhausted and create() raises E_QUOTA instead of creating an object. Otherwise, the quota is decremented and stored back into the `ownership_quota` property as a part of the creation of the new object. 
 
 **Function: `owned_objects`**
 
@@ -4860,7 +4860,7 @@ Raises E_INVARG if conn does not specify a current connection and E_PERM if the 
 The following values for option are currently supported:
 
 `"binary"`
-When set, the connection is in binary mode, in which case both input from and output to conn can contain arbitrary bytes. Input from a connection in binary mode is not broken into lines at all; it is delivered to either the read() function or normal command parsing as binary strings, in whatever size chunks come back from the operating system. (See fine point on binary strings, for a description of the binary string representation.) For output to a connection in binary mode, the second argument to ‘notify()’ must be a binary string; if it is malformed, E_INVARG is raised.
+When set, the connection is in binary mode, in which case both input from and output to conn can contain arbitrary bytes. Input from a connection in binary mode is not broken into lines at all; it is delivered to either the read() function or normal command parsing as binary strings, in whatever size chunks come back from the operating system. (See fine point on binary strings, for a description of the binary string representation.) For output to a connection in binary mode, the second argument to `notify()` must be a binary string; if it is malformed, E_INVARG is raised.
 
 > Fine point: If the connection mode is changed at any time when there is pending input on the connection, said input will be delivered as per the previous mode (i.e., when switching out of binary mode, there may be pending “lines” containing tilde-escapes for embedded linebreaks, tabs, tildes and other characters; when switching into binary mode, there may be pending lines containing raw tabs and from which nonprintable characters have been silently dropped as per normal mode. Only during the initial invocation of $do_login_command() on an incoming connection or immediately after the call to open_network_connection() that creates an outgoing connection is there guaranteed not to be pending input. At other times you will probably want to flush any pending input immediately after changing the connection mode. 
 
@@ -4873,7 +4873,7 @@ When set, no input received on conn will be treated as a command; instead, all i
 When set, disables all out of band processing (see section Out-of-Band Processing). All subsequent input lines until the next command that unsets this option will be made available for reading tasks or normal command parsing exactly as if the out-of-band prefix and the out-of-band quoting prefix had not been defined for this server.
 
 `"client-echo"`
-The setting of this option is of no significance to the server. However calling set_connection_option() for this option sends the Telnet Protocol ‘WONT ECHO’ or ‘WILL ECHO’ according as value is true or false, respectively. For clients that support the Telnet Protocol, this should toggle whether or not the client echoes locally the characters typed by the user. Note that the server itself never echoes input characters under any circumstances. (This option is only available under the TCP/IP networking configurations.) 
+The setting of this option is of no significance to the server. However calling set_connection_option() for this option sends the Telnet Protocol `WONT ECHO` or `WILL ECHO` according as value is true or false, respectively. For clients that support the Telnet Protocol, this should toggle whether or not the client echoes locally the characters typed by the user. Note that the server itself never echoes input characters under any circumstances. (This option is only available under the TCP/IP networking configurations.) 
 
 `"flush-command"`
 This option is string-valued. If the string is non-empty, then it is the flush command for this connection, by which the player can flush all queued input that has not yet been processed by the server. If the string is empty, then conn has no flush command at all. set_connection_option also allows specifying a non-string value which is equivalent to specifying the empty string. The default value of this option can be set via the property `$server_options.default_flush_command`; see Flushing Unprocessed Input for details. 
@@ -4884,7 +4884,7 @@ This option value is a list of strings, each being the name of one of the availa
 
 set_connection_option also allows specifying an integer value which, if zero, is equivalent to specifying the empty list, and otherwise is taken to be the list of all available intrinsic commands (the default setting).
 
-Thus, one way to make the verbname ‘PREFIX’ available as an ordinary command is as follows:
+Thus, one way to make the verbname `PREFIX` available as an ordinary command is as follows:
 
 ```
 set_connection_option(
@@ -5372,7 +5372,7 @@ The returned value is a list of lists, each of which encodes certain information
 {task-id, start-time, x, y, programmer, verb-loc, verb-name, line, this, task-size}
 ```
 
-where task-id is an integer identifier for this queued task, start-time is the time after which this task will begin execution (in time() format), x and y are obsolete values that are no longer interesting, programmer is the permissions with which this task will begin execution (and also the player who owns this task), verb-loc is the object on which the verb that forked this task was defined at the time, verb-name is that name of that verb, line is the number of the first line of the code in that verb that this task will execute, this is the value of the variable ‘this’ in that verb, and task-size is the size of the task in bytes. For reading tasks, start-time is -1. 
+where task-id is an integer identifier for this queued task, start-time is the time after which this task will begin execution (in time() format), x and y are obsolete values that are no longer interesting, programmer is the permissions with which this task will begin execution (and also the player who owns this task), verb-loc is the object on which the verb that forked this task was defined at the time, verb-name is that name of that verb, line is the number of the first line of the code in that verb that this task will execute, this is the value of the variable `this` in that verb, and task-size is the size of the task in bytes. For reading tasks, start-time is -1. 
 
 The x and y fields are now obsolete and are retained only for backward-compatibility reasons. They may be reused for new purposes in some future version of the server.
 
@@ -5588,8 +5588,11 @@ none `shutdown` ([str message])
 Before doing so, a notice (incorporating message, if provided) is printed to all connected players. If the programmer is not a wizard, then `E_PERM` is raised.
 
 **Function: `verb_cache_stats`**
+
 **Function: `log_cache_stats`**
+
 list verb_cache_stats ()
+
 none log_cache_stats ()
 
 The server caches verbname-to-program lookups to improve performance. These functions respectively return or write to the server log file the current cache statistics. For verb_cache_stats the return value will be a list of the form
@@ -5613,13 +5616,13 @@ This section discusses all of these built-in pieces of the command-interpretatio
 
 ##### Flushing Unprocessed Input
 
-It sometimes happens that a user changes their mind about having typed one or more lines of input and would like to ‘untype’ them before the server actually gets around to processing them. If they react quickly enough, they can type their connection’s defined flush command; when the server first reads that command from the network, it immediately and completely flushes any as-yet unprocessed input from that user, printing a message to the user describing just which lines of input were discarded, if any.
+It sometimes happens that a user changes their mind about having typed one or more lines of input and would like to `untype` them before the server actually gets around to processing them. If they react quickly enough, they can type their connection`s defined flush command; when the server first reads that command from the network, it immediately and completely flushes any as-yet unprocessed input from that user, printing a message to the user describing just which lines of input were discarded, if any.
 
-> Fine point: The flush command is handled very early in the server’s processing of a line of input, before the line is entered into the task queue for the connection and well before it is parsed into words like other commands. For this reason, it must be typed exactly as it was defined, alone on the line, without quotation marks, and without any spaces before or after it.
+> Fine point: The flush command is handled very early in the server`s processing of a line of input, before the line is entered into the task queue for the connection and well before it is parsed into words like other commands. For this reason, it must be typed exactly as it was defined, alone on the line, without quotation marks, and without any spaces before or after it.
 
 When a connection is first accepted by the server, it is given an initial flush command setting taken from the current default. This initial setting can be changed later using the set_connection_option() command.
 
-By default, each connection is initially given ‘.flush’ as its flush command. If the property $server_options.default_flush_command exists, then its value overrides this default. If $server_options.default_flush_command is a non-empty string, then that string is the flush command for all new connections; otherwise, new connections are initially given no flush command at all.
+By default, each connection is initially given `.flush` as its flush command. If the property $server_options.default_flush_command exists, then its value overrides this default. If $server_options.default_flush_command is a non-empty string, then that string is the flush command for all new connections; otherwise, new connections are initially given no flush command at all.
 
 ##### Out-of-Band Processing
 
@@ -5631,7 +5634,7 @@ This check can be disabled entirely by setting connection option "disable-oob", 
 
 We first describe how to ensure that a given input line will not be processed as an out-of-band command.
 
-If a given line of input begins with the defined out-of-band quoting prefix (‘#$"’ by default), that prefix is stripped. The resulting line is then available to reading tasks or normal command parsing in the usual way, even if said resulting line now happens to begin with either the out-of-band prefix or the out-of-band quoting prefix.
+If a given line of input begins with the defined out-of-band quoting prefix (`#$"` by default), that prefix is stripped. The resulting line is then available to reading tasks or normal command parsing in the usual way, even if said resulting line now happens to begin with either the out-of-band prefix or the out-of-band quoting prefix.
 
 For example, if a player types
  	
@@ -5647,7 +5650,7 @@ the server would behave exactly as if connection option "disable-oob" were set t
 
 ##### Commands
 
-If a given line of input begins with the defined out-of-band prefix (‘#$#’ by default), then it is not treated as a normal command or given as input to any reading task. Instead, the line is parsed into a list of words in the usual way and those words are given as the arguments in a call to $do_out_of_band_command().
+If a given line of input begins with the defined out-of-band prefix (`#$#` by default), then it is not treated as a normal command or given as input to any reading task. Instead, the line is parsed into a list of words in the usual way and those words are given as the arguments in a call to $do_out_of_band_command().
 
 If this verb does not exist or is not executable, the line in question will be completely ignored.
 
@@ -5665,7 +5668,7 @@ $do_out_of_band_command("#$#mcp-client-set-type", "fancy")
 
 During the call to $do_out_of_band_command(), the variable player is set to the object number representing the player associated with the connection from which the input line came. Of course, if that connection has not yet logged in, the object number will be negative. Also, the variable argstr will have as its value the unparsed input line as received on the network connection.
 
-Out-of-band commands are intended for use by advanced client programs that may generate asynchronous events of which the server must be notified. Since the client cannot, in general, know the state of the player’s connection (logged-in or not, reading task or not), out-of-band commands provide the only reliable client-to-server communications channel. 
+Out-of-band commands are intended for use by advanced client programs that may generate asynchronous events of which the server must be notified. Since the client cannot, in general, know the state of the player`s connection (logged-in or not, reading task or not), out-of-band commands provide the only reliable client-to-server communications channel. 
 
 [Telnet IAC](http://www.faqs.org/rfcs/rfc854.html) commands will also get captured and passed, as binary strings, to a `do_out_of_band_command` verb on the listener.
 
@@ -5945,7 +5948,7 @@ Whenever the server is booted, there are a few tasks it runs right at the beginn
 
 First, the server calls $do_start_script() and passes in script content via the args built-in variable. The script content is specified on the command line when the server is started. The server can call this verb multiple times, once each for the -c and -f command line arguments.
 
-Next, the server calls $user_disconnected() once for each user who was connected at the time the database file was written; this allows for any cleaning up that’s usually done when users disconnect (e.g., moving their player objects back to some ‘home’ location, etc.).
+Next, the server calls $user_disconnected() once for each user who was connected at the time the database file was written; this allows for any cleaning up that`s usually done when users disconnect (e.g., moving their player objects back to some `home` location, etc.).
 
 Next, it checks for the existence of the verb $server_started(). If there is such a verb, then the server runs a task invoking that verb with no arguments and with player equal to #-1. This is useful for carefully scheduling checkpoints and for re-initializing any state that is not properly represented in the database file (e.g., re-opening certain outbound network connections, clearing out certain tables, etc.). 
 
@@ -6012,7 +6015,7 @@ Whenever verb code attempts to read (on any object) the value of a built-in prop
 
 **Protected Built-in Functions**
 
-A built-in function func() is deemed protected if $server_options.protect_func exists and has a true value. If, for a given protected built-in function, a corresponding verb $bf_func() exists and its ‘x’ bit is set, then that built-in function is also considered overridden, meaning that any call to func() from any object other than #0 will be treated as a call to $bf_func() with the same arguments, returning or raising whatever that verb returns or raises.
+A built-in function func() is deemed protected if $server_options.protect_func exists and has a true value. If, for a given protected built-in function, a corresponding verb $bf_func() exists and its `x` bit is set, then that built-in function is also considered overridden, meaning that any call to func() from any object other than #0 will be treated as a call to $bf_func() with the same arguments, returning or raising whatever that verb returns or raises.
 
 A call to a protected built-in function that is not overridden proceeds normally as long as either the caller is #0 or has wizard permissions; otherwise the server raises E_PERM.
 
@@ -6077,7 +6080,7 @@ This section discusses the options for compiling and running the server that can
 
 #### Server Compilation Options
 
-The following option values are specified (via #define) in the file ‘options.h’ in the server sources. Except for those cases where property values on $server_options take precedence, these settings cannot be changed at runtime.
+The following option values are specified (via #define) in the file `options.h` in the server sources. Except for those cases where property values on $server_options take precedence, these settings cannot be changed at runtime.
 
 This list is not intended to be exhaustive.
 Network Options
@@ -6153,7 +6156,7 @@ Examples:
 
 > Note: A full list of arguments is now available by supplying `--help`.
 
-> Note: For both the -c and -f arguments, the script content is passed in the args built-in variable. The server makes no assumptions about the semantics of the script; the interpretation of the script is the verb’s responsibility. Like Emergency Wizard Mode, the verb is called before starting any tasks or doing the initial listen to accept connections.
+> Note: For both the -c and -f arguments, the script content is passed in the args built-in variable. The server makes no assumptions about the semantics of the script; the interpretation of the script is the verb`s responsibility. Like Emergency Wizard Mode, the verb is called before starting any tasks or doing the initial listen to accept connections.
 
 #### Emergency Wizard Mode
 Emergency Wizard Mode
@@ -6192,7 +6195,7 @@ debug
 Toggle the debug flag.
 wizard #objectid
 
-Execute future commands as wizard #objectid, which must be an existing player object with ‘.wizard==1’.
+Execute future commands as wizard #objectid, which must be an existing player object with `.wizard==1`.
 continue
 
 Exit the emergency mode, continuing with normal start-up. That is, the server will perform the initial listen and start accepting connections.
@@ -6206,6 +6209,6 @@ help
 
 Print the list of commands. 
 
-Note that output from wizard mode commands appears on the server’s standard output stream (stdout) and thus can be redirected independently of the log messages if those are being written to the standard error stream (stderr, i.e., if -l has not been specified on the command line).
+Note that output from wizard mode commands appears on the server`s standard output stream (stdout) and thus can be redirected independently of the log messages if those are being written to the standard error stream (stderr, i.e., if -l has not been specified on the command line).
 
-Also note that unless the server has been compiled to use the NP_SINGLE networking variant, Emergency Wizard Mode is the only use of the server’s standard input and output streams. 
+Also note that unless the server has been compiled to use the NP_SINGLE networking variant, Emergency Wizard Mode is the only use of the server`s standard input and output streams. 

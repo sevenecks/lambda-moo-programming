@@ -3,6 +3,7 @@
 ## [1.0.5] - 2022.01.08 9:19PM
 * Added Newbie guide to compiling ToastStunt to resources section
 * Cleaned up some bad formatting due to < and >
+* changed all smart quotes to `
 
 ## [1.0.4] - 2022.01.08 2:29PM
 * Added Server Signals section
