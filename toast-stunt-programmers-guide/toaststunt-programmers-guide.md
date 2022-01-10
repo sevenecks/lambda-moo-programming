@@ -169,7 +169,7 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
 * [Unedited Original MOO Programmers Manual](http://www.hayseed.net/MOO/manuals/ProgrammersManual.html)
 * [Older Unedited MOO Programmers Mnaual](http://www2.iath.virginia.edu/courses/moo/ProgrammersManual.texinfo_toc.html)
 * [ToastStunt Source (github)](https://github.com/lisdude/toaststunt)
-* [ToastCore Database Repo](https://github.com/lisdude/toastcore) [ToastCore Datbase File](https://github.com/lisdude/toastcore/blob/master/toastcore.db)
+* [ToastCore Database Repo](https://github.com/lisdude/toastcore) [ToastCore Datbase File](https://raw.githubusercontent.com/lisdude/toastcore/master/toastcore.db)
 * [MOO Talk Mailing List](https://groups.google.com/forum/#!forum/MOO-talk)
 * [Dome Client Web Socket MOO Client](https://github.com/JavaChilly/dome-client.js)
 * [MOO FAQ](http://www.moo.mud.org/moo-faq/)
