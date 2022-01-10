@@ -169,7 +169,7 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
 * [Unedited Original MOO Programmers Manual](http://www.hayseed.net/MOO/manuals/ProgrammersManual.html)
 * [Older Unedited MOO Programmers Mnaual](http://www2.iath.virginia.edu/courses/moo/ProgrammersManual.texinfo_toc.html)
 * [ToastStunt Source (github)](https://github.com/lisdude/toaststunt)
-* [ToastCore Database](https://github.com/lisdude/toastcore)
+* [ToastCore Database Repo](https://github.com/lisdude/toastcore) [ToastCore Datbase File](https://github.com/lisdude/toastcore/blob/master/toastcore.db)
 * [MOO Talk Mailing List](https://groups.google.com/forum/#!forum/MOO-talk)
 * [Dome Client Web Socket MOO Client](https://github.com/JavaChilly/dome-client.js)
 * [MOO FAQ](http://www.moo.mud.org/moo-faq/)
@@ -2903,9 +2903,11 @@ strsub("foobar", "OB", "b", 1)          =>   "foobar"
 **Function: `rindex`**
 
 index -- Returns the index of the first character of the first occurrence of str2 in str1.
+
 rindex -- Returns the index of the first character of the last occurrence of str2 in str1.
 
 int `index` (str str1, str str2, [, int case-matters [, int skip])
+
 int `rindex` (str str1, str str2, [, int case-matters [, int skip])
 
 These functions will return zero if str2 does not occur in str1 at all.
@@ -3604,6 +3606,7 @@ Objects are, of course, the main focus of most MOO programming and, largely due 
 create -- Creates and returns a new object whose parent (or parents) is parent (or parents) and whose owner is as described below.
 
 obj `create` (obj parent [, obj owner] [, int anon-flag] [, list init-args])
+
 obj `create` (list parents [, obj owner] [, int anon-flag] [, list init-args])
 
 Creates and returns a new object whose parents are parents (or whose parent is parent) and whose owner is as described below. If any of the given parents are not valid, or if the given parent is neither valid nor #-1, then E_INVARG is raised. The given parents objects must be valid and must be usable as a parent (i.e., their `a` or `f` bits must be true) or else the programmer must own parents or be a wizard; otherwise E_PERM is raised. Futhermore, if anon-flag is true then `a` must be true; and, if anon-flag is false or not present, then `f` must be true. Otherwise, E_PERM is raised unless the programmer owns parents or is a wizard. E_PERM is also raised if owner is provided and not the same as the programmer, unless the programmer is a wizard. 
@@ -5138,7 +5141,7 @@ where name is the name of the built-in function, min-args is the minimum number 
 {"tostr", 0, -1, {}}
 ```
 
-`listdelete()` takes exactly 2 arguments, of which the first must be a list (`LIST == 4`) and the second must be an integer (`INT == 0`).  `Suspend()` has one optional argument that, if provided, must be a number (integer or float). `Server_log()` has one required argument that must be a string (`STR == 2`) and one optional argument that, if provided, may be of any type.  `max()` requires at least one argument but can take any number above that, and the first argument must be either an integer or a floating-point number; the type(s) required for any other arguments can't be determined from this description. Finally, `tostr()` takes any number of arguments at all, but it can't be determined from this description which argument types would be acceptable in which positions.
+`listdelete()` takes exactly 2 arguments, of which the first must be a list (`LIST == 4`) and the second must be an integer (`INT == 0`).  `Suspend()` has one optional argument that, if provided, must be a number (integer or float). `server_log()` has one required argument that must be a string (`STR == 2`) and one optional argument that, if provided, may be of any type.  `max()` requires at least one argument but can take any number above that, and the first argument must be either an integer or a floating-point number; the type(s) required for any other arguments can't be determined from this description. Finally, `tostr()` takes any number of arguments at all, but it can't be determined from this description which argument types would be acceptable in which positions.
 
 **Function: `eval`**
 
@@ -5396,7 +5399,9 @@ finished_tasks -- returns a list of the last X tasks to finish executing, includ
 
 list `finished_tasks`()
 
-When a verb program completes execution and exits, the server can store information about that task to assist in performance benchmarking or debugging. When the `SAVE_FINISHED_TASKS` server option is enabled, the following information is saved for each finished verb: 
+When enabled (via SAVE_FINISHED_TASKS in options.h), the server will keep track of the execution time of every task that passes through the interpreter. This data is then made available to the database in two ways.
+
+The first is the finished_tasks() function. This function will return a list of maps of the last several finished tasks (configurable via $server_options.finished_tasks_limit) with the following information:
 
 | Value  | Description |
 | ------------- | ------------- |
@@ -5409,6 +5414,8 @@ When a verb program completes execution and exits, the server can store informat
 | suspended | whether the task was suspended or not | 
 | this | the actual object the verb was called on |
 | time | the total time it took the verb to run), and verb (the name of the verb call or command typed |
+
+The second is via the $handle_lagging_task verb. When the execution threshold defined in $server_options.task_lag_threshold is exceeded, the server will write an entry to the log file and call the $handle_lagging_task verb with the call stack of the task as well as the execution time.
 
 > Note: This builtin must be enabled in options.h to be used.
 
@@ -5467,7 +5474,7 @@ For more information see section Server Options Set in the Database.. If the pro
 
 server_log -- The text in message is sent to the server log with a distinctive prefix (so that it can be distinguished from server-generated messages)
 
-none server_log (str message [, level])
+none server_log (str message [, int level])
 
 If the programmer is not a wizard, then E_PERM is raised. 
 

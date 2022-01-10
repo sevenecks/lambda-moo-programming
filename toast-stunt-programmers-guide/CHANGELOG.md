@@ -1,9 +1,14 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.0.6] - 2022.01.10 12:21PM
+* Fixed ToastCore.db URL
+
 ## [1.0.5] - 2022.01.08 9:19PM
 * Added Newbie guide to compiling ToastStunt to resources section
 * Cleaned up some bad formatting due to < and >
 * changed all smart quotes to `
+* fixed up various formatting issues
+* updated server_log builtin to specify INT as type for level
 
 ## [1.0.4] - 2022.01.08 2:29PM
 * Added Server Signals section
