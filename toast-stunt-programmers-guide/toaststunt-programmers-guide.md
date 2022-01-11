@@ -823,7 +823,7 @@ A variable name is itself an expression; its value is the value of the named var
 The values of some of these variables always start out the same:
 
 | Variable  | Value | Description |
-| ------------- | ------------- |
+| ------------- | ------------- |------------- |
 | <code>INT</code> | 0 | an integer, the type code for integers |
 | <code>NUM</code> | 0 | (deprecated) an integer, the type code for integers |
 | <code>OBJ</code> | 1 |an integer, the type code for objects |

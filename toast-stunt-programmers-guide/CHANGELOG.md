@@ -1,5 +1,8 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.0.7] - 2022.01.11 12:15AM
+* Fixed formatting on table for 'The values of some of these variables always start out the same'
+
 ## [1.0.6] - 2022.01.10 12:21PM
 * Fixed ToastCore.db URL
 
