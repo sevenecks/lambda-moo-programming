@@ -11,6 +11,7 @@
 * Changed reference of Stunt to ToastStunt
 * removed todo around argon since we got that infos
 * Updated example on how to corify an object and called out $sysobj as typically being #0
+* Fixed formatting on table for 'The values of some of these variables always start out the same'
 
 ## [1.0.6] - 2022.01.10 12:21PM
 * Fixed ToastCore.db URL
