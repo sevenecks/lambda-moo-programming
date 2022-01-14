@@ -1,5 +1,8 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.1.12] - 2022.01/14 4:04PM
+* fixed some typos in the guide
+
 ## [1.1.11] - 2022.01.08 2:29PM
 * Updated ToastStunt Programmers Guide (see toast-stunt-programmers-guide/CHANGELOG.md for more info)
 * Moved ToastStunt changelog to new directory

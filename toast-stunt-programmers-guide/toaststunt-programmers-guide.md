@@ -1,6 +1,6 @@
-# ToastStunt Programmer Guide Version 1.0.6
+# ToastStunt Programmer Guide Version 1.0.7
 
-## For ToastStunt Version 2.7+, Last Updated 01/10/22
+## For ToastStunt Version 2.7+, Last Updated 01/14/22
 
 by Pavel Curtis et al
 
@@ -2239,7 +2239,6 @@ The MOO object structure is unique in that all classes are instances and all ins
 - flags
 - verb definitions
 - property definitions
-- weak references (?)
 - explicit destruction 
 
 Stripped to its core, then, a WAIF has the following attributes:
@@ -2319,7 +2318,7 @@ This will call the :_set_index verb on the waif class with {"cheese", 17} as arg
 
 Originally this made it easy to implement maps into LambdaMOO, since you could just have your "map waif" store a list of keys and values and have the index verbs set and get data appropriately. Then you can use them just like the native map datatype that ToastCore has now.
 
-There are other uses, though, that make it still useful today. For example, ToastCore offers a file abstraction WAIF. One of the things you can do is:
+There are other uses, though, that make it still useful today. For example, a file abstraction WAIF. One of the things you might do is:
 
 ```
 file = $file:open("thing.txt");
@@ -2330,9 +2329,8 @@ That uses :_index to parse '5..19' and ultimately pass it off to file_readlines(
 
 #### Additional Details on WAIFs
 
-* When a WAIF is destroyed the MOO will Call the `recycle` verb on the WAIF, if it exists.
+* When a WAIF is destroyed the MOO will call the `recycle` verb on the WAIF, if it exists.
 * A WAIF has its own type so you can do: `typeof(some_waif) == WAIF)``
-* waif[x] and waif[x] = y will call the :_index and :_set_index verbs on the WAIF
 * The waif_stats() built-in will show how many instances of each class of WAIF exist, how many WAIFs are pending recycling, and how many WAIFs in total exist
 * You can access WAIF properties using `mywaif.:waif_property_name`
 
@@ -2473,7 +2471,7 @@ In almost all cases, you will want to call `pass()` with the same arguments as w
 
 There are several functions for performing primitive operations on MOO values, and they can be cleanly split into two kinds: those that do various very general operations that apply to all types of values, and those that are specific to one particular type. There are so many operations concerned with objects that we do not list them in this section but rather give them their own section following this one.
 
-##### General Operations Applicable to all Values
+##### General Operations Applicable to All Values
 
 **Function: `typeof`**
 
@@ -2481,7 +2479,7 @@ typeof -- Takes any MOO value and returns an integer representing the type of va
 
 int `typeof` (value)
 
-The result is the same as the initial value of one of these built-in variables: `INT`, `FLOAT`, `STR`, `LIST`, `MAP`,  `OBJ`, or `ERR`, `BOOL`, `MAP`, `WAIF`, `ANON`.  Thus, one usually writes code like this:
+The result is the same as the initial value of one of these built-in variables: `INT`, `FLOAT`, `STR`, `LIST`, `OBJ`, or `ERR`, `BOOL`, `MAP`, `WAIF`, `ANON`.  Thus, one usually writes code like this:
 
 ```
 if (typeof(x) == LIST) ...
@@ -2699,7 +2697,7 @@ random -- Return a random integer
 
 int `random` ([int mod, [int range]])
 
-mod must be a positive integer; otherwise, `E_INVARG` is raised.  If mod is not provided, it defaults to the largest MOO integer, which will depend on if you are running 32 or 64bit.
+mod must be a positive integer; otherwise, `E_INVARG` is raised.  If mod is not provided, it defaults to the largest MOO integer, which will depend on if you are running 32 or 64-bit.
 
 if range is provided then an integer in the range of mod to range (inclusive) is returned.
 
@@ -2784,6 +2782,7 @@ float `sin` (float x)
 cos -- Returns the cosine of x.
 
 float `cos` (float x)
+
 **Function: `tangent`**
 
 tan -- Returns the tangent of x.
@@ -2819,21 +2818,25 @@ if x is not provided, or of `y/x` in the range `[-pi..pi]` if x is provided.
 sinh -- Returns the hyperbolic sine of x.
 
 float `sinh` (float x)
+
 **Function: `cosh`**
 
 cosh -- Returns the hyperbolic cosine of x.
 
 float `cosh` (float x)
+
 **Function: `tanh`**
 
 tanh -- Returns the hyperbolic tangent of x.
 
 float `tanh` (float x)
+
 **Function: `exp`**
 
 exp -- Returns e raised to the power of x.
 
 float `exp` (float x)
+
 **Function: `log`**
 
 log -- Returns the natural logarithm of x.
@@ -2855,6 +2858,7 @@ Raises `E_INVARG` if x is not positive.
 ceil -- Returns the smallest integer not less than x, as a floating-point number.
 
 float `ceil` (float x)
+
 **Function: `floor`**
 
 floor -- Returns the largest integer not greater than x, as a floating-point number.
@@ -2959,7 +2963,7 @@ If str1 is [lexicographically](https://en.wikipedia.org/wiki/Lexicographical_ord
 
 explode -- Returns a list of substrings of subject that are separated by break. break defaults to a space.
 
-list  `explode`(STR subject [, STR break [, INT include-sequential-occurances])
+list  `explode`(STR subject [, STR break [, INT include-sequential-occurrences])
 
 Only the first character of `break` is considered:
 
@@ -2968,7 +2972,7 @@ explode("slither%is%wiz", "%")      => {"slither", "is", "wiz"}
 explode("slither%is%%wiz", "%%")    => {"slither", "is", "wiz"}
 ```
 
-You can use include-sequential-occurances to get back an empty string as part of your list if `break` appears multiple times with nothing between it, or there is a leading/trailing `break` in your string:
+You can use include-sequential-occurrences to get back an empty string as part of your list if `break` appears multiple times with nothing between it, or there is a leading/trailing `break` in your string:
 
 ```
 explode("slither%is%%wiz", "%%", 1)  => {"slither", "is", "", "wiz"}
@@ -3138,13 +3142,13 @@ Explode a string (albeit a contrived example):
 => {"This", "is", "a", "string", "of", "words", "with", "punctuation", "that", "should", "be", "exploded", "By", "space", "zippy"}
 ```
 
-** Function: `pcre_replace`**
+**Function: `pcre_replace`**
 
 pcre_replace -- The function `pcre_replace()` replaces `subject` with replacements found in `pattern` using the Perl Compatible Regular Expressions library.
 
 STR `pcre_replace` (STR `subject`, STR `pattern`)
 
-The pattern string has a specific format that must be followed, which should be familiar if you have used the likes of Vim, Perl, or sed. The string is composed of four elements, each separated by a delimiter (typically a slash (/) or an exclaimation mark (!)), that tell PCRE how to parse your replacement. We'll break the string down and mention relevant options below:
+The pattern string has a specific format that must be followed, which should be familiar if you have used the likes of Vim, Perl, or sed. The string is composed of four elements, each separated by a delimiter (typically a slash (/) or an exclamation mark (!)), that tell PCRE how to parse your replacement. We'll break the string down and mention relevant options below:
 
 1. Type of search to perform. In MOO, only 's' is valid. This parameter is kept for the sake of consistency.
 
@@ -3153,7 +3157,7 @@ The pattern string has a specific format that must be followed, which should be 
 3. The regular expression you want to use for your replacement text.
 
 4. Optional modifiers:
-    * Global. This will replace all occurances in your string rather than stopping at the first.
+    * Global. This will replace all occurrences in your string rather than stopping at the first.
     * Case-insensitive. Uppercase, lowercase, it doesn't matter. All will be replaced.
 
 Examples:
@@ -3166,7 +3170,7 @@ pcre_replace("I like banana pie. Do you like banana pie?", "s/banana/apple/g")
 => "I like apple pie. Do you like apple pie?"
 ```
 
-If you find yourself wanting to replace a string that contains slashes, it can be useful to change your delimiter to an exclaimation mark:
+If you find yourself wanting to replace a string that contains slashes, it can be useful to change your delimiter to an exclamation mark:
 
 ```
 pcre_replace("Unix, wow! /bin/bash is a thing.", "s!/bin/bash!/bin/fish!g")
@@ -3254,7 +3258,7 @@ crypt -- Encrypts the given text using the standard UNIX encryption method.
 
 str `crypt` (str text [, str salt])
 
-Encrypts (hashes) the given text using the standard UNIX encryption method. If provided, salt should be a string at least two characters long, and it may dictate a specific algorithm to use. By default, crypt uses the original, now insecure, DES algorithm. Stunt specifically includes the BCrypt algorithm (identified by salts that start with "$2a$"), and may include MD5, SHA256, and SHA512 algorithms depending on the libraries used to build the server. The salt used is returned as the first part of the resulting encrypted string.
+Encrypts (hashes) the given text using the standard UNIX encryption method. If provided, salt should be a string at least two characters long, and it may dictate a specific algorithm to use. By default, crypt uses the original, now insecure, DES algorithm. ToastStunt specifically includes the BCrypt algorithm (identified by salts that start with "$2a$"), and may include MD5, SHA256, and SHA512 algorithms depending on the libraries used to build the server. The salt used is returned as the first part of the resulting encrypted string.
 
 Aside from the possibly-random input in the salt, the encryption algorithms are entirely deterministic. In particular, you can test whether or not a given string is the same as the one used to produce a given piece of encrypted text; simply extract the salt from the front of the encrypted text and pass the candidate string and the salt to crypt(). If the result is identical to the given encrypted text, then you`ve got a match.
 
@@ -3268,7 +3272,7 @@ crypt("foobar", "$6$rounds=5000$hT0gxavqSl0L")      ⇒    "$6$rounds=5000$hT0gx
 crypt("foobar", "$2a$08$dHkE1lESV9KrErGhhJTxc.")    ⇒    "$2a$08$dHkE1lESV9KrErGhhJTxc.QnrW/bHp8mmBl5vxGVUcsbjo3gcKlf6"
 ```
 
-> Note: The specific set of supported algorithms depends on the libraries used to build the server. Only the BCrypt algorithm, which is distributed with the server source code, is guaranteed to exist. BCrypt is currently mature and well tested, and is recommended for new development. 
+> Note: The specific set of supported algorithms depends on the libraries used to build the server. Only the BCrypt algorithm, which is distributed with the server source code, is guaranteed to exist. BCrypt is currently mature and well tested, and is recommended for new development when the Argon2 library is unavailable. (See next section).
 
 > Warning: The entire salt (of any length) is passed to the operating system`s low-level crypt function. It is unlikely, however, that all operating systems will return the same string when presented with a longer salt. Therefore, identical calls to crypt() may generate different results on different platforms, and your password verification systems will fail. Use a salt longer than two characters at your own risk. 
 
@@ -3303,13 +3307,11 @@ Returns 1 if the two match or 0 if they don't.
 
 This is a more secure way to hash passwords than the `crypt()` builtin.
 
-//TODO Ask lisdude to add more details on argon2 here
-
 > Note: ToastCore defines some sane defaults for how to utilize `argon2` and `argon2_verify`. You can `@grep argon2` from within ToastCore to find these.
 
 > Warning: It is possible to build the server with the `THREAD_ARGON2` option. This will enable this built-in to run in a background thread and mitigate lag that these functions can cause. However, this comes with some major caveats. `do_login_command` (where you will typically be verifying passwords) cannot be suspended. Since threading implicitly suspends the MOO task, you won't be able to directly use Argon2 in do_login_command. Instead, you'll have to devise a new solution for logins that doesn't directly involve calling Argon2 in do_login_command.
 
-> Note: More information on Argon2 can be found in the [Argon2 Github](https://github.com/P-H-C/phc-winner-argon2].
+> Note: More information on Argon2 can be found in the [Argon2 Github](https://github.com/P-H-C/phc-winner-argon2).
 
 **Function: `string_hash`**
 
@@ -3551,9 +3553,10 @@ sort({"foo", "bar", "baz"}, {123, 5, 8000}) => {"bar", "foo", "baz"}
 
 ##### Operations on Maps
 
-When using the functions below, it`s helpful to remember that maps are ordered.
+When using the functions below, it's helpful to remember that maps are ordered.
 
 **Function: `mapkeys`**
+
 mapkeys -- returns the keys of the elements of a map.
 
 list `mapkeys` (map map)
@@ -3613,7 +3616,9 @@ Creates and returns a new object whose parents are parents (or whose parent is p
 
 After the new object is created, its initialize verb, if any, is called. If init-args were given, they are passed as args to initialize. The new object is assigned the least non-negative object number that has not yet been used for a created object. Note that no object number is ever reused, even if the object with that number is recycled.
 
-> Note: This is not strictly true, especially if you are using ToastCore and the `$recycler`, which is a great idea.  If you don't, you end up with extremely high object numbers. However, if you plan on reusing object numbers you need to consider this carefully in your code. You do not want to include object numbers in your code if this is the case, as object numbers could change. Use corified references instead (IE: ` @prop #0.my_object #objnum` allows you to use $my_object in your code. If the object number ever changes, you can change the reference without updating all of your code.)
+> Note: This is not strictly true, especially if you are using ToastCore and the `$recycler`, which is a great idea.  If you don't, you end up with extremely high object numbers. However, if you plan on reusing object numbers you need to consider this carefully in your code. You do not want to include object numbers in your code if this is the case, as object numbers could change. Use corified references instead. For example, you can use `@corify #objnum as $my_object` and then be able to reference $my_object in your code. Alternatively you can do ` @prop $sysobj.my_object #objnum`. If the object number ever changes, you can change the reference without updating all of your code.)
+
+> Note: $sysobj is typically #0. Though it can technically be changed to something else, there is no reason that the author knows of to break from convention here.
 
 If anon-flag is false or not present, the new object is a permanent object and is assigned the least non-negative object number that has not yet been used for a created object. Note that no object number is ever reused, even if the object with that number is recycled.
 
@@ -3639,6 +3644,8 @@ The function `is_player()` returns false for newly created objects.
 In addition, the new object inherits all of the other properties on its parents. These properties have the same permission bits as on the parents. If the `c` permissions bit is set, then the owner of the property on the new object is the same as the owner of the new object itself; otherwise, the owner of the property on the new object is the same as that on the parent. The initial value of every inherited property is clear; see the description of the built-in function clear_property() for details.
 
 If the intended owner of the new object has a property named `ownership_quota` and the value of that property is an integer, then create() treats that value as a quota. If the quota is less than or equal to zero, then the quota is considered to be exhausted and create() raises E_QUOTA instead of creating an object. Otherwise, the quota is decremented and stored back into the `ownership_quota` property as a part of the creation of the new object. 
+
+> Note: In ToastStunt, this is disabled by default with the "OWNERSHIP_QUOTA" option in options.h
 
 **Function: `owned_objects`**
 

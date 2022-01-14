@@ -1,7 +1,20 @@
 # Changelog for LambdaMOO Programming Repository
 
+## [1.0.7] - 2022.01.14 3:52PM
+* Incremented guide to 1.0.7
+* removed 'weak references' bullet as lisdude's suggestion as it was only adding confusion
+* updated file abstration WAIF section to not mention it being in ToastCore as it isn't
+* fixed some typos/case issues in the text
+* removed a line from addtional details on WAIFs that had already been gone over earlier in the text
+* removed extra 'map' in general operations applicable to all values
+* fixed formatting on some of the builtins where they weren't on their own line
+* Changed reference of Stunt to ToastStunt
+* removed todo around argon since we got that infos
+* Updated example on how to corify an object and called out $sysobj as typically being #0
+
 ## [1.0.6] - 2022.01.10 12:21PM
 * Fixed ToastCore.db URL
+* Incremented guide to 1.0.6
 
 ## [1.0.5] - 2022.01.08 9:19PM
 * Added Newbie guide to compiling ToastStunt to resources section
