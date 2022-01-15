@@ -6086,7 +6086,6 @@ endif
 ```
 
 Now you can signal the MOO with the kill command: `kill -USR2 <MOO process ID`
-```
 
 ### Server Configuration
 
