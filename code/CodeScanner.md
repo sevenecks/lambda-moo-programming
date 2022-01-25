@@ -1,6 +1,10 @@
 # Code Scanner
 This package will scan verb code for common issues and warn you about them. You can edit/add/remove some checks if you don't want them, or update them to better fit your coding standards.
 
+## MOO Package Manager
+
+THIS PACKAGE IS AVAILABLE FOR INSTALL USING THE MOO PACKAGE MANAGER (FOR TOASTSTUNT). THIS IS THE PREFERRED METHOD OF INSTALL IF YOU ARE USING TOASTSTUNT. IT IS PROBABLY A MORE UPDATED VERSION AS WELL. SEE: [MOO Package Manager](https://github.com/sevenecks/moo-package-manager)
+
 ## Contributing
 
 The code scanner covers some of our best practices for MOO coding on [Sindome](https://www.sindome.org/). If you have your own that you think would be useful to the community please feel free to put in a pull request!
