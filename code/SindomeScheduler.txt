@@ -652,7 +652,7 @@ elseif (index(argstr, "by "))
   if (index = possible_obj in $list_utils:slice(scheduled_by_list))
     $scheduler:display_schedule(scheduled_by_list[index][2]);
   else
-    return player:tell("No scheduled tasks by obj: ", $su:nn(possible_obj), " were found.");
+    return player:tell("No scheduled tasks by obj: ", $string_utils:nn(possible_obj), " were found.");
   endif
 elseif (index(argstr, "for "))
   if (index(args[2], "$") == 1)
