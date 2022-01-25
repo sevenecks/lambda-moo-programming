@@ -1,5 +1,9 @@
 # Local Editing (in browser or VMOO or other supported client)
 
+## Update
+
+If you are using a ToastCore or even LambdaCore based database, you may be able to just do `@edit-options +local` and have local editing working without needing to do really any of the stuff in this doc.
+
 ## Contributing
 
 The code scanner covers some of our best practices for MOO coding on [Sindome](https://www.sindome.org/). If you have your own that you think would be useful to the community please feel free to put in a pull request!
