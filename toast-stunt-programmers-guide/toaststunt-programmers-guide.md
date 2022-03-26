@@ -1,6 +1,6 @@
-# ToastStunt Programmer Guide Version 1.0.7
+# ToastStunt Programmer Guide Version 1.0.8
 
-## For ToastStunt Version 2.7+, Last Updated 01/14/22
+## For ToastStunt Version 2.7+, Last Updated 03/26/22
 
 by Pavel Curtis et al
 
@@ -3971,13 +3971,13 @@ Clearly, this older mechanism is more difficult and risky to use; new code shoul
 
 verb_info -- Get the owner, permission bits, and name(s) for the verb as specified by verb-desc on the given object
 
-list `verb_info` (obj object, str verb-desc) 
+list `verb_info` (obj object, str|int verb-desc) 
 
 **Function: `set_verb_info`**
 
 set_verb_info -- Set the owner, permissions bits, and names(s) for the verb as verb-desc on the given object
 
-none `set_verb_info` (obj object, str verb-desc, list info)
+none `set_verb_info` (obj object, str|int verb-desc, list info)
 
 If object is not valid, then `E_INVARG` is raised. If object does not define a verb as specified by verb-desc, then `E_VERBNF` is raised. If the programmer does not have read (write) permission on the verb in question, then `verb_info()` (`set_verb_info()`) raises `E_PERM`.
 
@@ -3993,11 +3993,13 @@ where owner is an object, perms is a string containing only characters from the 
 
 verb_args -- get the direct-object, preposition, and indirect-object specifications for the verb as specified by verb-desc on the given object.
 
-list `verb_args` (obj object, str verb-desc) **Function: `set_verb_args`**
+list `verb_args` (obj object, str|int verb-desc) 
+
+**Function: `set_verb_args`**
 
 verb_args -- set the direct-object, preposition, and indirect-object specifications for the verb as specified by verb-desc on the given object.
 
-none `set_verb_args` (obj object, str verb-desc, list args)
+none `set_verb_args` (obj object, str|int verb-desc, list args)
 
 If object is not valid, then `E_INVARG` is raised. If object does not define a verb as specified by verb-desc, then `E_VERBNF` is raised. If the programmer does not have read (write) permission on the verb in question, then the function raises `E_PERM`.
 
@@ -4029,7 +4031,7 @@ If object is not valid, or info does not specify a valid owner and well-formed p
 
 delete_verb -- removes the verb as specified by verb-desc from the given object
 
-none `delete_verb` (obj object, str verb-desc)
+none `delete_verb` (obj object, str|int verb-desc)
 
 If object is not valid, then `E_INVARG` is raised. If the programmer does not have write permission on object, then `E_PERM` is raised. If object does not define a verb as specified by verb-desc, then `E_VERBNF` is raised.
 
@@ -4037,11 +4039,13 @@ If object is not valid, then `E_INVARG` is raised. If the programmer does not ha
 
 verb_code -- get the MOO-code program associated with the verb as specified by verb-desc on object
 
-list `verb_code` (obj object, str verb-desc [, fully-paren [, indent]]) **Function: `set_verb_code`**
+list `verb_code` (obj object, str|int verb-desc [, fully-paren [, indent]]) 
+
+**Function: `set_verb_code`**
 
 set_verb_code -- set the MOO-code program associated with the verb as specified by verb-desc on object
 
-list `set_verb_code` (obj object, str verb-desc, list code)
+list `set_verb_code` (obj object, str|int verb-desc, list code)
 
 The program is represented as a list of strings, one for each line of the program; this is the kind of value returned by `verb_code()` and expected as the third argument to `set_verb_code()`. For `verb_code()`, the expressions in the returned code are usually written with the minimum-necessary parenthesization; if full-paren is true, then all expressions are fully parenthesized.
 
@@ -4055,7 +4059,7 @@ For `set_verb_code()`, the result is a list of strings, the error messages gener
 
 disassemble -- returns a (longish) list of strings giving a listing of the server's internal "compiled" form of the verb as specified by verb-desc on object
 
-list `disassemble` (obj object, str verb-desc)
+list `disassemble` (obj object, str|int verb-desc)
 
 This format is not documented and may indeed change from release to release, but some programmers may nonetheless find the output of `disassemble()` interesting to peruse as a way to gain a deeper appreciation of how the server works.
 
