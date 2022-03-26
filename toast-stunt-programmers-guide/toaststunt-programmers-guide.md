@@ -5300,7 +5300,7 @@ suspend -- suspends the current task, and resumes it after at least seconds seco
 
 value `suspend` ([int|float seconds])
 
-If seconds is not provided, the task is suspended indefinitely; such a task can only be resumed by use of the `resume()` function.
+Sub-second suspend (IE: 0.1) is possible. If seconds is not provided, the task is suspended indefinitely; such a task can only be resumed by use of the `resume()` function.
 
 When the task is resumed, it will have a full quota of ticks and seconds. This function is useful for programs that run for a long time or require a lot of ticks. If seconds is negative, then `E_INVARG` is raised. `Suspend()` returns zero unless it was resumed via `resume()`, in which case it returns the second argument given to that function.
 

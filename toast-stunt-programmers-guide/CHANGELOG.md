@@ -2,6 +2,7 @@
 
 ## [1.0.8] - 2022.03.26 1:27PM
 * Updated delete_verb, verb_info, set_verb_info, verb_args, set_verb_args, disasemble, and a few other verbs to better reference the ability to provide an INT index into verbs() instead of a str name.
+* Updated `suspend()` function definition to call out sub-second suspend
 
 ## [1.0.7] - 2022.01.14 3:52PM
 * Incremented guide to 1.0.7
