@@ -2339,42 +2339,73 @@ That uses :_index to parse '5..19' and ultimately pass it off to file_readlines(
 The following code can be used to find WAIFs and Anonymous Objects that exist in your database.
 
 ```
-@prog $waif_utils:find_waif_types
+@verb $waif_utils:"find_waif_types find_anon_types" this none this
+@program $waif_utils:find_waif_types
+if (!caller_perms().wizard)
+  return E_PERM;
+endif
 {data, ?class = 0} = args;
 ret = {};
-if (typeof(data) == LIST)
+TYPE = verb == "find_anon_types" ? ANON | WAIF;
+if (typeof(data) in {LIST, MAP})
+  "Rather than wasting time iterating through the entire list, we can find if it contains any waifs with a relatively quicker index().";
   if (index(toliteral(data), "[[class = #") != 0)
-    // Rather than wasting time iterating through the entire list, we can find if it contains any waifs with a relatively quicker index().
     for x in (data)
-      ticks_left() < 1000 && suspend(0);
+      yin(0, 1000);
       ret = {@ret, @this:(verb)(x, class)};
     endfor
   endif
-elseif (typeof(data) == WAIF)
-  if (class == 0 || (class != 0 && data.class == class))
+elseif (typeof(data) == TYPE)
+  if (class == 0 || (class != 0 && (TYPE == WAIF && data.class == class || (TYPE == ANON && `parent(data) ! E_INVARG' == class))))
     ret = {@ret, data};
   endif
 endif
 return ret;
 .
 
-@prog player:@find-waifs
-total = class = summary = 0;
-exclude = {$spell, $newspell};
+
+@verb me:"@find-waifs @find-anons" any any any
+@program me:@find-waifs
+"Provide a summary of all properties and running verb programs that contain instantiated waifs.";
+"Usage: @find-waifs [<class>] [on <object>]";
+"       @find-anons [<parent>] [on <object>]";
+"  e.g. @find-waifs $some_waif on #123 => Find waifs of class $some_waif on #123 only.";
+"       @find-waifs on #123            => Find all waifs on #123.";
+"       @find-waifs $some_waif         => Find all waifs of class $some_waif.";
+"The above examples also apply to @find-anons.";
+if (!player.wizard)
+  return E_PERM;
+endif
+total = class = tasks = 0;
+exclude = {$spell};
+find_anon = index(verb, "anon");
+search_verb = tostr("find_", find_anon ? "anon" | "waif", "_types");
+{min, max} = {#0, max_object()};
 if (args)
-  if (argstr in {"summary", "all", "full"})
-    summary = 1;
+  if ((match = $string_utils:match_string(argstr, "* on *")) != 0)
+    class = player:my_match_object(match[1]);
+    min = max = player:my_match_object(match[2]);
+  elseif ((match = $string_utils:match_string(argstr, "on *")) != 0)
+    min = max = player:my_match_object(match[1]);
   else
     class = player:my_match_object(argstr);
-    if (class == $failed_match || !isa(class, $waif))
-      return player:tell("That's not a waif class.");
-    endif
+  endif
+  if (!valid(max))
+    return player:tell("That object doesn't exist.");
+  endif
+  if (class != 0 && (class == $failed_match || !valid(class) || (!find_anon && !isa(class, $waif))))
+    return player:tell("That's not a valid ", find_anon ? "object parent." | "waif class.");
   endif
 endif
-player:tell("Patience is advised!");
+" -- Constants (avoid #0 property lookups on each iteration of loops) -- ";
+WAIF_UTILS = $waif_utils;
+STRING_UTILS = $string_utils;
+OBJECT_UTILS = $object_utils;
+LIST_UTILS = $list_utils;
+" -- ";
+player:tell("Searching for ", find_anon ? "ANON" | "WAIF", " instances. This may take some time...");
 start = ftime(1);
-tracking = count = {};
-for x in [#0..max_object()]
+for x in [min..max]
   yin(0, 1000);
   if (!valid(x))
     continue;
@@ -2385,49 +2416,41 @@ for x in [#0..max_object()]
   elseif (x in exclude)
     continue;
   endif
-  for y in ($object_utils:all_properties(x))
+  for y in (OBJECT_UTILS:all_properties(x))
     yin(0, 1000);
     if (is_clear_property(x, y))
       continue y;
     endif
-    match = $waif_utils:find_waif_types(x.(y), class);
+    match = WAIF_UTILS:(search_verb)(x.(y), class);
     if (match != {})
       total = total + 1;
-      if (!summary)
-        player:tell(`$string_utils:nn(x) ! ANY => x');
-      endif
+      player:tell(STRING_UTILS:nn(x), "[bold][yellow].[normal](", y, ")");
       for z in (match)
         yin(0, 1000);
-        if (!summary)
-          player:tell("    ", $string_utils:nn(z.class));
-        endif
-        if (summary)
-          if ((ind = z.class in tracking) != 0)
-            count[ind] = count[ind] + 1;
-          else
-            tracking = {@tracking, z.class};
-            count = {@count, 1};
-          endif
-        endif
+        player:tell("    ", `STRING_UTILS:nn(find_anon ? parent(z) | z.class) ! E_INVARG => "*INVALID*"');
       endfor
     endif
   endfor
 endfor
-player:tell();
-if (summary)
-  ret = {};
-  for x in [1..length(tracking)]
-    ret = {@ret, {$string_utils:nn(tracking[x]), count[x]}};
-    yin();
+"Search for running verb programs containing waifs / anons. But only do this when a specific object wasn't specified.";
+if (min == #0 && max == max_object())
+  for x in (queued_tasks(1))
+    if (length(x) < 11 || x[11] == {})
+      continue;
+    endif
+    match = WAIF_UTILS:(search_verb)(x[11], class);
+    if (match != {})
+      tasks = tasks + 1;
+      player:tell(x[6], ":", x[7], " (task ID ", x[1], ")");
+      for z in (match)
+        yin(0, 1000);
+        player:tell("    ", find_anon ? parent(z) | STRING_UTILS:nn(z.class));
+      endfor
+    endif
   endfor
-  ret = $list_utils:sort_alist(ret, 2);
-  for x in [1..length(ret)]
-    ret[x][2] = tostr(ret[x][2]);
-    yin();
-  endfor
-  player:tell_lines($string_utils:fit_to_screen({{"Waif", "Count"}, @ret}, 2, 1));
 endif
-player:tell("Total: ", total, " ", total == 1 ? "property" | "properties", " in ", ftime() - start, " seconds.");
+player:tell();
+player:tell("Total: ", total, " ", total == 1 ? "property" | "properties", tasks > 0 ? tostr(" and ", tasks, " ", tasks == 1 ? "task" | "tasks") | "", " in ", ftime(1) - start, " seconds.");
 .
 ```
 ### Built-in Functions
