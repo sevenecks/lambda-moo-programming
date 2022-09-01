@@ -2675,6 +2675,8 @@ generate_json([1 -> 2], "embedded-types")                   =>  "{\"1|int\":2}"
 generate_json([#1 -> 2], "embedded-types")                  =>  "{\"#1|obj\":2}"
 ```
 
+> Warning: generate_json does not support WAIF or ANON types.
+
 **Function: `parse_json`**
 
 parse_json -- Returns the MOO value representation of the JSON string. 
@@ -2711,6 +2713,8 @@ parse_json("{\"#1|obj\":2}", "embedded-types")              =>   [#1 -> 2]
 ```
 
 > Note: JSON converts `null` to the string "null". 
+
+> Warning: WAIF and ANON types are not supported.
 
 ##### Operations on Numbers
 
