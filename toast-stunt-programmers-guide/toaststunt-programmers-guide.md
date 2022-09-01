@@ -1,6 +1,6 @@
-# ToastStunt Programmer Guide Version 1.0.8
+# ToastStunt Programmer Guide Version 1.0.9
 
-## For ToastStunt Version 2.7+, Last Updated 03/14/22
+## For ToastStunt Version 2.7+, Last Updated 09/01/22
 
 by Pavel Curtis et al
 
@@ -4986,11 +4986,13 @@ Open a new connection to the IPv6 address 2607:5300:60:4be0:: on port 1234 using
 
 **Function: `curl`**
 
-str `curl`(STR url [, INT include_headers])
+str `curl`(STR url [, INT include_headers, [ INT timeout])
 
 The curl builtin will download a webpage and return it as a string. If include_headers is true, the HTTP headers will be included in the return string.
 
 It's worth noting that the data you get back will be binary encoded. In particular, you will find that line breaks appear as ~0A. You can easily convert a page into a list by passing the return string into the decode_binary() function.
+
+CURL_TIMEOUT is defined in options.h to specify the maximum amount of time a CURL request can take before failing. For special circumstances, you can specify a longer or shorter timeout using the third argument of curl().
 
 **Function: `read_http`**
 
@@ -6158,6 +6160,7 @@ Network Options
 | DEFAULT_LAG_THRESHOLD | The number of seconds allowed before a task is considered laggy and triggers `#0:handle_lagging_task`. |
 | MAX_LINE_BYTES | Unceremoniously close connections that send lines exceeding this value to prevent memory allocation panics. |
 | ONLY_32_BITS | Switch from 64bits back to 32bits. |
+| CURL_TIMEOUT | Specify the maximum amount of time a CURL request can take before failing. |
 
 #### Running the Server
 
