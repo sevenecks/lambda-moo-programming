@@ -1,4 +1,6 @@
 # Changelog for LambdaMOO Programming Repository
+## [1.0.10] - 2022.11.12 11:39AM
+* Updated the connection_name() function definition to include missing information on changes to this in ToastStunt, and new method args available.
 
 ## [1.0.9] - 2022.09.01 11:53AM
 * Updated the WAIF finding code to support better finding / searching in maps

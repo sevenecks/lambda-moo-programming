@@ -1,6 +1,6 @@
-# ToastStunt Programmer Guide Version 1.0.9
+# ToastStunt Programmer Guide Version 1.1.10
 
-## For ToastStunt Version 2.7+, Last Updated 09/01/22
+## For ToastStunt Version 2.7+, Last Updated 11/12/22
 
 by Pavel Curtis et al
 
@@ -4834,9 +4834,15 @@ list `connection_info` (OBJ `connection`)
 
 connection_name -- returns a network-specific string identifying the connection being used by the given player
 
-str `connection_name` (obj player)
+str `connection_name` (obj player, [INT method])
+
+When provided just a player object this function only returns obj's hostname (e.g. `1-2-3-6.someplace.com`). An optional argument allows you to specify 1 if you want a numeric IP address, or 2 if you want to return the legacy connection_name string.
+
+> Warning: If you are using a LambdaMOO core, this is a semi-breaking change. You'll want to update any code on your server that runs `connection_name` to pass in the argument for returning the legacy connection_name string if you want things to work exactly the same.
 
 If the programmer is not a wizard and not player, then `E_PERM` is raised. If player is not currently connected, then `E_INVARG` is raised.
+
+Legacy Connection String Information:
 
 For the TCP/IP networking configurations, for in-bound connections, the string has the form:
 
