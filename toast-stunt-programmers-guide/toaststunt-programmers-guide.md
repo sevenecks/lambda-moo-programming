@@ -176,8 +176,8 @@ FileIO, updated and expanded built-ins functions, multiple inheritance, curl sup
 * [Arch Wizard FAQ](https://lisdude.com/moo/new-archwiz-faq.html)
 * [Anatomy of a LambdaMOO DB file](https://lisdude.com/moo/lmdb.html)
 * [Wizard Basics](https://lisdude.com/moo/wizbasics.html)
-* [Whitepaper on Garbage Collection](https://researcher.watson.ibm.com/researcher/files/us-bacon/Bacon01Concurrent.pdf)
- (this was referenced when creating the garbage collector that Toast can optionally use)
+* [Whitepaper on Garbage Collection](https://researcher.watson.ibm.com/researcher/files/us-bacon/Bacon01Concurrent.pdf) (this was referenced when creating the garbage collector that Toast can optionally use)
+* [Anatomy of ToastStunt Database](https://lisdude.com/moo/toaststunt_anatomy/)
 
 ## Introduction
 

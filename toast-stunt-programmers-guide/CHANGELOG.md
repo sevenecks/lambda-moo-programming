@@ -1,4 +1,7 @@
 # Changelog for LambdaMOO Programming Repository
+## [1.0.11] - 2022.12.15 3:43PM
+* Added Anatomy of ToastStunt Database link to the Resources section
+
 ## [1.0.10] - 2022.11.12 11:39AM
 * Updated the connection_name() function definition to include missing information on changes to this in ToastStunt, and new method args available.
 
