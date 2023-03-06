@@ -1,6 +1,6 @@
-# ToastStunt Programmer Guide Version 1.1.10
+# ToastStunt Programmer Guide Version 1.1.00
 
-## For ToastStunt Version 2.7+, Last Updated 11/12/22
+## Written for ToastStunt Version 2.7.0, Last Updated 03/06/23
 
 by Pavel Curtis et al
 
@@ -16,9 +16,9 @@ Copyright © 2004 by Roger F. Crew.
 
 Copyright © 2011, 2012, 2013, 2014 by Todd Sundsted
 
-Copyright © 2017, 2018, 2019, 2020, 2021, 2022 by [Brendan Butts](http://github.com/sevenecks).
+Copyright © 2017-2023 by [Brendan Butts](http://github.com/sevenecks).
 
-Copyright © 2021-2022 By [lisdude](http://github.com/lisdude)
+Copyright © 2021-2023 By [lisdude](http://github.com/lisdude)
 
 Portions adapted from the [Stunt Programmers Manual](https://lisdude.com/moo/ProgrammersManual.html) by Todd Sundsted Copyright © 2011, 2012, 2013, 2014 by Todd Sundsted.
 
@@ -4829,6 +4829,7 @@ list `connection_info` (OBJ `connection`)
 | source_ip | The unresolved numeric IP address of the interface a connection was made on. For outbound connections, this value is meaningless. |
 | source_port | The local port a connection connected to. For outbound connections, this value is meaningless. |
 | protocol | Describes the protocol used to make the connection. At the time of writing, this could be IPv4 or IPv6. |
+| outbound | Indicates whether a connection is outbound or not
 
 **Function: `connection_name`**
 
