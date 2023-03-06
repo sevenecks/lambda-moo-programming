@@ -58,7 +58,7 @@ This is an updated Programmer's Manual for [ToastStunt](https://github.com/lisdu
 
 This manual now lives in its own repository.
 
-[ToastStunt Programmer's Manual](https://github.com/lisdude/toaststunt-documentation/tree/master/manual)
+[ToastStunt Programmer's Manual](https://github.com/lisdude/toaststunt-documentation/blob/master/manual/toaststunt-programmers-manual.md)
 
 ### Lambda MOO Programmer's Manual [Updated]
 This LambdaMOO Programmer's Manual is an **updated an expanded version** of the *LambdaMOO Programmer's Manual* originally written by Pavel Curtis. Some pretty extensive work has gone into formatting it, and updating the content.
