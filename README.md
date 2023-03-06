@@ -56,7 +56,9 @@ There are two versions of each document in this repository. One is a markdown co
 ### ToastStunt Programmer's Manual
 This is an updated Programmer's Manual for [ToastStunt](https://github.com/lisdude/toaststunt) (the most cutting edge fork of LambdaMOO). It is a fork of the updated LambdaMOO Manual (see below) which incorpoates the original manual and Todd Sundsted's Stunt updates with regular updates as new features are released for ToastStunt.
 
-[ToastStunt Programmer's Manual](/toast-stunt-programmers-guide/toaststunt-programmers-guide.md)
+This manual now lives in its own repository.
+
+[ToastStunt Programmer's Manual](https://github.com/lisdude/toaststunt-documentation/tree/master/manual)
 
 ### Lambda MOO Programmer's Manual [Updated]
 This LambdaMOO Programmer's Manual is an **updated an expanded version** of the *LambdaMOO Programmer's Manual* originally written by Pavel Curtis. Some pretty extensive work has gone into formatting it, and updating the content.
