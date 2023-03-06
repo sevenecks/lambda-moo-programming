@@ -4829,7 +4829,7 @@ list `connection_info` (OBJ `connection`)
 | source_ip | The unresolved numeric IP address of the interface a connection was made on. For outbound connections, this value is meaningless. |
 | source_port | The local port a connection connected to. For outbound connections, this value is meaningless. |
 | protocol | Describes the protocol used to make the connection. At the time of writing, this could be IPv4 or IPv6. |
-| outbound | Indicates whether a connection is outbound or not
+| outbound | Indicates whether a connection is outbound or not |
 
 **Function: `connection_name`**
 
