@@ -159,8 +159,8 @@ utility verbs are organized on several objects, one object per
 category of verbs. They are generally referred to as "the utils" or
 sometimes "the $utils", because the individual grouping objects tend
 to be kept track of in properties on the \#0 object, and you can refer
-to these properties by using $propertyname, like $string&\_utils, or
-$list&\_utils.
+to these properties by using $propertyname, like $string\_utils, or
+$list\_utils.
 
 Speaking of object \#0, object \#0 is The System Object. This is used
 as a central place to stick values that the wizards want to keep track
@@ -179,28 +179,28 @@ is really
 
 There are a great many such useful properties on \#0 besides the utils,
 but here are the utils defined on LambdaMOO's \#0 as of this writing:
-  * \#0.building&\_utils
-  * \#0.byte&\_quota&\_utils
-  * \#0.code&\_utils
-  * \#0.command&\_utils
-  * \#0.convert&\_utils
-  * \#0.gender&\_utils
-  * \#0.generic&\_utils
-  * \#0.list&\_utils
-  * \#0.lock&\_utils
-  * \#0.match&\_utils
-  * \#0.math&\_utils
-  * \#0.matrix&\_utils
-  * \#0.object&\_quota&\_utils
-  * \#0.object&\_utils
-  * \#0.perm&\_utils
-  * \#0.quota&\_utils
-  * \#0.seq&\_utils
-  * \#0.set&\_utils
-  * \#0.string&\_utils
-  * \#0.time&\_utils
-  * \#0.trig&\_utils
-  * \#0.wiz&\_utils
+  * \#0.building\_utils
+  * \#0.byte\_quota\_utils
+  * \#0.code\_utils
+  * \#0.command\_utils
+  * \#0.convert\_utils
+  * \#0.gender\_utils
+  * \#0.generic\_utils
+  * \#0.list\_utils
+  * \#0.lock\_utils
+  * \#0.match\_utils
+  * \#0.math\_utils
+  * \#0.matrix\_utils
+  * \#0.object\_quota\_utils
+  * \#0.object\_utils
+  * \#0.perm\_utils
+  * \#0.quota\_utils
+  * \#0.seq\_utils
+  * \#0.set\_utils
+  * \#0.string\_utils
+  * \#0.time\_utils
+  * \#0.trig\_utils
+  * \#0.wiz\_utils
 
 There are also several verbs defined directly on \#0, but most of them
 are system related and are not particularly relevant to your average
@@ -420,7 +420,7 @@ Once you execute this command, you'll be able to use the eval
 shortcuts "me" for your player object, and "here" for your player
 object's current location. This turns out to be incredibly handy.
 
-There's also a nifty little property, player.eval&\_ticks. See the
+There's also a nifty little property, player.eval\_ticks. See the
 section below "Threads, Ticks and Tasks" for more on that.
 
 I never really got in the habit of using multi-statement
@@ -921,7 +921,7 @@ ticks.
 
 Ticks get renewed over time, so verbs that have to do a whole lot of
 stuff will use suspend() to pause for some period of time and let
-their ticks recharge. $command&\_utils:suspend&\_if&\_needed(10) 
+their ticks recharge. $command\_utils:suspend\_if\_needed(10) 
 is often used for this, to only suspend() if the verb is in danger of
 running out of ticks. Of course, suspend\_if\_needed() burns up ticks
 in itself, so it's wise to always give it an argument of at least 5,
