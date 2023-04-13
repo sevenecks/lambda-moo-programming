@@ -58,9 +58,10 @@ but just to be clear:
 ### The Server and the Db
 
 You have the server and the database (colloquially "the db"). The server
-is the foundation; it loads and runs the database, which defines the
-objects and their properties and verbs. Much of the code that makes
-the up the basic moo-ishness of things is implemented in the db, in
+is the foundation, it is written in C and compiled.  The compiled binary 
+server code loads and runs the database, which is written in moocode and
+defines the objects and their properties and verbs. Much of the code that 
+makes the up the basic moo-ishness of things is implemented in the db, in
 moocode.
 
 **Note:**_Most people tend to associate the term "database" with a
@@ -71,6 +72,22 @@ LambdaMOO's database is not relational, it is an object database, and
 it is kept entirely in-memory. The only reason I'm pointing this out
 is to head off any chance of you confusing the moo database for a
 relational database._
+
+#### Core Db, MinimalCore and LambdaCore
+
+The "core db" is the moocode infrastructure that most moos start from, 
+the initial set of objects, verbs and properties that provide handy
+utilities and predefined types of objects. These are all that exists
+when a new MOO is first started up, until the users start adding custom
+objects and moocode. For example, player objects, room objects, exit 
+objects and thing objects are all part of the moo core db.
+
+There are, generally speaking, two different versions of the core db
+in use. The minimal db and the lambdacore. The minimaldb is just
+about exactly what the name suggests, just the bare bones minimum of
+objects to get your MOO up and running. The lambdacore has a whole
+bunch of additional objects and features that the lambdamoo wizards
+found useful.
 
 #### Objects, Verbs and Properties
 
@@ -123,22 +140,6 @@ subroutines (typically they're called methods, or in MOOcode, verbs),
 but they also have the concept of organizing groups of subroutines
 (methods, verbs) as well as data (instance variables, or properties).
 This conceptual grouping is what we call an "object".
-
-#### Core Db, MinimalCore and LambdaCore
-
-The "core db" is the infrastructure that most moos start from, the
-initial set of objects, verbs and properties that provide handy
-utilities and predefined types of objects. These are all that exists
-when the MOO is first started up, until the users start adding custom
-code. For example, player objects, room objects, exit objects and
-thing objects are all part of the moo core db.
-
-There are, generally speaking, two different versions of the core db
-in use. The minimal db and the lambdacore. The minimaldb is just
-about exactly what the name suggests, just the bare bones minimum of
-objects to get your MOO up and running. The lambdacore has a whole
-bunch of additional objects and features that the lambdamoo wizards
-found useful.
 
 #### Built-in Functions, Utils and the System Object
 
