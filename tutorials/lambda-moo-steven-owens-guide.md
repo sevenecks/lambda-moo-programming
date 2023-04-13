@@ -171,11 +171,11 @@ code by simply using $propertyname.
 
 Anytime you see $ in a moo verb, mentally translate it to "\#0.", i.e.:
 
-    $string\_utils:english\_ordinal
+    $string_utils:english_ordinal
 
 is really
 
-    #0.string\_utils:english\_ordinal
+    #0.string_utils:english_ordinal
 
 There are a great many such useful properties on \#0 besides the utils,
 but here are the utils defined on LambdaMOO's \#0 as of this writing:
