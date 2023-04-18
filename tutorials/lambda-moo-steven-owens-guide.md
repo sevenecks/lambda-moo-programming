@@ -15,6 +15,12 @@ Also there are a variety of tutorials. I'm not trying to duplicate or replace th
 ### Outline of Current Draft
 
 *   Basic Terminology
+*   The Server and the Db
+*   Objects, Verbs and Properties
+*   Object Oriented
+*   Core Db, MinimalCore, LambdaCore
+*   Built-in Functions, Utils and the System Object
+*   The Root Class, Nothing and $nothing
 *   Verb Invocation and Property Access
 *   Data Types
 *   Lists
@@ -64,6 +70,10 @@ MOO stands for "Mud, Object-Oriented". If you don't understand what "object orie
 MOO's object-oriented approach is slightly different from many object-oriented programming langauges. In most object-oriented languages, you have a division between object definition (its blueprint, so to speak) and instances of the object in the system. The object definitions (called classes) exist off in some abstract place, but your code in the system never deals with them directly. Instead you create "instances" of a given class and use the instance.
 
 In the MOO world, the object is defined by example. You create an object instance in the system and then dynamically (aka "on the fly") add verbs and properties to make your prototype. Then you can create a new object that is "descended" from the first object. The new object in turn can be dynamically modified with more verbs and properties, and then you can create more objects that descend from the second object.
+
+Another way that MOO is fairly unusual is that every object in the Db has a number associated with it, often abbreviated "objnum" in moocode.  For example, #1449 is the object number of my player object at LambdaMOO.  There's more on object numbers below, I'm mainly bringing them up here for two reasons.  First, because if you already know some other programming language, object numbers may strike you as a bit weird.  Second, because if you don't already know how to program, there's a strong temptation to put the actual object number value in your code.  
+
+In the general programming world this is often called "hardcoding" the value, and a hardcoded number is sometimes called a "magic number".  Generally speaking, it's considered bad style.  In moocode specifically, it's recommended that you put the necessary object number value in an object property and reference that property.
 
 If object-oriented programming is new to you, here's a brief explanation:
 
