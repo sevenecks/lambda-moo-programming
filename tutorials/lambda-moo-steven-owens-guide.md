@@ -37,12 +37,6 @@ I'm going to assume you have a basic familiarity with programming concepts, but 
 
 I'm going to assume you have a basic familiarity with moo concepts, but just to be clear:
 
-### The Server and the Db
-
-You have the server and the database (colloquially "the db"). The server is the foundation; it loads and runs the database, which defines the objects and their properties and verbs. Much of the code that makes the up the basic moo-ishness of things is implemented in the db, in moocode.
-
-**Note:** _Most people tend to associate the term "database" with a "relational database", and most relational database programs tend to keep most of their data in disk storage. The purely technical meaning of "database" is "an organized collection of information." LambdaMOO's database is not relational, it is an object database, and it is kept entirely in-memory. The only reason I'm pointing this out is to head off any chance of you confusing the moo database for a relational database._
-
 #### Objects, Verbs and Properties
 
 MOO consists of objects.
@@ -57,19 +51,27 @@ Verbs are code stored on the object and invoked in code via the ":" syntax, for 
 
 ```somevariable = object:verbname() ;```
 
+Note that for the most part, properties and verbs are defined in moocode, but there are some that are 
+
 #### Object Oriented
 
-MOO stands for "Mud, Object-Oriented". If you don't understand what "object oriented" means, it's an approach for organizing the code and data in a system.
+MOO stands for "Mud, Object-Oriented". If you don't understand what "object oriented" means, it's an approach for organizing the code and data in a syste I've added a brief description below.
 
-MOO's object-oriented approach is slightly different from many object-oriented programming langauges. In most object-oriented languages, you have a division between object definition (its blueprint, so to speak) and instances of the object in the system. The object definitions (called classes) exist off in some abstract place, but your code in the system never deals with them directly. Instead you create "instances" of a given class and use the instance.
+MOO's object-oriented approach is slightly different from many object-oriented programming langauges. In most object-oriented languages, you have a division between the definition of an object (its blueprint, so to speak) and instances of the object in the system. The object definitions (called classes) exist off in some abstract place that the rest of the code generally can't get at, your code in the system never deals with them directly. Instead your code creates "instances" of a given class and use the instance.
 
-In the MOO world, the object is defined by example. You create an object instance in the system and then dynamically (aka "on the fly") add verbs and properties to make your prototype. Then you can create a new object that is "descended" from the first object. The new object in turn can be dynamically modified with more verbs and properties, and then you can create more objects that descend from the second object.
+In the MOO world, unlike in those other languages, the object is defined by example. You create an object instance in the system and then dynamically (aka "on the fly") add verbs and properties to your object instance to make your prototype. Then you can create a new object that is "descended" from the first object. The new object in turn can be dynamically modified with more verbs and properties, and then you can create more objects that descend from the second object.
 
 If object-oriented programming is new to you, here's a brief explanation:
 
 The simplest approach is procedural - a sequential series of instructions. Procedural languages have concepts for organizing the code, like subroutines (also called functions or methods, depending on what programming language you're talking about).
 
-Object-oriented languages usually have their own version of subroutines (typically they're called methods, or in MOOcode, verbs), but they also have the concept of organizing groups of subroutines (methods, verbs) as well as data (instance variables, or properties). This conceptual grouping is what we call an "object".
+Object-oriented languages usually have their own version of subroutines (typically they're called methods, or in MOOcode, verbs), but they also have the concept of organizing a set of subroutines (methods, verbs) and data (instance variables, or properties) into a single group. This conceptual grouping is what we call an "object".
+
+### The Server and the Db
+
+You have the server and the database (colloquially "the db"). The server is the foundation; it loads and runs the database, which defines the objects and their properties and verbs. Much of the code that makes the up the basic moo-ishness of things is implemented in the db, in moocode.
+
+**Note:** _Most people tend to associate the term "database" with a "relational database", and most relational database programs tend to keep most of their data in disk storage. The purely technical meaning of "database" is "an organized collection of information." LambdaMOO's database is not relational, it is an object database, and it is kept entirely in-memory. The only reason I'm pointing this out is to head off any chance of you confusing the moo database for a relational database._
 
 #### Core Db, MinimalCore and LambdaCore
 
