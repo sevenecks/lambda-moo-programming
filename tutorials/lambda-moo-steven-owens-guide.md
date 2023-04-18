@@ -15,6 +15,12 @@ Also there are a variety of tutorials. I'm not trying to duplicate or replace th
 ### Outline of Current Draft
 
 *   Basic Terminology
+*   The Server and the Db
+*   Objects, Verbs and Properties
+*   Object Oriented
+*   Core Db, MinimalCore, LambdaCore
+*   Built-in Functions, Utils and the System Object
+*   The Root Class, Nothing and $nothing
 *   Verb Invocation and Property Access
 *   Data Types
 *   Lists
@@ -61,6 +67,10 @@ MOO's object-oriented approach is slightly different from many object-oriented p
 
 In the MOO world, unlike in those other languages, the object is defined by example. You create an object instance in the system and then dynamically (aka "on the fly") add verbs and properties to your object instance to make your prototype. Then you can create a new object that is "descended" from the first object. The new object in turn can be dynamically modified with more verbs and properties, and then you can create more objects that descend from the second object.
 
+Another way that MOO is fairly unusual is that every object in the Db has a number associated with it, often abbreviated "objnum" in moocode.  For example, #1449 is the object number of my player object at LambdaMOO.  There's more on object numbers below, I'm mainly bringing them up here for two reasons.  First, because if you already know some other programming language, object numbers may strike you as a bit weird.  Second, because if you don't already know how to program, there's a strong temptation to put the actual object number value in your code.  
+
+In the general programming world this is often called "hardcoding" the value, and a hardcoded number is sometimes called a "magic number".  Generally speaking, it's considered bad style.  In moocode specifically, it's recommended that you put the necessary object number value in an object property and reference that property.
+
 If object-oriented programming is new to you, here's a brief explanation:
 
 The simplest approach is procedural - a sequential series of instructions. Procedural languages have concepts for organizing the code, like subroutines (also called functions or methods, depending on what programming language you're talking about).
@@ -73,56 +83,60 @@ You have the server and the database (colloquially "the db"). The server is the 
 
 **Note:** _Most people tend to associate the term "database" with a "relational database", and most relational database programs tend to keep most of their data in disk storage. The purely technical meaning of "database" is "an organized collection of information." LambdaMOO's database is not relational, it is an object database, and it is kept entirely in-memory. The only reason I'm pointing this out is to head off any chance of you confusing the moo database for a relational database._
 
-#### Core Db, MinimalCore and LambdaCore
-
-The "core db" is the infrastructure that most moos start from, the initial set of objects, verbs and properties that provide handy utilities and predefined types of objects. These are all that exists when the MOO is first started up, until the users start adding custom code. For example, player objects, room objects, exit objects and thing objects are all part of the moo core db.
-
-There are, generally speaking, two different versions of the core db in use. The minimal db and the lambdacore. The minimaldb is just about exactly what the name suggests, just the bare bones minimum of objects to get your MOO up and running. The lambdacore has a whole bunch of additional objects and features that the lambdamoo wizards found useful.
-
 #### Built-in Functions, Utils and the System Object
 
 The moo language has a number of predefined functions, which are generally referred to as functions or sometimes as "built-in functions" or "built-ins" for short.
 
 Most built-ins are documented in MOO's online help Sometimes there's more than one help entry that matches a built-in function name, so as a rule of thumb append an empty parentheses to the functionname() when you use the help command. For example "help tonum()" will get you help on the built-in function named tonum (see "Data Types", below).
 
-In addition to the built-ins, there are a large number of handy little utility verbs. Since verbs have to be defined on objects, these utility verbs are organized on several objects, one object per category of verbs. They are generally referred to as "the utils" or sometimes "the $utils", because the individual grouping objects tend to be kept track of in properties on the #0 object, and you can refer to these properties by using $propertyname, like $string_utils, or $list_utils.
+In addition to the built-ins, there are a large number of handy little
+utility verbs. Since verbs have to be defined on objects, these
+utility verbs are organized on several objects, one object per
+category of verbs. They are generally referred to as "the utils" or
+sometimes "the $utils", because the individual grouping objects tend
+to be kept track of in properties on the \#0 object, and you can refer
+to these properties by using $propertyname, like $string\_utils, or
+$list\_utils.
+
 
 Speaking of object #0, object #0 is The System Object. This is used as a central place to stick values that the wizards want to keep track of on a moo wide basis, in properties on #0\. You can reference these properties with #0.propertyname, but there's a shortcut, as I used above, the dollar sign, $, so you can reference the properties in your code by simply using $propertyname.
 
 Anytime you see $ in a moo verb, mentally translate it to "#0.", i.e.:
 
-```$string_utils:english_ordinal```
+    $string_utils:english_ordinal
 
 is really
 
-```#0.string_utils:english_ordinal```
+    #0.string_utils:english_ordinal
 
-There are a great many such useful properties on #0 besides the utils, but here are the utils defined on LambdaMOO's #0 as of this writing:
+There are a great many such useful properties on \#0 besides the utils,
+but here are the utils defined on LambdaMOO's \#0 as of this writing:
+  * \#0.building\_utils
+  * \#0.byte\_quota\_utils
+  * \#0.code\_utils
+  * \#0.command\_utils
+  * \#0.convert\_utils
+  * \#0.gender\_utils
+  * \#0.generic\_utils
+  * \#0.list\_utils
+  * \#0.lock\_utils
+  * \#0.match\_utils
+  * \#0.math\_utils
+  * \#0.matrix\_utils
+  * \#0.object\_quota\_utils
+  * \#0.object\_utils
+  * \#0.perm\_utils
+  * \#0.quota\_utils
+  * \#0.seq\_utils
+  * \#0.set\_utils
+  * \#0.string\_utils
+  * \#0.time\_utils
+  * \#0.trig\_utils
+  * \#0.wiz\_utils
 
-* #0.building_utils
-* #0.byte_quota_utils
-* #0.code_utils
-* #0.command_utils
-* #0.convert_utils
-* #0.gender_utils
-* #0.generic_utils
-* #0.list_utils
-* #0.lock_utils
-* #0.match_utils
-* #0.math_utils
-* #0.matrix_utils
-* #0.object_quota_utils
-* #0.object_utils
-* #0.perm_utils
-* #0.quota_utils
-* #0.seq_utils
-* #0.set_utils
-* #0.string_utils
-* #0.time_utils
-* #0.trig_utils
-* #0.wiz_utils
-
-There are also several verbs defined directly on #0, but most of them are system related and are not particularly relevant to your average moo coder.
+There are also several verbs defined directly on \#0, but most of them
+are system related and are not particularly relevant to your average
+moo coder.
 
 #### The Root Class, Nothing and $nothing
 
@@ -361,7 +375,8 @@ If it's not set, type the following:
 
 Once you execute this command, you'll be able to use the eval shortcuts "me" for your player object, and "here" for your player object's current location. This turns out to be incredibly handy.
 
-There's also a nifty little property, player.eval_ticks. See the section below "Threads, Ticks and Tasks" for more on that.
+There's also a nifty little property, player.eval\_ticks. See the
+section below "Threads, Ticks and Tasks" for more on that.
 
 I never really got in the habit of using multi-statement evals. Generally I find when I hit that point that it's simpler/easier to just create a real verb to mess with. "Help eval" will explain how it works, but here's the basics:
 
@@ -528,61 +543,52 @@ The built-in functions suspend() and fork() aren't really technically flow contr
 
 Some general rules of thumb:
 
-*   Every flow control structure starts with a keyword (if, for, while).
-*   Every flow control structure ends with a matching keyword that starts with "end" (endif, endfor, endwhile).
-*   The lines between the start and end are called a "block" of code.
-*   The block is customarily indented 4 characters. That's only for readability purposes, but the moo compiler/decompiler automatically does it that way.
-*   The line that starts the flow control structure usually contains an expression.
+  * Every flow control structure starts with a keyword (if, for, while).
+  * Every flow control structure ends with a matching keyword that starts with "end" (endif, endfor, endwhile).
+  * The lines between the start and end are called a "block" of code.
+  * The line that starts the flow control structure usually contains an expression. 
 
-Let's jump right in and show some examples of if, while, for, suspend and fork. I'll get into them in more detail after.
+Let's jump right in and show some examples of if, while, for, suspend
+and fork. I'll get into them in more detail after.
 
-Use "if" for conditionals - test some condition, and either carry out the set of commands in the block or not.
+Use "if" for conditionals - test some condition, and either carry out
+the set of commands in the block or not. 
 
-```
-if (some expression that evaluates to 0 for false or not-0 for true)
-  "do something" ;
-endif
-```
+    if (some expression that evaluates to 0 or not-0)
+      "do something" ;
+    endif
 
-You can also use if/else for when you want have a set of instructions for when the if test results in not-true.
+You can also use if/else for when you want have a set of instructions
+for when the if test results in not-true.
 
-```
-if (some expression that evaluates to 0 or not-0)
-  "it was not-zero, do something" ;
-else
-  "it was zero, do something else" ;
-endif
-```
+    if (some expression that evaluates to 0 or not-0)
+      "do something" ;
+    else
+      "do something else" ;
+    endif
 
 The while and for flow controls are for looping, i.e. doing something one or more times:
 
-```
-while (some expression that evaluates to 0 or not-0)
-  "do something repetitive";
-endwhile
-```
+    while (some expression that evaluates to 0 or not-0)
+      "do something repetitive";
+    endwhile
 
-```
-for foo in (some expression that produces a list)
-  "do something with foo" ;
-endfor
-```
+    for foo in (some expression that produces a list)
+      "do something with foo" ;
+    endfor
 
 The built-in function suspend() is for pausing.
 
-```
-suspend(some number of seconds you want the task to pause) ;
-```
+    suspend(some number of seconds you want the task to pause) ;
 
 The built-in function fork() is for starting a new, separate task that continues on and does its own thing.
 
-```
-fork (somenumber of seconds) 
-  "do something somenumber of seconds later, in a separate task" ;
-endfork
-"immediately after scheduling the fork, continue on with the rest of the program" ;
-```
 
+    fork (somenumber of seconds) 
+      "do something somenumber of seconds later, in a separate task" ;
+    endfork
+    "immediately after scheduling the fork, continue on with the rest of the program" ;
+    
 Sometimes that separate task can run for a long, long time, in which case it might be handy to have the taskid:
 
 ```
@@ -743,38 +749,63 @@ Note that typeof returns an int value, but there are several standard values tha
 
 ### Threading, Ticks and Tasks
 
-Like just about all computers, MOO doesn't really do many things at once, it just fakes it. Unlike other systems, MOO uses a rather distinctive approach to faking it. It's not _really_ multitasking, but it fakes it rather well, especially for a multi-user, multi-coder system.
+Like just about all computers, MOO doesn't really do many things at
+once, it just fakes it. Unlike other systems, MOO uses a rather
+distinctive approach to faking it. It's not _really_ multitasking,
+but it fakes it rather well, especially for a multi-user, multi-coder
+system.
 
-At any given point in time, the MOO server is running only one verb invocation. This is called a task. What happens if that task gets out of hand? What if some idiot codes a verb to calculate pi to the final decimal place?
+At any given point in time, the MOO server is running only one verb
+invocation. This is called a task. What happens if that task gets
+out of hand? What if some idiot codes a verb to calculate pi to the
+final decimal place?
 
-To keep this from causing problems, MOOcode has some internal cost-accounting. Each task is given a certain number of "clock ticks" at the start; last I looked I think it was 40,000 ticks. Each operation inside the task costs some number of ticks, arbitrarily decided by the original developers of MOO, based on how expensive they thought that operation would be. If the task uses up all of the ticks, the verb invocation dies with an error about being out of ticks.
+To keep this from causing problems, MOOcode has some internal
+cost-accounting. Each task is given a certain number of "clock ticks"
+at the start; last I looked I think it was 40,000 ticks. Each
+operation inside the task costs some number of ticks, arbitrarily
+decided by the original developers of MOO, based on how expensive they
+thought that operation would be. If the task uses up all of the
+ticks, the verb invocation dies with an error about being out of
+ticks.
 
-Ticks get renewed over time, so verbs that have to do a whole lot of stuff will periodically use suspend() to pause for some period of time and let their ticks recharge. $command_utils:suspend_if_needed(10) is often used for this, to only suspend() if the verb is in danger of running out of ticks. Of course, suspend_if_needed() burns up ticks in itself, so it's wise to always give it an argument of at least 5, more like 10 seconds for the pause.
+Ticks get renewed over time, so verbs that have to do a whole lot of
+stuff will use suspend() to pause for some period of time and let
+their ticks recharge. $command\_utils:suspend\_if\_needed(10) 
+is often used for this, to only suspend() if the verb is in danger of
+running out of ticks. Of course, suspend\_if\_needed() burns up ticks
+in itself, so it's wise to always give it an argument of at least 5,
+more like 10 seconds for the pause.
 
-There's also a player-wide tick allocation, so if a particular player has lots of verbs that have heavy tick usage, the performance impact will fall more on that player, and less on the rest of the MOO. (Hands up if you wrote ridiculously expensive 3D line of sight elimination code that caused the wizards to priotirize completing player-wide tick allocations in the moo server... anyone? Buehler?).
+There's also a player-wide tick allocation, so if a particular player
+has lots of verbs that have heavy tick usage, the performance impact
+will fall more on that player, and less on the rest of the MOO.
 
 If you want to learn more about just what costs how many ticks, do:
 
-```;me.eval_env=1```
+    ;me.eval_env=1
 
-And now the examples I gave you in the Flow Control section will produce output like:
+And now the examples I gave you in the Flow Control section will
+produce output like:
 
-```
->;if(1) player:tell("foo") ; else player:tell("bar") ; endif
-foo
-=> 0
-[used 377 ticks, 0 seconds.]
->;if(0) player:tell("foo") ; else player:tell("bar") ; endif
-bar
-=> 0
-[used 382 ticks, 0 seconds.]
->;if(-1) player:tell("foo") ; else player:tell("bar") ; endif
-foo
-=> 0
-[used 377 ticks, 0 seconds.]
-```
+    
+    >;if(1) player:tell("foo") ; else player:tell("bar") ; endif
+    foo
+    => 0
+    [used 377 ticks, 0 seconds.]
+    >;if(0) player:tell("foo") ; else player:tell("bar") ; endif
+    bar
+    => 0
+    [used 382 ticks, 0 seconds.]
+    >;if(-1) player:tell("foo") ; else player:tell("bar") ; endif
+    foo
+    => 0
+    [used 377 ticks, 0 seconds.]
+    
 
-Note that there are a lot of odd variables that go into actual tick costs, so they will tend to vary a little from invocation to invocation. Don't get hung up on that facet.
+Note that there are a lot of odd variables that go into actual tick
+costs, so they will tend to vary a little from invocation to
+invocation. Don't get hung up on that facet.
 
 ## Core Classes
 
