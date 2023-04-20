@@ -99,6 +99,7 @@ to these properties by using $propertyname, like $string\_utils, or
 $list\_utils.
 
 
+
 Speaking of object #0, object #0 is The System Object. This is used as a central place to stick values that the wizards want to keep track of on a moo wide basis, in properties on #0\. You can reference these properties with #0.propertyname, but there's a shortcut, as I used above, the dollar sign, $, so you can reference the properties in your code by simply using $propertyname.
 
 Anytime you see $ in a moo verb, mentally translate it to "#0.", i.e.:
@@ -145,6 +146,9 @@ Object #1 is The Root Class. All objects are descended from Object #1.
 Object #-1 is "nothing" , the null object, the object that does not exist. Things that are not located anywhere in particular have their location property set to #-1\. Verbs or functions that do not come up with a valid result typically return the value #-1.
 
 There's actually a root property, $nothing, that contains the value #-1, but I'm pretty sure that $nothing does not define #-1, it merely points to it and gives you a more expressive way to use the value #-1. I.e. instead of putting the characters #-1 in your code, you put $nothing and anyone reading the code (including you, a few months or years later!) finds it easier to understand what your intent was.
+
+While we're on the topic, besides $nothing there's also $ambiguous_match which equals #-2 and $failed_match which equals #-3.  These are 
+For more information, see the LambdaMOO Programmer's manual section "MOO Value Types".
 
 ### Verb Invocation and Property Access
 
