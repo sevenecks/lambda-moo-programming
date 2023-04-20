@@ -57,7 +57,16 @@ Verbs are code stored on the object and invoked in code via the ":" syntax, for 
 
 ```somevariable = object:verbname() ;```
 
-Note that for the most part, properties and verbs are defined in moocode, but there are some that are 
+Note that for the most part, properties and verbs are defined in moocode, but there are 8 built-in properties, i.e. properties that ALL objects have, inherently, without having been added via moocode programming commands:
+
+```
+;$code_utils.builtin_props
+=> {"name", "r", "w", "f", "programmer", "wizard", "owner", "location", "contents"}
+```
+
+For more info on the built-in properties see the LambdaMOO Programmers Manual, "Properties On Objects":
+
+https://www.hayseed.net/MOO/manuals/ProgrammersManual.html#SEC6
 
 #### Object Oriented
 
