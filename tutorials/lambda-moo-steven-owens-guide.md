@@ -66,13 +66,13 @@ Note that for the most part, properties and verbs are defined in moocode, but th
 
 For more info on the built-in properties see the LambdaMOO Programmers Manual, "Properties On Objects":
 
-https://www.hayseed.net/MOO/manuals/ProgrammersManual.html#SEC6
+[https://www.hayseed.net/MOO/manuals/ProgrammersManual.html#SEC6](https://www.hayseed.net/MOO/manuals/ProgrammersManual.html#SEC6)
 
 #### Object Oriented
 
 MOO stands for "Mud, Object-Oriented". If you don't understand what "object oriented" means, it's an approach for organizing the code and data in a syste I've added a brief description below.
 
-MOO's object-oriented approach is slightly different from many object-oriented programming langauges. In most object-oriented languages, you have a division between the definition of an object (its blueprint, so to speak) and instances of the object in the system. The object definitions (called classes) exist off in some abstract place that the rest of the code generally can't get at, your code in the system never deals with them directly. Instead your code creates "instances" of a given class and use the instance.
+MOO's object-oriented approach is slightly different from many object-oriented programming languages. In most object-oriented languages, you have a division between the definition of an object (its blueprint, so to speak) and instances of the object in the system. The object definitions (called classes) exist off in some abstract place that the rest of the code generally can't get at, your code in the system never deals with them directly. Instead your code creates "instances" of a given class and use the instance.
 
 In the MOO world, unlike in those other languages, the object is defined by example. You create an object instance in the system and then dynamically (aka "on the fly") add verbs and properties to your object instance to make your prototype. Then you can create a new object that is "descended" from the first object. The new object in turn can be dynamically modified with more verbs and properties, and then you can create more objects that descend from the second object.
 
@@ -758,6 +758,75 @@ Use the various tofoo() functions to convert back and forth:
 
 Note that typeof returns an int value, but there are several standard values that are defined in moocode. INT is 0, OBJ is 1, STR is 2, ERR is 3, etc. See "help typeof" for more info. You could just check to see if the return value is 0 or 1, etc, but it's a lot smarter to use those predefined variables. That way, when you look at a bunch of code you wrote in a drunken binge, you'll have some vague idea wtf you were intending to do.
 
+### Tasks
+
+I just noticed that the official moo help docs don't have anything
+comprehensive about task-related built-ins.  The following should be
+integrated more cleanly into the rest of this tutorial, but in the
+meantime, here's a start.
+
+Here are the non-built-in help entries about tasks that I'm aware of:
+
+*   help tasks
+*   help forked-tasks
+*   help @forked
+*   help @kill
+
+Also see the help entries for the following built-in functions:
+
+*   task_id()   => INT
+*   task_stack(INT task-id [, include-line-numbers])  => LIST
+*   kill_task(INT <task-id>)   => none
+*   suspend([INT <seconds>])   => value
+*   queued_tasks()   => LIST
+*   resume(INT task-id [, value])   => none
+
+Messing with set_task_perms can be dangerous if you don't know
+what you're doing, but if you do, here are the built-ins you want
+to know about:
+
+*   set_task_perms (OBJ <player>)   => none
+*   caller_perms ()   => obj
+
+Also also, the read() function suspends the current task, this gets a
+bit complicated, you can't call read() if you've already called
+suspend(), etc. See the help entries for those built-ins.
+
+Also relevant, the fork() built-in (which doesn't seem to have a help
+entry) can take an optional argument to give you the task_id of the
+forked task:
+
+```
+fork task_id_variable (1)
+  player:tell("The task ID is ", taskidariable);
+endfor
+```
+
+Finally, see the original LambdaMOO programmer's manual:
+
+[MOO-Code Evaluation and Task Manipulation](https://tecfa.unige.ch/guides/MOO/ProgMan/ProgrammersManual_54.html)
+
+Which lists:
+
+*   raise()
+*   call_function()
+*   function_info()
+*   eval()
+*   set_task_perms()
+*   caller_perms()
+*   ticks_left()
+*   seconds_left()
+*   task_id()
+*   suspend()
+*   resume()
+*   queue_info()
+*   queued_tasks()
+*   kill_task()
+*   callers()
+*   task_stack()
+
+
+
 ## MOOCode In The Large
 
 ### Threading, Ticks and Tasks
@@ -834,6 +903,8 @@ The @classes command displays a list of the "important" classes for one of about
 You should probably also study up on object #1, The Root Class, to see what verbs you can expect to see on all objects, since The Root Class is the grandaddy object from whom all objects are descended.
 
 While these classes aren't the only important classes, they account for the fundamental MOO experience. The vast majority of player-created objects in the MOO database are descendants of $player, $room, $exit or $thing.
+
+
 
 ### Overview
 
@@ -1006,11 +1077,15 @@ Most of the usual math symbols do what you'd expect them to, except for the equa
 
 Another exception is that the plus sign "+" can be used to add two strings of characters together, so `"foo" + "bar"` works out to have the same value as `"foobar"`. There's not much use for `"foo" + "bar"` in programming, but there's a lot of use for gluing together strings.
 
-Note that in moocode you can only add strings to strings and numbers to numbers. If you want to concatenate a string to a number, you have to use the built-in tostr() function, like this:
+Note that in moocode you can only add strings to strings and numbers to numbers. If you want to concatenate a string to a number, you have to use the built-in tostr() function to convert somenumber into a string, like this:
 
 ```message = "The number is:  " + tostr(somenumber) ;```
 
-Many programming languages have increment "++" and decrement "--", but moocode does not. foo++ adds 1 to foo, foo-- subtracts one from foo. A lot of languages use this to make it more succinct to loop through a list, adding one at a time, but moocode doesn't need it as much because it has "for x in y".
+See the section "Type Conversion" for more about tostr() and similar built-in functions.
+
+Many programming languages have increment "++" and decrement "--", but moocode does not. 
+
+In other programming languages, foo++ adds 1 to foo, foo-- subtracts one from foo. A lot of languages use this to make it more succinct to loop through a list, adding one at a time to the index (the number for which item of the list or array we want to use), but moocode doesn't need it as much because it has "for x in y".
 
 ##### The Equals Sign `=`, Assignment and Comparison
 
@@ -1068,7 +1143,7 @@ Another way to say that is, "anything that returns a value". "Returns a value" i
 
 If an expression is a term, a _statement_ is a phrase. Since it's a phrase, not a sentence, you don't put a period at the end of it, you put a semi-colon `;` at the end of it.
 
-For example: `int somenumber = 2 + 2 ;`
+For example: `somenumber = 2 + 2 ;`
 
 #### Source Code and Fun With Punctuation
 
@@ -1146,6 +1221,7 @@ That's the end of our little "the really real realest basics of programming" sec
 
 ### Outline of Planned Revision
 
+```
 *   Basic MOOCode Gotchas
 **   Comments  
 **   Variable Declaration and Scoping
@@ -1182,5 +1258,6 @@ That's the end of our little "the really real realest basics of programming" sec
 **   max_object()
 **   $playerdb
 **   player.owned_objects
+```
 
-The source code for this file was taken from http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial and converted to markdown and is stored in this repository for posterity. It is not HTML5.
+The source code for this file was taken from [Steve's website, darksleep.com/notablog/articles](http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial) and converted to markdown and is stored in this repository for posterity. It is not HTML5.
