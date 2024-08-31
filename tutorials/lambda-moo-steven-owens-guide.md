@@ -72,7 +72,7 @@ https://www.hayseed.net/MOO/manuals/ProgrammersManual.html#SEC6
 
 MOO stands for "Mud, Object-Oriented". If you don't understand what "object oriented" means, it's an approach for organizing the code and data in a syste I've added a brief description below.
 
-MOO's object-oriented approach is slightly different from many object-oriented programming langauges. In most object-oriented languages, you have a division between the definition of an object (its blueprint, so to speak) and instances of the object in the system. The object definitions (called classes) exist off in some abstract place that the rest of the code generally can't get at, your code in the system never deals with them directly. Instead your code creates "instances" of a given class and use the instance.
+MOO's object-oriented approach is slightly different from many object-oriented programming languages. In most object-oriented languages, you have a division between the definition of an object (its blueprint, so to speak) and instances of the object in the system. The object definitions (called classes) exist off in some abstract place that the rest of the code generally can't get at, your code in the system never deals with them directly. Instead your code creates "instances" of a given class and use the instance.
 
 In the MOO world, unlike in those other languages, the object is defined by example. You create an object instance in the system and then dynamically (aka "on the fly") add verbs and properties to your object instance to make your prototype. Then you can create a new object that is "descended" from the first object. The new object in turn can be dynamically modified with more verbs and properties, and then you can create more objects that descend from the second object.
 
@@ -1077,11 +1077,15 @@ Most of the usual math symbols do what you'd expect them to, except for the equa
 
 Another exception is that the plus sign "+" can be used to add two strings of characters together, so `"foo" + "bar"` works out to have the same value as `"foobar"`. There's not much use for `"foo" + "bar"` in programming, but there's a lot of use for gluing together strings.
 
-Note that in moocode you can only add strings to strings and numbers to numbers. If you want to concatenate a string to a number, you have to use the built-in tostr() function, like this:
+Note that in moocode you can only add strings to strings and numbers to numbers. If you want to concatenate a string to a number, you have to use the built-in tostr() function to convert somenumber into a string, like this:
 
 ```message = "The number is:  " + tostr(somenumber) ;```
 
-Many programming languages have increment "++" and decrement "--", but moocode does not. foo++ adds 1 to foo, foo-- subtracts one from foo. A lot of languages use this to make it more succinct to loop through a list, adding one at a time, but moocode doesn't need it as much because it has "for x in y".
+See the section "Type Conversion" for more about tostr() and similar built-in functions.
+
+Many programming languages have increment "++" and decrement "--", but moocode does not. 
+
+In other programming languages, foo++ adds 1 to foo, foo-- subtracts one from foo. A lot of languages use this to make it more succinct to loop through a list, adding one at a time to the index (the number for which item of the list or array we want to use), but moocode doesn't need it as much because it has "for x in y".
 
 ##### The Equals Sign `=`, Assignment and Comparison
 
@@ -1139,7 +1143,7 @@ Another way to say that is, "anything that returns a value". "Returns a value" i
 
 If an expression is a term, a _statement_ is a phrase. Since it's a phrase, not a sentence, you don't put a period at the end of it, you put a semi-colon `;` at the end of it.
 
-For example: `int somenumber = 2 + 2 ;`
+For example: `somenumber = 2 + 2 ;`
 
 #### Source Code and Fun With Punctuation
 
@@ -1217,6 +1221,7 @@ That's the end of our little "the really real realest basics of programming" sec
 
 ### Outline of Planned Revision
 
+```
 *   Basic MOOCode Gotchas
 **   Comments  
 **   Variable Declaration and Scoping
@@ -1240,8 +1245,6 @@ That's the end of our little "the really real realest basics of programming" sec
 **   Parsing
 **   Matching
 **   Feature Objects
-
-I see, so you would say that by definition, tailscale is a VPN. And hiding th
 **   Core Classes
 **   $room
 **   $player
@@ -1255,5 +1258,6 @@ I see, so you would say that by definition, tailscale is a VPN. And hiding th
 **   max_object()
 **   $playerdb
 **   player.owned_objects
+```
 
 The source code for this file was taken from http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial and converted to markdown and is stored in this repository for posterity. It is not HTML5.
