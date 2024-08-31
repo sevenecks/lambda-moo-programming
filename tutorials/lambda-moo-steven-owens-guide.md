@@ -66,7 +66,7 @@ Note that for the most part, properties and verbs are defined in moocode, but th
 
 For more info on the built-in properties see the LambdaMOO Programmers Manual, "Properties On Objects":
 
-https://www.hayseed.net/MOO/manuals/ProgrammersManual.html#SEC6
+[https://www.hayseed.net/MOO/manuals/ProgrammersManual.html#SEC6](https://www.hayseed.net/MOO/manuals/ProgrammersManual.html#SEC6)
 
 #### Object Oriented
 
@@ -804,7 +804,7 @@ endfor
 
 Finally, see the original LambdaMOO programmer's manual:
 
-[https://tecfa.unige.ch/guides/MOO/ProgMan/ProgrammersManual_54.html](MOO-Code Evaluation and Task Manipulation)
+[MOO-Code Evaluation and Task Manipulation](https://tecfa.unige.ch/guides/MOO/ProgMan/ProgrammersManual_54.html)
 
 Which lists:
 
@@ -1260,4 +1260,4 @@ That's the end of our little "the really real realest basics of programming" sec
 **   player.owned_objects
 ```
 
-The source code for this file was taken from http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial and converted to markdown and is stored in this repository for posterity. It is not HTML5.
+The source code for this file was taken from [Steve's website, darksleep.com/notablog/articles](http://www.darksleep.com/notablog/articles/LambdaMOO_Programming_Tutorial) and converted to markdown and is stored in this repository for posterity. It is not HTML5.
