@@ -758,6 +758,75 @@ Use the various tofoo() functions to convert back and forth:
 
 Note that typeof returns an int value, but there are several standard values that are defined in moocode. INT is 0, OBJ is 1, STR is 2, ERR is 3, etc. See "help typeof" for more info. You could just check to see if the return value is 0 or 1, etc, but it's a lot smarter to use those predefined variables. That way, when you look at a bunch of code you wrote in a drunken binge, you'll have some vague idea wtf you were intending to do.
 
+### Tasks
+
+I just noticed that the official moo help docs don't have anything
+comprehensive about task-related built-ins.  The following should be
+integrated more cleanly into the rest of this tutorial, but in the
+meantime, here's a start.
+
+Here are the non-built-in help entries about tasks that I'm aware of:
+
+*   help tasks
+*   help forked-tasks
+*   help @forked
+*   help @kill
+
+Also see the help entries for the following built-in functions:
+
+*   task_id()   => INT
+*   task_stack(INT task-id [, include-line-numbers])  => LIST
+*   kill_task(INT <task-id>)   => none
+*   suspend([INT <seconds>])   => value
+*   queued_tasks()   => LIST
+*   resume(INT task-id [, value])   => none
+
+Messing with set_task_perms can be dangerous if you don't know
+what you're doing, but if you do, here are the built-ins you want
+to know about:
+
+*   set_task_perms (OBJ <player>)   => none
+*   caller_perms ()   => obj
+
+Also also, the read() function suspends the current task, this gets a
+bit complicated, you can't call read() if you've already called
+suspend(), etc. See the help entries for those built-ins.
+
+Also relevant, the fork() built-in (which doesn't seem to have a help
+entry) can take an optional argument to give you the task_id of the
+forked task:
+
+```
+fork task_id_variable (1)
+  player:tell("The task ID is ", taskidariable);
+endfor
+```
+
+Finally, see the original LambdaMOO programmer's manual:
+
+[https://tecfa.unige.ch/guides/MOO/ProgMan/ProgrammersManual_54.html](MOO-Code Evaluation and Task Manipulation)
+
+Which lists:
+
+*   raise()
+*   call_function()
+*   function_info()
+*   eval()
+*   set_task_perms()
+*   caller_perms()
+*   ticks_left()
+*   seconds_left()
+*   task_id()
+*   suspend()
+*   resume()
+*   queue_info()
+*   queued_tasks()
+*   kill_task()
+*   callers()
+*   task_stack()
+
+
+
 ## MOOCode In The Large
 
 ### Threading, Ticks and Tasks
@@ -834,6 +903,8 @@ The @classes command displays a list of the "important" classes for one of about
 You should probably also study up on object #1, The Root Class, to see what verbs you can expect to see on all objects, since The Root Class is the grandaddy object from whom all objects are descended.
 
 While these classes aren't the only important classes, they account for the fundamental MOO experience. The vast majority of player-created objects in the MOO database are descendants of $player, $room, $exit or $thing.
+
+
 
 ### Overview
 
@@ -1169,6 +1240,8 @@ That's the end of our little "the really real realest basics of programming" sec
 **   Parsing
 **   Matching
 **   Feature Objects
+
+I see, so you would say that by definition, tailscale is a VPN. And hiding th
 **   Core Classes
 **   $room
 **   $player
