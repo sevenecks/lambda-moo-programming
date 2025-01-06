@@ -14,6 +14,7 @@ Also there are a variety of tutorials. I'm not trying to duplicate or replace th
 
 ### Outline of Current Draft
 
+*   A Brief History of MUDs and MOOs
 *   Basic Terminology
 *   The Server and the Db
 *   Objects, Verbs and Properties
@@ -36,6 +37,174 @@ Also there are a variety of tutorials. I'm not trying to duplicate or replace th
 *   Location in MOOCode
 
 **Note:** _See end for draft outline of planned revision_
+
+## A Brief History of MUDs and MOOs
+
+The following is all off the top of my head and based on my
+recollections.  I don't care enough to try to google on stuff.
+
+### MUD and MUD2
+
+MUD and MUD2 were the granddaddies of it all, written by Richard
+Bartle and Roy Trubshaw, back in the UK in the late 70s/very early
+80s.
+
+MUD stood for "Multi User Dungeon" and it was a very hack & slash D&D
+sort of experience. Later, other people tried to make it sound more
+legitimate by redefining it as "Multi User DImension."
+
+### AberMUD
+
+A while after MUD2, Alan Cox (who later became a major Linux
+kernel dev) and friends at the university of Aberswythe tried to
+recreate MUD2, or at least a MUD2-like thing.
+
+### LPMud
+
+Written in the late 80s by Lars Pensjo (except I misspelled
+that because it's a Finnish name and there's an umlaut or something
+over the "o").  For some reason they downcased the "MUD" acronym.
+
+In general LPMuds had a very hack & slash D&D flavor/culture.  There
+was no player persistence on LPMuds; when you quit the game, your
+player character disappeared and their stuff was left on the ground.
+
+LPMud was programmable in a sense, though I never programmed in an LP.
+There was no provision for regular players to program/customize LPMud.
+
+I didn't spend much time on LPMuds.
+
+### DikuMUD
+
+Written in 1990 and first opened to the public in 1991, DikuMUD was,
+like LPMud, inspired by AberMUD, but was intended to be an alternative
+to LPMud.  I don't know much about it, I don't know that I ever logged
+into one, though it's quite possible.
+
+### TinyMUD
+
+Written in the late 80s by Jim Aspnes at Carnegie Mellon University,
+in Pittsburgh.  Eponymous with the TinyMUD that Aspnes ran at CMU for
+a few years, which was later, after it was no longer regularly
+running, renamed "TinyMUD Classic" to distinguish it from later
+TinyMUDs.
+
+TinyMUD was the first MUD I ever played.
+
+TinyMUD was specifically designed to be lightweight in terms of system
+resources, hence the "tiny".
+
+Player character objects were persistent in TinyMUD.
+
+TinyMUD was very much a "social" MUD, maybe a "role playing, not roll
+playing" MUD.  It had zero game/RPG support.
+
+TinyMUD was the first, or one of the first, MUDs to allow all players
+to build stuff and it supported complex boolean locks that could,
+combined with player-buildable rooms and exits, be used to construct
+interesting puzzles.
+
+TinyMUD was also, my friends recollect, the source of using the
+convention of prefixing server commands with the "@" character,
+i.e. "@commandname", as opposed to the commands used for regular
+interaction within the user-created world of the TinyMUD, which had no
+prefix.
+
+Around about then, there was an explosion of different MUD types.  My
+impression at the time was that a lot of them were TinyMUD
+derivatives, TinyMUSh and TinyMUCK being two of the more popular
+flavors that I can think of, offhand.  TinyMUSH had a macro system and
+TinyMUCK was programmable via a Forth-like language (which is a bit of
+a niche type of programmign language.  LPMud still existed, and there
+was
+
+### MOO
+
+Around 1990, a guy named Stephen White, aka Ghondarl or Ghond, created
+MOO, which stands for MUD, Object-Oriented.  "Object oriented" is term
+for a particular kind of programming language, I get a little bit into
+that further down.
+
+MOO had a limited programming language, perhaps more of a
+macro language.
+
+I was an acquaintance of Ghond's, I logged into his MOO (retroactively
+named "AlphaMOO" by the MOO community) for an hour or two, while he
+was working on it.
+
+### LambdaMOO
+
+Early 1991, Pavel Curtis opened LambdaMOO.
+
+For LambdaMOO Pavel developed the moo coding language (unnamed but
+referred to generally as "moo code") into a significantly more
+powerful and sophisticated programming language than MOO.  White has
+been quite clear that he credits Pavel with doing major work and
+considers LambdaMOO to be Pavel's baby.
+
+MOO and LambdaMOO's code are entirely unrelated to TinyMUD and
+similar, but it was philosophically descended from TInyMUD, in that it
+emphasized the social aspect, and users being able to build "live" in
+the MOO, via in-MOO commands.
+
+LambdaMOO enables regular users to program in the MOO.  To do this,
+you need to have the MOO object that represents your player character
+be programmer enabled, this is done by setting a flag on your player
+object; this flag is referred to as the "programmer bit", just an
+object property that is set to the value 1 to enable it.  LambdaMOO is
+profligate in handing out programmer bits.  Some MOOs are not.
+
+Most people refer to the underlying server of LambdaMOO as simply
+"MOO". Ghondarl's original MOO is pretty much nonexistent at this
+point.
+
+#### Servers and DBs and Cores
+
+There's the MOO server code, and there's the database of in-MOO
+created code, referred to as the "db".
+
+The "db" is generally broken down, mentally, into the "core db" that a
+given MOO was started with, and then all the user-created content that
+came later.
+
+lambdacore is the full-featured db core from the original LambdaMOO.
+
+minimaldb is the bare bones, stripped down core if you want to start
+from scratch, or as nearly from scratch as is reasonable.
+
+JaysHouse was another popular, programmer-heavy MOO which produced a
+core db that saw some popularity.
+
+In general, MOO coding is what's called in the programming world a
+"live coding" system, meaning you can interact with the running system
+and modify the code "life", and the changes take effect immediately,
+without having to restart/reload the system.
+
+Smalltalk is one of the more famous "real programming languages" that
+provided live coding.
+
+Everything in MOO is an object.  Objects can have data attached to
+them, stored in "properties", and code attached to them, stored in
+"verbs".
+
+#### LambdaRPG
+
+MOO has no built in RPG mechanics, but you can easily build one in MOO
+code.
+
+It gets a bit tricky if you're not a wizard, because non-wizards
+cannot make changes to the core code that everything else is based on.
+
+LambdaMOO has a non-wizard-coded RPG system, LambdaRPG but it was
+awkward to code.
+
+There have been various MOOs that had wizard-built RPGs, I don't know
+of any RPG core db that's widely available.
+
+The LambdaRPG system still exists on LambdaMOO, login and do "help
+lambdarpg".  You might need to add the RPG help database object, #17233,
+to your player object's .help property.
+
 
 ## Basic Terminology
 
@@ -70,7 +239,8 @@ For more info on the built-in properties see the LambdaMOO Programmers Manual, "
 
 #### Object Oriented
 
-MOO stands for "Mud, Object-Oriented". If you don't understand what "object oriented" means, it's an approach for organizing the code and data in a syste I've added a brief description below.
+MOO stands for "Mud, Object-Oriented". If you don't understand what "object oriented" means, it's an approach for organizing the code and data in a system.
+I've added a brief description below.
 
 MOO's object-oriented approach is slightly different from many object-oriented programming languages. In most object-oriented languages, you have a division between the definition of an object (its blueprint, so to speak) and instances of the object in the system. The object definitions (called classes) exist off in some abstract place that the rest of the code generally can't get at, your code in the system never deals with them directly. Instead your code creates "instances" of a given class and use the instance.
 
