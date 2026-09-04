@@ -1,236 +1,192 @@
-# Lambda MOO Programming
+# LambdaMOO Programming Resources
 
-Table of Contents
-=================
+An organized collection of MOO programming manuals, tutorials, historical source
+documents, reusable code, and modern developer tooling.
 
-* [Introduction](#introduction)
-* [Local Setup](#local-setup)
-* [Contents](#contents) 
-    * [ToastStunt Programmer's Manual](#toaststunt-programmers-manual)
-    * [Lambda MOO Programmer's Manual \[Updated\]](#lambda-moo-programmers-manual-updated)
-    * [Learn MOO Programming Videos](#learn-moo-programming-videos)
-    * [Yib's Pet Rock](#yibs-pet-rock)
-    * [LambdaMOO Programming Tutorial (Steven Owens)](#lambdamoo-programming-tutorial-steven-owens)
-    * [Colin's Way Easy intro Guide to MOO Programming](#colins-way-easy-intro-guide-to-moo-programming)
-    * [Winding Duck](#winding-duck)
-    * [MOO Progrmaming Tips](#moo-programming-tips)
-    * [Hacking LambdaMOO Server Nodak](#hacking-lambdamoo-server-nodak)
-    * [Lambda MOO Background Information Nodak](#lambda-moo-background-information-nodak)
-    * [Lambda MOO Programming Nodak](#lambda-moo-programming-nodak)
-    * [How to set up a LambdaMOO server on GenesisMud](#how-to-set-up-a-lambdamoo-server-on-genesismud)
-    * [Getting Started With moo.el](#getting-started-with-moo-el)
+This repository has two jobs: make MOO easier to learn today and preserve useful
+material that might otherwise disappear from the web. Some documents describe older
+LambdaMOO environments and are intentionally retained as historical references. Each
+section below distinguishes current resources from archival material.
 
-* [Server Patches](#server-patches)
-* [Server Setup](#server-setup)
-    * [Automated Local Environment Setup (Stunt & LambdaCore)](#automated-local-environment-setup-stunt--lambdacore)
-* [Useful MOO Code](#useful-moo-code)
-* [Web Client](#web-client)
-    * [Public Web Client](#public-web-client)
-* [Notes](#notes)
-* [ToDo](#todo)
-* [Contributing](#contributing)
-* [Author](#author)
+## Start Here
 
-## Introduction
-The primary purpose of this repository is to aggregate and update the existing LambdaMOO Programming Resources that exist. The core of the work done here has been to convert the original MOO Programmer's Manual written by Pavel Curtis to Markdown as well as HTML5 w/ Bootstrap and to update each section of the manual with additional information.
+| I want to… | Recommended starting point |
+| --- | --- |
+| Learn MOO programming | [Yib's Pet Rock](tutorials/yibs-pet-rock.md), then [Winding Duck](tutorials/winding-duck.md) |
+| Look up MOO syntax or built-in functions | [Updated LambdaMOO Programmer's Manual](tutorials/moo-programmers-manual-updated.md) |
+| Work with a current ToastStunt server | [ToastStunt Programmer's Manual](https://github.com/lisdude/toaststunt-documentation/blob/master/manual/toaststunt-programmers-manual.md) |
+| Install or share MOO code | [MOO Package Manager](https://github.com/sevenecks/moo-package-manager) |
+| Build editor, parser, database, or analysis tooling | [Modern MOO Tooling](#modern-moo-tooling) |
+| Talk with ToastStunt users and developers | [Join the ToastStunt Discord](https://discord.gg/XyXP43e) |
+| Find a broader collection of MOO software and documents | [lisdude.com MOO Resources](https://www.lisdude.com/moo/) |
+| Browse preserved documentation | [Tutorial and Reference Library](#tutorial-and-reference-library) |
 
-There are a number of other files included in this repository. Many are scraped from various websites that continue to exist, somehow, to this day. Most are at least 15 years old. We have included them here for posterity, since losing them would be tragic.
+## Modern MOO Tooling
 
-## Local Setup
-```bash
-git clone git@github.com:SevenEcks/the-new-moo-programming-guide.git
+The repository's maintainer has also worked on the projects below, alongside other
+contributors. Together they cover the practical lifecycle around a modern MOO:
+connecting and editing, distributing in-database code, teaching and parsing MOO code,
+extracting checkpoint data, and analyzing a codebase.
+
+| Project | What it is | Status |
+| --- | --- | --- |
+| [Dome Client](https://github.com/SindomeCorp/dome-client) | Browser-based MUD/MOO client with a built-in IDE for editing verbs and properties. It is the maintained successor to the [legacy Dome Client](https://github.com/JavaChilly/dome-client.js). | Current |
+| [MOO Package Manager](https://github.com/sevenecks/moo-package-manager) | Configurable package manager written in MOO code for downloading, reviewing, installing, creating, and publishing packages on ToastStunt-derived MOOs. | Open beta; test packages on a development server first |
+| [MOO for LLMs](https://github.com/SindomeCorp/moo-for-llms) | Reference corpus, examples, datasets, schemas, and evaluations for teaching language models to read, write, and repair MOO code. | Current |
+| [Tree-sitter MOO](https://github.com/SindomeCorp/tree-sitter-moo) | Tree-sitter grammar for MOO verb code, targeting ToastStunt as the initial superset dialect while keeping LambdaMOO compatibility in view. | Current |
+| [ToastStunt DB Extractor](https://github.com/SindomeCorp/toaststunt-db-extractor) | Node.js/TypeScript tool that converts ToastStunt Format 17 checkpoint databases into normalized JSONL records and verb source files. | Current |
+| [MOO Code Graph](https://github.com/SindomeCorp/moo-code-graph) | ToastStunt-specific static analysis and visualization pipeline that combines extracted database data with Tree-sitter syntax facts to produce code reports. | Current; run from source |
+
+### How the Projects Fit Together
+
+```mermaid
+flowchart LR
+    Client[Dome Client] -->|play and edit| Server[ToastStunt / MOO server]
+    Packages[MOO Package Manager] -->|install packages| Server
+    Server -->|checkpoint| DB[(MOO database)]
+    DB --> Extractor[ToastStunt DB Extractor]
+    Corpus[MOO for LLMs] -->|fixtures and examples| Parser[Tree-sitter MOO]
+    Extractor --> Graph[MOO Code Graph]
+    Parser --> Graph
+    Graph --> Reports[Analysis and reports]
 ```
 
-### Markdown Conversion
+The tools remain independent projects. Follow each project's README for requirements,
+installation, security considerations, and current limitations.
 
-We use the [html2md](https://github.com/fabianmoronzirfas/to-markdown-cli) library to convert HTML files to markdown on the command line. It can be installed using NPM.
+## Community and More Resources
 
-```bash
-npm install -g to-markdown-cli
-html2md -i ./foo.html -o out.md
+Join the [ToastStunt Discord](https://discord.gg/XyXP43e) to talk with other users and
+developers about ToastStunt, MOO programming, and related tools.
+
+[lisdude.com MOO Resources](https://www.lisdude.com/moo/) is a broad collection of MOO
+servers, databases, clients, programming documents, patches, and other historical and
+current material. It is an excellent companion to the curated material in this
+repository.
+
+### Related Servers and Environments
+
+| Resource | Relationship to this collection |
+| --- | --- |
+| [ToastStunt](https://github.com/lisdude/toaststunt) | Actively developed server in the LambdaMOO family and the target of many current tools listed above |
+| [Stunt](https://github.com/toddsundsted/stunt) | LambdaMOO fork and direct predecessor to ToastStunt |
+| [LambdaMOO](https://github.com/wrog/lambdamoo) | LambdaMOO server source and related historical material |
+| [moolite](https://github.com/amnsia/moolite) | Scripts for creating a local Stunt and LambdaCore development environment |
+
+## Tutorial and Reference Library
+
+Markdown editions are intended for reading on GitHub. Files under
+[`tutorials/src/`](tutorials/src/) preserve the source HTML or text used to produce
+those editions.
+
+### Core Manuals
+
+| Resource | Best for | Formats | Status |
+| --- | --- | --- | --- |
+| [Updated LambdaMOO Programmer's Manual](tutorials/moo-programmers-manual-updated.md) | Language syntax, values, statements, tasks, built-in functions, and server behavior | [Markdown](tutorials/moo-programmers-manual-updated.md) | Maintained here; based on the LambdaMOO 1.8 manual |
+| [ToastStunt Programmer's Manual](https://github.com/lisdude/toaststunt-documentation/blob/master/manual/toaststunt-programmers-manual.md) | Current ToastStunt language and server extensions | External Markdown | Current; maintained in its own repository |
+| [Steven Owens' LambdaMOO Programming Tutorial](tutorials/lambda-moo-steven-owens-guide.md) | A broad explanation of MOO concepts, its programming environment, and larger examples | [Markdown](tutorials/lambda-moo-steven-owens-guide.md) · [HTML](tutorials/src/dark-sleep-lambdamoo-programming-tutorial-non-html5.html) | Historical tutorial, with later contributor updates |
+
+### Beginner Tutorials
+
+| Resource | What it teaches | Formats |
+| --- | --- | --- |
+| [Yib's Pet Rock](tutorials/yibs-pet-rock.md) | A gentle first programming project that grows from a simple object into more sophisticated behavior | [Markdown](tutorials/yibs-pet-rock.md) · [HTML](tutorials/src/yibs-pet-rock-non-html5.html) |
+| [Colin's Way Easy Guide](tutorials/lambda-moo-way-easy.md) | Objects, properties, verbs, permissions, and practical verb programming | [Markdown excerpt](tutorials/lambda-moo-way-easy.md) · [Complete HTML](tutorials/src/way-easy-moo-programming-guide-non-html5.html) |
+| [Winding Duck](tutorials/winding-duck.md) | Step-by-step construction of an object with progressively richer code | [Markdown](tutorials/winding-duck.md) · [HTML](tutorials/src/winding-duck-non-html5.html) |
+| [MOO Programming Tips](tutorials/zompost-moo-help.md) | Short explanations and examples originally written for SpinnMOO | [Markdown](tutorials/zompost-moo-help.md) · [HTML](tutorials/src/zompost-moo-help-non-html5.html) |
+
+### Server, Background, and Setup Guides
+
+These documents are preserved because they explain important concepts and older
+workflows. Commands, dependencies, hostnames, and version-specific advice may require
+adaptation on current systems.
+
+| Resource | Topic | Formats |
+| --- | --- | --- |
+| [What Happens When a Connection Is Made](tutorials/hacking-lambda-moo-server.md) | LambdaMOO server connection flow | [Markdown](tutorials/hacking-lambda-moo-server.md) · [HTML](tutorials/src/hacking-lambda-moo-server-non-html5.html) |
+| [LambdaMOO Background](tutorials/lambda-moo-background.md) | Servers, databases, classes, objects, functions, verbs, and variables | [Markdown](tutorials/lambda-moo-background.md) · [HTML](tutorials/src/lambda-moo-background-non-html5.html) |
+| [LambdaMOO Programming (Nodak)](tutorials/lambda-moo-nodak-edu.md) | A compact technical introduction to programming in MOO | [Markdown excerpt](tutorials/lambda-moo-nodak-edu.md) · [Complete HTML](tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html) |
+| [Running LambdaMOO on GenesisMud](tutorials/genesismud.md) | A historical end-to-end server setup walkthrough | [Markdown](tutorials/genesismud.md) · [Original text](tutorials/src/genesismud.txt) |
+| [Getting Started with moo.el](tutorials/mud_moo_el_tutorial.md) | Connecting to and editing MOO code from Emacs | [Markdown](tutorials/mud_moo_el_tutorial.md) · [Original text](tutorials/src/mud_el_tutorial.txt) |
+
+### Video Series
+
+The [Learn MOO Programming playlist](https://www.youtube.com/playlist?list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
+covers compiling LambdaMOO, applying patches, programming basics, debugging,
+properties, and custom verbs.
+
+## Reusable MOO Code
+
+| Resource | Purpose | Notes |
+| --- | --- | --- |
+| [Local Editing](code/LocalEditing.md) | Adds MOO-side support for editing verbs through compatible clients such as Dome Client | Modern ToastCore/LambdaCore databases may already provide local editing |
+| [Code Scanner](code/CodeScanner.md) | Scans verb code for common mistakes and maintainability concerns | Prefer installing the current package through [MOO Package Manager](https://github.com/sevenecks/moo-package-manager) on ToastStunt |
+| [$scheduler](code/SindomeScheduler.txt) | Schedules tasks to run later | Plain-text MOO code |
+
+## Server Patches
+
+The [`patches/`](patches/) directory preserves LambdaMOO server patches that may be
+difficult to find elsewhere.
+
+- [FileIO 1.5p3](patches/fileio-1.5p3/) — Todd Sundsted's FileIO variant with
+  `E_FILE` support and related fixes.
+
+These patches target older server versions. Review and test them against the exact
+source tree you intend to modify.
+
+## Repository Layout
+
+```text
+code/                              Reusable MOO code and installation notes
+patches/                           Preserved server patches
+toast-stunt-programmers-guide/     Compatibility pointer to the moved manual
+tutorials/                         Readable Markdown editions
+tutorials/src/                     Preserved source HTML and text
 ```
 
-## Contents
-There are two versions of each document in this repository. One is a markdown copy located in [/tutorials](/tutorials) which is accessible on GitHub and one is an HTML version located in [/tutorials/src](/tutorials/src).
+Clone the archive if you want to browse the HTML editions locally:
 
-### ToastStunt Programmer's Manual
-This is an updated Programmer's Manual for [ToastStunt](https://github.com/lisdude/toaststunt) (the most cutting edge fork of LambdaMOO). It is a fork of the updated LambdaMOO Manual (see below) which incorpoates the original manual and Todd Sundsted's Stunt updates with regular updates as new features are released for ToastStunt.
+```bash
+git clone https://github.com/sevenecks/lambda-moo-programming.git
+cd lambda-moo-programming
+```
 
-This manual now lives in its own repository.
-
-[ToastStunt Programmer's Manual](https://github.com/lisdude/toaststunt-documentation/blob/master/manual/toaststunt-programmers-manual.md)
-
-### Lambda MOO Programmer's Manual [Updated]
-This LambdaMOO Programmer's Manual is an **updated an expanded version** of the *LambdaMOO Programmer's Manual* originally written by Pavel Curtis. Some pretty extensive work has gone into formatting it, and updating the content.
-
-#### On The Web
-This file is important, and thus, it is available online without having to interact with this GitHub at all: [MOO Programmers Manual](https://www.sindome.org/moo-manual.html)
-
-#### On GitHub
-To use this guide you simply need to open [MOO Programmer's Manual](/tutorials/moo-programmers-manual-updated.md). This version of the MOO Programmer's Manual lacks much of the formatting that the HTML5 version below has. It is great for quick perusal, but the HTML version is superior. 
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/moo-programmers-manual-updated.html](/tutorials/src/moo-programmers-manual-updated.html) in your web browser.
-
-### Learn MOO Programming Videos
-This is a series of videos on installing and learning MOO programming.
-
-1. [Installing and Compiling LambdaMOO from Source Code](https://www.youtube.com/watch?v=CmwWF6Hm4iE&t=&index=1&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-2. [Using LambdaMOO DB and Applying Server Patches](https://www.youtube.com/watch?v=IyxPQFn0kG4&t=&index=2&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-3. [The Basics of LambdaMOO Programming](https://www.youtube.com/watch?v=kj6ABbvnybI&t=1s&index=3&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-4. [Create your own Debugger in MOO](https://www.youtube.com/watch?v=s0-cBEpW7JM&t=2s&index=4&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-5. [Intro to Properties on Object (1/3)](https://www.youtube.com/watch?v=QBnXvtR1qBw&t=0s&index=5&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-6. [Properties on Objects Continued (2/3)](https://www.youtube.com/watch?v=Lv5ZCjTqrjQ&t=0s&index=6&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-7. [Properties on Object Concluded (3/3)](https://www.youtube.com/watch?v=HYOsog_og-o&t=0s&index=7&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-8. [Extending the MOO with Custom Verbs](https://www.youtube.com/watch?v=yYoGHvmo7RU&t=0s&index=8&list=PLDRWME7vpHrrHmGJ8Va7GAIbkxg3BkT94)
-
-### Yib's Pet Rock
-A great first introduction to Lambda MOO programming.
-
-#### On GitHub
-To use this guide you simply need to open [Yib's Pet Rock](/tutorials/yibs-pet-rock.md).
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/yibs-pet-rock-non-html5.html](/tutorials/src/yibs-pet-rock-non-html5.html) in your web browser.
-
-### LambdaMOO Programming Tutorial (Steven Owens)
-This is an excellent guide, the most complete one I've seen aside from the original Lambda MOO Programmer's Manual. It was written, as the title states, by Steven J. Owens. __This guide was updated 03/07/18__ after Steven sent over a fresh link to an updated version of the guide.
-
-#### On GitHub
-To use this guide you simply need to open [LambdaMOO Programming Tutorial by Steven Owens](/tutorials/lambda-moo-steven-owens-guide.md).
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/dark-sleep-lambdamoo-programming-tutorial-non-html5.html](/tutorials/src/dark-sleep-lambdamoo-programming-tutorial-non-html5.html) in your web browser.
-
-### Colin's Way Easy Intro Guide to MOO Programming
-A good introduction to MOO programming. This guide gets you through all the basics.
-
-#### On GitHub
-To use this guide you simply need to open [Colin's Way Easy Intro Guide to MOO Programming](/tutorials/lambda-moo-way-easy.md).
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/way-easy-moo-programming-guide-non-html5.html](/tutorials/src/way-easy-moo-programming-guide-non-html5.html) in your web browser.
-
-### Winding Duck
-Winding Duck MOO Programmer's Tutorial walks you through, step by step, how to create some simple code, then make it progressively more complicated.
-
-#### On GitHub
-To use this guide you simply need to open [Winding Duck](/tutorials/winding-duck.md).
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/winding-duck-non-html5.html](/tutorials/src/winding-duck-non-html5.html) in your web browser.
-
-### MOO Programming Tips
-This looks like it was a guide created for a specific MOO but it has some tips that those new to MOO might find useful.
-
-#### On GitHub
-To use this guide you simply need to open [MOO Programming Tips](/tutorials/zompost-moo-help.md).
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/zompost-moo-help-non-html5.html](/tutorials/src/zompost-moo-help-non-html5.html) in your web browser.
-
-### Hacking LambdaMOO Server Nodak
-This document walks you through what happens when a connection is made to the Lambda MOO server.
-
-#### On GitHub
-To use this guide you simply need to open [Hacking LambdaMOO Server](/tutorials/hacking-lambda-moo-server.md).
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/hacking-lambda-moo-server-non-html5.html](/tutorials/src/hacking-lambda-moo-server-non-html5.html) in your web browser.
-
-### Lambda MOO Background Information Nodak
-This document contains background information on what LambdaMOO is in relation to other servers and languages.
-
-#### On GitHub
-To use this guide you simply need to open [Lambda MOO Background](/tutorials/lambda-moo-background.md).
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/lambda-moo-background-non-html5.html](/tutorials/src/lambda-moo-background-non-html5.html) in your web browser.
-
-### Lambda MOO Programming Nodak
-This document contains information on Lambda MOO programming. It is a short and somewaht technical document without much background information.
-
-#### On GitHub
-To use this guide you simply need to open [Lambda MOO Nodak Edu](/tutorials/lambda-moo-nodak-edu.md).
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html](/tutorials/src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html) in your web browser.
-
-### How to set up a LambdaMOO server on GenesisMud
-This is a step by step guide by Puff the Fractal Dragon on how get LambdaMOO running on GenesisMud. However, for anyone looking to get a general idea of how to get LambdaMOO up and running, this tutorial provides a good reference for the process.
-
-#### On GitHub
-To use this guide you simply need to open [LambdaMOO on GenesisMud](/tutorials/genesismud.md).
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/genesismud.txt](/tutorials/src/genesismud.txt) in your web browser.
-
-### Gettings Started With moo.el
-This tutorial by Puff the Fractal Dragon walks you through using emacs to edit MOO code. It also includes some generalized emacs information.
-
-#### On GitHub
-To use this guide you simply need to open [moo.el](/tutorials/mud_moo_el_tutorial.md).
-
-#### Locally
-To access this file locally you simply need clone the repository and open [/tutorials/src/mud_el_tutorial.txt](/tutorials/src/mud_el_tutorial.txt) in your web browser.
-
-### Server Patches
-I've been worried that we might lose some server patches to time. Also they aren't really gathered anywhere on GitHub, just on [LisDude MOO Resources](http://www.lisdude.com/moo/) and random source forge unmainted LambdaMOO repos. So I'm starting to collect them here. If you have any, throw them up in a pull request please!
-
-* [FileIO 1.5p3](patches/fileio-1.5p3) (Todd Sundsted version)
-
-### Server Setup
-
-### Automated Local Environment Setup (Stunt & LambdaCore)
-Since I abuse virtual machines for this sort of thing and don't retain the data from them, I have created a repository, [moolite](https://github.com/amnsia/moolite), to reproduce my environment without much typing. It consists of the [Stunt](https://github.com/toddsundsted/stunt) server and the latest LambdaCore database from Brendan's [LambdaMOO](https://github.com/SevenEcks/LambdaMOO) repo. Right now it's a couple of shell scripts, but I will be adding more to it and the quickstart in the README. -- amnsia.
-
-### Useful MOO Code
-There are some code samples for enterprising developers to check out. It's limited for now, please feel free to put a pull request in for any code you'd like included.
-
-* [Local Editing](code/LocalEditing.md) (Edit in a pop up window with @edit using Dome-Client web client)
-* [Code Scanner](code/CodeScanner.md) (Scan your MOO code for common issues & optimizations)
-* [$scheduler](code/SindomeScheduler.txt) (Schedule tasks to run in the future)
-
-### Web Client
-I've mentioned [Dome Client](https://github.com/JavaChilly/dome-client.js) in the updated MOO Programming Guide. It's a web based MOO client that uses NodeJS and web sockets. It works great, connecting to most LambdaMOO servers. You can run your own. 
-
-#### Public Web Client
-Sindome offers a [public web client](http://pubclient.sindome.org/) that can connect to whatever LambdaMOO server you want: http://pubclient.sindome.org/ 
-
-It works great, and if you use the [Local Editing](code/LocalEditing.md) code in this repo, you can write an @edit verb which will let you edit code in a nice pop up window. It's excellent.
-
-## Changes
-See [CHANGELOG.md](CHANGELOG.md)
-
-## Notes
-See [NOTES.md](NOTES.md)
-
-## TODO
-See [TODO.md](TODO.md)
+Then open the desired file under `tutorials/src/` in a browser.
 
 ## Contributing
-Please feel free to fork the repo and contribute via pull request. This is a labor of love. Give back to the community. If you want to edit one of the HTML src files, you can do so, but you should run it through html2md (npm install -g to-markdown-cli) and then move the markdown file into the tutorials directory. 
 
-Example of creating a new version of the markdown file from the HTML 5 source and moving to the appropriate folder:
+Corrections, recovered documents, code examples, patches, and better source
+attribution are welcome through pull requests.
+
+When changing historical material:
+
+- preserve the original author and source attribution;
+- keep source snapshots under `tutorials/src/` intact;
+- make readability and link repairs in the corresponding Markdown edition;
+- label version-specific or uncertain advice instead of silently presenting it as
+  current; and
+- test code and server patches outside production before recommending them.
+
+Some Markdown files were produced from source HTML with
+[`to-markdown-cli`](https://github.com/ff6347/to-markdown-cli):
 
 ```bash
-cd tutorials/src
-html2md -i moo-programmers-manual-updated.html -o moo-programmers-manual-updated.md
-mv moo-programmers-manual.md ../ 
+npm install --global to-markdown-cli
+html2md -i tutorials/src/example.html -o tutorials/example.md
 ```
 
-## Author
-[Sindome](https://www.sindome.org/) has been online since 1997. I've been playing it since 2003.  I've been developing in MOO since 2005, and a developer on Sindome since 2006. Ours is heavily modified, we have roughly 70-80 players online a lot of time time and dozens of people have developed the game over 20+ year run.  We've got a ton of best practices and design patterns that we implement in order to keep the MOO happy and healthy.  I've attempted to distill as much of that into this document while at the same time present the document in a more up to date format.
+See [Contributors](CONTRIBUTORS.md), [Maintenance Notes](NOTES.md), the
+[Roadmap](TODO.md), and the [Changelog](CHANGELOG.md) for more project history.
 
-Text based gaming is an important part of our history and our future. No game is more accessible to those with handicaps, for example.
+## Maintainer and Attribution
 
-Come visit me on Sindome if you dare :)
+This collection is maintained by [Brendan Butts](https://github.com/sevenecks), also
+known in the MOO community as Slither or Fengshui. Brendan has developed on
+[Sindome](https://www.sindome.org/) since 2006 and created this repository to make MOO
+knowledge easier to find, use, and preserve.
 
--- Brendan / Slither / Fengshui
+The archived tutorials have their own authors and source notices. Those attributions
+remain part of each document. New repository material is available under the
+[MIT License](LICENSE); third-party material retains its original attribution and any
+applicable terms.

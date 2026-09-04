@@ -1,6 +1,8 @@
-# This source code was taken from [http://cmc.uib.no/moo/yib/index.html][0] and is included here for posterity. It is a non-HTML5 version for now. It may be updated at some point.
-
 # Yib's Pet Rock  
+
+> **Source note:** This tutorial was recovered from Yib's original LambdaMOO tutorial
+> and is preserved here for posterity. The original site is no longer available; see
+> the [archived source](https://web.archive.org/web/20200221075812/http://cmc.uib.no:80/moo/yib/index.html).
 A Programming Primer for Beginners
 
 \[This tutorial was written by Yib for LambdaMOO, which is a text-only moo. The coding will work in cmcMOO or other xpress moos, but you may prefer using the web interface's verb and property editors rather than the line-editors used here. The object numbers refer to the original notes at LambdaMOO. The original tutorial can be found in the library (\#1670) at[LambdaMOO][1]\]
@@ -1949,5 +1951,4 @@ We started with the very rudaments of adding a verb to an object, and have worke
 Be bold! Experiment. Try things. Don't be afraid of breaking something. There is very little on the MOO than can be harmed by accicent, and even less that can't be fixed. Go for it.
 
 
-[0]: http://cmc.uib.no/moo/yib/index.html
 [1]: telnet://Lambda.moo.mud.org:8888

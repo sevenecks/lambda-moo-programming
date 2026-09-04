@@ -1,5 +1,22 @@
 # Changelog for LambdaMOO Programming Repository
 
+## 2026-09-04
+
+### Changed
+
+- Reorganized the README as a resource hub for learning, historical documentation,
+  reusable MOO code, community support, and current MOO tooling.
+- Added Dome Client, MOO Package Manager, MOO for LLMs, Tree-sitter MOO, ToastStunt DB
+  Extractor, MOO Code Graph, the ToastStunt Discord, and lisdude.com MOO Resources to
+  the resource index.
+- Clarified the difference between maintained Markdown editions and preserved source
+  files.
+- Refreshed maintenance notes and the project roadmap.
+- Repaired stale project links, historical source citations, and Markdown formatting.
+- Pointed LambdaMOO source references to the canonical wrog/lambdamoo repository.
+- Removed the bundled HTML edition of the updated LambdaMOO Programmer's Manual in
+  favor of the maintained Markdown edition.
+
 ## [1.1.12] - 2022.01/14 4:04PM
 * fixed some typos in the guide
 * Moved ToastStunt Programmers Guide to https://github.com/lisdude/toaststunt-documentation

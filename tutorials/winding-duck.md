@@ -1,21 +1,20 @@
 # Winding Duck MOO Programmer's Tutorial
 
-* [**Chapter 1: A Simple
-Object**](#A1)  
+* [**Chapter 1: A Simple Object**](#chapter-1-a-simple-object)
   * [Introduction](#introduction)
   * [Simple Wind](#simple-wind)
   * [Simple Messages](#simple-messages)
   * [Simple Drop](#simple-drop)
   
-* [**Chapter 2: A More Complex
-Object**](#chapter-2-a-more-complex-object)  
+* [**Chapter 2: A More Complex Object**](#chapter-2-a-more-complex-object)
   * [Complex Wind](#complex-wind)
   * [Complex Messages](#complex-messages)
   * [Complex Drop](#complex-drop)
   
-* [**Chapter 3: Other Programming
-Issues**](#chapter-3-other-programming-issues)  
+* [**Chapter 3: Other Programming Issues**](#chapter-3-other-programming-issues)
   * [Description](#description)
+
+## Chapter 1: A Simple Object
 
 ### Introduction
 This is a programming example of reasonable
@@ -582,4 +581,10 @@ instance.
 It tells us what the permissions ended up being, after
 stripping off the "c", which is "r" for readable.
 
-#### This tutorial was taken from [http://netlab.gmu.edu/muve/html/Winding-Duck.html](http://netlab.gmu.edu/muve/html/Winding-Duck.html) and is included in this repository for posterity.
+---
+
+## Source and Preservation Note
+
+This tutorial is included for posterity from the former George Mason University MUVE
+site. See the
+[archived source](https://web.archive.org/web/20201113230854/https://netlab.gmu.edu/muve/html/Winding-Duck.html).

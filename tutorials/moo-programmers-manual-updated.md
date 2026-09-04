@@ -1,10 +1,6 @@
-LambdaMOO Programmer's Manual  
+# LambdaMOO Programmer's Manual
 
-LambdaMOO Programmer's Manual
-=============================
-
-For LambdaMOO Version 1.8.\*
-----------------------------
+## For LambdaMOO Version 1.8.*
 
 Originally written March, 1997:
 
@@ -14,123 +10,128 @@ Updated June, 2019 ([CHANGE LOG](https://github.com/SevenEcks/lambda-moo-program
 
 By [Brendan Butts](http://github.com/sevenecks), aka Slither, aka Fengshui
 
-Versions of This Document
--------------------------
+## Version of This Document
 
-I highly recommend you use the Hosted HTML5 version of this document for anything more than quick references. It is better styled and easier to read. The markdown version exists as for 'quick reference' purposes.
+The Markdown edition is the version maintained in this repository.
 
 *   [GitHub Markdown Version](https://github.com/SevenEcks/lambda-moo-programming/blob/master/tutorials/moo-programmers-manual-updated.md)
-*   [Hosted HTML5 Version](https://www.sindome.org/moo-manual.html)
+
+For current ToastStunt extensions and behavior, use the
+[ToastStunt Programmer's Manual](https://github.com/lisdude/toaststunt-documentation/blob/master/manual/toaststunt-programmers-manual.md).
 
 For older versions of this document please see the resources section.
 
-Table of Contents
------------------
+## Table of Contents
 
-*   [Foreword](#foreword)
-*   [LambdaMOO Resources](#lambdamoo-resources)
-*   [Introduction](#introduction)
-*   [The LambdaMOO Database](#lambdamoo-database)
-*   *   [MOO Value Types](#moo-value-types)
-    *   [Objects in the MOO Database](#objects-in-the-moo-database)
-    *   *   [Fundamental Object Attributes](#fundamental-object-attributes)
-        *   [Properties on Objects](#properties-on-objects)
-        *   [Verbs on Objects](#verbs-on-objects)
-*   [The Built-in Command Parser](#the-built-in-command-parser)
-*   [The MOO Programming Language](#the-moo-programming-language)
-*   *   [MOO Language Expressions](#moo-language-expressions)
-    *   *   [Errors While Evaluating Expressions](#errors-while_evaluating-expressions)
-        *   [Writing Values Directly in Verbs](#writing-values-directly-in-verbs)
-        *   [Naming Values Within a Verb](#naming-values-within-a-verb)
-        *   [Arithmetic Operators](#arithmetic-operators)
-        *   [Comparing Values](#comparing-values)
-        *   [Values as True and False](#values-as-true-or-false)
-        *   [Indexing into Lists and Strings](#indexing-into-lists-and-strings)
-        *   *   [Extracting an Element from a List or String](#extracting-an-element-from-a-list-or-string)
-            *   [Extracting a Subsequence of a List or String](#extracting-a-subsequence-of-a-list-or-string)
-            *   [Replacing a Subsequence of a List or String](#replacing-a-subsequence-of-a-list-or-string)
-    *   [Other Operations on Lists](#other-operations-on-lists)
-    *   [Spreading List Elements Among Variables](#spreading-list-elements-among-variables)
-    *   [Getting and Setting the Values of Properties](#getting-and-setting-the-values-of-properties)
-    *   [Calling Built-in Functions and Other Verbs](#calling-built-in-functions-and-other-verbs)
-    *   [Catching Errors in Expressions](#catching-errors-in-expressions)
-    *   [Parentheses and Operator Precedence](#parentheses-and-operator-precedence)
-*   [MOO Language Statements](#moo-langauge-statements)
-*   *   [Errors While Executing Statements](#errors-while-executing-statements)
-    *   [Simple Statements](#simple-statements)
-    *   [Statements for Testing Conditions](#statements-for-testing-conditionals)
-    *   [Statements for Looping](#statements-for-looping)
-    *   *   [The for-in loop](#the-for-in-loop)
-        *   [The For-Range Loop](#the-for-range-loop)
-        *   [The While Loop](#the-while-loop)
-    *   [Terminating One or All Iterations of a Loop](#terminating-one-or-all-iterations-of-a-loop)
-    *   [Returning a Value from a Verb](#returning-a-value-from-a-verb)
-    *   [Returning a Value from a Verb](#returning-a-value-from-a-verb)
-    *   [Handling Errors in Statements](#handling-errors-in-statements)
-    *   [Cleaning Up After Errors](#cleaning-up-after-errors)
-    *   [Executing Statements at a Later Time](#executing-statements-at-a-later-time)
-*   [MOO Tasks](#moo-tasks)
-*   [Built-in Functions](#built-in-functions)
-*   *   [Object-Oriented Programming](#object-oriented-programming)
-    *   [Manipulating MOO Values](#manipulating-moo-values)
-    *   *   [General Operations Applicable to all Values](#general-operations-applicable-to-all-values)
-        *   [Operations on Numbers](#operations-on-numbers)
-        *   [Regular Expressions](#regular-expressions)
-        *   [Operations on Strings](#operations-on-strings)
-    *   [Manipulating Objects](#manipulating-objects)
-    *   *   [Fundamental Operations on Objects](#fundamental-operations-on-objects)
-        *   [Object Movement](#object-movement)
-        *   [Operations on Properties](#operations-on-properties)
-        *   [Operations on Player Objects](#operations-on-player-objects)
-        *   [Operations on Network Connections](#operations-on-network-connections)
-        *   [Operations Involving Times and Dates](#operations-involving-times-and-dates)
-        *   [MOO-Code Evaluation and Task Manipulation](#moo-code-evaluation-and-task-management)
-        *   [Administrative Operations](#administrative-questions)
-*   [Server Commands and Database Assumptions](#server-commands-and-database-assumptions)
-*   *   [Built-in Commands](#bult-in-commands)
-    *   [Command-Output Delimiters](#command-output-delimiters)
-    *   [Programming](#programming)
-    *   [Flushing Unprocessed Input](#flushing-unprocessed-input)
-    *   [Initial Punctuation in Commands](#initial-punctuation-in-commands)
-*   [Server Assumptions About the Database](#server-assumptions-about-the-database)
-*   *   [Server Options Set in the Database](#server-options-set-in-the-database)
-    *   [Server Messages Set in the Database](#server-messages-set-in-the-database)
-    *   [Checkpointing the Database](#checkpointing-the-database)
-*   [Networking](#networking)
-*   *   [Accepting and Initiating Network Connections](#accepting-and-initiating-network-connections)
-    *   [Associating Network Connections with Players](#associating-network-connections-with-playes)
-*   [The First Tasks Run By the Server](#the-first-tasks-run-by-the-server)
-*   [Controlling the Execution of Tasks](#controlling-the-execution-of-tasks)
-*   [Controlling the Handling of Aborted Tasks](#controlling-the-handling-of-aborted-tasks)
-*   [Matching in Command Parsing](#matching-in-command-parsing)
-*   [Restricting Access to Built-in Properties and Functions](#restricting-accessing-to-built-in-properties-and-functions)
-*   [Creating and Recycling Objects](#creating-and-recycling-objects)
-*   [Object Movement Caveats](#object-movement-caveats)
-*   [Temporarily Enabling Obsolete Server Features](#temporarily-enabling-obsolete-server-features)
+- [Foreword](#foreword)
+- [LambdaMOO Resources](#lambdamoo-resources)
+- [Introduction](#introduction)
+- [The LambdaMOO Database](#the-lambdamoo-database)
+  - [MOO Value Types](#moo-value-types)
+  - [Objects in the MOO Database](#objects-in-the-moo-database)
+    - [Fundamental Object Attributes](#fundamental-object-attributes)
+    - [Properties on Objects](#properties-on-objects)
+    - [Verbs on Objects](#verbs-on-objects)
+- [The Built-in Command Parser](#the-built-in-command-parser)
+- [The MOO Programming Language](#the-moo-programming-language)
+  - [MOO Language Expressions](#moo-language-expressions)
+    - [Errors While Evaluating Expressions](#errors-while-evaluating-expressions)
+    - [Writing Values Directly in Verbs](#writing-values-directly-in-verbs)
+    - [Naming Values Within a Verb](#naming-values-within-a-verb)
+    - [Arithmetic Operators](#arithmetic-operators)
+    - [Comparing Values](#comparing-values)
+    - [Values as True and False](#values-as-true-and-false)
+    - [Indexing into Lists and Strings](#indexing-into-lists-and-strings)
+      - [Extracting an Element from a List or String](#extracting-an-element-from-a-list-or-string)
+      - [Replacing an Element of a List or String](#replacing-an-element-of-a-list-or-string)
+      - [Extracting a Subsequence of a List or String](#extracting-a-subsequence-of-a-list-or-string)
+      - [Replacing a Subsequence of a List or String](#replacing-a-subsequence-of-a-list-or-string)
+    - [Other Operations on Lists](#other-operations-on-lists)
+    - [Spreading List Elements Among Variables](#spreading-list-elements-among-variables)
+    - [Getting and Setting the Values of Properties](#getting-and-setting-the-values-of-properties)
+    - [Calling Built-in Functions and Other Verbs](#calling-built-in-functions-and-other-verbs)
+    - [Catching Errors in Expressions](#catching-errors-in-expressions)
+    - [Parentheses and Operator Precedence](#parentheses-and-operator-precedence)
+  - [MOO Language Statements](#moo-language-statements)
+    - [Errors While Executing Statements](#errors-while-executing-statements)
+    - [Simple Statements](#simple-statements)
+    - [Statements for Testing Conditions](#statements-for-testing-conditions)
+    - [Statements for Looping](#statements-for-looping)
+      - [The for-in loop](#the-for-in-loop)
+      - [The For-Range Loop](#the-for-range-loop)
+      - [The While Loop](#the-while-loop)
+    - [Terminating One or All Iterations of a Loop](#terminating-one-or-all-iterations-of-a-loop)
+    - [Returning a Value from a Verb](#returning-a-value-from-a-verb)
+    - [Handling Errors in Statements](#handling-errors-in-statements)
+    - [Cleaning Up After Errors](#cleaning-up-after-errors)
+    - [Executing Statements at a Later Time](#executing-statements-at-a-later-time)
+- [MOO Tasks](#moo-tasks)
+- [Built-in Functions](#built-in-functions)
+  - [Object-Oriented Programming](#object-oriented-programming)
+  - [Manipulating MOO Values](#manipulating-moo-values)
+    - [General Operations Applicable to all Values](#general-operations-applicable-to-all-values)
+    - [Operations on Numbers](#operations-on-numbers)
+    - [Regular Expressions](#regular-expressions)
+    - [Operations on Strings](#operations-on-strings)
+    - [Operations on Lists](#operations-on-lists)
+  - [Manipulating Objects](#manipulating-objects)
+    - [Fundamental Operations on Objects](#fundamental-operations-on-objects)
+    - [Object Movement](#object-movement)
+    - [Operations on Properties](#operations-on-properties)
+    - [Operations on Verbs](#operations-on-verbs)
+    - [Operations on Player Objects](#operations-on-player-objects)
+    - [Operations on Network Connections](#operations-on-network-connections)
+    - [Operations Involving Times and Dates](#operations-involving-times-and-dates)
+    - [MOO-Code Evaluation and Task Manipulation](#moo-code-evaluation-and-task-manipulation)
+    - [Administrative Operations](#administrative-operations)
+- [Server Commands and Database Assumptions](#server-commands-and-database-assumptions)
+  - [Built-in Commands](#built-in-commands)
+  - [Command-Output Delimiters](#command-output-delimiters)
+  - [Programming](#programming)
+  - [Flushing Unprocessed Input](#flushing-unprocessed-input)
+  - [Initial Punctuation in Commands](#initial-punctuation-in-commands)
+- [Server Assumptions About the Database](#server-assumptions-about-the-database)
+  - [Server Options Set in the Database](#server-options-set-in-the-database)
+  - [Server Messages Set in the Database](#server-messages-set-in-the-database)
+  - [Checkpointing the Database](#checkpointing-the-database)
+- [Networking](#networking)
+  - [Accepting and Initiating Network Connections](#accepting-and-initiating-network-connections)
+  - [Associating Network Connections with Players](#associating-network-connections-with-players)
+- [The First Tasks Run By the Server](#the-first-tasks-run-by-the-server)
+- [Controlling the Execution of Tasks](#controlling-the-execution-of-tasks)
+- [Controlling the Handling of Aborted Tasks](#controlling-the-handling-of-aborted-tasks)
+- [Matching in Command Parsing](#matching-in-command-parsing)
+- [Restricting Access to Built-in Properties and Functions](#restricting-access-to-built-in-properties-and-functions)
+- [Creating and Recycling Objects](#creating-and-recycling-objects)
+- [Object Movement Caveats](#object-movement-caveats)
+- [Temporarily Enabling Obsolete Server Features](#temporarily-enabling-obsolete-server-features)
 
 * * *
 
-Foreword
---------
+## Foreword
 
 Hey, it's me: Brendan. The guy updating this document. The idea of updating the MOO Programming Manual has crossed my mind a few times. It's a bit of a daunting task. This document is pretty comprehensive and I'm endeavouring to make it even more so. I'm adding some much needed styling so that it looks more modern. Things were once hosted primarily on FTP servers and we now have GitHub, so many links and resources mentioned in this document have been updated and I've even added some additional ones.
 
 If you want an up to date manual on MOO, this is the guide for you. If you want to read the historic document which contains the unedited text, I recommend reviewing the links toward the top of the page that point to unedited versions of the guide.
 
-LambdaMOO Resources
--------------------
+## LambdaMOO Resources
 
-*   [Lambda MOO Programming Resources GitHub](https://github.com/SevenEcks/lambda-moo-programming)
-*   [lisdude MOO resources](http://www.lisdude.com/moo/)
-*   [Unedited MOO Programmers Manual](http://www.hayseed.net/MOO/manuals/ProgrammersManual.html)
-*   [Older Unedited MOO Programmers Mnaual](http://www2.iath.virginia.edu/courses/moo/ProgrammersManual.texinfo_toc.html)
-*   [LambdaMOO Source (github)](https://github.com/SevenEcks/LambdaMOO)
-*   [LambdaMOO Databases (and other resources)](http://lambda.moo.mud.org/pub/MOO/)
-*   [MOO Talk Mailing List](https://groups.google.com/forum/#!forum/MOO-talk)
-*   [Dome Client Web Socket MOO Client](https://github.com/JavaChilly/dome-client.js)
+*   [LambdaMOO Programming Resources](https://github.com/SevenEcks/lambda-moo-programming)
+*   [lisdude.com MOO Resources](https://www.lisdude.com/moo/)
+*   [ToastStunt Programmer's Manual](https://github.com/lisdude/toaststunt-documentation/blob/master/manual/toaststunt-programmers-manual.md)
+*   [Unedited MOO Programmer's Manual](https://www.hayseed.net/MOO/manuals/ProgrammersManual.html)
+*   [LambdaMOO Source](https://github.com/wrog/lambdamoo)
+*   [LambdaMOO Databases and Resources](https://lambda.moo.mud.org/pub/MOO/)
+*   [MOO Talk Mailing List](https://groups.google.com/g/moo-talk)
+*   [Dome Client](https://github.com/SindomeCorp/dome-client)
+*   [MOO Package Manager](https://github.com/sevenecks/moo-package-manager)
+*   [MOO for LLMs](https://github.com/SindomeCorp/moo-for-llms)
+*   [Tree-sitter MOO](https://github.com/SindomeCorp/tree-sitter-moo)
+*   [ToastStunt DB Extractor](https://github.com/SindomeCorp/toaststunt-db-extractor)
+*   [MOO Code Graph](https://github.com/SindomeCorp/moo-code-graph)
+*   [ToastStunt Discord](https://discord.gg/XyXP43e)
 
-Introduction
-------------
+## Introduction
 
 LambdaMOO is a network-accessible, multi-user, programmable, interactive system well-suited to the construction of text-based adventure games, conferencing systems, and other collaborative software. Its most common use, however, is as a multi-participant, low-bandwidth virtual reality, and it is with this focus in mind that I describe it here.
 
@@ -148,14 +149,14 @@ In the next chapter, I describe the structure and contents of a LambdaMOO databa
 
 Note: For the most part, this manual describes only those aspects of LambdaMOO that are entirely independent of the contents of the database. It does not describe, for example, the commands or programming interfaces present in the LambdaCore database. There are exceptions to this, for situations where it seems prudent to delve deeper into these areas.
 
-The LambdaMOO Database
-----------------------
+## The LambdaMOO Database
 
 In this chapter, I begin by describing in detail the various kinds of data that can appear in a LambdaMOO database and that, therefore, MOO programs can manipulate. In a few places, I refer to the _LambdaCore_ database. This is one particular LambdaMOO database, created every so often by extracting the "core" of the current database for the original LambdaMOO.
 
 Note: The original LambdaMOO resides on the host lambda.parc.xerox.com (the numeric address for which is 192.216.54.2), on port 8888. Feel free to drop by! A copy of the most recent release of the LambdaCore database can be obtained by anonymous FTP from host ftp.parc.xerox.com in the directory pub/MOO.
 
-The above information may be out of date, but the most recent dump of the _LambdaCore_ can be found [here](http://lambda.moo.mud.org/pub/MOO/).
+The above information may be out of date, but preserved LambdaMOO databases and related
+files can be found in the [LambdaMOO resource archive](https://lambda.moo.mud.org/pub/MOO/).
 
 ### MOO Value Types
 
@@ -432,8 +433,7 @@ In addition to an owner and some permission bits, every verb has three _argument
 
 The argument specifiers are used in the process of parsing commands, described in the next chapter.
 
-The Built-in Command Parser
----------------------------
+## The Built-in Command Parser
 
 The MOO server is able to do a small amount of parsing on the commands that a player enters. In particular, it can break apart commands that follow one of the following forms:
 
@@ -591,8 +591,7 @@ an object, the indirect object value
 
 The value returned by the program, if any, is ignored by the server.
 
-The MOO Programming Language
-----------------------------
+## The MOO Programming Language
 
 MOO stands for "MUD, Object Oriented." MUD, in turn, has been said to stand for many different things, but I tend to think of it as "Multi-User Dungeon" in the spirit of those ancient precursors to MUDs, Adventure and Zork.
 

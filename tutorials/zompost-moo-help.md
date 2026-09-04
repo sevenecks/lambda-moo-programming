@@ -1,3 +1,4 @@
+# MOO Programming Tips
 
 ## Some tips on SpinnMoo programming
 
@@ -267,7 +268,10 @@ VW Microbus**. This required wizard status to fully implement; but the actual co
 
 ---
 
-# The sourcecode for this file was taken from [http://www.zompist.com/moohelp.htm][0] and is included in this repository for posterity. It is non-HTML5\.
+## Source and Preservation Note
 
-[0]: http://www.zompist.com/moohelp.htm
-[1]: http://moo.collapsar.cx/
+This document was recovered from Mark Rosenfelder's
+[MOO programming tips](https://www.zompist.com/moohelp.htm) and is included here for
+posterity.
+
+[1]: https://web.archive.org/web/20021130004907/http://moo.collapsar.cx:80/
