@@ -83,7 +83,7 @@ those editions.
 
 | Resource | Best for | Formats | Status |
 | --- | --- | --- | --- |
-| [Updated LambdaMOO Programmer's Manual](tutorials/moo-programmers-manual-updated.md) | Language syntax, values, statements, tasks, built-in functions, and server behavior | [Markdown](tutorials/moo-programmers-manual-updated.md) · [HTML](tutorials/src/moo-programmers-manual-updated.html) | Maintained here; based on the LambdaMOO 1.8 manual |
+| [Updated LambdaMOO Programmer's Manual](tutorials/moo-programmers-manual-updated.md) | Language syntax, values, statements, tasks, built-in functions, and server behavior | [Markdown](tutorials/moo-programmers-manual-updated.md) | Maintained here; based on the LambdaMOO 1.8 manual |
 | [ToastStunt Programmer's Manual](https://github.com/lisdude/toaststunt-documentation/blob/master/manual/toaststunt-programmers-manual.md) | Current ToastStunt language and server extensions | External Markdown | Current; maintained in its own repository |
 | [Steven Owens' LambdaMOO Programming Tutorial](tutorials/lambda-moo-steven-owens-guide.md) | A broad explanation of MOO concepts, its programming environment, and larger examples | [Markdown](tutorials/lambda-moo-steven-owens-guide.md) · [HTML](tutorials/src/dark-sleep-lambdamoo-programming-tutorial-non-html5.html) | Historical tutorial, with later contributor updates |
 

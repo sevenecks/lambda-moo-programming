@@ -14,6 +14,8 @@
 - Refreshed maintenance notes and the project roadmap.
 - Repaired stale project links, historical source citations, and Markdown formatting.
 - Pointed LambdaMOO source references to the canonical wrog/lambdamoo repository.
+- Removed the bundled HTML edition of the updated LambdaMOO Programmer's Manual in
+  favor of the maintained Markdown edition.
 
 ## [1.1.12] - 2022.01/14 4:04PM
 * fixed some typos in the guide

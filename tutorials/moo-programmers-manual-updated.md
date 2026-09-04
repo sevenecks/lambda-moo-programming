@@ -10,13 +10,11 @@ Updated June, 2019 ([CHANGE LOG](https://github.com/SevenEcks/lambda-moo-program
 
 By [Brendan Butts](http://github.com/sevenecks), aka Slither, aka Fengshui
 
-## Versions of This Document
+## Version of This Document
 
-The Markdown edition is the primary version maintained in this repository. A bundled
-HTML edition is also available for local browsing.
+The Markdown edition is the version maintained in this repository.
 
 *   [GitHub Markdown Version](https://github.com/SevenEcks/lambda-moo-programming/blob/master/tutorials/moo-programmers-manual-updated.md)
-*   [Bundled HTML Version](src/moo-programmers-manual-updated.html)
 
 For current ToastStunt extensions and behavior, use the
 [ToastStunt Programmer's Manual](https://github.com/lisdude/toaststunt-documentation/blob/master/manual/toaststunt-programmers-manual.md).
