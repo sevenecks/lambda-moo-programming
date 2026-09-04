@@ -6,12 +6,16 @@ If you are using a ToastCore or even LambdaCore based database, you may be able 
 
 ## Contributing
 
-The code scanner covers some of our best practices for MOO coding on [Sindome](https://www.sindome.org/). If you have your own that you think would be useful to the community please feel free to put in a pull request!
+This local-editing package reflects practices used on [Sindome](https://www.sindome.org/).
+Pull requests that improve its portability or support for compatible clients are
+welcome.
 
 ## Requirements
-This code was tested on stock LambdaMOO 1.8.1 running the lastest LambdaCore.db. If your DB is based off of that it should work with no changes needed.
+This code was tested on stock LambdaMOO 1.8.1 running the latest LambdaCore database.
+If your database is based on that release, it should work with few or no changes.
 
-This code will allow you to support Local Editing via the Dome-Client webclient, and also probably VMOO and other clients that support local editing (though it may take some massaging). 
+This code adds local-editing support for [Dome Client](https://github.com/SindomeCorp/dome-client),
+VMOO, and other compatible clients, although some adaptation may be required.
 
 ## Installation 
 
@@ -19,7 +23,9 @@ You may need to change the obj# from #480 to whatever yours is when you create t
 
 This code actually works best if it's on $verb_editor but I've broken it out into it's own package and copied a lot of the $verb_editor verbs that were needed over to the new package, since some of the stock LambdaCore verb editor verbs require $verb_editor to be the caller, and otherwise you'd have to modify $verb_editor which you might not have permission to do.
 
-When all of this code is in place you should be able to use the dome-client (http://pubclient.sindome.org/) to edit verbs in a modal window use @edit obj:verb
+When all of this code is in place, you should be able to use
+[Dome Client](https://pubclient.sindome.org/) to edit verbs in a modal window with
+`@edit obj:verb`.
 
 This can also be modified to support editing properties if you want.
 

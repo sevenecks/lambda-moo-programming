@@ -1,9 +1,14 @@
-# Info
-This adds file input / output to the MOO. The typical patch is 1.5p1 but this is an updated version which makes it return an actual error E_FILE instead of "E_FILE" among other fixes.
+# FileIO 1.5p3
 
-## Disclaimer
-I pulled this from a Github Gist by Todd Sundsted, the defacto maintainer of the FileIO extension. This version fixes some stuff. I had to hack this into my dev MOO manually because I already had fileio installed and so the patch wouldn't work. It's definitely possible to get it working with some manual patch work if you already have the existing patch. 
+This patch adds file input/output support to the MOO server. FileIO 1.5p1 is the more
+common version; this update returns the actual `E_FILE` error instead of the string
+`"E_FILE"`, among other fixes.
 
-Some of it is just formatting changes but there is some stuff in versions.h or versions.c that I missed at first because I thought it was just a comment. Don't make that mistake.
+## Compatibility Note
 
-Original: https://gist.githubusercontent.com/toddsundsted/1126787/raw/99676d66a1ceacf4fade389d5c10c1f52393f44d/fileio-1.5p3.patch
+This copy came from a [GitHub Gist by Todd Sundsted](https://gist.githubusercontent.com/toddsundsted/1126787/raw/99676d66a1ceacf4fade389d5c10c1f52393f44d/fileio-1.5p3.patch),
+the de facto maintainer of the FileIO extension. Applying it to a source tree that
+already contains an earlier FileIO patch may require manual conflict resolution.
+
+Some hunks look like formatting or comment changes but include important updates to
+`versions.h` or `versions.c`; review the entire patch before adapting it.

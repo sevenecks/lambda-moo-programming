@@ -1,14 +1,14 @@
-# LambaMOO Programming Tutorial (very rough draft)
+# LambdaMOO Programming Tutorial (very rough draft)
 
 _by Steven J. Owens (unless otherwise attributed)_
 
-MOO, of which LambaMOO is the first and biggest, is an interactive, multiplayer online game that includes the ability for players to build and even program new things or features into the game. The language lacks a formal name but is generally referred to as "moo code" or sometimes "moocode".
+MOO, of which LambdaMOO is the first and biggest, is an interactive, multiplayer online game that includes the ability for players to build and even program new things or features into the game. The language lacks a formal name but is generally referred to as "MOO code" or sometimes "MOOCode."
 
 While there is a fair amount of information about LambdaMOO programming in various places, there is also a lack of a comprehensive explanation, especially of much of the programming environment. These incomplete notes are the start of an attempt to remedy that. This is just a beginning, but maybe someday it'll be an end.
 
 There are a bunch of other resources out there, starting with the LambdaMOO Programmer's Manual:
 
-[http://www.moo-cows.com/docs/manuals/ProgrammersManual.html](http://www.moo-cows.com/docs/manuals/ProgrammersManual.html)
+[LambdaMOO Programmer's Manual](https://jkira.github.io/moo-cows/docs/manuals/ProgrammersManual.html)
 
 Also there are a variety of tutorials. I'm not trying to duplicate or replace them. Instead, this is a combination of filling in the gaps about the MOO programming environment and jumpstarting you into MOO programming.
 
@@ -1199,7 +1199,9 @@ message2  = "the other number is now " + tostr(theothernumber) ;
 player:tell(message2) ;
 ```
 
-This sort of human-readable stuff that makes up the program is usually called the _source code_, not an important detail but if you're curious as to why [read this](#CompiledInterpreted).
+This sort of human-readable stuff that makes up the program is usually called the
+_source code_. For more background, see “Source Code: Compiled and Interpreted
+Programs” later in this guide.
 
 If you open up the source code for a program in an editor, you see a bunch of words, punctuation and _whitespace_ (whitespace is spaces, tabs, or carriage returns/newlines, basically any character in the source that doesn't produce a visible letter, number or punctuation, but instead just changes the location of other characters).
 
@@ -1369,11 +1371,11 @@ Second of all, there is seldom a one-for-one word-to-code translation. Most ofte
 
 #### RTFM, "Use The Source, Luke", and "ask smart questions"
 
-As you learn and ask people for help, you'll hear two phrases very often, RTFM (Read The Fucking Manual) and "Use the Source, Luke" (sometimes abbreviated UTSL). A growing trend is the third phrase, ["learn how to ask smart questions"](http://www.catb.org/~esr/faqs/smart-questions.html), after an essay written by Eric S. Raymond about how to do just that.
+As you learn and ask people for help, you'll hear two phrases very often, RTFM (Read The Fucking Manual) and "Use the Source, Luke" (sometimes abbreviated UTSL). A growing trend is the third phrase, ["learn how to ask smart questions"](https://web.archive.org/web/20260829201908/http://www.catb.org/~esr/faqs/smart-questions.html), after an essay written by Eric S. Raymond about how to do just that.
 
 All of these boil down to "do your own homework before you ask me for help." Like reading this page. All of us have been there before, and it sucks, we'll spend tons of energy to **help** you figure out how to do it yourself, but we're not going to do it **for** you.
 
- #### Foo, Bar, Baz: Metasyntactic Variables and Stupid Programmer Jokes
+#### Foo, Bar, Baz: Metasyntactic Variables and Stupid Programmer Jokes
 
 A lot of programmers use the words _foo_, _bar_, and _baz_ a lot in examples. This is so common that there's actually now a jargon phrase for it, the metasyntactic variables.
 

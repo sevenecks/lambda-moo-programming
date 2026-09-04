@@ -3,14 +3,19 @@ This package will scan verb code for common issues and warn you about them. You 
 
 ## MOO Package Manager
 
-THIS PACKAGE IS AVAILABLE FOR INSTALL USING THE MOO PACKAGE MANAGER (FOR TOASTSTUNT). THIS IS THE PREFERRED METHOD OF INSTALL IF YOU ARE USING TOASTSTUNT. IT IS PROBABLY A MORE UPDATED VERSION AS WELL. SEE: [MOO Package Manager](https://github.com/sevenecks/moo-package-manager)
+For ToastStunt, the preferred installation method is the
+[MOO Package Manager](https://github.com/sevenecks/moo-package-manager). Its package
+repository may contain a newer Code Scanner release than this preserved copy.
 
 ## Contributing
 
-The code scanner covers some of our best practices for MOO coding on [Sindome](https://www.sindome.org/). If you have your own that you think would be useful to the community please feel free to put in a pull request!
+The Code Scanner covers some practices used for MOO development on
+[Sindome](https://www.sindome.org/). Pull requests with portable checks that would be
+useful to the wider community are welcome.
 
 ## Requirements
-This code was tested on stock LambdaMOO 1.8.1 running the lastest LambdaCore.db. AND on ToastStunt running a modified LambdaCore.db. If your DB is based off of that it should work with no changes needed.
+This code was tested on stock LambdaMOO 1.8.1 with LambdaCore and on ToastStunt with a
+modified LambdaCore database. Related databases may require adaptation.
 
 ## What's Scanned For?
 
@@ -25,7 +30,8 @@ This code was tested on stock LambdaMOO 1.8.1 running the lastest LambdaCore.db.
 9. verb length > MAX_LENGTH (a variable you can change to suit your needs)
 
 ## Installation
-Create an object, we're using #79 as the parent, but it really doesn't rely on the parent anything but itself, so use your own discresion.
+Create an object. This example uses `#79` as the parent, but the package does not rely
+on parent behavior, so choose an appropriate parent for your database.
 
 ```
 @create #78 named Code Scanner
@@ -39,7 +45,8 @@ Now you'll want to corify the reference to the Code Scanner, replace #97 with yo
 
 This allows you to reference the object as $code_scanner.
 
-Now, copy the code below into a text editor and change the obj# form #97 to whatever the obj# of your newly created Code Scanner object.
+Copy the code below into a text editor and change the object number from `#97` to the
+object number of your newly created Code Scanner.
 ```
 ;#97.description = {"MOO Code Scanner 1.1 by Brendan Butts <slither@sindome.org>", "", "Github: https://github.com/SevenEcks/lambda-moo-programming", "", "Usage: $code_scanner:scan_for_issues(OBJ, verbname)", "Usage: $code_scanner:display_issues($code_scanner:scan_for_issues(OBJ, verbname))", "", "If you integrate this with your @Program verb I recommend you make a copy of it first and test on that just in case! But you can always use .program if you mess up!"}
 @create #12654 named Code Scanner Utils:Code,Scanner,Utils,Code Scanner Utils

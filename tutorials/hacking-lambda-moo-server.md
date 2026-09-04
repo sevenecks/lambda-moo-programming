@@ -158,7 +158,11 @@ maninpulations, all that would be necessary would be to figure out how to
 dissasociate the previous copy of the variable from the reference counting
 scheme, modify it, and then reintroduce it to the ref counters.
 
-# The source code for this file was taken from [http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/hacking.html][0] and is stored in this repository for posterity. It is not HTML5\.
+---
 
+## Source and Preservation Note
 
-[0]: http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/hacking.html
+This document was recovered from an older North Dakota State University LambdaMOO
+resource and is stored here for posterity. The original site is no longer reliably
+available; see the
+[archived source](https://web.archive.org/web/20240725103554/http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/hacking.html).

@@ -1,6 +1,10 @@
 
 # Programming
 
+> **Archive note:** The Markdown conversion ends partway through the original guide.
+> Read the [complete preserved HTML edition](src/lambda-moo-programming-tutorial-nodak-edu-non-html5.html)
+> for the remainder.
+
 First and foremost, the most important thing to realize about the LambdaMOO 
 system is that there really isn't anything like a program to deal with.
 In C++, every program has a main function. For LambdaMOO, any implicit main
@@ -29,7 +33,7 @@ things in LambdaMOO. The major issues at this point are
 
 ---
 
-Data Types in LambdaMOO
+## Data Types in LambdaMOO
 
 The data types for LambdaMOO are
 * **Integers** Signed whole numbers. 
@@ -73,7 +77,7 @@ ListsLIST or 4noneImmutable list. Used for arrays and sets
 
 Floating point numberFLOAT or 9tofloat(...)Signed floating point number
 
-Creating Objects
+## Creating Objects
 
 The three major ways of creating objects in LambdaMOO are 
 * 
@@ -116,7 +120,7 @@ used object into its new role. In a perfect world this verb is
 indistinguishable from the create function, except that its friendlier to
 longer lived systems which create many temporary objects.
 
-Creating properties on an object
+## Creating Properties on an Object
 
 The major ways to add properties to an object in LambdaMOO are
 * 
@@ -158,10 +162,10 @@ an expression and not a command), like so:
     ;ObjectReference.Property = NewValue;
     
 
-Creating verbs on an object
+## Creating Verbs on an Object
 
 The major ways of adding verbs to an object in LambdaMOO are 
-Fun with lists and strings
+## Fun with Lists and Strings
 
 ##### Accessing and modifying elements of lists and strings
 
@@ -230,14 +234,20 @@ of that list. For example:
         Counter=1;
         while(Counter
 
-# The source code for this file was taken from [http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/programming.html][0] and is included here for posterity. It is not HTML5\.
+---
 
-[0]: http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/programming.html
-[1]: #data_types
-[2]: #create_object
-[3]: #create_properties
-[4]: #create_verbs
-[5]: #inside_verbs
-[6]: #lists
-[7]: syntax.html#object_reference
-[8]: security.html#object_ownership
+## Source and Preservation Note
+
+This document was recovered from an older North Dakota State University LambdaMOO
+resource and is stored here for posterity. The original site is no longer reliably
+available; see the
+[archived source](https://web.archive.org/web/20220910011450/http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/programming.html).
+
+[1]: #data-types-in-lambdamoo
+[2]: #creating-objects
+[3]: #creating-properties-on-an-object
+[4]: #creating-verbs-on-an-object
+[5]: moo-programmers-manual-updated.md#moo-language-statements
+[6]: #fun-with-lists-and-strings
+[7]: moo-programmers-manual-updated.md#objects-in-the-moo-database
+[8]: moo-programmers-manual-updated.md#properties-on-objects

@@ -1,11 +1,16 @@
 
 # Colin's Way Easy Intro Guide to MOO Programming
 
+> **Archive note:** The Markdown conversion ends partway through the original guide.
+> Read the [complete preserved HTML edition](src/way-easy-moo-programming-guide-non-html5.html)
+> for the remaining sections, including the HTML appendix.
+
 ### Version 2.2  
 March 1996
 
-_by Colin McCormick (a.k.a. Snowfall)  
-colin@tripod.com_  
+_by Colin McCormick (a.k.a. Snowfall)_
+
+Historical contact: `colin@tripod.com`
 
 ---
 
@@ -13,7 +18,8 @@ colin@tripod.com_
 
 This document is for free distribution. If you have a
 brilliant idea for how to make it into truly monumental cybernetic
-scripture (or just have a comment, question or flame) [let me know][1]. Personal cheques are
+scripture (or just have a comment, question or flame), the original author invited
+readers to use the historical address above. Personal cheques are
 also welcome. The _Way Easy Guide_ is intended to teach basic
 programming concepts and methods, so if you already understand how to
 code a MOO for loop or build a recursive daemon wanderer, allow me
@@ -785,17 +791,22 @@ logical operators are as follows:
 
 Thus (3 
 
-# This source code was taken from [http://snowfall.tripod.com/Way\_Easy\_Guide.latest.html][0], modified to remove the javascript and other such stuff that tripod added to the page, and saved in this repository for posterity. It is not HTML5\.
+---
 
-[0]: http://snowfall.tripod.com/Way_Easy_Guide.latest.html
-[1]: mailto:colin@tripod.com
-[2]: ftp://parcftp.xerox.com/pub/MOO/
-[3]: http://members.tripod.com/~Snowfall/Way_Easy_Examples.latest.html
-[4]: http://trickle.tripod.com
-[5]: http://www.ncsa.uiuc.edu/demoweb/html-primer.html
-[6]: #link_command
-[7]: #own_images
-[8]: #html_tricks
-[9]: #permissions
-[10]: #programming
-[11]: #flow_control
+## Source and Preservation Note
+
+This guide was recovered from Colin's former Tripod site, cleaned of hosting-injected
+JavaScript, and saved here for posterity. The original URL is no longer available; the
+[preserved HTML edition][0] is the repository's source copy.
+
+[0]: src/way-easy-moo-programming-guide-non-html5.html
+[2]: https://lambda.moo.mud.org/pub/MOO/
+[3]: https://web.archive.org/web/20080325015519/http://members.tripod.com:80/~Snowfall/Way_Easy_Examples.latest.html
+[4]: https://web.archive.org/web/19970130175308/http://trickle.tripod.com:80/
+[5]: https://web.archive.org/web/20010413101736/http://www.ncsa.uiuc.edu:80/demoweb/html-primer.html
+[6]: src/way-easy-moo-programming-guide-non-html5.html#link_command
+[7]: src/way-easy-moo-programming-guide-non-html5.html#own_images
+[8]: src/way-easy-moo-programming-guide-non-html5.html#html_tricks
+[9]: #40-permissions
+[10]: #50-programming-verbs
+[11]: #62-flow-control

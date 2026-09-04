@@ -21,7 +21,7 @@ system, including changing the inheritence tree.
 
 In C++, the difference between a class and an object is a concrete one.
 Objects are instances of classes, and in general one manipulates objects.
-In the LambaMOO system, there is very little (if any) distinction between
+In the LambdaMOO system, there is very little (if any) distinction between
 a class and an object. It is possible to create an object which inherits
 from another object, add properties and verbs to that object, and then create 
 other objects which inherit from that newly created object. Essentially,
@@ -72,7 +72,7 @@ can "see". By the scoping rules of C++, it is possible to use the same
 notation, or lack thereof, to refer to a variable which is local to function, 
 a class data member, or a global variable, a named contant, et al.
 
-For LambaMOO, the scoping rules are much simpler. Or rather, the notation
+For LambdaMOO, the scoping rules are much simpler. Or rather, the notation
 is much more distinct. $GlobalVariable is a global variable named
 GlobalVariable. this:MemberVariable is a member variable of the object
 'this', and OtherVariable is a local variable named OtherVariable.
@@ -86,6 +86,11 @@ have primitive types. Objects persist, everything else either gets stored on
 an object or else eventually gets garbage collected into oblivion.
 Aside from this issue, LambdaMOO is just as object oriented as C++, or Java.
 
-# The source code for this file was taken from [http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/background.html][0] and is included in this repository for posterity. It is not HTML5\.
+---
 
-[0]: http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/background.html
+## Source and Preservation Note
+
+This document was recovered from an older North Dakota State University LambdaMOO
+resource and is stored here for posterity. The original site is no longer reliably
+available; see the
+[archived source](https://web.archive.org/web/20240726001154/http://lions.cs.ndsu.nodak.edu/~vender/LambdaMOO/background.html).

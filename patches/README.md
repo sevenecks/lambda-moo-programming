@@ -1,5 +1,13 @@
-This is a collection of LambdaMOO server patches. I found many of them at https://sourceforge.net/p/lambdamoo/ but I have no faith that the original sourceforce lambdamoo will remain online. I am archiving here for the future.
+# LambdaMOO Server Patches
 
-# Contributing
+This is a preservation collection of LambdaMOO server patches. Many were recovered
+from the [LambdaMOO project on SourceForge](https://sourceforge.net/p/lambdamoo/), and
+are archived here so they remain available if their original hosts disappear.
 
-If you have patches, throw a pull request in with them!
+Patches target specific historical source versions. Review their accompanying notes
+and test them on a disposable build before using them on a maintained server.
+
+## Contributing
+
+Pull requests containing additional patches are welcome. Include the original source,
+author, target server version, and any known compatibility constraints when possible.
