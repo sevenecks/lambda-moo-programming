@@ -70,7 +70,7 @@ repository.
 | --- | --- |
 | [ToastStunt](https://github.com/lisdude/toaststunt) | Actively developed server in the LambdaMOO family and the target of many current tools listed above |
 | [Stunt](https://github.com/toddsundsted/stunt) | LambdaMOO fork and direct predecessor to ToastStunt |
-| [LambdaMOO](https://github.com/SevenEcks/LambdaMOO) | LambdaMOO server source and related historical material |
+| [LambdaMOO](https://github.com/wrog/lambdamoo) | LambdaMOO server source and related historical material |
 | [moolite](https://github.com/amnsia/moolite) | Scripts for creating a local Stunt and LambdaCore development environment |
 
 ## Tutorial and Reference Library

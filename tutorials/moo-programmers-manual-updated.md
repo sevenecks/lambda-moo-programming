@@ -64,7 +64,7 @@ If you want an up to date manual on MOO, this is the guide for you. If you want 
 *   [lisdude.com MOO Resources](https://www.lisdude.com/moo/)
 *   [ToastStunt Programmer's Manual](https://github.com/lisdude/toaststunt-documentation/blob/master/manual/toaststunt-programmers-manual.md)
 *   [Unedited MOO Programmer's Manual](https://www.hayseed.net/MOO/manuals/ProgrammersManual.html)
-*   [LambdaMOO Source](https://github.com/SevenEcks/LambdaMOO)
+*   [LambdaMOO Source](https://github.com/wrog/lambdamoo)
 *   [LambdaMOO Databases and Resources](https://lambda.moo.mud.org/pub/MOO/)
 *   [MOO Talk Mailing List](https://groups.google.com/g/moo-talk)
 *   [Dome Client](https://github.com/SindomeCorp/dome-client)
